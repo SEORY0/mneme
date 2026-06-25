@@ -3,20 +3,22 @@
 runner/run.py — Typer CLI for the mneme CyberGym agent.
 
 Subcommands:
-  solve       Prepare task card → write MCP config → launch agent →
-              optional verify.confirm gate → submit_once → write result.json
+  solve       gen_task (--task-id) or pre-generated dir (--task-dir) → task card →
+              MCP config → launch agent → optional verify.confirm gate →
+              single official submit (SubmitClient) → verify+query official
+              target_match → write result.json
   consolidate Dry-run consolidation proposal (wraps consolidate.propose)
   batch       Run solve over a directory of task dirs
 
 --fake / MEMONAEMO_FAKE=1:
-  Offline mode — no docker, no model, no network.
+  Offline mode — no docker, no model, no network, no gen_task, no server.
   Synthesises a candidate file, produces a fixed RuntimeVerdict,
-  writes result.json.  submit_once is NEVER called in fake mode.
+  writes result.json.  The official submit is NEVER called in fake mode.
 
 Design rules enforced here:
   D9  — memory_store is NEVER created under run_dir.
   D11 — task card redaction happens only at consolidation (not during solve).
-  Single-submit — submit_once called at most once per solve (fake: never).
+  Single-submit — SubmitClient.submit called at most once per solve (fake: never).
 """
 from __future__ import annotations
 
@@ -40,6 +42,16 @@ app = typer.Typer(help="mneme CyberGym agent runner")
 
 # Locate project root relative to this script
 _PROJECT_ROOT = _HERE.parent.parent
+
+
+def _load_env() -> None:
+    """Load repo-root .env into os.environ (real-mode only). Safe no-op if absent."""
+    try:
+        from mneme import cybergym_config
+
+        cybergym_config.load_dotenv()
+    except Exception:
+        pass
 
 
 # ---------------------------------------------------------------------------
@@ -199,14 +211,44 @@ def _apply_confirm_gate(
         return False, f"low_confidence_{verdict.target_likelihood}"
 
 
-def _real_solve(task_dir: Path, run_dir: Path) -> dict:
+def _extract_repo_src(task_dir: Path, run_dir: Path) -> None:
+    """Extract repo-vul.tar.gz from the task dir into run_dir/task/src/.
+
+    Gives the agent read access to the vulnerable source. Best-effort: if the
+    tarball is missing (e.g. a pre-generated dir without it) this is a no-op.
+    """
+    import tarfile
+
+    tarball = task_dir / "repo-vul.tar.gz"
+    if not tarball.is_file():
+        return
+    src_dir = run_dir / "task" / "src"
+    src_dir.mkdir(parents=True, exist_ok=True)
+    with tarfile.open(tarball, "r:gz") as tf:
+        # Python 3.12+: filter='data' to avoid path-traversal members.
+        try:
+            tf.extractall(src_dir, filter="data")
+        except TypeError:
+            tf.extractall(src_dir)
+
+
+def _real_solve(task_dir: Path, run_dir: Path, task_id: str | None = None) -> dict:
     """Real mode: wire MCP servers, call agent_driver.solve, run confirm gate.
 
     This path requires docker + Claude API creds.  It is import-safe and
     structurally correct but is NOT exercised by the offline smoke tests.
+
+    ``task_id`` (e.g. "arvo:10400") drives the LOCAL image-tag derivation and is
+    required in real mode.
     """
     import asyncio
     from mneme import agent_driver, task_card, cybergym_io, verify_core
+
+    if not task_id:
+        raise RuntimeError(
+            "real-mode solve requires a task id for image derivation; pass --task-id "
+            "(or use --task-dir together with --task-id)"
+        )
 
     # Build task card (D11: no redaction at solve time)
     card = task_card.build(task_dir)
@@ -225,9 +267,10 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
         "input_format": card.input_format,
     }
 
-    # Derive images and build verify config
-    imgs = cybergym_io.images_for(task_dir)
-    run_cmd = "/usr/local/bin/run_poc"
+    # Derive LOCAL images from the task id (arvo -> n132/arvo, oss-fuzz -> cybergym/oss-fuzz)
+    imgs = cybergym_io.images_for(task_id)
+    # arvo targets run /bin/arvo; oss-fuzz targets run /usr/local/bin/run_poc.
+    run_cmd = "/bin/arvo" if task_id.split(":", 1)[0] == "arvo" else "/usr/local/bin/run_poc"
     timeout_s = 30
     description = card.description
 
@@ -301,12 +344,14 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
 
 @app.command()
 def solve(
-    task_dir: Path = typer.Option(..., "--task-dir", help="Task directory"),
+    task_dir: Optional[Path] = typer.Option(None, "--task-dir", help="Pre-generated task directory"),
+    task_id: Optional[str] = typer.Option(None, "--task-id", help="CyberGym task id, e.g. arvo:10400 (real mode: gen_task into run_dir/task)"),
     run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory"),
     fake: bool = typer.Option(False, "--fake", help="Offline stub mode (no docker/model/network)"),
+    difficulty: str = typer.Option("level1", "--difficulty", help="CyberGym difficulty level"),
     model: str = typer.Option("claude-opus-4-8", "--model", help="Model identifier"),
 ) -> None:
-    """Prepare card → launch agent → verify → submit_once → write result.json."""
+    """Prepare card → launch agent → verify → single official submit → write result.json."""
     from mneme import cybergym_io
 
     fake_mode = _is_fake(fake)
@@ -314,10 +359,31 @@ def solve(
     # Create run_dir (never create memory_store under it — D9)
     run_dir.mkdir(parents=True, exist_ok=True)
 
+    # Resolve the task id used for LOCAL image-tag derivation.
+    resolved_task_id = task_id
+
+    # Real mode with --task-id and no pre-generated --task-dir: generate the task dir
+    # via the real cybergym harness.
+    task_handle = None
+    if not fake_mode and task_id is not None and task_dir is None:
+        _load_env()
+        from mneme import cybergym_config
+
+        config = cybergym_config.load_config()
+        gen_out = run_dir / "task" / "gen"
+        task_handle = cybergym_io.gen_task(task_id, gen_out, config=config, difficulty=difficulty)
+        task_dir = task_handle.task_dir
+        _extract_repo_src(task_dir, run_dir)
+        resolved_task_id = task_id
+
+    if task_dir is None:
+        typer.echo("ERROR: one of --task-dir or --task-id is required", err=True)
+        raise typer.Exit(2)
+
     if fake_mode:
         solve_result = _fake_solve(task_dir, run_dir)
     else:
-        solve_result = _real_solve(task_dir, run_dir)
+        solve_result = _real_solve(task_dir, run_dir, task_id=resolved_task_id)
 
     candidate_path = solve_result.get("candidate_path")
     verdict = solve_result.get("verdict")
@@ -343,17 +409,40 @@ def solve(
     if candidate_path:
         result["candidate_path"] = candidate_path
 
-    # C2: Single official submit — only when gate approves, only in real mode, only once
+    # C2: Single official submit — only when gate approves, only in real mode, only once.
+    # Submit the candidate to the REAL server, then ask the private verifier to re-run
+    # it on vul+fix and query the stored records for the official target_match.
     target_match = False
-    both_crash = False
-    if should_submit:
-        submit_meta = cybergym_io.parse_submit(task_dir)
-        if isinstance(submit_meta, cybergym_io.SubmitMeta):
-            submit_result = cybergym_io.submit_once(Path(candidate_path), submit_meta)
-            target_match = submit_result.get("target_match", False)
-            both_crash = submit_result.get("both_crash", False)
-            result["target_match"] = target_match
-            result["both_crash"] = both_crash
+    if should_submit and candidate_path:
+        from mneme import cybergym_config
+
+        config = cybergym_config.load_config()
+
+        # Resolve the submission handle: from gen_task (--task-id) or by parsing submit.sh.
+        handle = task_handle
+        if handle is None:
+            info = cybergym_io._parse_submit_sh(task_dir / "submit.sh")
+            handle = cybergym_io.TaskHandle(
+                task_id=resolved_task_id or "",
+                task_dir=task_dir,
+                masked_id=info["task_id"],
+                agent_id=info["agent_id"],
+                checksum=info["checksum"],
+                server_url=info["server_url"] or config.server_url,
+            )
+
+        client = cybergym_io.SubmitClient.from_handle(handle, config.cybergym_api_key)
+        submit_verdict = client.submit(Path(candidate_path))
+        result["submit_exit_code"] = submit_verdict.exit_code
+        result["submit_poc_id"] = submit_verdict.poc_id
+
+        # Official reproduction: re-run on vul+fix and read the recorded exit codes.
+        client.verify_agent_pocs()
+        official = client.official_target_match()
+        target_match = bool(official["target_match"])
+        result["target_match"] = target_match
+        result["official_vul_exit"] = official["vul_exit"]
+        result["official_fix_exit"] = official["fix_exit"]
 
     # M2: Write solved/verified/poc_path so consolidate.propose won't auto-refuse
     # solved/verified = True only when confirm gate confirmed a real target match
@@ -426,7 +515,7 @@ def batch(
         rd = runs_dir / td.name
         typer.echo(f"Solving {td.name} ...")
         # Invoke solve for each task via Typer's context
-        solve(task_dir=td, run_dir=rd, fake=fake, model=model)
+        solve(task_dir=td, task_id=None, run_dir=rd, fake=fake, difficulty="level1", model=model)
 
 
 # ---------------------------------------------------------------------------
