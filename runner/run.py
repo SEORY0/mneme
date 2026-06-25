@@ -229,7 +229,8 @@ def solve(
     # Sanity: assert no memory_store leaked under run_dir (D9)
     leaked = list(run_dir.rglob("memory_store"))
     if leaked:
-        typer.echo(f"WARNING: memory_store found under run_dir: {leaked}", err=True)
+        typer.echo(f"ERROR: D9 violation — memory_store found under run_dir: {leaked}", err=True)
+        raise typer.Exit(1)
 
     typer.echo(f"Done. result.json written to {result_path}")
 
