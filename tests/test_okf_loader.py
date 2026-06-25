@@ -33,3 +33,10 @@ def test_rank_is_not_text_similarity():
     import inspect, memonaemo.okf as m
     src = inspect.getsource(m)
     assert "embedding" not in src.lower() and "cosine" not in src.lower()
+
+def test_mini_yaml_coerces_booleans():
+    from memonaemo.okf import _mini_yaml
+    out = _mini_yaml("train_only: false\nallowed_scopes: [generate]\nname: foo")
+    assert out["train_only"] is False
+    assert out["allowed_scopes"] == ["generate"]
+    assert out["name"] == "foo"

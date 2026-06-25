@@ -46,7 +46,14 @@ def _mini_yaml(raw: str) -> dict:
         if v.startswith("[") and v.endswith("]"):
             out[k.strip()] = [x.strip() for x in v[1:-1].split(",") if x.strip()]
         else:
-            out[k.strip()] = v.strip("\"'")
+            # Coerce true/false (case-insensitive) to Python booleans
+            stripped_v = v.strip("\"'").strip().lower()
+            if stripped_v == "true":
+                out[k.strip()] = True
+            elif stripped_v == "false":
+                out[k.strip()] = False
+            else:
+                out[k.strip()] = v.strip("\"'")
     return out
 
 
