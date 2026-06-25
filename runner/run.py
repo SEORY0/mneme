@@ -51,10 +51,54 @@ def _is_fake(fake_flag: bool) -> bool:
     return fake_flag or bool(os.environ.get("MEMONAEMO_FAKE", ""))
 
 
-def _write_mcp_config(run_dir: Path) -> dict:
+def _mcp_server_env(run_dir: Path, store_dir: Path, stats_path: Path) -> dict:
+    """Return env vars required by all three MCP server processes.
+
+    memory_server needs: MEMORY_STORE_DIR, STATS_PATH, RUN_DIR
+    verify_server needs: RUN_CONFIG (set after _write_verify_config is called)
+    specialist_server needs no new vars (OPENAI_API_KEY etc come from os.environ)
+
+    Returns a dict to MERGE with os.environ when spawning server subprocesses.
+    This function is pure and unit-testable without launching anything.
+    """
+    return {
+        "MEMORY_STORE_DIR": str(store_dir),
+        "STATS_PATH": str(stats_path),
+        "RUN_DIR": str(run_dir),
+    }
+
+
+def _write_verify_config(
+    run_dir: Path,
+    vul_image: str,
+    fix_image: str,
+    run_cmd: str,
+    timeout_s: int,
+    description: str,
+) -> Path:
+    """Write the verify server config JSON into run_dir/verify_config.json.
+
+    Returns the path to the written config file.
+    The verify_server reads this file at the path given by RUN_CONFIG env var.
+    This function is pure and unit-testable without launching anything.
+    """
+    config = {
+        "vul_image": vul_image,
+        "fix_image": fix_image,
+        "run_cmd": run_cmd,
+        "timeout_s": timeout_s,
+        "description": description,
+    }
+    config_path = run_dir / "verify_config.json"
+    config_path.write_text(json.dumps(config, indent=2), encoding="utf-8")
+    return config_path
+
+
+def _write_mcp_config(run_dir: Path, server_env: dict | None = None) -> dict:
     """Write mcp_config.json into run_dir and return the mcp_servers dict.
 
     Points at the three stdio MCP servers relative to project root.
+    server_env: extra env vars to pass to each server subprocess.
     Used by real (non-fake) mode only.
     """
     mcp_dir = _PROJECT_ROOT / "mcp"
@@ -65,16 +109,19 @@ def _write_mcp_config(run_dir: Path) -> dict:
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "memory_server.py")],
+            "env": server_env or {},
         },
         "verify": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "verify_server.py")],
+            "env": server_env or {},
         },
         "specialist": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "specialist_server.py")],
+            "env": server_env or {},
         },
     }
 
@@ -118,6 +165,40 @@ def _fake_solve(task_dir: Path, run_dir: Path) -> dict:
     }
 
 
+def _apply_confirm_gate(
+    candidate_path: "str | None",
+    verdict: "RuntimeVerdict | None",
+    confirm_verdict: "ConfirmVerdict | None",
+) -> tuple[bool, str]:
+    """Pure confirm gate logic — returns (should_submit, reason).
+
+    Rules (spec §5/§6):
+    - If no candidate or no tier-1 verdict: do not submit.
+    - confirm available + target_match=True  → submit.
+    - confirm available + both_crash=True    → do not submit (too generic).
+    - confirm available + target_match=False → do not submit (wrong target).
+    - confirm unavailable + target_likelihood=high → submit (high-confidence fallback).
+    - confirm unavailable + target_likelihood!=high → do not submit.
+    """
+    if not candidate_path or not Path(candidate_path).is_file():
+        return False, "no_candidate"
+    if verdict is None:
+        return False, "no_verdict"
+
+    if confirm_verdict is not None and confirm_verdict.available:
+        if confirm_verdict.target_match:
+            return True, "confirm_target_match"
+        elif confirm_verdict.both_crash:
+            return False, "both_crash_too_generic"
+        else:
+            return False, "confirm_no_target_match"
+    else:
+        # confirm unavailable — high-confidence fallback
+        if verdict.target_likelihood == "high":
+            return True, "high_confidence_fallback"
+        return False, f"low_confidence_{verdict.target_likelihood}"
+
+
 def _real_solve(task_dir: Path, run_dir: Path) -> dict:
     """Real mode: wire MCP servers, call agent_driver.solve, run confirm gate.
 
@@ -129,6 +210,14 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
 
     # Build task card (D11: no redaction at solve time)
     card = task_card.build(task_dir)
+
+    # I3: Write full card markdown to task/card.md in run_dir so agent can read it
+    task_subdir = run_dir / "task"
+    task_subdir.mkdir(parents=True, exist_ok=True)
+    card_md = task_card.to_markdown(card)
+    (task_subdir / "card.md").write_text(card_md, encoding="utf-8")
+
+    # Build card dict for agent_driver.solve (kept for backward-compat)
     card_dict = {
         "target": card.description[:200],
         "failure_class": card.vuln_classes[0] if card.vuln_classes else "unknown",
@@ -136,8 +225,30 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
         "input_format": card.input_format,
     }
 
-    # Write MCP config and build server map
-    mcp_servers = _write_mcp_config(run_dir)
+    # Derive images and build verify config
+    imgs = cybergym_io.images_for(task_dir)
+    run_cmd = "/usr/local/bin/run_poc"
+    timeout_s = 30
+    description = card.description
+
+    # C1: Write verify config file; build server env dict
+    store_dir = _PROJECT_ROOT / "memory_store"
+    stats_path = store_dir / "memory_stats.jsonl"
+    server_env = _mcp_server_env(run_dir, store_dir, stats_path)
+
+    # C1: Write verify config and set RUN_CONFIG in server env
+    verify_config_path = _write_verify_config(
+        run_dir,
+        vul_image=imgs["vul_image"],
+        fix_image=imgs["fix_image"],
+        run_cmd=run_cmd,
+        timeout_s=timeout_s,
+        description=description,
+    )
+    server_env["RUN_CONFIG"] = str(verify_config_path)
+
+    # Write MCP config with env vars for each server
+    mcp_servers = _write_mcp_config(run_dir, server_env)
 
     # Build agent options (D9: memory_store NOT in add_dirs)
     skills_dir = _PROJECT_ROOT / "skills"
@@ -147,13 +258,7 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
     agent_result = asyncio.run(agent_driver.solve(card_dict, options))
     candidate_path = agent_result.get("candidate_path")
 
-    # Derive images
-    imgs = cybergym_io.images_for(task_dir)
-    run_cmd = "/usr/local/bin/run_poc"
-    timeout_s = 30
-    description = card.description
-
-    # Tier-1 verify (optional confirm gate)
+    # Tier-1 verify
     verdict = None
     if candidate_path and Path(candidate_path).is_file():
         verdict = verify_core.run(
@@ -164,9 +269,29 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
             description=description,
         )
 
+    # C2: Tier-2 confirm gate
+    confirm_verdict = None
+    if candidate_path and Path(candidate_path).is_file() and verdict is not None:
+        try:
+            confirm_verdict = verify_core.confirm(
+                Path(candidate_path),
+                vul_image=imgs["vul_image"],
+                fix_image=imgs["fix_image"],
+                run_cmd=run_cmd,
+                timeout_s=timeout_s,
+                description=description,
+            )
+        except Exception:
+            confirm_verdict = None  # Docker unavailable — fall back to high-confidence gate
+
+    should_submit, submit_reason = _apply_confirm_gate(candidate_path, verdict, confirm_verdict)
+
     return {
         "candidate_path": candidate_path,
         "verdict": verdict,
+        "confirm_verdict": confirm_verdict,
+        "should_submit": should_submit,
+        "submit_reason": submit_reason,
     }
 
 
@@ -196,6 +321,10 @@ def solve(
 
     candidate_path = solve_result.get("candidate_path")
     verdict = solve_result.get("verdict")
+    confirm_verdict = solve_result.get("confirm_verdict")
+    # In fake mode there is no gate result; fake mode never submits
+    should_submit = solve_result.get("should_submit", False) and not fake_mode
+    submit_reason = solve_result.get("submit_reason", "fake_mode" if fake_mode else "no_gate_result")
 
     # Build result dict — always contains failure_class (from RuntimeVerdict)
     result: dict = {}
@@ -214,13 +343,29 @@ def solve(
     if candidate_path:
         result["candidate_path"] = candidate_path
 
-    # Single official submit — only in real mode AND only once
-    if not fake_mode and candidate_path and Path(candidate_path).is_file():
+    # C2: Single official submit — only when gate approves, only in real mode, only once
+    target_match = False
+    both_crash = False
+    if should_submit:
         submit_meta = cybergym_io.parse_submit(task_dir)
         if isinstance(submit_meta, cybergym_io.SubmitMeta):
             submit_result = cybergym_io.submit_once(Path(candidate_path), submit_meta)
-            result["target_match"] = submit_result.get("target_match", False)
-            result["both_crash"] = submit_result.get("both_crash", False)
+            target_match = submit_result.get("target_match", False)
+            both_crash = submit_result.get("both_crash", False)
+            result["target_match"] = target_match
+            result["both_crash"] = both_crash
+
+    # M2: Write solved/verified/poc_path so consolidate.propose won't auto-refuse
+    # solved/verified = True only when confirm gate confirmed a real target match
+    confirmed_target = (
+        confirm_verdict is not None
+        and confirm_verdict.available
+        and confirm_verdict.target_match
+    ) or target_match
+    result["solved"] = confirmed_target
+    result["verified"] = confirmed_target
+    result["poc_path"] = candidate_path if candidate_path else None
+    result["submit_reason"] = submit_reason
 
     # Write result.json
     result_path = run_dir / "result.json"
