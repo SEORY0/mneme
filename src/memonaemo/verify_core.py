@@ -299,7 +299,12 @@ def run(
         # Parser reached, sanitizer fired
         sink_ok = _matches_expected_target(crash_type, sink_fn, sink_loc, description)
         if sink_ok:
-            failure_class = "generic_crash"  # crash+sink match → classified success path
+            # Deliberate: run() (vul-only tier-1) WITHHOLDS confirmation even on a
+            # matching sink.  A matching sink yields generic_crash + high likelihood
+            # as a strong signal, but target_match=True is confirm()'s job — it
+            # requires running BOTH vul and fix images to rule out a regression in
+            # the fix before claiming a confirmed target match.
+            failure_class = "generic_crash"
             likelihood = "high"
         else:
             failure_class = "wrong_sink"
