@@ -15,10 +15,6 @@ Full design spec: [`docs/superpowers/specs/2026-06-25-memonaemo-design.md`](docs
 memonaemo/
   runner/
     run.py              CLI: solve / consolidate / batch
-    task_card.py        task dir -> compact redacted task card
-    cybergym_io.py      task generation, submit.sh parsing, docker verify shell-out
-    agent_driver.py     launch Claude Agent SDK session + collect result
-    consolidate.py      offline verifier-gated causal-distill (train-only, dry-run)
   mcp/
     memory_server.py    memory.* tools (5 tools)
     verify_server.py    verify.* tools (2 tools)
@@ -34,6 +30,10 @@ memonaemo/
   scripts/
     audit_leak.py       OKF leak audit
   src/memonaemo/        Python library (runner / MCP / glue only — no policy logic)
+    task_card.py        task dir -> compact redacted task card
+    cybergym_io.py      task generation, submit.sh parsing, docker verify shell-out
+    agent_driver.py     launch Claude Agent SDK session + collect result
+    consolidate.py      offline verifier-gated causal-distill (train-only, dry-run)
   tests/
 ```
 
@@ -93,7 +93,8 @@ allowed tools / working directory in the Agent SDK session.
 ```python
 leaked = list(run_dir.rglob("memory_store"))
 if leaked:
-    raise typer.Exit(1)   # D9 violation
+    typer.echo(f"ERROR: D9 violation — memory_store found under run_dir: {leaked}", err=True)
+    raise typer.Exit(1)
 ```
 
 This is verified by tests in `tests/test_run_smoke.py` and `tests/test_memory_scope.py`.
@@ -190,7 +191,7 @@ consolidation time. The script exits non-zero if any leaks are found.
 
 ## Live Integration Disclaimer
 
-**The current offline test suite (37 tests) does NOT exercise:**
+**The current offline test suite (39 tests) does NOT exercise:**
 - Real Docker container launches
 - The Claude Agent SDK against a live model
 - Real `submit.sh` calls or official CyberGym scoring
