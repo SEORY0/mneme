@@ -16,7 +16,7 @@ import json
 import uuid
 from pathlib import Path
 
-from memonaemo import okf as _okf
+from mneme import okf as _okf
 
 # ---------------------------------------------------------------------------
 # Visibility map — the single source of truth for scope_check.

@@ -28,7 +28,7 @@ import re
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from memonaemo.task_card import redact_for_promotion
+from mneme.task_card import redact_for_promotion
 
 
 # ---------------------------------------------------------------------------
@@ -141,7 +141,7 @@ def _build_markdown(abstract_key: dict, raw_result: dict) -> str:
 
 def _default_out_dir() -> Path:
     """Return a session-scoped scratch dir that is NOT under memory_store/okf."""
-    scratch = Path(tempfile.gettempdir()) / "memonaemo-consolidate-scratch"
+    scratch = Path(tempfile.gettempdir()) / "mneme-consolidate-scratch"
     scratch.mkdir(parents=True, exist_ok=True)
     return scratch
 

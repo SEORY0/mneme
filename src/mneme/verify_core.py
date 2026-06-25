@@ -265,7 +265,7 @@ def run(
     if docker is None:
         docker = _DEFAULT_DOCKER
 
-    container_name = f"memonaemo_vul_{uuid.uuid4().hex[:8]}"
+    container_name = f"mneme_vul_{uuid.uuid4().hex[:8]}"
     exit_code, output = _docker_run_container(
         vul_image, container_name, candidate_path, run_cmd, timeout_s, docker
     )
@@ -357,14 +357,14 @@ def confirm(
         return ConfirmVerdict(available=False)
 
     # Run on vulnerable image
-    vul_container = f"memonaemo_vul_{uuid.uuid4().hex[:8]}"
+    vul_container = f"mneme_vul_{uuid.uuid4().hex[:8]}"
     vul_exit, vul_output = _docker_run_container(
         vul_image, vul_container, candidate_path, run_cmd, timeout_s, docker
     )
     vul_crashes = is_crash(vul_exit, vul_output)
 
     # Run on fix image
-    fix_container = f"memonaemo_fix_{uuid.uuid4().hex[:8]}"
+    fix_container = f"mneme_fix_{uuid.uuid4().hex[:8]}"
     fix_exit, fix_output = _docker_run_container(
         fix_image, fix_container, candidate_path, run_cmd, timeout_s, docker
     )

@@ -28,7 +28,7 @@ from claude_agent_sdk import ClaudeAgentOptions
 
 # ---------------------------------------------------------------------------
 # Resolve the prompts directory relative to this module's location.
-# The prompts/ dir sits at the project root, two levels above src/memonaemo/.
+# The prompts/ dir sits at the project root, two levels above src/mneme/.
 # ---------------------------------------------------------------------------
 _PROMPTS_DIR = Path(__file__).resolve().parents[2] / "prompts"
 

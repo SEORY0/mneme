@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-runner/run.py — Typer CLI for the memonaemo CyberGym agent.
+runner/run.py — Typer CLI for the mneme CyberGym agent.
 
 Subcommands:
   solve       Prepare task card → write MCP config → launch agent →
@@ -36,7 +36,7 @@ if str(_SRC) not in sys.path:
 import typer
 from typing import Optional
 
-app = typer.Typer(help="memonaemo CyberGym agent runner")
+app = typer.Typer(help="mneme CyberGym agent runner")
 
 # Locate project root relative to this script
 _PROJECT_ROOT = _HERE.parent.parent
@@ -136,7 +136,7 @@ def _fake_solve(task_dir: Path, run_dir: Path) -> dict:
     Never calls the agent SDK, docker, or network.
     Never creates memory_store under run_dir (D9).
     """
-    from memonaemo.verify_core import RuntimeVerdict
+    from mneme.verify_core import RuntimeVerdict
 
     # Write a synthetic candidate
     candidates_dir = run_dir / "candidates"
@@ -206,7 +206,7 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
     structurally correct but is NOT exercised by the offline smoke tests.
     """
     import asyncio
-    from memonaemo import agent_driver, task_card, cybergym_io, verify_core
+    from mneme import agent_driver, task_card, cybergym_io, verify_core
 
     # Build task card (D11: no redaction at solve time)
     card = task_card.build(task_dir)
@@ -307,7 +307,7 @@ def solve(
     model: str = typer.Option("claude-opus-4-8", "--model", help="Model identifier"),
 ) -> None:
     """Prepare card → launch agent → verify → submit_once → write result.json."""
-    from memonaemo import cybergym_io
+    from mneme import cybergym_io
 
     fake_mode = _is_fake(fake)
 
@@ -391,7 +391,7 @@ def consolidate(
     out_dir: Optional[Path] = typer.Option(None, "--out-dir", help="Output directory for proposal"),
 ) -> None:
     """Dry-run consolidation proposal from a solved run result."""
-    from memonaemo import consolidate as cons
+    from mneme import consolidate as cons
 
     result_json = json.loads(result_file.read_text())
     split = json.loads(split_file.read_text()) if split_file else {}

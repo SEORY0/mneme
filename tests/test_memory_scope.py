@@ -1,6 +1,6 @@
 import inspect
 from pathlib import Path
-from memonaemo import memory_api, stats
+from mneme import memory_api, stats
 
 STORE = Path(__file__).resolve().parents[1] / "memory_store"
 

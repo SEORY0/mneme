@@ -33,7 +33,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 import mcp.types as types
 
-from memonaemo import memory_api, stats as stats_mod
+from mneme import memory_api, stats as stats_mod
 
 # ---------------------------------------------------------------------------
 # Config helpers

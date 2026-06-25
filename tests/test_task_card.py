@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from memonaemo import task_card
+from mneme import task_card
 
 
 def _make(base: Path) -> Path:

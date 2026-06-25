@@ -150,7 +150,7 @@ def test_prompt_tool_refs_match_registered_tools():
 def test_confirm_gate_target_match_submits():
     """Gate: confirm available + target_match → should submit."""
     import run as runner_mod
-    from memonaemo.verify_core import RuntimeVerdict, ConfirmVerdict
+    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
 
     verdict = RuntimeVerdict(
         failure_class="generic_crash", crash_type="heap-buffer-overflow",
@@ -175,7 +175,7 @@ def test_confirm_gate_target_match_submits():
 def test_confirm_gate_both_crash_does_not_submit():
     """Gate: confirm available + both_crash → do NOT submit."""
     import run as runner_mod
-    from memonaemo.verify_core import RuntimeVerdict, ConfirmVerdict
+    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
     import tempfile, os
 
     verdict = RuntimeVerdict(
@@ -199,7 +199,7 @@ def test_confirm_gate_both_crash_does_not_submit():
 def test_confirm_gate_unavailable_high_likelihood_submits():
     """Gate: confirm unavailable + target_likelihood=high → submit (high-confidence fallback)."""
     import run as runner_mod
-    from memonaemo.verify_core import RuntimeVerdict, ConfirmVerdict
+    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
     import tempfile, os
 
     verdict = RuntimeVerdict(
@@ -223,7 +223,7 @@ def test_confirm_gate_unavailable_high_likelihood_submits():
 def test_confirm_gate_unavailable_low_likelihood_does_not_submit():
     """Gate: confirm unavailable + target_likelihood!=high → do NOT submit."""
     import run as runner_mod
-    from memonaemo.verify_core import RuntimeVerdict, ConfirmVerdict
+    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
     import tempfile, os
 
     verdict = RuntimeVerdict(
@@ -247,7 +247,7 @@ def test_confirm_gate_unavailable_low_likelihood_does_not_submit():
 def test_confirm_gate_no_target_match_does_not_submit():
     """Gate: confirm available + target_match=False (no match) → do NOT submit."""
     import run as runner_mod
-    from memonaemo.verify_core import RuntimeVerdict, ConfirmVerdict
+    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
     import tempfile, os
 
     verdict = RuntimeVerdict(

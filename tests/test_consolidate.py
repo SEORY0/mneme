@@ -1,5 +1,5 @@
 """tests/test_consolidate.py — Task 9: offline, train-only, dry-run consolidation."""
-from memonaemo import consolidate
+from mneme import consolidate
 
 SPLIT = {"train": ["t-train-1"], "eval": ["t-eval-1"]}
 

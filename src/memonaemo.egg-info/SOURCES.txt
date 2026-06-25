@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-src/memonaemo/__init__.py
-src/memonaemo.egg-info/PKG-INFO
-src/memonaemo.egg-info/SOURCES.txt
-src/memonaemo.egg-info/dependency_links.txt
-src/memonaemo.egg-info/requires.txt
-src/memonaemo.egg-info/top_level.txt
-tests/test_smoke.py

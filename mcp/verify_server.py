@@ -27,7 +27,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 import mcp.types as types
 
-from memonaemo import verify_core
+from mneme import verify_core
 
 # ---------------------------------------------------------------------------
 # Config loading

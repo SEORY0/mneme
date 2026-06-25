@@ -30,7 +30,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 import mcp.types as types
 
-from memonaemo import specialist_core
+from mneme import specialist_core
 
 # ---------------------------------------------------------------------------
 # Client + model — resolved at startup, gracefully offline

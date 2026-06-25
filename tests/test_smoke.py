@@ -1,4 +1,4 @@
-import memonaemo
+import mneme
 
 def test_version():
-    assert memonaemo.__version__ == "0.1.0"
+    assert mneme.__version__ == "0.1.0"
