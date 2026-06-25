@@ -1,6 +1,17 @@
 from pathlib import Path
 from memonaemo import agent_driver
 
+
+def test_solve_uses_real_sdk_symbols():
+    import claude_agent_sdk as s
+    # solve() uses the module-level sdk.query() — not ClaudeSDKClient methods.
+    # Assert the entry point exists and is callable.
+    assert hasattr(s, "ClaudeSDKClient")
+    assert hasattr(s, "query")
+    assert callable(s.query)
+    # solve() does NOT call any ClaudeSDKClient instance methods directly,
+    # so we only assert the module-level query symbol is present and callable.
+
 def test_options_exclude_memory_store(tmp_path):
     run = tmp_path / "run"; run.mkdir()
     skills = tmp_path / "skills"; skills.mkdir()

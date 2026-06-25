@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 import claude_agent_sdk as sdk
-from claude_agent_sdk import ClaudeAgentOptions, ClaudeSDKClient
+from claude_agent_sdk import ClaudeAgentOptions
 
 # ---------------------------------------------------------------------------
 # Resolve the prompts directory relative to this module's location.
@@ -127,19 +127,17 @@ async def solve(card: dict, options: ClaudeAgentOptions) -> dict:
     ]
     prompt = "\n".join(kickoff_lines)
 
-    async with ClaudeSDKClient(options=options) as client:
-        await client.connect(prompt)
-        async for message in client:
-            # Collect transcript
-            transcript.append(repr(message))
+    async for message in sdk.query(prompt=prompt, options=options):
+        # Collect transcript
+        transcript.append(repr(message))
 
-            # Check for result/stop messages
-            if isinstance(message, sdk.ResultMessage):
-                stop_reason = getattr(message, "stop_reason", "end_turn") or "end_turn"
-                usage = getattr(message, "usage", None)
-                if usage:
-                    cost = getattr(usage, "total_cost_usd", 0.0) or 0.0
-                break
+        # Check for result/stop messages
+        if isinstance(message, sdk.ResultMessage):
+            stop_reason = getattr(message, "stop_reason", "end_turn") or "end_turn"
+            usage = getattr(message, "usage", None)
+            if usage:
+                cost = getattr(usage, "total_cost_usd", 0.0) or 0.0
+            break
 
     # Write transcript to run workspace
     transcript_path = run_dir / "transcript.txt"
