@@ -28,8 +28,6 @@ import re
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
-
 from memonaemo.task_card import redact_for_promotion
 
 
@@ -95,11 +93,6 @@ class Proposal:
 def _is_eval(task_id: str | None, split: dict) -> bool:
     eval_tasks = split.get("eval", [])
     return task_id in eval_tasks
-
-
-def _is_train(task_id: str | None, split: dict) -> bool:
-    train_tasks = split.get("train", [])
-    return task_id in train_tasks
 
 
 def _poc_readable(poc_path: str | None) -> bool:
