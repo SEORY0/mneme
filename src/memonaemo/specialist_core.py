@@ -16,6 +16,17 @@ from typing import Any
 from memonaemo.task_card import redact_for_promotion
 
 # ---------------------------------------------------------------------------
+# Network-only errors that justify a silent fallback in resolve_model.
+# Hard config errors (AuthenticationError, PermissionDeniedError, …) are
+# intentionally NOT listed here so they propagate to the caller.
+# ---------------------------------------------------------------------------
+try:
+    import openai as _openai
+    _NET_ERRORS: tuple = (_openai.APIConnectionError, _openai.APITimeoutError)
+except Exception:  # openai not installed or exception names changed
+    _NET_ERRORS = ()
+
+# ---------------------------------------------------------------------------
 # Allowed kinds
 # ---------------------------------------------------------------------------
 
@@ -34,9 +45,14 @@ _ALLOWED_KINDS: frozenset[str] = frozenset({
 def resolve_model(client: Any) -> str:
     """Return the GPT-5.5 model id.
 
-    Queries client.models.list() for an id starting with 'gpt-5.5' or
-    containing '5.5'. Falls back to env MEMONAEMO_SPECIALIST_MODEL, then
-    to the literal string "gpt-5.5".
+    Queries client.models.list() for an id starting with 'gpt-5.5'.
+    Falls back to env MEMONAEMO_SPECIALIST_MODEL (or the literal "gpt-5.5")
+    only on network/offline failures or when no matching model is found.
+
+    Hard configuration errors (AuthenticationError, PermissionDeniedError,
+    etc.) are NOT caught — they propagate immediately so the caller sees a
+    clear error rather than a confusingly-delayed failure on the first tool
+    call.
     """
     env_fallback = os.environ.get("MEMONAEMO_SPECIALIST_MODEL", "gpt-5.5")
     try:
@@ -47,10 +63,15 @@ def resolve_model(client: Any) -> str:
             items = list(models)
         for m in items:
             mid = getattr(m, "id", "") or ""
-            if mid.startswith("gpt-5.5") or "5.5" in mid:
+            if mid.startswith("gpt-5.5"):
                 return mid
-    except Exception:
+            # Secondary: any gpt-* id that contains "5.5"
+            if mid.startswith("gpt-") and "5.5" in mid:
+                return mid
+    except _NET_ERRORS:
+        # Network/offline failure — fall through to env/literal fallback
         pass
+    # No matching model found, or network error
     return env_fallback
 
 

@@ -35,3 +35,37 @@ def test_unknown_kind_rejected():
     with pytest.raises(ValueError):
         specialist_core.advise("hack_the_planet", diagnosis={}, repair_policy=None,
                                client=FakeClient(), model="gpt-5.5")
+
+
+def test_resolve_model_network_error_falls_back(monkeypatch):
+    import httpx
+    import openai
+    from memonaemo import specialist_core
+    monkeypatch.setenv("MEMONAEMO_SPECIALIST_MODEL", "env-model-x")
+
+    class NetFailClient:
+        class _Models:
+            def list(self):
+                raise openai.APIConnectionError(request=None)
+        models = _Models()
+
+    assert specialist_core.resolve_model(NetFailClient()) == "env-model-x"
+
+
+def test_resolve_model_auth_error_propagates():
+    import httpx
+    import openai
+    import pytest
+    from memonaemo import specialist_core
+
+    req = httpx.Request("GET", "https://api.openai.com/v1/models")
+    resp = httpx.Response(401, request=req)
+
+    class AuthFailClient:
+        class _Models:
+            def list(self):
+                raise openai.AuthenticationError("bad key", response=resp, body=None)
+        models = _Models()
+
+    with pytest.raises(openai.AuthenticationError):
+        specialist_core.resolve_model(AuthFailClient())
