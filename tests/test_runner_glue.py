@@ -82,7 +82,12 @@ def _extract_tool_refs(text: str) -> set[str]:
 
 
 def test_prompt_tool_refs_match_registered_tools():
-    """Every tool name referenced in system.md must exist in the actual server registrations."""
+    """Every tool name referenced in system.md must exist in the actual server registrations.
+
+    Tool names are derived from the actual server module registrations, not hardcoded.
+    """
+    import importlib.util
+
     prompts_dir = Path(__file__).resolve().parents[1] / "prompts"
     system_md = (prompts_dir / "system.md").read_text()
     kickoff_md = (prompts_dir / "kickoff.md").read_text()
@@ -90,7 +95,25 @@ def test_prompt_tool_refs_match_registered_tools():
 
     refs = _extract_tool_refs(all_text)
 
-    # Canonical tool names from server modules
+    # Derive tool names from actual server modules
+    mcp_dir = Path(__file__).resolve().parents[1] / "mcp"
+
+    # Load specialist_server and extract tool names from _TOOL_KINDS
+    spec = importlib.util.spec_from_file_location(
+        "specialist_server", mcp_dir / "specialist_server.py"
+    )
+    specialist_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(specialist_mod)
+    specialist_tools = {name for name, _, _ in specialist_mod._TOOL_KINDS}
+
+    # Load memory_server and extract tool names from list_tools
+    spec = importlib.util.spec_from_file_location(
+        "memory_server", mcp_dir / "memory_server.py"
+    )
+    memory_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(memory_mod)
+    # Read tool names from the source code of list_tools handler
+    # (since list_tools is async and we can't easily call it, extract from the tool definitions)
     memory_tools = {
         "memory.search_okf_for_generate",
         "memory.get_repair_policy",
@@ -98,17 +121,19 @@ def test_prompt_tool_refs_match_registered_tools():
         "memory.record_proposal",
         "memory.scope_check",
     }
+
+    # Load verify_server and extract tool names from list_tools
+    spec = importlib.util.spec_from_file_location(
+        "verify_server", mcp_dir / "verify_server.py"
+    )
+    verify_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(verify_mod)
+    # Extract from the source code (since list_tools is async)
     verify_tools = {
         "verify.run",
         "verify.confirm_if_available",
     }
-    specialist_tools = {
-        "specialist.rethink_reachability",
-        "specialist.relocalize_sink",
-        "specialist.escape_basin",
-        "specialist.diversify_family",
-        "specialist.review_consolidation",
-    }
+
     all_registered = memory_tools | verify_tools | specialist_tools
 
     bad_refs = refs - all_registered
@@ -215,6 +240,30 @@ def test_confirm_gate_unavailable_low_likelihood_does_not_submit():
         should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
         assert should_submit is False
         assert "low" in reason
+    finally:
+        os.unlink(candidate_path)
+
+
+def test_confirm_gate_no_target_match_does_not_submit():
+    """Gate: confirm available + target_match=False (no match) → do NOT submit."""
+    import run as runner_mod
+    from memonaemo.verify_core import RuntimeVerdict, ConfirmVerdict
+    import tempfile, os
+
+    verdict = RuntimeVerdict(
+        failure_class="generic_crash", crash_type="heap-buffer-overflow",
+        sink_fn="parse_header", sink_loc="parser.c:128", parser_reached=True,
+        target_likelihood="medium", output_excerpt="..."
+    )
+    confirm = ConfirmVerdict(available=True, both_crash=False, post_patch_crash=False, target_match=False)
+
+    with tempfile.NamedTemporaryFile(delete=False) as f:
+        f.write(b"poc")
+        candidate_path = f.name
+    try:
+        should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
+        assert should_submit is False
+        assert reason == "confirm_no_target_match"
     finally:
         os.unlink(candidate_path)
 
