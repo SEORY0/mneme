@@ -1,0 +1,20 @@
+[project]
+name = "memonaemo"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "claude-agent-sdk==0.2.103",
+  "anthropic>=0.109,<0.110",
+  "openai>=2.43,<3",
+  "mcp>=1.0",
+  "typer>=0.12",
+]
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
