@@ -1,5 +1,5 @@
 from pathlib import Path
-from memonaemo import agent_driver
+from mneme import agent_driver
 
 
 def test_solve_uses_real_sdk_symbols():

@@ -1,4 +1,4 @@
-from memonaemo import cybergym_io
+from mneme import cybergym_io
 
 
 def test_images_for(tmp_path):

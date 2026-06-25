@@ -1,4 +1,4 @@
-# memonaemo
+# mneme
 
 **CyberGym Level-1 PoC agent** — verification-gated, scope-isolated causal memory.
 
@@ -9,10 +9,10 @@ The differentiator vs Crystalline is not a bigger harness or a bigger OKF; it is
 
 ## Architecture
 
-Full design spec: [`docs/superpowers/specs/2026-06-25-memonaemo-design.md`](docs/superpowers/specs/2026-06-25-memonaemo-design.md)
+Full design spec: [`docs/superpowers/specs/2026-06-25-mneme-design.md`](docs/superpowers/specs/2026-06-25-mneme-design.md)
 
 ```
-memonaemo/
+mneme/
   runner/
     run.py              CLI: solve / consolidate / batch
   mcp/
@@ -29,7 +29,7 @@ memonaemo/
     okf_split.json      train/eval split
   scripts/
     audit_leak.py       OKF leak audit
-  src/memonaemo/        Python library (runner / MCP / glue only — no policy logic)
+  src/mneme/        Python library (runner / MCP / glue only — no policy logic)
     task_card.py        task dir -> compact redacted task card
     cybergym_io.py      task generation, submit.sh parsing, docker verify shell-out
     agent_driver.py     launch Claude Agent SDK session + collect result
@@ -131,7 +131,7 @@ PYTHONPATH=src python runner/run.py consolidate \
 ### `ab-eval` — A/B harness (memory on vs off)
 
 ```python
-from memonaemo import ab_eval
+from mneme import ab_eval
 import json
 
 split = json.loads(open("data/okf_split.json").read())

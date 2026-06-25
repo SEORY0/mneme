@@ -13,7 +13,7 @@ import json
 import os
 from typing import Any
 
-from memonaemo.task_card import redact_for_promotion
+from mneme.task_card import redact_for_promotion
 
 # ---------------------------------------------------------------------------
 # Network-only errors that justify a silent fallback in resolve_model.

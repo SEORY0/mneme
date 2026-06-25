@@ -4,3 +4,4 @@ __pycache__/
 runs/
 memory_store/memory_stats.jsonl
 .env
+src/*.egg-info/

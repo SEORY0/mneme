@@ -1,4 +1,4 @@
-from memonaemo import ab_eval
+from mneme import ab_eval
 
 SPLIT = {"train": ["t1", "t2"], "eval": ["e1"]}
 

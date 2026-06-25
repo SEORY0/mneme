@@ -1,4 +1,4 @@
-from memonaemo import specialist_core
+from mneme import specialist_core
 
 class FakeResp:
     def __init__(self, text): self.choices = [type("C", (), {"message": type("M", (), {"content": text})()})()]
@@ -40,7 +40,7 @@ def test_unknown_kind_rejected():
 def test_resolve_model_network_error_falls_back(monkeypatch):
     import httpx
     import openai
-    from memonaemo import specialist_core
+    from mneme import specialist_core
     monkeypatch.setenv("MEMONAEMO_SPECIALIST_MODEL", "env-model-x")
 
     class NetFailClient:
@@ -56,7 +56,7 @@ def test_resolve_model_auth_error_propagates():
     import httpx
     import openai
     import pytest
-    from memonaemo import specialist_core
+    from mneme import specialist_core
 
     req = httpx.Request("GET", "https://api.openai.com/v1/models")
     resp = httpx.Response(401, request=req)

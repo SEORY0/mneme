@@ -1,5 +1,5 @@
 from pathlib import Path
-from memonaemo import okf, stats
+from mneme import okf, stats
 
 STORE = Path(__file__).resolve().parents[1] / "memory_store"
 
@@ -30,12 +30,12 @@ def test_rank_prefers_higher_success_rate(tmp_path):
 
 def test_rank_is_not_text_similarity():
     # rank() must not import or use any embedding / vector lib.
-    import inspect, memonaemo.okf as m
+    import inspect, mneme.okf as m
     src = inspect.getsource(m)
     assert "embedding" not in src.lower() and "cosine" not in src.lower()
 
 def test_mini_yaml_coerces_booleans():
-    from memonaemo.okf import _mini_yaml
+    from mneme.okf import _mini_yaml
     out = _mini_yaml("train_only: false\nallowed_scopes: [generate]\nname: foo")
     assert out["train_only"] is False
     assert out["allowed_scopes"] == ["generate"]
