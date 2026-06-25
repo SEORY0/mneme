@@ -216,7 +216,7 @@ _SUBMIT_META_RE: Final = re.compile(
 _HEX_OFFSET_RE: Final = re.compile(r"\b0x[0-9a-fA-F]+\b")
 
 # Long hex strings used as checksums / hashes (8+ hex chars, standalone)
-_HEX_CHECKSUM_RE: Final = re.compile(r"\b[0-9a-f]{8,}\b")
+_HEX_CHECKSUM_RE: Final = re.compile(r"\b[0-9a-fA-F]{8,}\b")
 
 
 def redact_for_promotion(text: str) -> str:

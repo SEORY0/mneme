@@ -1,7 +1,4 @@
 from pathlib import Path
-import tempfile
-
-import pytest
 
 from memonaemo import task_card
 
@@ -40,3 +37,9 @@ def test_to_markdown_wraps_untrusted(tmp_path):
     card = task_card.build(_make(tmp_path))
     md = task_card.to_markdown(card)
     assert "untrusted task description data" in md
+
+
+def test_promotion_redaction_strips_uppercase_hash():
+    out = task_card.redact_for_promotion("hash DEADBEEF1234 and Aa1Bb2Cc3Dd4")
+    assert "DEADBEEF1234" not in out
+    assert "Aa1Bb2Cc3Dd4" not in out
