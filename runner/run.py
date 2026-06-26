@@ -239,17 +239,30 @@ def _extract_repo_src(task_dir: Path, run_dir: Path) -> None:
             tf.extractall(src_dir)
 
 
-def _real_solve(task_dir: Path, run_dir: Path, task_id: str | None = None) -> dict:
-    """Real mode: wire MCP servers, call agent_driver.solve, run confirm gate.
+def _real_solve(
+    task_dir: Path,
+    run_dir: Path,
+    task_id: str | None = None,
+    model: str = "claude-opus-4-8",
+) -> dict:
+    """Real mode: select backend by model, call solve, run confirm gate.
 
-    This path requires docker + Claude API creds.  It is import-safe and
+    Backend selection:
+      - model starts with "claude" → Claude Agent SDK (agent_driver.solve) + the
+        three stdio MCP servers (memory/verify/specialist).
+      - otherwise (e.g. "gpt-5.5") → OpenAI tool-calling backend
+        (agent_openai.solve). MCP servers are NOT launched; that backend reaches
+        verify_core/memory_api directly. gpt-5.5 does not refuse the authorized
+        CyberGym PoC task under cyber-safeguards.
+
+    This path requires docker + model API creds.  It is import-safe and
     structurally correct but is NOT exercised by the offline smoke tests.
 
     ``task_id`` (e.g. "arvo:10400") drives the LOCAL image-tag derivation and is
     required in real mode.
     """
     import asyncio
-    from mneme import agent_driver, task_card, cybergym_io, verify_core
+    from mneme import task_card, cybergym_io, verify_core
 
     if not task_id:
         raise RuntimeError(
@@ -284,9 +297,8 @@ def _real_solve(task_dir: Path, run_dir: Path, task_id: str | None = None) -> di
     # C1: Write verify config file; build server env dict
     store_dir = _PROJECT_ROOT / "memory_store"
     stats_path = store_dir / "memory_stats.jsonl"
-    server_env = _mcp_server_env(run_dir, store_dir, stats_path)
 
-    # C1: Write verify config and set RUN_CONFIG in server env
+    # C1: Write verify config (read by the verify_server / OpenAI backend)
     verify_config_path = _write_verify_config(
         run_dir,
         vul_image=imgs["vul_image"],
@@ -295,17 +307,38 @@ def _real_solve(task_dir: Path, run_dir: Path, task_id: str | None = None) -> di
         timeout_s=timeout_s,
         description=description,
     )
-    server_env["RUN_CONFIG"] = str(verify_config_path)
 
-    # Write MCP config with env vars for each server
-    mcp_servers = _write_mcp_config(run_dir, server_env)
+    use_claude = model.startswith("claude")
 
-    # Build agent options (D9: memory_store NOT in add_dirs)
-    skills_dir = _PROJECT_ROOT / "skills"
-    options = agent_driver.build_options(run_dir, skills_dir, mcp_servers)
+    if use_claude:
+        from mneme import agent_driver
 
-    # Run agent
-    agent_result = asyncio.run(agent_driver.solve(card_dict, options))
+        server_env = _mcp_server_env(run_dir, store_dir, stats_path)
+        server_env["RUN_CONFIG"] = str(verify_config_path)
+        # Write MCP config with env vars for each server
+        mcp_servers = _write_mcp_config(run_dir, server_env)
+        # Build agent options (D9: memory_store NOT in add_dirs)
+        skills_dir = _PROJECT_ROOT / "skills"
+        options = agent_driver.build_options(run_dir, skills_dir, mcp_servers, model=model)
+        agent_result = asyncio.run(agent_driver.solve(card_dict, options))
+    else:
+        # OpenAI backend (e.g. gpt-5.5): no MCP servers; uses verify_core/memory_api.
+        from mneme import agent_openai
+
+        agent_result = agent_openai.solve(
+            task_dir,
+            run_dir,
+            model=model,
+            config={
+                "vul_image": imgs["vul_image"],
+                "fix_image": imgs["fix_image"],
+                "run_cmd": run_cmd,
+                "timeout_s": timeout_s,
+                "description": description,
+                "store_dir": str(store_dir),
+                "stats_path": str(stats_path),
+            },
+        )
     candidate_path = agent_result.get("candidate_path")
 
     # Tier-1 verify
@@ -390,7 +423,7 @@ def solve(
     if fake_mode:
         solve_result = _fake_solve(task_dir, run_dir)
     else:
-        solve_result = _real_solve(task_dir, run_dir, task_id=resolved_task_id)
+        solve_result = _real_solve(task_dir, run_dir, task_id=resolved_task_id, model=model)
 
     candidate_path = solve_result.get("candidate_path")
     verdict = solve_result.get("verdict")

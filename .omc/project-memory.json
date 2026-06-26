@@ -10,7 +10,7 @@
   },
   "build": {
     "buildCommand": null,
-    "testCommand": "PYTHONPATH=src .venv/bin/pytest -q",
+    "testCommand": ".venv/bin/python -c \"import runner.run; from mneme import agent_openai\" 2>&1 | tail -5; echo \"---FULL SUITE---\"; .venv/bin/pytest -q 2>&1 | tail -15",
     "lintCommand": null,
     "devCommand": null,
     "scripts": {}
@@ -35,8 +35,86 @@
   "hotPaths": [
     {
       "path": "docs/superpowers/specs/2026-06-25-memonaemo-design.md",
-      "accessCount": 15,
-      "lastAccessed": 1782374570367,
+      "accessCount": 18,
+      "lastAccessed": 1782379564163,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/task_card.py",
+      "accessCount": 12,
+      "lastAccessed": 1782379557747,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/verify_core.py",
+      "accessCount": 7,
+      "lastAccessed": 1782379751991,
+      "type": "file"
+    },
+    {
+      "path": "mcp/memory_server.py",
+      "accessCount": 7,
+      "lastAccessed": 1782380251070,
+      "type": "file"
+    },
+    {
+      "path": "mcp/verify_server.py",
+      "accessCount": 7,
+      "lastAccessed": 1782380251182,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/okf.py",
+      "accessCount": 6,
+      "lastAccessed": 1782379354829,
+      "type": "file"
+    },
+    {
+      "path": "mcp/specialist_server.py",
+      "accessCount": 6,
+      "lastAccessed": 1782380250834,
+      "type": "file"
+    },
+    {
+      "path": "prompts/system.md",
+      "accessCount": 6,
+      "lastAccessed": 1782380253608,
+      "type": "file"
+    },
+    {
+      "path": "prompts/kickoff.md",
+      "accessCount": 6,
+      "lastAccessed": 1782380253678,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_verify_core.py",
+      "accessCount": 6,
+      "lastAccessed": 1782439129819,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/task-7-report.md",
+      "accessCount": 5,
+      "lastAccessed": 1782377662604,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/specialist_core.py",
+      "accessCount": 5,
+      "lastAccessed": 1782379340150,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_agent_options.py",
+      "accessCount": 5,
+      "lastAccessed": 1782379568882,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_task_card.py",
+      "accessCount": 5,
+      "lastAccessed": 1782379573034,
       "type": "file"
     },
     {
@@ -58,9 +136,27 @@
       "type": "file"
     },
     {
-      "path": "tests/test_task_card.py",
+      "path": ".superpowers/sdd/task-5-report.md",
       "accessCount": 4,
-      "lastAccessed": 1782376500800,
+      "lastAccessed": 1782376930237,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/task-6-report.md",
+      "accessCount": 4,
+      "lastAccessed": 1782377308682,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_memory_scope.py",
+      "accessCount": 4,
+      "lastAccessed": 1782377767377,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/memory_api.py",
+      "accessCount": 4,
+      "lastAccessed": 1782379333658,
       "type": "file"
     },
     {
@@ -82,21 +178,27 @@
       "type": "file"
     },
     {
-      "path": "src/memonaemo/okf.py",
-      "accessCount": 3,
-      "lastAccessed": 1782376211150,
-      "type": "file"
-    },
-    {
       "path": "tests/test_okf_loader.py",
       "accessCount": 3,
       "lastAccessed": 1782376214408,
       "type": "file"
     },
     {
-      "path": "src/memonaemo/task_card.py",
+      "path": "tests/test_specialist_core.py",
       "accessCount": 3,
-      "lastAccessed": 1782376495975,
+      "lastAccessed": 1782377622119,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/stats.py",
+      "accessCount": 3,
+      "lastAccessed": 1782379355677,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_smoke.py",
+      "accessCount": 3,
+      "lastAccessed": 1782379568013,
       "type": "file"
     },
     {
@@ -160,33 +262,45 @@
       "type": "file"
     },
     {
+      "path": ".superpowers/sdd/task-5-brief.md",
+      "accessCount": 2,
+      "lastAccessed": 1782376785885,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/task-6-brief.md",
+      "accessCount": 2,
+      "lastAccessed": 1782377152771,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/task-7-brief.md",
+      "accessCount": 2,
+      "lastAccessed": 1782377489554,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/task-8-brief.md",
+      "accessCount": 2,
+      "lastAccessed": 1782377943931,
+      "type": "file"
+    },
+    {
+      "path": "src/memonaemo/__init__.py",
+      "accessCount": 2,
+      "lastAccessed": 1782378931973,
+      "type": "file"
+    },
+    {
       "path": "pyproject.toml",
       "accessCount": 1,
       "lastAccessed": 1782375409849,
       "type": "file"
     },
     {
-      "path": "src/memonaemo/__init__.py",
-      "accessCount": 1,
-      "lastAccessed": 1782375412545,
-      "type": "file"
-    },
-    {
-      "path": "tests/test_smoke.py",
-      "accessCount": 1,
-      "lastAccessed": 1782375416021,
-      "type": "file"
-    },
-    {
       "path": ".superpowers/sdd/review-f36043a..e6c6187.diff",
       "accessCount": 1,
       "lastAccessed": 1782375475584,
-      "type": "file"
-    },
-    {
-      "path": "src/memonaemo/stats.py",
-      "accessCount": 1,
-      "lastAccessed": 1782376048244,
       "type": "file"
     },
     {
@@ -199,6 +313,24 @@
       "path": ".superpowers/sdd/review-f56934e..e333237.diff",
       "accessCount": 1,
       "lastAccessed": 1782376437379,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/review-2dbfa11..2380839.diff",
+      "accessCount": 1,
+      "lastAccessed": 1782376790221,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/review-ad85623..5243d82.diff",
+      "accessCount": 1,
+      "lastAccessed": 1782377153197,
+      "type": "file"
+    },
+    {
+      "path": ".superpowers/sdd/review-71714a9..d4a31c4.diff",
+      "accessCount": 1,
+      "lastAccessed": 1782377493792,
       "type": "file"
     }
   ],

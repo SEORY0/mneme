@@ -1,0 +1,4 @@
+an error occurred during closing of asynchronous generator <async_generator object InternalClient._process_query_inner at 0x715138c17130>
+asyncgen: <async_generator object InternalClient._process_query_inner at 0x715138c17130>
+RuntimeError: aclose(): asynchronous generator is already running
+Done. result.json written to runs/arvo_48736/result.json
