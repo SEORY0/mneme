@@ -1,37 +1,42 @@
-"""Offline test for the OpenAI gpt-5.5 main-agent backend.
+"""Offline test for the OpenAI gpt-5.5 main-agent backend (Responses API).
 
-NO network, NO docker. A fake OpenAI client returns canned tool-call responses
-and verify_core.run is monkeypatched to a stub. Drives the sequence:
+NO network, NO docker. A fake OpenAI client exposes .responses.create(**kw) and
+returns fake response objects whose .output is a list of fake function_call items
+(.type/.name/.arguments/.call_id) plus a .output_text. verify_core.run is
+monkeypatched to a stub. Drives the sequence:
 read_file -> write_poc(hex) -> verify_run(high) -> finish.
 """
 from __future__ import annotations
 
 import types
 
-import pytest
-
 from mneme import agent_openai, verify_core
 from mneme.verify_core import RuntimeVerdict
 
 
 # ---------------------------------------------------------------------------
-# Fake OpenAI client primitives
+# Fake OpenAI Responses primitives
 # ---------------------------------------------------------------------------
-def _tool_call(call_id, name, arguments):
+def _fn_call(call_id, name, arguments):
     return types.SimpleNamespace(
-        id=call_id,
-        type="function",
-        function=types.SimpleNamespace(name=name, arguments=arguments),
+        type="function_call",
+        id="fc_" + call_id,
+        call_id=call_id,
+        name=name,
+        arguments=arguments,
+        status="completed",
     )
 
 
-def _response(*, content=None, tool_calls=None):
-    msg = types.SimpleNamespace(content=content, tool_calls=tool_calls)
-    choice = types.SimpleNamespace(message=msg, finish_reason="stop")
-    return types.SimpleNamespace(choices=[choice])
+def _response(*, output_items=None, output_text=""):
+    return types.SimpleNamespace(
+        output=list(output_items or []),
+        output_text=output_text,
+        usage=types.SimpleNamespace(total_tokens=0),
+    )
 
 
-class FakeCompletions:
+class FakeResponses:
     def __init__(self, scripted):
         self._scripted = list(scripted)
         self.calls = []  # captured kwargs per create()
@@ -41,14 +46,9 @@ class FakeCompletions:
         return self._scripted.pop(0)
 
 
-class FakeChat:
-    def __init__(self, scripted):
-        self.completions = FakeCompletions(scripted)
-
-
 class FakeClient:
     def __init__(self, scripted):
-        self.chat = FakeChat(scripted)
+        self.responses = FakeResponses(scripted)
 
 
 # ---------------------------------------------------------------------------
@@ -99,11 +99,11 @@ def test_solve_loop_writes_candidate_and_terminates(tmp_path, monkeypatch):
 
     poc_hex = b"DEADBEEF".hex()
     scripted = [
-        _response(tool_calls=[_tool_call("c1", "read_file", '{"path": "task/src/main.c"}')]),
-        _response(tool_calls=[_tool_call("c2", "write_poc", '{"data_hex": "%s"}' % poc_hex)]),
-        _response(tool_calls=[_tool_call("c3", "verify_run", "{}")]),
+        _response(output_items=[_fn_call("c1", "read_file", '{"path": "task/src/main.c"}')]),
+        _response(output_items=[_fn_call("c2", "write_poc", '{"data_hex": "%s"}' % poc_hex)]),
+        _response(output_items=[_fn_call("c3", "verify_run", "{}")]),
         # (should not be reached — loop stops on target_high)
-        _response(content="done"),
+        _response(output_text="done"),
     ]
     client = FakeClient(scripted)
 
@@ -133,16 +133,20 @@ def test_solve_loop_writes_candidate_and_terminates(tmp_path, monkeypatch):
     assert str(cand_arg) == str(candidate)
     assert kw["vul_image"] == "n132/arvo:10400-vul"
 
-    # Transcript exists and contains no API key material
+    # Transcript exists and records the tool calls
     transcript = (run_dir / "transcript_openai.txt").read_text()
     assert "verify_run" in transcript
 
-    # Reasoning params set on every create call; sampling params omitted.
-    for kw in client.chat.completions.calls:
-        assert kw["reasoning_effort"] == "low"
-        assert kw["max_completion_tokens"] >= 4000
+    # Reasoning params set on every create call; sampling params omitted; Responses shape.
+    for kw in client.responses.calls:
+        assert kw["reasoning"] == {"effort": "low"}
+        assert kw["max_output_tokens"] >= 8000
         assert "temperature" not in kw
         assert "top_p" not in kw
+        assert "input" in kw  # Responses API, not chat.completions
+        # tools are FLAT (no nested "function" key)
+        assert all("function" not in t for t in kw["tools"])
+        assert all(t.get("name") for t in kw["tools"])
 
 
 def test_file_tool_rejects_path_outside_run_dir(tmp_path, monkeypatch):
@@ -151,8 +155,8 @@ def test_file_tool_rejects_path_outside_run_dir(tmp_path, monkeypatch):
 
     # Model tries to read /etc/passwd via an escaping relative path, then stops.
     scripted = [
-        _response(tool_calls=[_tool_call("c1", "read_file", '{"path": "../../../etc/passwd"}')]),
-        _response(content="giving up"),
+        _response(output_items=[_fn_call("c1", "read_file", '{"path": "../../../etc/passwd"}')]),
+        _response(output_text="giving up"),
     ]
     client = FakeClient(scripted)
 
@@ -179,8 +183,8 @@ def test_empty_response_retries_then_stops(tmp_path, monkeypatch):
 
     # Two empty responses in a row (initial + retry) → stop_reason empty_response.
     scripted = [
-        _response(content=None, tool_calls=None),
-        _response(content=None, tool_calls=None),
+        _response(output_items=[], output_text=""),
+        _response(output_items=[], output_text=""),
     ]
     client = FakeClient(scripted)
 
@@ -194,6 +198,6 @@ def test_empty_response_retries_then_stops(tmp_path, monkeypatch):
 
     assert result["stop_reason"] == "empty_response"
     assert result["candidate_path"] is None
-    # The retry used a larger completion budget.
-    assert client.chat.completions.calls[1]["max_completion_tokens"] > \
-        client.chat.completions.calls[0]["max_completion_tokens"]
+    # The retry used a larger output budget.
+    assert client.responses.calls[1]["max_output_tokens"] > \
+        client.responses.calls[0]["max_output_tokens"]
