@@ -86,10 +86,50 @@ def is_runnable_local(task_id: str) -> bool:
     return out.returncode == 0 and out.stdout.strip() != ""
 
 
+def _available_arvo_vul_ids() -> set[str]:
+    """Set of arvo numeric ids that have a local n132/arvo:<N>-vul image.
+
+    ONE `docker images` call (not one per task) — listing all n132/arvo tags and
+    keeping the <N> of every <N>-vul tag.
+    """
+    try:
+        out = subprocess.run(
+            ["docker", "images", "n132/arvo", "--format", "{{.Tag}}"],
+            capture_output=True, text=True, timeout=60,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return set()
+    if out.returncode != 0:
+        return set()
+    ids = set()
+    for tag in out.stdout.split():
+        if tag.endswith("-vul"):
+            ids.add(tag[: -len("-vul")])
+    return ids
+
+
 def runnable_local_filter(tasks: Iterable[str]) -> List[str]:
     """Filter an iterable of task ids to the runnable-local ones, order-preserving.
 
-    Tests monkeypatch THIS function (not is_runnable_local) so they can supply a
-    fake runnable set without docker.
+    Uses a SINGLE `docker images` query for the vul-image check (not one docker
+    call per task — that made filtering ~1300 tasks take minutes). A task is
+    runnable-local iff it is arvo:<N> with the data dir present and an <N>-vul
+    image locally.
+
+    Tests monkeypatch THIS function so they never call docker.
     """
-    return [t for t in tasks if is_runnable_local(t)]
+    tasks = list(tasks)
+    vul_ids = _available_arvo_vul_ids()
+    out = []
+    for t in tasks:
+        if not t.startswith("arvo:"):
+            continue
+        n = t.split(":", 1)[1]
+        if not n.isdigit():
+            continue
+        if n not in vul_ids:
+            continue
+        if not (ARVO_DATA_ROOT / n).exists():
+            continue
+        out.append(t)
+    return out
