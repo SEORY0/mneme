@@ -67,3 +67,17 @@ intact and a non-empty `/Contents`.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- PDF reachability requires a catalog, pages tree, page object, resources with a font, and a content
+stream. Poppler only asks SplashFTFont for a glyph path for stroked or clipped text rendering modes;
+ordinary filled text does not use this path. A degenerate text matrix can drive a zero text scale in
+the FreeType font wrapper.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

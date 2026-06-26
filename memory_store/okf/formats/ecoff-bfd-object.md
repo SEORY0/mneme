@@ -20,3 +20,16 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- ECOFF/BFD parsing requires a recognizable object header, optional header fields, section metadata,
+and coherent debug symbol-table metadata. The target relation involves a file descriptor record
+whose symbol count is inconsistent with the remaining external symbol table.
+
+### Harness Links
+- [[honggfuzz-raw-tempfile]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

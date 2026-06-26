@@ -15,3 +15,13 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 7 Input Contract
+- The fuzzer dispatches raw bytes by leading syntax: DWG version marker, JSON opening syntax, or DXF
+text fallback. It appends termination where needed but does not otherwise carve the input.
+
+## Round {ROUND} Format Links
+- [[dwg]]
+
+## Round {ROUND} Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

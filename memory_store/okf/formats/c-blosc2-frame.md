@@ -30,3 +30,17 @@ round recovery policies
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- A c-blosc2 frame has a recognizable frame header, declared frame size, compressed chunk metadata and
+payloads, plus optional trailer metadata. The target usermeta read derives a trailer offset from
+header and compressed-size fields, then reads a trailer usermeta length and copies that many bytes
+from the in-memory frame.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

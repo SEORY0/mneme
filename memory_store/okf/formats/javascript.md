@@ -25,3 +25,16 @@ the derived object is valid.
 
 # Citations
 - Distilled from server-verified training outcomes with this format family.
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- The input is JavaScript source text. String literals are delimited by single or double quotes; the
+lexer also treats ECMAScript line-separator and paragraph-separator byte sequences as line
+terminators.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

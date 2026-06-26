@@ -49,3 +49,22 @@ Treat `no_crash x object_not_recognized_or_no_symbols` on this format family as 
 ## Evidence Shape
 - Support: 1 diagnosed persistent failure(s) from round 6.
 - Scope: generator repair and basin avoidance only.
+
+## Round 7 Support
+
+### Failure Shape
+Archive, ELF-with-debug-section, and several compact ECOFF-like object headers did not satisfy
+enough BFD target, section, and symbol-table consistency for nm to slurp the ECOFF file descriptor
+records. This matches the known no-crash basin for constructed ECOFF objects that are not recognized
+or contain no accepted symbols.
+
+### Retarget Guard
+For `ecoff-bfd-object` under `honggfuzz-raw-tempfile`, do not repeat candidates that return `object_not_recognized_or_no_symbols` unless they change the parser gate, state relation, or sink relation. Preserve any accepted envelope and move to the smallest missing invariant.
+
+### Factual Contract
+- Format: ECOFF/BFD parsing requires a recognizable object header, optional header fields, section metadata,
+and coherent debug symbol-table metadata. The target relation involves a file descriptor record
+whose symbol count is inconsistent with the remaining external symbol table.
+- Harness: The active Binutils harness writes raw bytes to a temporary file and runs an nm-style BFD flow after
+precondition checks. Inputs that BFD does not recognize, or recognizes without symbols, exit cleanly
+before the target ECOFF symbol slurp.

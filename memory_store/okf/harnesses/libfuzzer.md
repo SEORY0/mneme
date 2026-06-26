@@ -55,3 +55,107 @@ okf_support: 22
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 7 Input Contract
+- The libFuzzer target feeds raw bytes as a DER PKCS#12 blob to the key parser fuzzer. The harness
+uses a fixed password, calls simple_parse with output pointers for key, chain, extras, and CRL, and
+manually deinitializes returned objects only when simple_parse reports success.
+- The GraphicsMagick MAT fuzzer feeds the raw file bytes to the MAT coder. There is no mode selector
+or FuzzedDataProvider layout; the input must be a complete MAT-like byte stream.
+- The local wrapper ran the simple decompression libFuzzer target on raw file bytes. No outer file
+format or length prefix is used, but the decompressor performs legacy-frame and block-header
+validation before reaching literal decoding.
+- The target is fuzz_pkcs15_reader. It installs a synthetic reader, connects a card, binds PKCS15,
+then consumes more chunks as operation inputs and parameters only if a card was successfully bound.
+- The harness opens the raw input via libsndfile virtual I/O, allocates a float buffer sized from the
+parsed channel count, and repeatedly reads one frame at a time. The raw fuzzer bytes must therefore
+be a recognizable sound-file container before ALAC decoding is reached.
+- The libFuzzer target passes raw bytes to blosc2_schunk_open_sframe, then decompresses chunks from
+the returned super-chunk. Parser reachability depends on a coherent in-memory frame; the fuzzer does
+not carve a mode byte.
+- The trace processor fuzzer parses the raw input as Perfetto trace data and calls NotifyEndOfFile,
+which flushes accumulated memory tracker snapshots. There is no separate mode byte.
+- The harness passes raw input bytes directly to the TTF memory loader. There is no file-name
+extension, mode selector, or FuzzedDataProvider split; collection magic and subfont offset
+arithmetic control the path.
+- The harness writes raw fuzzer bytes to a temporary GML file and calls igraph_read_graph_gml on that
+file. If parsing succeeds, it destroys the graph; invalid parse errors are normally non-crashing.
+- The RawSpeed harness feeds raw bytes to RawParser, calls decodeRaw, then decodeMetaData, and catches
+RawspeedException. The input must be a recognizable RAW/TIFF-family file for the CR2 decoder to be
+selected.
+- The libFuzzer harness copies raw bytes into a NUL-terminated string, calls stringToH3, duplicates
+the resulting index into a two-element array, then exercises compactCells, uncompactCells, and
+h3NeighborRotations with fixed directions. It does not consume a file container or length fields.
+- FuzzJs wraps the raw bytes in a StringView, lexes and parses a program, and only runs it if parsing
+has no errors. There is no mode selector or length-prefixed layout.
+- The harness passes raw bytes directly to the OpenSIPS message parser. There is no length prefix,
+mode selector, or checksum gate; the buffer contents themselves form the SIP message.
+- The libFuzzer harness passes raw bytes directly to parse_msg and then frees the parsed message.
+There is no file wrapper or length prefix; truncation at the end of the raw input is visible to the
+header parser.
+- The Assimp fuzzer feeds raw bytes to Importer::ReadFileFromMemory with no explicit extension. The
+in-memory loader assigns a synthetic filename and then performs signature-based format detection.
+- The FreeRADIUS fuzzer binary selects a protocol decoder from its target name; for this run the local
+wrapper executed the DHCPv4 protocol decoder on the raw input buffer.
+- The from-data libFuzzer target feeds raw bytes to exif_data_new_from_data, then traverses Exif
+contents and maker-note values, serializes the data, fixes it, and releases the object. No leading
+selector byte is carved.
+- The nDPI fuzzer passes the input bytes directly to ndpi_detection_process_packet. The input is not
+pcap-framed; the first bytes must be an IP packet, and port/payload shape influence TLS protocol
+detection.
+- The harness opens raw bytes as an image, reads metadata, prints EXIF/IPTC/XMP entries and structure
+variants, then calls writeMetadata. A candidate must pass ImageFactory recognition and reach both
+metadata parsing and the relevant print/write path.
+- The map fuzzer writes the raw input bytes to a temporary .map file and calls msLoadMap. It rejects
+very small and overly large inputs before parsing.
+- The harness passes raw bytes to LibreDWG. Inputs starting like DWG select binary decoding, inputs
+starting with a JSON object select JSON import, and other text-like inputs can fall through to DXF
+handling.
+- The libFuzzer harness passes the raw byte buffer and its exact size to plist_from_openstep, then
+frees any resulting root node. The input is not NUL-terminated by the harness.
+- The binutils wrapper writes the raw input to a temporary file and runs the safe objdump fuzzer path.
+BFD determines the object format from the raw bytes and objdump requests headers, sections, symbols,
+and related metadata.
+- The active harness writes the leading portion of the fuzz input to a temporary table file, parses
+the remaining bytes with the liblouis extended character parser, and calls lou_translateString with
+an output buffer derived from the parsed input length.
+- The source tree contains a raw mp_datetime fuzzer that passes bytes directly to datetime_unpack, but
+the local wrapper output for this image showed a different protobuf-backed Lua fuzzer. This mismatch
+made local parser-reachability feedback unreliable for the described MsgPack extension bug.
+- The WAV fuzzer feeds raw bytes into a fixed memory stream and constructs a WavLoaderPlugin. There is
+no leading mode byte; parser reachability depends on valid RIFF/WAVE chunk framing.
+- The harness loads raw bytes as a PDF document and renders every page with poppler::page_renderer.
+The input must be a parseable PDF; rendering operations in the content stream determine whether the
+Splash font path code is reached.
+
+## Round {ROUND} Format Links
+- [[assimp-zip-archive]]
+- [[c-blosc2-frame]]
+- [[caf-alac]]
+- [[coff-object]]
+- [[cr2-tiff-raw]]
+- [[dhcpv4]]
+- [[dwg-r11]]
+- [[gml]]
+- [[h3-index-string]]
+- [[image-metadata]]
+- [[ipv4-tcp-tls]]
+- [[javascript]]
+- [[jpeg-exif]]
+- [[liblouis-generic-table-plus-escaped-text]]
+- [[mapfile]]
+- [[mat]]
+- [[msgpack-ext]]
+- [[opensc-fuzz-reader-chunks]]
+- [[openstep-plist]]
+- [[pdf]]
+- [[perfetto-trace-protobuf]]
+- [[pkcs12-der]]
+- [[sip]]
+- [[sip-message]]
+- [[ttc-opentype-font]]
+- [[wav]]
+- [[zstd-legacy-frame]]
+
+## Round {ROUND} Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

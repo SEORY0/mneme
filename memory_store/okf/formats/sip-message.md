@@ -1,0 +1,22 @@
+---
+type: format-family
+title: "Sip Message"
+description: "Round 7 factual format contract for sip-message."
+resource: cybergym://format/sip-message
+tags: ["sip-message", "format-contract", "round-7"]
+okf_support: 1
+train_only: true
+---
+# Sip Message
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- SIP messages are line-oriented and OpenSIPS permits leading CR/LF pairs before the request or status
+line. This parser path scans those leading separators before normal message-line parsing.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

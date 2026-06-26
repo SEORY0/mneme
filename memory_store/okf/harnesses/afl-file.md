@@ -17,3 +17,19 @@ okf_support: 2
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 7 Input Contract
+- The connect fuzzer uses the first input byte as a stage selector, synthesizes the SCTP common header
+itself, injects built-in handshake packets according to the stage, then injects the remaining input
+as chunk bytes. The listen fuzzer accepts a complete packet directly but still requires a plausible
+SCTP envelope.
+- The AFL-style harness reads the whole file, copies all but the last byte into a NUL-terminated ini
+buffer, and uses the final byte as the client/type argument to parse_jobs_ini. It initializes fio
+options once, then parses the buffer in parse-only mode.
+
+## Round {ROUND} Format Links
+- [[fio-ini]]
+- [[sctp-packet]]
+
+## Round {ROUND} Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -19,3 +19,17 @@ Preserve the legacy block envelope, then place the boundary violation in the lit
 
 ## Linked Policies
 round recovery policies
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- Legacy zstd frames begin with a version-specific magic and then block headers. Compressed blocks
+contain a literals sub-block before sequence data. Raw-literals headers encode a literal byte count,
+and the vulnerable code path copies literals to an internal fixed-size literal buffer when the
+declared raw literal count fits within the compressed block.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
