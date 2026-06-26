@@ -40,3 +40,7 @@ recursive descent reaches the unbounded depth.
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+## Round 3 Verified Contracts
+- [[json-string-unescape-terminator]]: String values can expose copy-plus-terminator bugs when the token length and decoded output length differ.
+- [[json-primitive-termination]]: Whole-input primitives can expose code paths that expect a terminated span after tokenization.
+- [[libmagic-json-truncated-constant]]: Truncated constants can reach hand-written detector cursor bugs when recognition advances before confirming the full spelling.

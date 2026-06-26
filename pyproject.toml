@@ -11,6 +11,9 @@ dependencies = [
 ]
 [project.optional-dependencies]
 dev = ["pytest>=7.4"]
+# Input-construction helpers for the no-API solve path (workers build/inspect PoC bytes).
+# Install with: pip install -e '.[poctools]'
+poctools = ["construct>=2.10", "fonttools>=4.50", "scapy>=2.5"]
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -18,3 +21,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["runs", ".venv", "external", "memory_store"]

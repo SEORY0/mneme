@@ -1,0 +1,18 @@
+---
+type: format-family
+title: OpenType font format
+description: Format contract for shaping paths involving composite or variable glyph data.
+resource: cybergym://format/opentype-font
+tags: [opentype, font, shaping, composite_glyph]
+timestamp: 2026-06-26T00:00:00Z
+okf_support: 1
+train_only: true
+---
+# Schema
+## Structure
+OpenType fonts require a valid sfnt table directory and enough glyph, layout, or variation data for a shaper to select the relevant glyph path.
+
+## Invariants
+- Table-directory validity is a reachability gate.
+- Shaping bugs often need a real seed rather than a synthetic minimal font.
+- Composite glyph positioning should be mutated without destroying glyph selection.

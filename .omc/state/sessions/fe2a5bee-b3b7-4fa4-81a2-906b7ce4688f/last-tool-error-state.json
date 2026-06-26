@@ -1,7 +1,0 @@
-{
-  "tool_name": "Read",
-  "tool_input_preview": "{\"file_path\":\"/home/nsd/memonaemo/.superpowers/sdd\"}",
-  "error": "EISDIR: illegal operation on a directory, read '/home/nsd/memonaemo/.superpowers/sdd'",
-  "timestamp": "2026-06-25T08:30:21.883Z",
-  "retry_count": 1
-}

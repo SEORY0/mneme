@@ -50,7 +50,7 @@ server = Server("verify")
 async def list_tools() -> list[types.Tool]:
     return [
         types.Tool(
-            name="verify.run",
+            name="run",
             description=(
                 "Tier-1 verify: run the PoC against the vulnerable image only. "
                 "Returns a RuntimeVerdict with failure_class "
@@ -68,7 +68,7 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
-            name="verify.confirm_if_available",
+            name="confirm_if_available",
             description=(
                 "Tier-2 verify: check whether the fix image is available then run "
                 "the PoC on both vul and fix images. Returns a ConfirmVerdict with "
@@ -93,7 +93,7 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
     cfg = _load_config()
     candidate_path = Path(arguments["candidate_path"])
 
-    if name == "verify.run":
+    if name == "run":
         verdict = verify_core.run(
             candidate_path,
             vul_image=cfg["vul_image"],
@@ -103,7 +103,7 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
         )
         result = dataclasses.asdict(verdict)
 
-    elif name == "verify.confirm_if_available":
+    elif name == "confirm_if_available":
         fix_image = cfg.get("fix_image", "")
         if not fix_image:
             result = {"available": False, "reason": "fix_image not configured"}

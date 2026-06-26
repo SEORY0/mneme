@@ -75,197 +75,119 @@ def test_write_verify_config_produces_required_keys(tmp_path):
 # ---------------------------------------------------------------------------
 
 def _extract_tool_refs(text: str) -> set[str]:
-    """Extract `server.tool_name` references from prompt markdown."""
-    import re
-    # Match backtick-quoted tool names like `memory.get_repair_policy`
-    return set(re.findall(r"`((?:memory|verify|specialist)\.[a-zA-Z_]+)`", text))
+    """Extract `mcp__<server>__<tool>` references from prompt markdown.
 
-
-def test_prompt_tool_refs_match_registered_tools():
-    """Every tool name referenced in system.md must exist in the actual server registrations.
-
-    Tool names are derived from the actual server module registrations, not hardcoded.
+    Claude Code namespaces MCP tools as ``mcp__<server>__<tool>``; the prompts
+    must reference that exact callable form (not a dotted ``server.tool``,
+    which is an INVALID Claude Code tool name and never resolves).
     """
-    import importlib.util
+    import re
+    return set(re.findall(r"mcp__(?:memory|verify|specialist)__[a-zA-Z_]+", text))
 
-    prompts_dir = Path(__file__).resolve().parents[1] / "prompts"
-    system_md = (prompts_dir / "system.md").read_text()
-    kickoff_md = (prompts_dir / "kickoff.md").read_text()
-    all_text = system_md + "\n" + kickoff_md
 
-    refs = _extract_tool_refs(all_text)
+def _registered_mcp_names() -> set[str]:
+    """Derive the real exposed tool names (``mcp__<server>__<bare>``) from the
+    server modules — the bare names they actually register, namespaced by server.
 
-    # Derive tool names from actual server modules
+    Tool names MUST be ``^[a-zA-Z0-9_-]+$`` (no dots) or Claude Code drops them.
+    """
+    import re
     mcp_dir = Path(__file__).resolve().parents[1] / "mcp"
-
-    # Load specialist_server and extract tool names from _TOOL_KINDS
+    names: set[str] = set()
+    # memory / verify: bare names appear as `name="..."` in their list_tools
+    for server in ("memory", "verify"):
+        src = (mcp_dir / f"{server}_server.py").read_text()
+        for bare in re.findall(r'types\.Tool\(\s*name="([^"]+)"', src):
+            assert "." not in bare, f"{server} tool name has an invalid dot: {bare!r}"
+            names.add(f"mcp__{server}__{bare}")
+    # specialist: bare names are the first element of each _TOOL_KINDS tuple
+    import importlib.util
     spec = importlib.util.spec_from_file_location(
         "specialist_server", mcp_dir / "specialist_server.py"
     )
     specialist_mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(specialist_mod)
-    specialist_tools = {name for name, _, _ in specialist_mod._TOOL_KINDS}
+    for bare, _kind, _desc in specialist_mod._TOOL_KINDS:
+        assert "." not in bare, f"specialist tool name has an invalid dot: {bare!r}"
+        names.add(f"mcp__specialist__{bare}")
+    return names
 
-    # Load memory_server and extract tool names from list_tools
-    spec = importlib.util.spec_from_file_location(
-        "memory_server", mcp_dir / "memory_server.py"
-    )
-    memory_mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(memory_mod)
-    # Read tool names from the source code of list_tools handler
-    # (since list_tools is async and we can't easily call it, extract from the tool definitions)
-    memory_tools = {
-        "memory.search_okf_for_generate",
-        "memory.get_repair_policy",
-        "memory.get_discriminator_evidence",
-        "memory.record_proposal",
-        "memory.scope_check",
-    }
 
-    # Load verify_server and extract tool names from list_tools
-    spec = importlib.util.spec_from_file_location(
-        "verify_server", mcp_dir / "verify_server.py"
-    )
-    verify_mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(verify_mod)
-    # Extract from the source code (since list_tools is async)
-    verify_tools = {
-        "verify.run",
-        "verify.confirm_if_available",
-    }
+def test_prompt_tool_refs_match_registered_tools():
+    """Every `mcp__server__tool` the prompts reference must be a real exposed tool,
+    and the names must be dot-free (or Claude Code never registers them)."""
+    prompts_dir = Path(__file__).resolve().parents[1] / "prompts"
+    all_text = (prompts_dir / "system.md").read_text() + "\n" + (prompts_dir / "kickoff.md").read_text()
 
-    all_registered = memory_tools | verify_tools | specialist_tools
+    refs = _extract_tool_refs(all_text)
+    registered = _registered_mcp_names()
 
-    bad_refs = refs - all_registered
+    assert registered, "no MCP tools derived from server modules"
+    assert refs, "prompts reference no mcp__ tools — agent cannot discover them"
+
+    bad_refs = refs - registered
     assert not bad_refs, (
         f"Prompt references tools not registered by any server: {bad_refs}\n"
-        f"All registered: {all_registered}"
+        f"All registered: {sorted(registered)}"
     )
 
 
 # ---------------------------------------------------------------------------
-# T3: Confirm gate logic tests (pure, no Docker)
+# T3: Submit-decision logic (server-authoritative; no local confirm). Pure, no Docker.
+# The runner submits any candidate that CRASHED the vul build in tier-1 and lets the
+# SERVER's official vul!=0 & fix==0 verify decide `solved`. The local vul+fix confirm
+# heuristic was dropped — it false-negatived a real solve (arvo:10400 `wrong_sink`).
 # ---------------------------------------------------------------------------
 
-def test_confirm_gate_target_match_submits():
-    """Gate: confirm available + target_match → should submit."""
-    import run as runner_mod
-    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
-
-    verdict = RuntimeVerdict(
-        failure_class="generic_crash", crash_type="heap-buffer-overflow",
-        sink_fn="parse_header", sink_loc="parser.c:128", parser_reached=True,
-        target_likelihood="high", output_excerpt="..."
+def _verdict(failure_class, target_likelihood, **kw):
+    from mneme.verify_core import RuntimeVerdict
+    return RuntimeVerdict(
+        failure_class=failure_class, crash_type=kw.get("crash_type"),
+        sink_fn=kw.get("sink_fn"), sink_loc=kw.get("sink_loc"),
+        parser_reached=kw.get("parser_reached"),
+        target_likelihood=target_likelihood, output_excerpt=kw.get("output_excerpt", ""),
     )
-    confirm = ConfirmVerdict(available=True, both_crash=False, post_patch_crash=False, target_match=True)
 
-    # We need a fake candidate file
+
+def _gate(verdict):
+    """Run _should_submit_on_crash against a real temp candidate file."""
+    import run as runner_mod
     import tempfile, os
     with tempfile.NamedTemporaryFile(delete=False) as f:
         f.write(b"poc")
         candidate_path = f.name
     try:
-        should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
-        assert should_submit is True
-        assert reason == "confirm_target_match"
+        return runner_mod._should_submit_on_crash(candidate_path, verdict)
     finally:
         os.unlink(candidate_path)
 
 
-def test_confirm_gate_both_crash_does_not_submit():
-    """Gate: confirm available + both_crash → do NOT submit."""
+def test_gate_generic_crash_submits():
+    should_submit, reason = _gate(_verdict("generic_crash", "high"))
+    assert should_submit is True and reason == "crash_submit"
+
+
+def test_gate_wrong_sink_still_submits():
+    """Regression: wrong_sink crashed the vul build, so it MUST submit and let the
+    server decide — the old local-confirm gate wrongly blocked this (arvo:10400)."""
+    should_submit, reason = _gate(_verdict("wrong_sink", "medium", sink_fn="mng_get_long"))
+    assert should_submit is True and reason == "crash_submit"
+
+
+def test_gate_no_crash_does_not_submit():
+    should_submit, reason = _gate(_verdict("no_crash", "low"))
+    assert should_submit is False and "no_crash" in reason
+
+
+def test_gate_bad_format_does_not_submit():
+    should_submit, reason = _gate(_verdict("bad_format", "low"))
+    assert should_submit is False and reason == "no_crash_local_bad_format"
+
+
+def test_gate_no_candidate():
     import run as runner_mod
-    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
-    import tempfile, os
-
-    verdict = RuntimeVerdict(
-        failure_class="generic_crash", crash_type="heap-buffer-overflow",
-        sink_fn="parse_header", sink_loc="parser.c:128", parser_reached=True,
-        target_likelihood="high", output_excerpt="..."
-    )
-    confirm = ConfirmVerdict(available=True, both_crash=True, post_patch_crash=True, target_match=False)
-
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(b"poc")
-        candidate_path = f.name
-    try:
-        should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
-        assert should_submit is False
-        assert reason == "both_crash_too_generic"
-    finally:
-        os.unlink(candidate_path)
-
-
-def test_confirm_gate_unavailable_high_likelihood_submits():
-    """Gate: confirm unavailable + target_likelihood=high → submit (high-confidence fallback)."""
-    import run as runner_mod
-    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
-    import tempfile, os
-
-    verdict = RuntimeVerdict(
-        failure_class="generic_crash", crash_type="heap-buffer-overflow",
-        sink_fn="parse_header", sink_loc="parser.c:128", parser_reached=True,
-        target_likelihood="high", output_excerpt="..."
-    )
-    confirm = ConfirmVerdict(available=False)
-
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(b"poc")
-        candidate_path = f.name
-    try:
-        should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
-        assert should_submit is True
-        assert reason == "high_confidence_fallback"
-    finally:
-        os.unlink(candidate_path)
-
-
-def test_confirm_gate_unavailable_low_likelihood_does_not_submit():
-    """Gate: confirm unavailable + target_likelihood!=high → do NOT submit."""
-    import run as runner_mod
-    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
-    import tempfile, os
-
-    verdict = RuntimeVerdict(
-        failure_class="no_crash", crash_type=None,
-        sink_fn=None, sink_loc=None, parser_reached=None,
-        target_likelihood="low", output_excerpt=""
-    )
-    confirm = ConfirmVerdict(available=False)
-
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(b"poc")
-        candidate_path = f.name
-    try:
-        should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
-        assert should_submit is False
-        assert "low" in reason
-    finally:
-        os.unlink(candidate_path)
-
-
-def test_confirm_gate_no_target_match_does_not_submit():
-    """Gate: confirm available + target_match=False (no match) → do NOT submit."""
-    import run as runner_mod
-    from mneme.verify_core import RuntimeVerdict, ConfirmVerdict
-    import tempfile, os
-
-    verdict = RuntimeVerdict(
-        failure_class="generic_crash", crash_type="heap-buffer-overflow",
-        sink_fn="parse_header", sink_loc="parser.c:128", parser_reached=True,
-        target_likelihood="medium", output_excerpt="..."
-    )
-    confirm = ConfirmVerdict(available=True, both_crash=False, post_patch_crash=False, target_match=False)
-
-    with tempfile.NamedTemporaryFile(delete=False) as f:
-        f.write(b"poc")
-        candidate_path = f.name
-    try:
-        should_submit, reason = runner_mod._apply_confirm_gate(candidate_path, verdict, confirm)
-        assert should_submit is False
-        assert reason == "confirm_no_target_match"
-    finally:
-        os.unlink(candidate_path)
+    should_submit, reason = runner_mod._should_submit_on_crash(None, _verdict("generic_crash", "high"))
+    assert should_submit is False and reason == "no_candidate"
 
 
 # ---------------------------------------------------------------------------

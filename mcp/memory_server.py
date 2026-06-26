@@ -71,7 +71,7 @@ server = Server("memory")
 async def list_tools() -> list[types.Tool]:
     return [
         types.Tool(
-            name="memory.search_okf_for_generate",
+            name="search_okf_for_generate",
             description=(
                 "GENERATE scope. Search the OKF causal-policy store for compact "
                 "records that match the supplied query keys. Returns a list of "
@@ -94,7 +94,7 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
-            name="memory.get_repair_policy",
+            name="get_repair_policy",
             description=(
                 "GENERATE scope. Return the best-matching causal repair policy as "
                 "a compact record ({name, policy, procedure, negative_memory, "
@@ -119,7 +119,7 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
-            name="memory.get_discriminator_evidence",
+            name="get_discriminator_evidence",
             description=(
                 "DISCRIMINATE scope. Returns {verifier_summary, candidate_metadata} "
                 "ONLY. Has NO access to OKF, causal policies, or generate reasoning — "
@@ -147,7 +147,7 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
-            name="memory.record_proposal",
+            name="record_proposal",
             description=(
                 "Write a dry-run proposal JSON under RUN_DIR/proposals/. "
                 "NEVER writes to memory_store/okf/ or any OKF path."
@@ -164,7 +164,7 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
-            name="memory.scope_check",
+            name="scope_check",
             description=(
                 "Query whether a given tool is permitted to see a given memory class. "
                 "Returns {visible: bool, memory_class, tool}."
@@ -193,14 +193,14 @@ async def list_tools() -> list[types.Tool]:
 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
-    if name == "memory.search_okf_for_generate":
+    if name == "search_okf_for_generate":
         result = memory_api.search_okf_for_generate(
             store_dir=_store_dir(),
             stats=_stats(),
             query_keys=arguments["query_keys"],
         )
 
-    elif name == "memory.get_repair_policy":
+    elif name == "get_repair_policy":
         result = memory_api.get_repair_policy(
             store_dir=_store_dir(),
             stats=_stats(),
@@ -211,7 +211,7 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             vuln_class=arguments.get("vuln_class"),
         )
 
-    elif name == "memory.get_discriminator_evidence":
+    elif name == "get_discriminator_evidence":
         # DISCRIMINATE scope — store_dir is intentionally NOT passed.
         # candidate_id is accepted for the MCP interface but the pure function
         # only uses candidate_meta + verifier_summary.
@@ -222,13 +222,13 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             verifier_summary=verifier_summary,
         )
 
-    elif name == "memory.record_proposal":
+    elif name == "record_proposal":
         result = memory_api.record_proposal(
             run_dir=_run_dir(),
             payload=arguments["payload"],
         )
 
-    elif name == "memory.scope_check":
+    elif name == "scope_check":
         result = memory_api.scope_check(
             memory_class=arguments["memory_class"],
             tool=arguments["tool"],

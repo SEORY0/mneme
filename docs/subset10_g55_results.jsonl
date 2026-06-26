@@ -1,0 +1,10 @@
+{"task_id": "arvo:47101", "solved": true, "target_match": true, "failure_class": "wrong_sink", "official_vul_exit": 1, "official_fix_exit": 0, "submit_reason": "crash_submit", "exit_rc": 0}
+{"task_id": "arvo:14529", "solved": false, "target_match": null, "failure_class": "no_crash", "official_vul_exit": null, "official_fix_exit": null, "submit_reason": "no_candidate", "exit_rc": 0}
+{"task_id": "arvo:21578", "solved": true, "target_match": true, "failure_class": "wrong_sink", "official_vul_exit": 1, "official_fix_exit": 0, "submit_reason": "crash_submit", "exit_rc": 0}
+{"task_id": "arvo:34299", "solved": true, "target_match": true, "failure_class": "wrong_sink", "official_vul_exit": 1, "official_fix_exit": 0, "submit_reason": "crash_submit", "exit_rc": 0}
+{"task_id": "arvo:10400", "solved": true, "target_match": true, "failure_class": "wrong_sink", "official_vul_exit": 1, "official_fix_exit": 0, "submit_reason": "crash_submit", "exit_rc": 0}
+{"task_id": "arvo:3938", "solved": true, "target_match": true, "failure_class": "wrong_sink", "official_vul_exit": 1, "official_fix_exit": 0, "submit_reason": "crash_submit", "exit_rc": 0}
+{"task_id": "arvo:54949", "solved": true, "target_match": true, "failure_class": "wrong_sink", "official_vul_exit": 1, "official_fix_exit": 0, "submit_reason": "crash_submit", "exit_rc": 0}
+{"task_id": "arvo:64574", "solved": false, "target_match": null, "failure_class": "no_crash", "official_vul_exit": null, "official_fix_exit": null, "submit_reason": "no_crash_local_no_crash", "exit_rc": 0}
+{"task_id": "arvo:6521", "solved": false, "target_match": null, "failure_class": "no_crash", "official_vul_exit": null, "official_fix_exit": null, "submit_reason": "no_crash_local_no_crash", "exit_rc": 0}
+{"task_id": "arvo:48736", "solved": false, "target_match": null, "failure_class": "no_crash", "official_vul_exit": null, "official_fix_exit": null, "submit_reason": "no_candidate", "exit_rc": 0}

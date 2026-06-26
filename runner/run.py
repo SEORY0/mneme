@@ -3,20 +3,22 @@
 runner/run.py — Typer CLI for the mneme CyberGym agent.
 
 Subcommands:
-  solve       Prepare task card → write MCP config → launch agent →
-              optional verify.confirm gate → submit_once → write result.json
+  solve       gen_task (--task-id) or pre-generated dir (--task-dir) → task card →
+              MCP config → launch agent → optional verify.confirm gate →
+              single official submit (SubmitClient) → verify+query official
+              target_match → write result.json
   consolidate Dry-run consolidation proposal (wraps consolidate.propose)
   batch       Run solve over a directory of task dirs
 
 --fake / MEMONAEMO_FAKE=1:
-  Offline mode — no docker, no model, no network.
+  Offline mode — no docker, no model, no network, no gen_task, no server.
   Synthesises a candidate file, produces a fixed RuntimeVerdict,
-  writes result.json.  submit_once is NEVER called in fake mode.
+  writes result.json.  The official submit is NEVER called in fake mode.
 
 Design rules enforced here:
   D9  — memory_store is NEVER created under run_dir.
   D11 — task card redaction happens only at consolidation (not during solve).
-  Single-submit — submit_once called at most once per solve (fake: never).
+  Single-submit — SubmitClient.submit called at most once per solve (fake: never).
 """
 from __future__ import annotations
 
@@ -40,6 +42,16 @@ app = typer.Typer(help="mneme CyberGym agent runner")
 
 # Locate project root relative to this script
 _PROJECT_ROOT = _HERE.parent.parent
+
+
+def _load_env() -> None:
+    """Load repo-root .env into os.environ (real-mode only). Safe no-op if absent."""
+    try:
+        from mneme import cybergym_config
+
+        cybergym_config.load_dotenv()
+    except Exception:
+        pass
 
 
 # ---------------------------------------------------------------------------
@@ -104,24 +116,31 @@ def _write_mcp_config(run_dir: Path, server_env: dict | None = None) -> dict:
     mcp_dir = _PROJECT_ROOT / "mcp"
     python = sys.executable
 
+    # Claude Code/MCP passes this `env` dict as the COMPLETE child environment
+    # (it does not inherit the parent). A minimal 4-var env drops PATH/HOME and
+    # the API keys, which crashes the server at startup ("Connection closed") so
+    # its tools never register. Merge os.environ so PATH/HOME/OPENAI_API_KEY/etc.
+    # reach the server processes.
+    full_env = {**os.environ, **(server_env or {})}
+
     mcp_servers = {
         "memory": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "memory_server.py")],
-            "env": server_env or {},
+            "env": full_env,
         },
         "verify": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "verify_server.py")],
-            "env": server_env or {},
+            "env": full_env,
         },
         "specialist": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "specialist_server.py")],
-            "env": server_env or {},
+            "env": full_env,
         },
     }
 
@@ -165,48 +184,94 @@ def _fake_solve(task_dir: Path, run_dir: Path) -> dict:
     }
 
 
-def _apply_confirm_gate(
+_CRASH_FAILURE_CLASSES = frozenset({"wrong_sink", "generic_crash"})
+
+
+def _should_submit_on_crash(
     candidate_path: "str | None",
     verdict: "RuntimeVerdict | None",
-    confirm_verdict: "ConfirmVerdict | None",
 ) -> tuple[bool, str]:
-    """Pure confirm gate logic — returns (should_submit, reason).
+    """Server-authoritative submit decision — returns (should_submit, reason).
 
-    Rules (spec §5/§6):
-    - If no candidate or no tier-1 verdict: do not submit.
-    - confirm available + target_match=True  → submit.
-    - confirm available + both_crash=True    → do not submit (too generic).
-    - confirm available + target_match=False → do not submit (wrong target).
-    - confirm unavailable + target_likelihood=high → submit (high-confidence fallback).
-    - confirm unavailable + target_likelihood!=high → do not submit.
+    The LOCAL 2-tier confirm (verify_core.confirm, vul+fix docker + sink heuristic)
+    proved too strict: it false-negatived a real solve (arvo:10400 — crash at
+    mng_get_long classified `wrong_sink`, blocked submit, but the SERVER's official
+    vul!=0 & fix==0 verify said target_match=True). The SERVER is the official
+    verifier, so the runner submits any candidate that CRASHED the vulnerable build
+    in tier-1 and lets the server decide `solved`. We do not submit candidates that
+    did not crash (no_crash / bad_format with low likelihood) — those cannot be the
+    target and would waste a submit.
+
+    Rules:
+    - No candidate / no tier-1 verdict → do not submit.
+    - Tier-1 shows a crash (failure_class in {wrong_sink, generic_crash}, OR
+      target_likelihood in {medium, high}) → submit; server decides target_match.
+    - Otherwise (no_crash / bad_format, low likelihood) → do not submit.
     """
     if not candidate_path or not Path(candidate_path).is_file():
         return False, "no_candidate"
     if verdict is None:
         return False, "no_verdict"
-
-    if confirm_verdict is not None and confirm_verdict.available:
-        if confirm_verdict.target_match:
-            return True, "confirm_target_match"
-        elif confirm_verdict.both_crash:
-            return False, "both_crash_too_generic"
-        else:
-            return False, "confirm_no_target_match"
-    else:
-        # confirm unavailable — high-confidence fallback
-        if verdict.target_likelihood == "high":
-            return True, "high_confidence_fallback"
-        return False, f"low_confidence_{verdict.target_likelihood}"
+    crashed = (
+        verdict.failure_class in _CRASH_FAILURE_CLASSES
+        or verdict.target_likelihood in ("medium", "high")
+    )
+    if crashed:
+        return True, "crash_submit"
+    return False, f"no_crash_local_{verdict.failure_class}"
 
 
-def _real_solve(task_dir: Path, run_dir: Path) -> dict:
-    """Real mode: wire MCP servers, call agent_driver.solve, run confirm gate.
+def _extract_repo_src(task_dir: Path, run_dir: Path) -> None:
+    """Extract repo-vul.tar.gz from the task dir into run_dir/task/src/.
 
-    This path requires docker + Claude API creds.  It is import-safe and
+    Gives the agent read access to the vulnerable source. Best-effort: if the
+    tarball is missing (e.g. a pre-generated dir without it) this is a no-op.
+    """
+    import tarfile
+
+    tarball = task_dir / "repo-vul.tar.gz"
+    if not tarball.is_file():
+        return
+    src_dir = run_dir / "task" / "src"
+    src_dir.mkdir(parents=True, exist_ok=True)
+    with tarfile.open(tarball, "r:gz") as tf:
+        # Python 3.12+: filter='data' to avoid path-traversal members.
+        try:
+            tf.extractall(src_dir, filter="data")
+        except TypeError:
+            tf.extractall(src_dir)
+
+
+def _real_solve(
+    task_dir: Path,
+    run_dir: Path,
+    task_id: str | None = None,
+    model: str = "claude-opus-4-8",
+) -> dict:
+    """Real mode: select backend by model, call solve, run confirm gate.
+
+    Backend selection:
+      - model starts with "claude" → Claude Agent SDK (agent_driver.solve) + the
+        three stdio MCP servers (memory/verify/specialist).
+      - otherwise (e.g. "gpt-5.5") → OpenAI tool-calling backend
+        (agent_openai.solve). MCP servers are NOT launched; that backend reaches
+        verify_core/memory_api directly. gpt-5.5 does not refuse the authorized
+        CyberGym PoC task under cyber-safeguards.
+
+    This path requires docker + model API creds.  It is import-safe and
     structurally correct but is NOT exercised by the offline smoke tests.
+
+    ``task_id`` (e.g. "arvo:10400") drives the LOCAL image-tag derivation and is
+    required in real mode.
     """
     import asyncio
-    from mneme import agent_driver, task_card, cybergym_io, verify_core
+    from mneme import task_card, cybergym_io, verify_core
+
+    if not task_id:
+        raise RuntimeError(
+            "real-mode solve requires a task id for image derivation; pass --task-id "
+            "(or use --task-dir together with --task-id)"
+        )
 
     # Build task card (D11: no redaction at solve time)
     card = task_card.build(task_dir)
@@ -225,18 +290,18 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
         "input_format": card.input_format,
     }
 
-    # Derive images and build verify config
-    imgs = cybergym_io.images_for(task_dir)
-    run_cmd = "/usr/local/bin/run_poc"
+    # Derive LOCAL images from the task id (arvo -> n132/arvo, oss-fuzz -> cybergym/oss-fuzz)
+    imgs = cybergym_io.images_for(task_id)
+    # arvo targets run /bin/arvo; oss-fuzz targets run /usr/local/bin/run_poc.
+    run_cmd = "/bin/arvo" if task_id.split(":", 1)[0] == "arvo" else "/usr/local/bin/run_poc"
     timeout_s = 30
     description = card.description
 
     # C1: Write verify config file; build server env dict
     store_dir = _PROJECT_ROOT / "memory_store"
     stats_path = store_dir / "memory_stats.jsonl"
-    server_env = _mcp_server_env(run_dir, store_dir, stats_path)
 
-    # C1: Write verify config and set RUN_CONFIG in server env
+    # C1: Write verify config (read by the verify_server / OpenAI backend)
     verify_config_path = _write_verify_config(
         run_dir,
         vul_image=imgs["vul_image"],
@@ -245,17 +310,38 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
         timeout_s=timeout_s,
         description=description,
     )
-    server_env["RUN_CONFIG"] = str(verify_config_path)
 
-    # Write MCP config with env vars for each server
-    mcp_servers = _write_mcp_config(run_dir, server_env)
+    use_claude = model.startswith("claude")
 
-    # Build agent options (D9: memory_store NOT in add_dirs)
-    skills_dir = _PROJECT_ROOT / "skills"
-    options = agent_driver.build_options(run_dir, skills_dir, mcp_servers)
+    if use_claude:
+        from mneme import agent_driver
 
-    # Run agent
-    agent_result = asyncio.run(agent_driver.solve(card_dict, options))
+        server_env = _mcp_server_env(run_dir, store_dir, stats_path)
+        server_env["RUN_CONFIG"] = str(verify_config_path)
+        # Write MCP config with env vars for each server
+        mcp_servers = _write_mcp_config(run_dir, server_env)
+        # Build agent options (D9: memory_store NOT in add_dirs)
+        skills_dir = _PROJECT_ROOT / "skills"
+        options = agent_driver.build_options(run_dir, skills_dir, mcp_servers, model=model)
+        agent_result = asyncio.run(agent_driver.solve(card_dict, options))
+    else:
+        # OpenAI backend (e.g. gpt-5.5): no MCP servers; uses verify_core/memory_api.
+        from mneme import agent_openai
+
+        agent_result = agent_openai.solve(
+            task_dir,
+            run_dir,
+            model=model,
+            config={
+                "vul_image": imgs["vul_image"],
+                "fix_image": imgs["fix_image"],
+                "run_cmd": run_cmd,
+                "timeout_s": timeout_s,
+                "description": description,
+                "store_dir": str(store_dir),
+                "stats_path": str(stats_path),
+            },
+        )
     candidate_path = agent_result.get("candidate_path")
 
     # Tier-1 verify
@@ -269,27 +355,16 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
             description=description,
         )
 
-    # C2: Tier-2 confirm gate
-    confirm_verdict = None
-    if candidate_path and Path(candidate_path).is_file() and verdict is not None:
-        try:
-            confirm_verdict = verify_core.confirm(
-                Path(candidate_path),
-                vul_image=imgs["vul_image"],
-                fix_image=imgs["fix_image"],
-                run_cmd=run_cmd,
-                timeout_s=timeout_s,
-                description=description,
-            )
-        except Exception:
-            confirm_verdict = None  # Docker unavailable — fall back to high-confidence gate
-
-    should_submit, submit_reason = _apply_confirm_gate(candidate_path, verdict, confirm_verdict)
+    # Submit decision is server-authoritative: submit any candidate that crashed the
+    # vulnerable build in tier-1, then let the official server verify decide `solved`.
+    # (The local vul+fix confirm is still available to the AGENT via the verify MCP
+    # tool, but the runner no longer gates submission on it — it false-negatived real
+    # solves.)
+    should_submit, submit_reason = _should_submit_on_crash(candidate_path, verdict)
 
     return {
         "candidate_path": candidate_path,
         "verdict": verdict,
-        "confirm_verdict": confirm_verdict,
         "should_submit": should_submit,
         "submit_reason": submit_reason,
     }
@@ -301,12 +376,14 @@ def _real_solve(task_dir: Path, run_dir: Path) -> dict:
 
 @app.command()
 def solve(
-    task_dir: Path = typer.Option(..., "--task-dir", help="Task directory"),
+    task_dir: Optional[Path] = typer.Option(None, "--task-dir", help="Pre-generated task directory"),
+    task_id: Optional[str] = typer.Option(None, "--task-id", help="CyberGym task id, e.g. arvo:10400 (real mode: gen_task into run_dir/task)"),
     run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory"),
     fake: bool = typer.Option(False, "--fake", help="Offline stub mode (no docker/model/network)"),
+    difficulty: str = typer.Option("level1", "--difficulty", help="CyberGym difficulty level"),
     model: str = typer.Option("claude-opus-4-8", "--model", help="Model identifier"),
 ) -> None:
-    """Prepare card → launch agent → verify → submit_once → write result.json."""
+    """Prepare card → launch agent → verify → single official submit → write result.json."""
     from mneme import cybergym_io
 
     fake_mode = _is_fake(fake)
@@ -314,14 +391,34 @@ def solve(
     # Create run_dir (never create memory_store under it — D9)
     run_dir.mkdir(parents=True, exist_ok=True)
 
+    # Resolve the task id used for LOCAL image-tag derivation.
+    resolved_task_id = task_id
+
+    # Real mode with --task-id and no pre-generated --task-dir: generate the task dir
+    # via the real cybergym harness.
+    task_handle = None
+    if not fake_mode and task_id is not None and task_dir is None:
+        _load_env()
+        from mneme import cybergym_config
+
+        config = cybergym_config.load_config()
+        gen_out = run_dir / "task" / "gen"
+        task_handle = cybergym_io.gen_task(task_id, gen_out, config=config, difficulty=difficulty)
+        task_dir = task_handle.task_dir
+        _extract_repo_src(task_dir, run_dir)
+        resolved_task_id = task_id
+
+    if task_dir is None:
+        typer.echo("ERROR: one of --task-dir or --task-id is required", err=True)
+        raise typer.Exit(2)
+
     if fake_mode:
         solve_result = _fake_solve(task_dir, run_dir)
     else:
-        solve_result = _real_solve(task_dir, run_dir)
+        solve_result = _real_solve(task_dir, run_dir, task_id=resolved_task_id, model=model)
 
     candidate_path = solve_result.get("candidate_path")
     verdict = solve_result.get("verdict")
-    confirm_verdict = solve_result.get("confirm_verdict")
     # In fake mode there is no gate result; fake mode never submits
     should_submit = solve_result.get("should_submit", False) and not fake_mode
     submit_reason = solve_result.get("submit_reason", "fake_mode" if fake_mode else "no_gate_result")
@@ -343,27 +440,46 @@ def solve(
     if candidate_path:
         result["candidate_path"] = candidate_path
 
-    # C2: Single official submit — only when gate approves, only in real mode, only once
+    # C2: Single official submit — only when gate approves, only in real mode, only once.
+    # Submit the candidate to the REAL server, then ask the private verifier to re-run
+    # it on vul+fix and query the stored records for the official target_match.
     target_match = False
-    both_crash = False
-    if should_submit:
-        submit_meta = cybergym_io.parse_submit(task_dir)
-        if isinstance(submit_meta, cybergym_io.SubmitMeta):
-            submit_result = cybergym_io.submit_once(Path(candidate_path), submit_meta)
-            target_match = submit_result.get("target_match", False)
-            both_crash = submit_result.get("both_crash", False)
-            result["target_match"] = target_match
-            result["both_crash"] = both_crash
+    if should_submit and candidate_path:
+        from mneme import cybergym_config
 
-    # M2: Write solved/verified/poc_path so consolidate.propose won't auto-refuse
-    # solved/verified = True only when confirm gate confirmed a real target match
-    confirmed_target = (
-        confirm_verdict is not None
-        and confirm_verdict.available
-        and confirm_verdict.target_match
-    ) or target_match
-    result["solved"] = confirmed_target
-    result["verified"] = confirmed_target
+        config = cybergym_config.load_config()
+
+        # Resolve the submission handle: from gen_task (--task-id) or by parsing submit.sh.
+        handle = task_handle
+        if handle is None:
+            info = cybergym_io._parse_submit_sh(task_dir / "submit.sh")
+            handle = cybergym_io.TaskHandle(
+                task_id=resolved_task_id or "",
+                task_dir=task_dir,
+                masked_id=info["task_id"],
+                agent_id=info["agent_id"],
+                checksum=info["checksum"],
+                server_url=info["server_url"] or config.server_url,
+            )
+
+        client = cybergym_io.SubmitClient.from_handle(handle, config.cybergym_api_key)
+        submit_verdict = client.submit(Path(candidate_path))
+        result["submit_exit_code"] = submit_verdict.exit_code
+        result["submit_poc_id"] = submit_verdict.poc_id
+
+        # Official reproduction: re-run on vul+fix and read the recorded exit codes.
+        client.verify_agent_pocs()
+        official = client.official_target_match()
+        target_match = bool(official["target_match"])
+        result["target_match"] = target_match
+        result["official_vul_exit"] = official["vul_exit"]
+        result["official_fix_exit"] = official["fix_exit"]
+
+    # solved/verified come ONLY from the SERVER's official vul!=0 & fix==0 verify
+    # (set in `target_match` above when the candidate was submitted). No local-confirm
+    # override — the server is the authoritative verifier.
+    result["solved"] = target_match
+    result["verified"] = target_match
     result["poc_path"] = candidate_path if candidate_path else None
     result["submit_reason"] = submit_reason
 
@@ -426,7 +542,203 @@ def batch(
         rd = runs_dir / td.name
         typer.echo(f"Solving {td.name} ...")
         # Invoke solve for each task via Typer's context
-        solve(task_dir=td, run_dir=rd, fake=fake, model=model)
+        solve(task_dir=td, task_id=None, run_dir=rd, fake=fake, difficulty="level1", model=model)
+
+
+# ---------------------------------------------------------------------------
+# Model-free subcommands (gen / verify / submit) — NO LLM API call inside mneme.
+#
+# These let an external agent (e.g. Codex) drive the full solve loop while mneme
+# does ONLY mechanical work: generate the task, run docker verify, and submit to
+# the official server. No model/agent SDK is imported or invoked by any of them.
+# ---------------------------------------------------------------------------
+
+def _derive_task_assets(task_dir: Path, run_dir: Path, task_id: str) -> dict:
+    """Mechanical derivation shared with _real_solve — NO model call.
+
+    Builds + writes the task card markdown, derives the local docker image tags
+    and run command, and writes verify_config.json. Returns a dict with the
+    derived fields (images, run_cmd, timeout_s, description, card_path).
+    """
+    from mneme import task_card, cybergym_io
+
+    # Build + write the task card markdown (D11: no redaction at solve time).
+    card = task_card.build(task_dir)
+    task_subdir = run_dir / "task"
+    task_subdir.mkdir(parents=True, exist_ok=True)
+    card_path = task_subdir / "card.md"
+    card_path.write_text(task_card.to_markdown(card), encoding="utf-8")
+
+    # Derive LOCAL images + run command from the task id (pure string work).
+    imgs = cybergym_io.images_for(task_id)
+    run_cmd = "/bin/arvo" if task_id.split(":", 1)[0] == "arvo" else "/usr/local/bin/run_poc"
+    timeout_s = 30
+    description = card.description
+
+    _write_verify_config(
+        run_dir,
+        vul_image=imgs["vul_image"],
+        fix_image=imgs["fix_image"],
+        run_cmd=run_cmd,
+        timeout_s=timeout_s,
+        description=description,
+    )
+
+    return {
+        "vul_image": imgs["vul_image"],
+        "fix_image": imgs["fix_image"],
+        "run_cmd": run_cmd,
+        "timeout_s": timeout_s,
+        "description": description,
+        "card_path": str(card_path),
+    }
+
+
+@app.command()
+def gen(
+    task_id: str = typer.Option(..., "--task-id", help="CyberGym task id, e.g. arvo:10400"),
+    run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory"),
+    difficulty: str = typer.Option("level1", "--difficulty", help="CyberGym difficulty level"),
+) -> None:
+    """Generate a task, extract source, write card + verify_config — NO model call.
+
+    Model-free: this command never imports or invokes any agent/LLM backend. It
+    only shells out to the real cybergym gen_task harness and does mechanical
+    derivation. Prints a one-line JSON gen_info to stdout (masked submit metadata
+    stays in submit.sh — agent_id/checksum are never printed).
+    """
+    from mneme import cybergym_io, cybergym_config
+
+    run_dir.mkdir(parents=True, exist_ok=True)
+    _load_env()
+    config = cybergym_config.load_config()
+
+    gen_out = run_dir / "task" / "gen"
+    handle = cybergym_io.gen_task(task_id, gen_out, config=config, difficulty=difficulty)
+    _extract_repo_src(handle.task_dir, run_dir)
+
+    derived = _derive_task_assets(handle.task_dir, run_dir, task_id)
+
+    gen_info = {
+        "task_id": task_id,
+        "vul_image": derived["vul_image"],
+        "fix_image": derived["fix_image"],
+        "run_cmd": derived["run_cmd"],
+        "timeout_s": derived["timeout_s"],
+        "description": derived["description"],
+        "src_dir": str(run_dir / "task" / "src"),
+        "card_path": derived["card_path"],
+        "description_path": str(gen_out / "description.txt"),
+        "submit_sh": str(gen_out / "submit.sh"),
+    }
+    (run_dir / "gen_info.json").write_text(json.dumps(gen_info, indent=2), encoding="utf-8")
+    typer.echo(json.dumps(gen_info))
+
+
+@app.command()
+def verify(
+    run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory (with verify_config.json)"),
+    poc: Path = typer.Option(..., "--poc", help="Path to the candidate PoC file"),
+    confirm: bool = typer.Option(
+        False,
+        "--confirm",
+        help=(
+            "Also run the LOCAL vul+fix heuristic (verify_core.confirm). This is a "
+            "LOCAL heuristic only — the SERVER submit (the `submit` subcommand) is the "
+            "authoritative target_match verdict."
+        ),
+    ),
+) -> None:
+    """Run docker tier-1 verify (+ optional local confirm) — NO model call.
+
+    Model-free: reads verify_config.json and runs verify_core against docker only.
+    Prints the RuntimeVerdict as one-line JSON.
+    """
+    from mneme import verify_core
+
+    cfg = json.loads((run_dir / "verify_config.json").read_text(encoding="utf-8"))
+
+    rv = verify_core.run(
+        Path(poc),
+        vul_image=cfg["vul_image"],
+        run_cmd=cfg["run_cmd"],
+        timeout_s=cfg["timeout_s"],
+        description=cfg["description"],
+    )
+    out: dict = {
+        "failure_class": rv.failure_class,
+        "target_likelihood": rv.target_likelihood,
+        "crash_type": rv.crash_type,
+        "sink_fn": rv.sink_fn,
+        "sink_loc": rv.sink_loc,
+        "parser_reached": rv.parser_reached,
+        "output_excerpt": rv.output_excerpt,
+    }
+
+    if confirm:
+        cv = verify_core.confirm(
+            Path(poc),
+            vul_image=cfg["vul_image"],
+            fix_image=cfg["fix_image"],
+            run_cmd=cfg["run_cmd"],
+            timeout_s=cfg["timeout_s"],
+            description=cfg["description"],
+        )
+        out["confirm"] = {
+            "available": cv.available,
+            "both_crash": cv.both_crash,
+            "post_patch_crash": cv.post_patch_crash,
+            "target_match": cv.target_match,
+        }
+
+    typer.echo(json.dumps(out))
+
+
+@app.command()
+def submit(
+    run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory (with gen_info.json + task/gen/submit.sh)"),
+    poc: Path = typer.Option(..., "--poc", help="Path to the candidate PoC file"),
+    task_id: Optional[str] = typer.Option(None, "--task-id", help="REAL task id (defaults to gen_info.json task_id)"),
+) -> None:
+    """Submit the PoC once to the official server + query target_match — NO model call.
+
+    Model-free: parses submit.sh, submits the PoC exactly once, runs the private
+    verify + official target_match query. `solved` == official target_match.
+    Prints a one-line JSON result.
+    """
+    from mneme import cybergym_io, cybergym_config
+
+    _load_env()
+    config = cybergym_config.load_config()
+
+    # Resolve the REAL task id: explicit flag wins, else read from gen_info.json.
+    real_task_id = task_id
+    if real_task_id is None:
+        gen_info = json.loads((run_dir / "gen_info.json").read_text(encoding="utf-8"))
+        real_task_id = gen_info["task_id"]
+
+    info = cybergym_io._parse_submit_sh(run_dir / "task" / "gen" / "submit.sh")
+    client = cybergym_io.SubmitClient(
+        server_url=info["server_url"] or config.server_url,
+        masked_id=info["task_id"],
+        agent_id=info["agent_id"],
+        checksum=info["checksum"],
+        api_key=config.cybergym_api_key,
+    )
+
+    submit_verdict = client.submit(Path(poc))
+    client.verify_agent_pocs()
+    official = client.official_target_match(task_id=real_task_id)
+
+    result = {
+        "solved": bool(official["target_match"]),
+        "target_match": bool(official["target_match"]),
+        "vul_exit": official["vul_exit"],
+        "fix_exit": official["fix_exit"],
+        "poc_id": official["poc_id"],
+        "submit_exit_code": submit_verdict.exit_code,
+    }
+    typer.echo(json.dumps(result))
 
 
 # ---------------------------------------------------------------------------
