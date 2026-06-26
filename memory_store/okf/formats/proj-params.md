@@ -23,3 +23,14 @@ The harness consumes a small text envelope: a source projection line, a destinat
 
 # Citations
 - Distilled from a server-verified round solve with this format.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- The standard proj fuzzer expects newline-delimited source and destination projection definitions followed by either textual coordinates or a binary-coordinate marker. Projection parameters are plus-prefixed key/value tokens parsed by the proj initializer.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

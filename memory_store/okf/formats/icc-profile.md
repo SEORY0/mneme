@@ -30,3 +30,14 @@ round recovery policies
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- ICC profiles have a fixed-size header followed by a tag table of signature, data location, and size entries. Tone-curve tags can use the parametric curve type, which stores a curve type selector and fixed-point parameters; different selectors require different parameter counts.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

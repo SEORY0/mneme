@@ -19,3 +19,14 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- ISOBMFF boxes use a big-endian size followed by a four-character type. Container boxes such as moov contain child boxes whose declared sizes are counted against the parent remaining size. A valid MP4-family envelope normally starts with an ftyp box and a moov box; the moov box usually contains an mvhd movie header before track or metadata children.
+
+### Harness Links
+- [[libfuzzer-afl-file-wrapper]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

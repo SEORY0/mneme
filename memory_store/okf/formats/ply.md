@@ -33,3 +33,14 @@ Keep ordinary vertex data valid, then violate only the range-grid reference rela
 
 ## Round 6 Verified Contract
 - [[ply-iostreambuffer-overlong-line]]: Official verification showed that the accepted format skeleton should be preserved while one parser-read logical line violates the relevant fixed-buffer invariant. This is a causal recovery claim backed by official vulnerable/fixed verification.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- PLY inputs begin with a magic line, a format declaration, header records such as comments or element/property declarations, an end-header marker, and then either ASCII rows or binary element data. Assimp selection is content-based in this harness, so the earliest bytes must be recognizable as PLY even when later header syntax is malformed. Binary PLY parsing reads header lines through IOStreamBuffer before switching to block reads for element data.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

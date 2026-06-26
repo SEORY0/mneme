@@ -81,3 +81,17 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- The harness consumes raw PDF bytes. A minimal catalog/pages/page/content structure is enough to reach rendering. PDF image data can be supplied either as inline images in a content stream or as external XObject images with masks/soft masks; negative image dimensions are rejected before the unpack path.
+- A PDF can enter repair mode when its xref information is absent or invalid. Object streams are indirect stream objects whose dictionary declares object count, first-object area, and stream length; malformed metadata can be encountered during repair scanning.
+- PDF reachability for Ghostscript requires a recognizable PDF header, catalog, pages tree, page object with media box, page resources including fonts, and a content stream. Ghostscript can recover from some non-canonical object ordering and stream/xref inconsistencies, but the page must still be renderable. Text operations are postfix content-stream operators inside BT/ET; TJ consumes an array whose elements are strings or numeric glyph displacements.
+- The PDF needs a valid object graph with catalog, page tree, page resources, content stream, shading resource, and calculator function stream. Rendering the page, not merely parsing objects, is what executes the function program.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

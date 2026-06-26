@@ -33,3 +33,14 @@ options once, then parses the buffer in parse-only mode.
 
 ## Round {ROUND} Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 8 Input Contract
+- The libarchive AFL wrapper feeds the raw file bytes to an archive reader with all formats and filters enabled, then iterates headers and drains entry data through a fixed-size read buffer. There is no mode byte or FuzzedDataProvider carving.
+- The harness intercepts one fixed config filename and serves the raw fuzz bytes through an in-memory FILE object. It caps input size, disables real filesystem writes, disables normal config loading, and starts wget2 with a command-line option pointing at the intercepted config.
+
+## Round 8 Format Links
+- [[rar5]]
+- [[wget-config]]
+
+## Round 8 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

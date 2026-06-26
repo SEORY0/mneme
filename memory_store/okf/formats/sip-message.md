@@ -20,3 +20,14 @@ line. This parser path scans those leading separators before normal message-line
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- A useful input must be a SIP request/status message with a valid start line and CRLF-delimited headers. The target parameter parser is entered from a To header after a URI/body has ended and a semicolon starts parameters; tag and general parameters have distinct parser states.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -16,3 +16,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 - Table-directory validity is a reachability gate.
 - Shaping bugs often need a real seed rather than a synthetic minimal font.
 - Composite glyph positioning should be mutated without destroying glyph selection.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- The input is an OpenType/TrueType-style font blob. The relevant path is HarfBuzz subsetting of variation data: the font must contain variation-store structures that survive parsing, enter subsetting, and then fail serialization at the specific point where later fields are still inspected.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

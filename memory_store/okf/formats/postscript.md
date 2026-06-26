@@ -23,3 +23,14 @@ PostScript inputs are programs, not raw stream objects. A useful minimal carrier
 
 # Citations
 - Distilled from a server-verified round solve with this format.
+
+## Round 8 Factual Contract
+
+### Schema / Invariants
+- The parser accepts raw PostScript/EPS streams with DSC comments such as document header, page count, bounding boxes, page records, and showpage content. DSC fields may use deferred or per-page forms, but well-formed minimal documents are handled cleanly.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

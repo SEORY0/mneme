@@ -1,0 +1,10 @@
+arvo:1580
+arvo:20800
+arvo:22528
+arvo:32356
+arvo:37443
+arvo:44151
+arvo:50589
+arvo:59185
+arvo:64960
+arvo:7318
