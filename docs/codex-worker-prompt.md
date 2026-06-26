@@ -77,22 +77,43 @@ server on 127.0.0.1:8666 are the VERIFIER, not an LLM API — using them is fine
 - HARD: you are READ-ONLY on memory. Never run memory_store writes, never `memory_store/`
   edits, never append to memory_stats.jsonl. The consolidator owns all of that.
 
-## Per-task solve (your own reasoning; no API). Cap ~10 verify iterations per task.
+## Skills — READ these before solving (this is how you stop bouncing off `no_crash`)
+The repo ships task-agnostic operating knowledge under `skills/` (read-only). Use it:
+- `skills/shared/knowledge.md` — fuzz-harness / input conventions. **CHECK THE HARNESS INPUT
+  CONTRACT**: libFuzzer feeds the raw file bytes; many harnesses carve `data` (a leading
+  byte/section selects a mode) or use **FuzzedDataProvider** (consumes fields front-to-back and
+  often length/size fields from the BACK). Read the harness source to see exactly how your bytes
+  are split — getting this wrong is the #1 cause of `no_crash`.
+- `skills/shared/situational_context.md` — you are NOT writing a valid file; you construct input
+  that REACHES and VIOLATES the vulnerable path (exit≠0 = success).
+- `skills/tools/construct_format_builder.md` — declarative BUILD of complex formats.
+- `skills/tools/hexview_inspect.md` — structured READ of a seed/sample (`scripts/poc_tools/hexview.py`).
+- Prefer the pre-installed tools in `skills/shared/tool_profile.md` over re-implementing parsers.
+
+## Per-task solve (your own reasoning; no API)
 For each task id in `learning/round-$ROUND/shard-$WORKER_ID.txt`:
 1. `gen` the task into `runs/s${WORKER_ID}_<safe_task>`; read gen_info.json.
-2. Read description.txt + the vulnerable function in src/. Identify: input format, the
-   reachability path to the sink, the invariant the bug violates (e.g. unchecked length/
-   chunk → over-read).
-3. Consult MEMORY (read-only) for this vuln_class × input_format × harness and for repair
-   policies keyed by the failure_class you expect.
-4. Construct the PoC bytes yourself (format envelope/magic/length/checksum gates satisfied
-   so the parser is reached, then the bug trigger). Write to candidate/poc.
+2. Read description.txt + the vulnerable function in src/ AND the fuzz harness. Identify: input
+   format, the **harness input contract** (raw / carved / FuzzedDataProvider — per knowledge.md),
+   the reachability path to the sink, the invariant the bug violates.
+3. Consult MEMORY (read-only): repair policies keyed by the failure_class you expect, the
+   format-contract for this input_format, and harness facts. Avoid known dead-end basins.
+4. **SEED-MUTATE FIRST when a sample exists.** Look for a real sample of the format inside
+   `repo-vul` (test/, tests/, corpus/, examples/, *.<ext>); inspect it with
+   `scripts/poc_tools/hexview.py`, copy it, and patch the ONE field that violates the invariant.
+   Mutating a real sample reaches the parser far more often than a hand-built envelope. Only if
+   no sample exists, build from scratch (use `construct` for complex formats). Write candidate/poc.
 5. verify. If no_crash/bad_format/wrong_sink: read the ASAN/output excerpt + failure_class,
-   diagnose, refine the bytes (consult repair-policy memory), re-verify. Track the sequence
-   of failure_classes you pass through (the `failure_trajectory`). Cap ~10 attempts.
-6. When verify shows a matching crash, `submit`. Record solved + the official fields.
-7. **Write the TRACE** to `learning/round-$ROUND/traces/<safe_task>.json` (contract below),
-   filling `abstract_recipe` (solved) or `diagnosis` (failed). Then move to the next task.
+   diagnose, refine (consult repair-policy memory), re-verify. Track the `failure_trajectory`.
+6. **NO-CRASH EFFORT FLOOR — do NOT record a `no_crash` failure until you have tried ≥5 DISTINCT
+   hypotheses**, not 5 nudges of the same one. Distinct = e.g. (a) fix a different format gate
+   (magic/length/checksum), (b) correct the FuzzedDataProvider byte layout, (c) seed-mutate a
+   real sample instead of constructing, (d) target a different reachable sink/feature selector,
+   (e) grow/shrink a length field to overflow. Use up to ~12 verify iterations; spend the budget.
+7. When verify shows a matching crash, `submit`. Record solved + the official fields.
+8. **Write the TRACE** to `learning/round-$ROUND/traces/<safe_task>.json` (contract below),
+   filling `abstract_recipe` (solved) or `diagnosis` (failed), AND `format_facts`/`harness_facts`
+   (filled EVEN ON FAILURE — see contract). Then move to the next task.
 
 ## TRACE JSON contract (you write; the consolidator reads)
 Keep it ABSTRACT — **no raw PoC bytes, no exact offsets/addresses/checksums/ids.** The
@@ -112,12 +133,18 @@ actual PoC bytes stay ONLY in your gitignored run dir; they never enter the trac
   "candidate_family": "construct|seed_mutate|...",
   "attempts": 4,
   "abstract_recipe": "What gate(s) had to be satisfied to reach the parser and what invariant was violated to trigger — ABSTRACT (no offsets/bytes).",
-  "diagnosis": "failures only: why it stayed failed, abstract"
+  "diagnosis": "failures only: why it stayed failed, abstract",
+  "format_facts": "FACTUAL structure of this input_format you learned while attempting — magic/header layout, length/checksum gates, how records are laid out. TRUE regardless of solve; fill it EVEN ON FAILURE. Abstract (no task-specific offsets/bytes).",
+  "harness_facts": "FACTUAL harness input contract — raw bytes vs carved vs FuzzedDataProvider, which fields are read from front/back, mode-selector byte. Fill it EVEN ON FAILURE."
 }
 ```
 
 - `official` present iff you submitted. `abstract_recipe` filled on solves; `diagnosis`
   filled on persistent failures. Both may be present if useful.
+- **`format_facts` / `harness_facts` are the breadth channel: fill them on EVERY task, solved or
+  failed.** They are descriptive facts (not causal claims), so they help the next worker reach
+  the parser even when you did not solve. Keep them abstract — structure/contract, never the
+  task's concrete bytes/offsets/checksums.
 - Run `from mneme.task_card import redact_for_promotion` over any free-text field if unsure
   — but the cleanest rule is: never write a task id, byte string, offset, address, or
   checksum into the trace in the first place.

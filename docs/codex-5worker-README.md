@@ -32,6 +32,8 @@ memory snapshot; all promotion happens serially between rounds. Improvements com
 - `.env` at repo root with `CYBERGYM_*` (no OpenAI/Anthropic key needed).
 - Docker present with `n132/arvo:<N>-{vul,fix}` images and `/data/cybergym_data/data/arvo/<N>`.
 - The model-free CLI on this branch: `runner/run.py gen|verify|submit`.
+- Input-construction helpers installed: `pip install -e '.[poctools]'` (construct/fonttools/scapy)
+  — workers build/inspect PoC bytes with these + `scripts/poc_tools/hexview.py` (see `skills/tools/`).
 - `.venv/bin/pytest -q` green.
 
 ## No one-time setup
@@ -116,6 +118,9 @@ to scope to one round.
 - **Prequential order is load-bearing:** never learn from a task before its win/loss is
   recorded, and never re-open a prior round's traces to "re-measure" with newer memory. Order
   is the only leakage guard in mode B.
+- **Use FRESH worker sessions per round (or `/clear` + re-paste every ~3 rounds).** Reusing the
+  same Codex session across many rounds bloats its context and degrades per-task effort (observed
+  as a drop to mostly 1-attempt `no_crash` failures). A fresh session keeps effort high.
 
 ## What is committed vs gitignored
 - COMMITTED: `learning/used_tasks.txt`, `learning/round-*/shard-*.txt`,

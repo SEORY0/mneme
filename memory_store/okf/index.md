@@ -73,6 +73,11 @@ Task-agnostic, distilled patterns. Abstract only — no task ids, no concrete of
 - [raw-disassembler-buffer](formats/raw-disassembler-buffer.md)
 - [sip](formats/sip.md)
 - [zeek-raw-ip](formats/zeek-raw-ip.md)
+
+## harnesses
+<!-- input-contract facts per fuzz harness (raw / carved / FuzzedDataProvider); populated by
+     the consolidator factual breadth channel from format_facts/harness_facts traces. -->
+
 ## strategies
 - [construct](strategies/construct.md)
 - [fuzzer](strategies/fuzzer.md)

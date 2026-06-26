@@ -114,7 +114,17 @@ Process traces in a single coherent pass (no concurrency here — that's the poi
    next round's workers don't repeat it.
 3. **SUCCESS-RATE TRUTH:** maintain `memory_stats.jsonl` + success_count so success-rate
    ranking reflects MEASURED effect. Quarantine policies that fire but don't help.
-4. `redact_for_promotion` on EVERY edited text. Verify no leakage:
+4. **FACTUAL BREADTH CHANNEL (non-verified) — promote `format_facts` / `harness_facts` from
+   EVERY trace, solved or FAILED.** These are descriptive facts (format structure, gate layout,
+   FuzzedDataProvider/raw/carved harness contract), not causal claims — so they are NOT
+   verifier-gated: a failed task on format X still teaches X's structure to the next worker.
+   - `format_facts` → write/strengthen `memory_store/okf/formats/<format>.md` (Schema/Invariants).
+   - `harness_facts` → write/strengthen `memory_store/okf/harnesses/<harness>.md` (input contract:
+     raw vs carved vs FDP, front/back field order, mode-selector byte). Create `okf/harnesses/`
+     if absent; add a `## harnesses` section to `okf/index.md`.
+   - Merge into existing files (don't duplicate); keep abstract (no task ids/bytes/offsets); do
+     NOT append success rows for these (they carry no success/failure — they are facts, not policies).
+5. `redact_for_promotion` on EVERY edited text. Verify no leakage:
    `.venv/bin/python scripts/audit_leak.py memory_store/okf` (must print nothing).
 
 ## RETARGET CHECK (the immediate keep gate)
