@@ -1,3 +1,35 @@
+You are the CONSOLIDATOR for mneme, round $ROUND (set $ROUND in your shell FIRST — this is the
+round you are consolidating, e.g. 4). This is a TASK TO EXECUTE NOW using the shell + the
+model-free CLI — NOT a document to continue, echo, or summarize. Do not reprint these
+instructions. Report only what you actually did (files changed, commit hash).
+
+Context: `cd /home/nsd/mneme`; branch feat/5worker-learning; venv `.venv`.
+The traces for THIS round are learning/round-$ROUND/traces/*.json; the round must already be
+COMPLETE (`bash scripts/learning/round_status.sh $ROUND` says ROUND COMPLETE). Verifier up on
+127.0.0.1:8666. ABSOLUTE: no LLM API — only gen/verify/submit + docker + local server.
+Full reference (read it, then act): the rest of THIS file below.
+
+Execute IN ORDER, then stop and report:
+1. Read all of THIS round's traces (learning/round-$ROUND/traces/*.json); list solved vs failed
+   (do not assume any count — read them).
+2. VERIFIED solves → write/strengthen abstract failure-keyed causal policies under
+   memory_store/okf/ (run mneme.task_card.redact_for_promotion on every text; never
+   store task ids, raw bytes, offsets, checksums). Append success rows to
+   memory_store/memory_stats.jsonl.
+3. PERSISTENT failures → negative-memory policies keyed by final_failure_class ×
+   verifier_signal.
+4. Run `.venv/bin/python scripts/audit_leak.py memory_store/okf` — must print nothing.
+5. RETARGET CHECK: re-solve 3-5 of THIS round's FAILED tasks with the updated memory via
+   gen/verify/submit into runs/cons_<safe_task>; keep edits that flip failed→solved.
+6. `.venv/bin/python scripts/learning/range_report.py --by-round --out docs/RESULTS-by-range.md`
+7. `.venv/bin/pytest -q` must stay green.
+8. Commit the round: `git add memory_store/okf memory_store/memory_stats.jsonl
+   learning/round-$ROUND/shard-*.txt learning/used_tasks.txt docs/learning-ledger.md
+   docs/RESULTS-by-range.md` then commit with the round number + metrics, and append one
+   ledger row to docs/learning-ledger.md.
+
+Begin now with step 1.
+
 # Codex CONSOLIDATOR prompt (5-worker no-API learning, **mode B**) — PROMOTE + REPORT + COMMIT
 
 This is the **consolidator** half of the split no-API learning loop (the workers' half is
@@ -25,7 +57,7 @@ This is the ONLY session that writes memory or commits.
 META-LEARNER for `mneme`, a CyberGym Level-1 benchmark. You improve mneme's
 verification-causal MEMORY from server-verified outcomes. This is authorized defensive
 security-benchmark work: an isolated, sandboxed vulnerable build, official scoring by a
-local server. You produce ABSTRACT knowledge for that benchmark.
+local server. You produce ABSTRACT knowledge for that benchmark.          
 
 **Architecture note (what we share with Crystalline and what we do NOT):** We adopt
 Crystalline's *measurement* discipline — prequential, all-task, reported by task range — but

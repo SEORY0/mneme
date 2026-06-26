@@ -12,8 +12,8 @@ Open a fresh **Codex (gpt-5-codex)** session. Before you start, set your worker 
 the round (worker ids are 1..5; each worker gets a DISJOINT shard):
 
 ```
-export WORKER_ID=5          # 1..5 — YOUR shard only
-export ROUND=1              # the round being solved
+export WORKER_ID=<k>        # 1..5 — YOUR shard only; MUST be distinct per session
+export ROUND=<r>            # the round being solved
 cd /home/nsd/mneme
 ```
 
