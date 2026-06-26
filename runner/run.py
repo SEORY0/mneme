@@ -546,6 +546,202 @@ def batch(
 
 
 # ---------------------------------------------------------------------------
+# Model-free subcommands (gen / verify / submit) — NO LLM API call inside mneme.
+#
+# These let an external agent (e.g. Codex) drive the full solve loop while mneme
+# does ONLY mechanical work: generate the task, run docker verify, and submit to
+# the official server. No model/agent SDK is imported or invoked by any of them.
+# ---------------------------------------------------------------------------
+
+def _derive_task_assets(task_dir: Path, run_dir: Path, task_id: str) -> dict:
+    """Mechanical derivation shared with _real_solve — NO model call.
+
+    Builds + writes the task card markdown, derives the local docker image tags
+    and run command, and writes verify_config.json. Returns a dict with the
+    derived fields (images, run_cmd, timeout_s, description, card_path).
+    """
+    from mneme import task_card, cybergym_io
+
+    # Build + write the task card markdown (D11: no redaction at solve time).
+    card = task_card.build(task_dir)
+    task_subdir = run_dir / "task"
+    task_subdir.mkdir(parents=True, exist_ok=True)
+    card_path = task_subdir / "card.md"
+    card_path.write_text(task_card.to_markdown(card), encoding="utf-8")
+
+    # Derive LOCAL images + run command from the task id (pure string work).
+    imgs = cybergym_io.images_for(task_id)
+    run_cmd = "/bin/arvo" if task_id.split(":", 1)[0] == "arvo" else "/usr/local/bin/run_poc"
+    timeout_s = 30
+    description = card.description
+
+    _write_verify_config(
+        run_dir,
+        vul_image=imgs["vul_image"],
+        fix_image=imgs["fix_image"],
+        run_cmd=run_cmd,
+        timeout_s=timeout_s,
+        description=description,
+    )
+
+    return {
+        "vul_image": imgs["vul_image"],
+        "fix_image": imgs["fix_image"],
+        "run_cmd": run_cmd,
+        "timeout_s": timeout_s,
+        "description": description,
+        "card_path": str(card_path),
+    }
+
+
+@app.command()
+def gen(
+    task_id: str = typer.Option(..., "--task-id", help="CyberGym task id, e.g. arvo:10400"),
+    run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory"),
+    difficulty: str = typer.Option("level1", "--difficulty", help="CyberGym difficulty level"),
+) -> None:
+    """Generate a task, extract source, write card + verify_config — NO model call.
+
+    Model-free: this command never imports or invokes any agent/LLM backend. It
+    only shells out to the real cybergym gen_task harness and does mechanical
+    derivation. Prints a one-line JSON gen_info to stdout (masked submit metadata
+    stays in submit.sh — agent_id/checksum are never printed).
+    """
+    from mneme import cybergym_io, cybergym_config
+
+    run_dir.mkdir(parents=True, exist_ok=True)
+    _load_env()
+    config = cybergym_config.load_config()
+
+    gen_out = run_dir / "task" / "gen"
+    handle = cybergym_io.gen_task(task_id, gen_out, config=config, difficulty=difficulty)
+    _extract_repo_src(handle.task_dir, run_dir)
+
+    derived = _derive_task_assets(handle.task_dir, run_dir, task_id)
+
+    gen_info = {
+        "task_id": task_id,
+        "vul_image": derived["vul_image"],
+        "fix_image": derived["fix_image"],
+        "run_cmd": derived["run_cmd"],
+        "timeout_s": derived["timeout_s"],
+        "description": derived["description"],
+        "src_dir": str(run_dir / "task" / "src"),
+        "card_path": derived["card_path"],
+        "description_path": str(gen_out / "description.txt"),
+        "submit_sh": str(gen_out / "submit.sh"),
+    }
+    (run_dir / "gen_info.json").write_text(json.dumps(gen_info, indent=2), encoding="utf-8")
+    typer.echo(json.dumps(gen_info))
+
+
+@app.command()
+def verify(
+    run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory (with verify_config.json)"),
+    poc: Path = typer.Option(..., "--poc", help="Path to the candidate PoC file"),
+    confirm: bool = typer.Option(
+        False,
+        "--confirm",
+        help=(
+            "Also run the LOCAL vul+fix heuristic (verify_core.confirm). This is a "
+            "LOCAL heuristic only — the SERVER submit (the `submit` subcommand) is the "
+            "authoritative target_match verdict."
+        ),
+    ),
+) -> None:
+    """Run docker tier-1 verify (+ optional local confirm) — NO model call.
+
+    Model-free: reads verify_config.json and runs verify_core against docker only.
+    Prints the RuntimeVerdict as one-line JSON.
+    """
+    from mneme import verify_core
+
+    cfg = json.loads((run_dir / "verify_config.json").read_text(encoding="utf-8"))
+
+    rv = verify_core.run(
+        Path(poc),
+        vul_image=cfg["vul_image"],
+        run_cmd=cfg["run_cmd"],
+        timeout_s=cfg["timeout_s"],
+        description=cfg["description"],
+    )
+    out: dict = {
+        "failure_class": rv.failure_class,
+        "target_likelihood": rv.target_likelihood,
+        "crash_type": rv.crash_type,
+        "sink_fn": rv.sink_fn,
+        "sink_loc": rv.sink_loc,
+        "parser_reached": rv.parser_reached,
+        "output_excerpt": rv.output_excerpt,
+    }
+
+    if confirm:
+        cv = verify_core.confirm(
+            Path(poc),
+            vul_image=cfg["vul_image"],
+            fix_image=cfg["fix_image"],
+            run_cmd=cfg["run_cmd"],
+            timeout_s=cfg["timeout_s"],
+            description=cfg["description"],
+        )
+        out["confirm"] = {
+            "available": cv.available,
+            "both_crash": cv.both_crash,
+            "post_patch_crash": cv.post_patch_crash,
+            "target_match": cv.target_match,
+        }
+
+    typer.echo(json.dumps(out))
+
+
+@app.command()
+def submit(
+    run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory (with gen_info.json + task/gen/submit.sh)"),
+    poc: Path = typer.Option(..., "--poc", help="Path to the candidate PoC file"),
+    task_id: Optional[str] = typer.Option(None, "--task-id", help="REAL task id (defaults to gen_info.json task_id)"),
+) -> None:
+    """Submit the PoC once to the official server + query target_match — NO model call.
+
+    Model-free: parses submit.sh, submits the PoC exactly once, runs the private
+    verify + official target_match query. `solved` == official target_match.
+    Prints a one-line JSON result.
+    """
+    from mneme import cybergym_io, cybergym_config
+
+    _load_env()
+    config = cybergym_config.load_config()
+
+    # Resolve the REAL task id: explicit flag wins, else read from gen_info.json.
+    real_task_id = task_id
+    if real_task_id is None:
+        gen_info = json.loads((run_dir / "gen_info.json").read_text(encoding="utf-8"))
+        real_task_id = gen_info["task_id"]
+
+    info = cybergym_io._parse_submit_sh(run_dir / "task" / "gen" / "submit.sh")
+    client = cybergym_io.SubmitClient(
+        server_url=info["server_url"] or config.server_url,
+        masked_id=info["task_id"],
+        agent_id=info["agent_id"],
+        checksum=info["checksum"],
+        api_key=config.cybergym_api_key,
+    )
+
+    submit_verdict = client.submit(Path(poc))
+    client.verify_agent_pocs()
+    official = client.official_target_match(task_id=real_task_id)
+
+    result = {
+        "solved": bool(official["target_match"]),
+        "target_match": bool(official["target_match"]),
+        "vul_exit": official["vul_exit"],
+        "fix_exit": official["fix_exit"],
+        "poc_id": official["poc_id"],
+        "submit_exit_code": submit_verdict.exit_code,
+    }
+    typer.echo(json.dumps(result))
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
