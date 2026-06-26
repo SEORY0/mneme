@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""shard_round.py — draw a fresh train batch and split it DISJOINTLY across 5 workers.
+"""shard_round.py — draw a fresh batch and split it DISJOINTLY across 5 workers.
 
-From split.train ∩ runnable-local, MINUS used_tasks.txt and MINUS eval_sample.txt,
-draw `batch` fresh tasks (seeded by round → reproducible), split them disjointly
-into `workers` shard files learning/round-<R>/shard-1..N.txt, append the drawn
-tasks to used_tasks.txt (so future rounds never repeat), and create the per-round
-traces/ dir.
+Mode B (prequential, all-task): from the FULL local pool (train ∪ eval ∩
+runnable-local) MINUS used_tasks.txt, draw `batch` fresh tasks (seeded by round →
+reproducible), split them disjointly into `workers` shard files
+learning/round-<R>/shard-1..N.txt, append the drawn tasks to used_tasks.txt (so
+future rounds never repeat — each task is measured exactly once, against the
+memory snapshot that never saw it), and create the per-round traces/ dir.
+
+There is NO held-out eval set in mode B: every local task is both measured (the
+round it is drawn, before any learning from it) and learned from (afterwards, by
+the consolidator). Leakage is prevented by ORDER, not by a held-out split.
 
 Usage:
   .venv/bin/python scripts/learning/shard_round.py --round 1 [--workers 5] [--batch 50] [--seed-base 770000]
@@ -24,18 +29,15 @@ import _common as C  # noqa: E402
 def shard_round(round_num: int, workers: int = 5, batch: int = 50,
                 seed_base: int = 770000, learning_dir: Path = None) -> dict:
     learning_dir = learning_dir or C.LEARNING_DIR
-    eval_path = learning_dir / "eval_sample.txt"
     used_path = learning_dir / "used_tasks.txt"
 
-    split = C.load_split()
-    runnable = C.runnable_local_filter(split["train"])
+    pool = C.local_pool()
 
     used = set(C.read_task_list(used_path))
-    held_out = set(C.read_task_list(eval_path))
 
-    available = sorted(set(runnable) - used - held_out)
+    available = sorted(set(pool) - used)
     if not available:
-        raise SystemExit("no available train tasks left (exhausted)")
+        raise SystemExit("no available tasks left (local pool exhausted)")
 
     # Seed by round so a given round's draw is reproducible.
     rng = random.Random(seed_base + round_num)
@@ -62,7 +64,7 @@ def shard_round(round_num: int, workers: int = 5, batch: int = 50,
         "workers": workers,
         "batch_requested": batch,
         "drawn": len(drawn),
-        "runnable_train": len(runnable),
+        "runnable_pool": len(pool),
         "available_before": len(available),
         "per_worker": {w: len(shards[w]) for w in range(1, workers + 1)},
         "round_dir": str(round_dir),
@@ -70,7 +72,7 @@ def shard_round(round_num: int, workers: int = 5, batch: int = 50,
 
     print(f"Round {round_num}: drew {len(drawn)} tasks "
           f"(requested {batch}; {len(available)} were available, "
-          f"{len(runnable)} runnable-local train).")
+          f"{len(pool)} runnable-local in pool).")
     for w in range(1, workers + 1):
         print(f"  shard-{w}: {len(shards[w])} tasks -> {round_dir / f'shard-{w}.txt'}")
     print(f"  traces dir: {traces_dir}")

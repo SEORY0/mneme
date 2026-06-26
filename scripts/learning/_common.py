@@ -17,7 +17,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 
 SPLIT_PATH = REPO_ROOT / "data" / "okf_split.json"
 LEARNING_DIR = REPO_ROOT / "learning"
-EVAL_SAMPLE_PATH = LEARNING_DIR / "eval_sample.txt"
 USED_TASKS_PATH = LEARNING_DIR / "used_tasks.txt"
 
 ARVO_DATA_ROOT = Path(os.environ.get("CYBERGYM_DATA_ROOT", "/data/cybergym_data/data")) / "arvo"
@@ -132,4 +131,73 @@ def runnable_local_filter(tasks: Iterable[str]) -> List[str]:
         if not (ARVO_DATA_ROOT / n).exists():
             continue
         out.append(t)
+    return out
+
+
+def local_pool(split: dict | None = None) -> List[str]:
+    """The full prequential learning pool: ALL runnable-local tasks across both
+    splits, de-duplicated and order-preserving (train first, then eval).
+
+    Mode B learns from every local task — there is NO held-out eval split — so
+    the pool is train ∪ eval, not train-only. Tasks are removed from the round
+    draw only once they appear in used_tasks.txt (each measured exactly once).
+    """
+    split = split if split is not None else load_split()
+    merged: List[str] = []
+    seen = set()
+    for t in list(split.get("train", [])) + list(split.get("eval", [])):
+        if t not in seen:
+            merged.append(t)
+            seen.add(t)
+    return runnable_local_filter(merged)
+
+
+def range_bucket(task_id: str) -> str:
+    """Map a task id to a 10k-wide arvo id range label (the synchopate
+    "Performance by task range" axis), e.g. arvo:3938 -> "0k-10k",
+    arvo:12345 -> "10k-20k", arvo:64574 -> "60k-70k". Non-arvo ids -> "oss-fuzz";
+    malformed arvo ids -> "arvo-other".
+    """
+    if task_id.startswith("arvo:"):
+        n = task_id.split(":", 1)[1]
+        if n.isdigit():
+            lo = (int(n) // 10000) * 10
+            return f"{lo}k-{lo + 10}k"
+        return "arvo-other"
+    return "oss-fuzz"
+
+
+def _bucket_sort_key(label: str) -> tuple:
+    """Sort range labels numerically ("0k-10k" < "10k-20k" < ... < oss-fuzz)."""
+    if label.endswith("k") and "k-" in label:
+        try:
+            return (0, int(label.split("k-", 1)[0]))
+        except ValueError:
+            return (1, 0)
+    return (2, 0)
+
+
+def aggregate_by_range(records: Iterable[dict]) -> dict:
+    """Aggregate {task_id, solved} records into per-range win stats.
+
+    Returns an ordered dict: {range_label: {"attempted": a, "wins": w}}, sorted
+    by range, with a final "TOTAL" key. `records` is any iterable of dicts with
+    a `task_id` and a truthy/falsy `solved` field (e.g. parsed trace JSONs).
+    """
+    buckets: dict[str, dict] = {}
+    for rec in records:
+        tid = rec.get("task_id")
+        if not tid:
+            continue
+        b = range_bucket(tid)
+        slot = buckets.setdefault(b, {"attempted": 0, "wins": 0})
+        slot["attempted"] += 1
+        if rec.get("solved"):
+            slot["wins"] += 1
+    out: dict[str, dict] = {}
+    for label in sorted(buckets, key=_bucket_sort_key):
+        out[label] = buckets[label]
+    total_a = sum(v["attempted"] for v in buckets.values())
+    total_w = sum(v["wins"] for v in buckets.values())
+    out["TOTAL"] = {"attempted": total_a, "wins": total_w}
     return out

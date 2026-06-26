@@ -17,11 +17,13 @@ authorized-benchmark task. Claude Code could do the abstract learning, but not t
   / `feat/no-api-cli`).
 - Docker with the `n132/arvo:<N>-{vul,fix}` images and `/data/cybergym_data/data` present.
 
-**Architecture note (why this loop ≠ Crystalline):** mneme's memory is a *verification-
-causal, failure-keyed* store the solver retargets to on failure — not a cognitive
-episodic→semantic→principle ladder. Learning is **failure-driven and verifier-gated**:
-convert server-verified outcomes into failure-keyed recovery policies + first-class
-negative memory, ranked by measured success-rate. No abstract "principles."
+**Architecture note (what we share with Crystalline and what we do NOT):** We adopt
+Crystalline's *measurement* discipline — prequential, all-task, reported by task range — but
+NOT its memory representation. mneme's memory is a *verification-causal, failure-keyed* store
+the solver retargets to on failure — not a cognitive episodic→semantic→principle ladder.
+Learning is **failure-driven and verifier-gated**: convert server-verified outcomes into
+failure-keyed recovery policies + first-class negative memory, ranked by measured
+success-rate. No abstract "principles."
 
 ---
 
@@ -46,10 +48,13 @@ gen/verify/submit subcommands instead.
 - Verifier server must be up: `curl -s -m2 127.0.0.1:8666/ -o /dev/null -w '%{http_code}\n'`.
 - `.env` holds CYBERGYM_* (the CLI loads it). No OPENAI/ANTHROPIC key is needed by you —
   if mneme ever tries to use one, that's a bug; stay on gen/verify/submit.
-- Split: data/okf_split.json {train:[1205], eval:[302]}. Learn ONLY from train; eval is
-  measurement-only (never read its sources/descriptions; never let its specifics enter memory).
+- Pool (mode B): data/okf_split.json {train:[1205], eval:[302]} — but there is NO held-out
+  set. The learning pool is the FULL local set (train ∪ eval ∩ runnable-local). Every task is
+  measured ONCE (against the memory snapshot that never saw it) and THEN learned from. Leakage
+  is prevented by ORDER (prequential / test-then-train), not by a held-out split.
 - Runnable-local: arvo:<N> runnable iff /data/cybergym_data/data/arvo/<N> exists AND
-  `docker images -q n132/arvo:<N>-vul` is non-empty. Filter both pools to runnable-local.
+  `docker images -q n132/arvo:<N>-vul` is non-empty. Filter the pool to runnable-local
+  (`scripts/learning/_common.py:local_pool()`).
 
 ## Model-free tools (the ONLY way you touch the harness)
 - `cd /home/nsd/mneme && .venv/bin/python runner/run.py gen --task-id arvo:<N> --run-dir runs/<tag>`
@@ -88,14 +93,15 @@ gen/verify/submit subcommands instead.
    diagnose, refine the bytes (consult repair-policy memory), re-verify. Cap ~10 attempts.
 6. When verify shows a matching crash, submit. Record solved + the failure_class trajectory.
 
-## The verification-causal learning loop (our architecture — failure-keyed, verifier-gated;
-## NOT a Crystalline cognitive ladder; no abstract "principles")
-0. Branch. Build a FIXED held-out EVAL_SAMPLE (random 20 runnable-local from split.eval) and
-   a TRAIN_POOL (runnable-local split.train). Measure BASELINE: solve EVAL_SAMPLE with current
-   memory → solved/20. Record in the ledger.
+## The verification-causal learning loop (mode B — prequential, all-task, range-reported;
+## our memory is failure-keyed + verifier-gated, NOT a Crystalline cognitive ladder)
+0. Branch. There is NO fixed eval sample to build. POOL = `local_pool()` (runnable-local
+   train ∪ eval). Keep `learning/used_tasks.txt` so each task is drawn exactly once.
 1. ROUND (repeat):
-   a. Draw ~10 fresh TRAIN tasks; solve each (your reasoning). Track each task's failure_class
-      trajectory (the verify verdicts you passed through) and final solved.
+   a. FREEZE the memory snapshot for this round. Draw ~10 fresh tasks from POOL (minus
+      used_tasks); solve each (your reasoning) USING THE FROZEN SNAPSHOT. RECORD each task's
+      win/loss and failure_class trajectory in a trace BEFORE any learning. Append the drawn
+      ids to used_tasks. (This recorded win/loss IS the measurement — prequential.)
    b. VERIFIED solves → write/strengthen the abstract RECOVERY the verifier just proved: a
       causal-policy keyed by failure_class × verifier_signal (## Procedure) + the format-contract
       (formats/) it relied on. Append a success row to memory_store/memory_stats.jsonl; bump
@@ -103,14 +109,18 @@ gen/verify/submit subcommands instead.
    c. PERSISTENT failures → FIRST-CLASS negative memory: diagnose the dead end (wrong magic,
       unmet length/checksum gate, overlarge mutation, both-crash basin, sink not triggered) and
       write/strengthen a negative-memory policy keyed by that failure_class so you don't repeat it.
-   d. RETARGET CHECK (memory verification gate): re-solve THIS round's FAILED train tasks WITH the
-      updated memory (read your new repair policies). Keep edits that flip failed→solved.
-   e. HELD-OUT: re-solve the FIXED EVAL_SAMPLE; compute solved/20 vs previous best.
-   f. KEEP-OR-REVERT: commit kept edits (round# + metrics) iff eval did NOT decrease (prefer:
-      flipped train failures and/or raised eval). If eval decreased → git checkout to revert the
-      round's memory edits (overfit/poison). Ledger row either way.
+   d. RETARGET CHECK (the keep gate): re-solve THIS round's FAILED tasks WITH the updated memory
+      (read your new repair policies). Keep edits that flip failed→solved; keep verified-solve
+      distillations always (ground truth). No held-out set needed — a flip is direct evidence.
+   e. RANGE REPORT: regenerate the prequential measure across all rounds:
+      `.venv/bin/python scripts/learning/range_report.py --by-round --out docs/RESULTS-by-range.md`.
+   f. KEEP-OR-REVERT: commit kept edits (round# + metrics) iff pytest is green AND audit_leak is
+      clean AND the retarget kept ≥1 edit (or it's a verified-solve distillation). REVERT a
+      round's policies (`git checkout -- memory_store/okf`) if a LATER round's win-rate drops on
+      the ranges it wrote (poison). Ledger row either way.
    g. `.venv/bin/pytest -q` stays green.
-2. STOP when eval solved/20 plateaus 2 rounds, or budget/train exhausted. Write final report.
+2. STOP when the TOTAL win-rate in the range report plateaus 2 rounds, or the pool is
+   exhausted. Write the final report.
 
 ## Hard rules
 - NO LLM API anywhere (you are the only inference). Only gen/verify/submit + docker + local server.
@@ -120,16 +130,19 @@ gen/verify/submit subcommands instead.
   verifier_signal; every persistent failure becomes a basin-to-avoid.
 - SUCCESS-RATE TRUTH: maintain memory_stats.jsonl + success_count so success-rate ranking
   reflects MEASURED effect; quarantine policies that fire but don't help.
-- TRAIN-ONLY + HELD-OUT FIXED; ABSTRACTION/HYGIENE (redact_for_promotion; no ids/bytes/
+- PREQUENTIAL ORDER, ALL-TASK: learn from every outcome; NEVER learn from a task before its
+  win/loss is recorded; no held-out set, so order is the only leakage guard (never re-measure a
+  prior round with newer memory). ABSTRACTION/HYGIENE (redact_for_promotion; no ids/bytes/
   offsets/checksums); one concept per file; link with [[name]]; keep tests green; commit each kept round.
 - DEFENSIVE: distill verified failure→recovery procedures + format contracts for an authorized
   benchmark; keep memory abstract (gate/invariant, not raw payloads).
 
 ## Deliverables (commit on learn/okf-noapi)
-- docs/learning-ledger.md — per round: round#, train ids/count, verified solves, train failures
-  flipped after consolidation, memory files touched, failure_classes targeted, EVAL_SAMPLE
-  solved/20 before→after, KEPT/REVERTED.
-- RESULTS-okf-noapi.md — baseline→final eval solved/20, which failure_classes' repair policies
+- docs/learning-ledger.md — per round: round#, task ids/count, verified solves, round failures
+  flipped by the retarget check, memory files touched, failure_classes targeted, the round's
+  win-rate and running TOTAL win-rate (from the range report), KEPT/REVERTED.
+- docs/RESULTS-by-range.md — the Performance-by-task-range table (regenerated each round).
+- RESULTS-okf-noapi.md — first→latest TOTAL win-rate, which failure_classes' repair policies
   improved most, the 3-5 highest-leverage causal/negative policies + the verified evidence,
-  honest caveats (one run, sample size, abstraction limits).
+  honest caveats (one run, prequential single-pass, abstraction limits).
 ```

@@ -1,16 +1,29 @@
-# 5-worker no-API coordinated learning — operator runbook
+# 5-worker no-API coordinated learning (**mode B**) — operator runbook
 
 A coordinated, **no-LLM-API** self-improvement loop for `mneme` (CyberGym Level-1):
-**5 solver workers** solve a disjoint shard of each round's train batch in PARALLEL using
+**5 solver workers** solve a disjoint shard of each round's batch in PARALLEL using
 the model-free CLI (`gen`/`verify`/`submit`) + their own Codex reasoning, emitting one
 abstract TRACE per task; **1 consolidator** runs AFTER each round and promotes verified
-outcomes into OKF memory SERIALLY, measures a fixed held-out eval, keeps-or-reverts, and
-commits. No model API anywhere — only docker + the local CyberGym server (the verifier) +
-Codex's own inference.
+outcomes into OKF memory SERIALLY, regenerates the **Performance-by-task-range** report,
+keeps-or-reverts, and commits. No model API anywhere — only docker + the local CyberGym
+server (the verifier) + Codex's own inference.
 
 This split keeps learning **coherent**: every worker in a round reads the SAME round-start
 memory snapshot; all promotion happens serially between rounds. Improvements compound
 **between rounds, not within a round**.
+
+## Mode B — prequential, all-task, range-reported
+- **No held-out eval set.** Every local task (train ∪ eval, runnable-local) is BOTH measured
+  (the round it is drawn, by the workers, against the memory snapshot that never saw it) AND
+  learned from (afterwards, by the consolidator). Leakage is prevented by **order**, not by a
+  held-out split — this is **prequential (test-then-train)** evaluation at round granularity.
+- **Measurement = `Performance by task range`** — aggregate every round's traces by 10k-wide
+  arvo id bucket (attempted / wins / win rate), the SAME axis as
+  `synchopate/cybergym-logos`, so our numbers are directly comparable to that leaderboard.
+- **keep-or-revert:** the immediate gate is the consolidator's retarget check (re-solve this
+  round's failures with the new memory; keep edits that flip failed→solved). The lagging gate
+  is the per-round win-rate trend in the range report (a poisoned round shows up as a drop on
+  the ranges it wrote policies for).
 
 ## Prerequisites (check once per machine / boot)
 - Branch `feat/5worker-learning` checked out (off `learn/okf-noapi`). venv `.venv`.
@@ -21,20 +34,14 @@ memory snapshot; all promotion happens serially between rounds. Improvements com
 - The model-free CLI on this branch: `runner/run.py gen|verify|submit`.
 - `.venv/bin/pytest -q` green.
 
-## One-time setup
-```
-cd /home/nsd/mneme
-.venv/bin/python scripts/learning/make_eval_sample.py        # writes learning/eval_sample.txt (~20)
-git add learning/eval_sample.txt && git commit -m "chore: fix held-out eval sample"
-```
-`make_eval_sample.py` is idempotent (won't overwrite without `--force`) so the held-out
-measurement stays comparable across rounds and sessions.
+## No one-time setup
+Mode B has **no fixed eval sample to build** — skip straight to round 1. (The old
+`make_eval_sample.py` step is gone.)
 
-## Round cadence (repeat until eval plateaus)
+## Round cadence (repeat until the range win-rate plateaus)
 ```
-make_eval_sample (once)
-  → for each round R:
-      shard_round R  →  5 workers (WORKER_ID 1..5)  →  round_status R  →  1 consolidator  →  repeat
+for each round R:
+    shard_round R  →  5 workers (WORKER_ID 1..5)  →  round_status R  →  1 consolidator  →  repeat
 ```
 
 Concretely, per round R:
@@ -43,9 +50,10 @@ Concretely, per round R:
    ```
    .venv/bin/python scripts/learning/shard_round.py --round R --workers 5 --batch 50
    ```
-   Draws 50 fresh runnable-local train tasks (seeded by R), splits them DISJOINTLY into
-   `learning/round-R/shard-1..5.txt`, appends them to `learning/used_tasks.txt` (so later
-   rounds never repeat), and creates `learning/round-R/traces/`.
+   Draws 50 fresh runnable-local tasks from the FULL local pool (train ∪ eval, seeded by R),
+   splits them DISJOINTLY into `learning/round-R/shard-1..5.txt`, appends them to
+   `learning/used_tasks.txt` (so later rounds never repeat — each task measured once), and
+   creates `learning/round-R/traces/`.
 
 2. **Launch 5 worker sessions** (parallel). In each fresh Codex session, set a DISTINCT
    worker id and the round, then paste `docs/codex-worker-prompt.md`:
@@ -58,7 +66,7 @@ Concretely, per round R:
    ```
    Each worker solves ONLY `shard-$WORKER_ID.txt`, writing run dirs `runs/s<W>_<safe_task>/`
    and traces `learning/round-R/traces/<safe_task>.json`. Workers are read-only on memory and
-   never commit.
+   never commit. They solve with the round-start snapshot and record win/loss AS-IS.
 
 3. **Poll progress** (operator):
    ```
@@ -69,12 +77,20 @@ Concretely, per round R:
 
 4. **Launch 1 consolidator session** (after COMPLETE). Set `export ROUND=R`, paste
    `docs/codex-consolidator-prompt.md`. It reads all traces, promotes verified outcomes
-   into memory serially, runs the retarget check, measures eval (or skips on odd rounds —
-   it measures eval at least every 2 rounds), keeps-or-reverts, commits the round, and
-   appends a row to `docs/learning-ledger.md`.
+   into memory serially (learning from ALL outcomes), runs the retarget check, regenerates
+   `docs/RESULTS-by-range.md`, keeps-or-reverts, commits the round, and appends a row to
+   `docs/learning-ledger.md`.
 
-5. **Repeat** R+1 until `eval solved/N` plateaus for 2 consecutive measured rounds (or the
-   runnable-local train pool is exhausted).
+5. **Repeat** R+1 until the TOTAL win-rate in the range report plateaus for 2 consecutive
+   rounds (or the runnable-local pool is exhausted).
+
+## Inspecting performance any time
+```
+.venv/bin/python scripts/learning/range_report.py --by-round
+```
+Prints the Performance-by-task-range table (all rounds) + the per-round win-rate trend
+without writing anything. Add `--out docs/RESULTS-by-range.md` to persist it, or `--round R`
+to scope to one round.
 
 ## Parallelism notes
 - The host (64 cores / 251 GB) comfortably runs 5+ concurrent workers; each task is mostly
@@ -97,19 +113,23 @@ Concretely, per round R:
   would bias promotion.
 - **Don't re-run `shard_round.py --round R` after workers have started** — it would re-draw
   and re-append used_tasks. Pick the round number once.
+- **Prequential order is load-bearing:** never learn from a task before its win/loss is
+  recorded, and never re-open a prior round's traces to "re-measure" with newer memory. Order
+  is the only leakage guard in mode B.
 
 ## What is committed vs gitignored
-- COMMITTED: `learning/eval_sample.txt`, `learning/used_tasks.txt`,
-  `learning/round-*/shard-*.txt`, `docs/learning-ledger.md`, kept `memory_store/okf/**`.
+- COMMITTED: `learning/used_tasks.txt`, `learning/round-*/shard-*.txt`,
+  `docs/learning-ledger.md`, `docs/RESULTS-by-range.md`, kept `memory_store/okf/**`.
 - GITIGNORED (volatile working data): `learning/round-*/traces/`, `runs/`,
   `memory_store/memory_stats.jsonl`.
 
 ## File map
-- `scripts/learning/make_eval_sample.py` — build the fixed held-out eval sample (once).
-- `scripts/learning/shard_round.py` — draw + disjointly shard a round's train batch.
+- `scripts/learning/shard_round.py` — draw + disjointly shard a round's batch (full local pool).
 - `scripts/learning/round_status.sh` — per-worker progress; exit 0 when complete.
-- `scripts/learning/_common.py` — shared runnable-local + I/O helpers.
+- `scripts/learning/range_report.py` — Performance-by-task-range aggregation (the measure).
+- `scripts/learning/_common.py` — shared runnable-local + range/IO helpers.
 - `docs/codex-worker-prompt.md` — the worker (solve + trace) prompt.
-- `docs/codex-consolidator-prompt.md` — the consolidator (promote + measure + commit) prompt.
+- `docs/codex-consolidator-prompt.md` — the consolidator (promote + report + commit) prompt.
 - `docs/learning-ledger.md` — per-round metrics (appended by the consolidator).
-- `docs/codex-learning-prompt.md` — the original single-session prompt this loop was split from.
+- `docs/RESULTS-by-range.md` — Performance-by-task-range table (regenerated by the consolidator).
+- `docs/codex-learning-prompt.md` — the single-session variant of this loop.

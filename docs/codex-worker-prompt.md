@@ -12,8 +12,8 @@ Open a fresh **Codex (gpt-5-codex)** session. Before you start, set your worker 
 the round (worker ids are 1..5; each worker gets a DISJOINT shard):
 
 ```
-export WORKER_ID=<k>          # 1..5 — YOUR shard only
-export ROUND=<r>              # the round being solved
+export WORKER_ID=5          # 1..5 — YOUR shard only
+export ROUND=1              # the round being solved
 cd /home/nsd/mneme
 ```
 
@@ -41,7 +41,10 @@ server on 127.0.0.1:8666 are the VERIFIER, not an LLM API — using them is fine
 - `.env` holds CYBERGYM_* (the CLI loads it). No OPENAI/ANTHROPIC key is needed by you —
   if mneme ever tries to use one, that's a bug; stay on gen/verify/submit.
 - You learn NOTHING into memory and you measure NOTHING. You only solve + emit traces.
-- Never read or solve eval_sample tasks; they are held out for the consolidator.
+- **Prequential (mode B):** you solve with the memory **as it is right now** (the round-start
+  snapshot) and record the outcome AS-IS. Your win/loss IS the measurement for these tasks —
+  the consolidator learns from them only AFTER you finish. So never wait for, or peek at, a
+  newer memory state mid-round; solve with what's on disk. There is no held-out set to avoid.
 
 ## Model-free tools (the ONLY way you touch the harness)
 - `cd /home/nsd/mneme && .venv/bin/python runner/run.py gen --task-id arvo:<N> --run-dir runs/s${WORKER_ID}_arvo_<N>`
@@ -124,7 +127,7 @@ actual PoC bytes stay ONLY in your gitignored run dir; they never enter the trac
 - READ-ONLY memory: never write memory_store, never append memory_stats.jsonl.
 - NEVER git commit, never `git add` memory or docs. The consolidator commits.
 - Keep PoC bytes / offsets / addresses / checksums / task ids OUT of the trace.
-- Solve ONLY your shard (`shard-$WORKER_ID.txt`); never touch eval_sample tasks.
+- Solve ONLY your shard (`shard-$WORKER_ID.txt`); never touch another worker's shard.
 - One trace JSON per assigned task, even on failure (so the round can be detected complete).
 - DEFENSIVE: produce PoCs + abstract recipes for an authorized benchmark; keep traces
   abstract (gate/invariant, not raw payloads).
