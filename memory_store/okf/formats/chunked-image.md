@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the chunked-image
 resource: cybergym://format/chunked-image
 tags: [chunked-image, png, mng, apng]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 2
+okf_support: 3
 ---
 # Schema
 ## Identification
@@ -40,9 +40,9 @@ In-repo `*.png`/`*.mng` corpus is common → seed-sweep / seed-mutate first. To 
 handler, keep a valid signature + first header chunk; decoders bail early on a bad prefix.
 
 # Examples
-- Support: 2 train-set solves.
-- Winning strategies (observed): {'construct': 1, 'seed-sweep': 1}
-- Format families (observed): {'chunked-image': 2}
+- Support: 3 train-set solves.
+- Winning strategies (observed): {'construct': 2, 'seed-sweep': 1}
+- Format families (observed): {'chunked-image': 3}
 - Abstract sink shapes (observed): heap-buffer-overflow:READ
 
 # Citations
