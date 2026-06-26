@@ -25,3 +25,14 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- TIFF carriers need byte-order magic, an image-file-directory, baseline image geometry tags, strip offset/bytecount tags, samples-per-pixel, and extra-samples metadata when modeling alpha. Non-RGB alpha handling is a cross-field relation among photometric interpretation, sample count, planar/strip layout, and alpha metadata.
+
+### Harness Links
+- [[libfuzzer-graphicsmagick-tiff-family-coder-wrapper]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

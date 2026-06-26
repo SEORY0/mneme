@@ -41,3 +41,14 @@ geometry field that reaches the target primitive.
 - Text annotation expansion bugs require a valid canvas plus a text primitive that invokes image-attribute lookup.
 - Keep geometry ordinary when the described sink is text translation; mutate only the attribute key shape.
 - A parser-reached sink-match signal on text expansion is stronger evidence than a generic renderer crash elsewhere.
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- MVG is line-oriented text. The reader recognizes the format from a leading viewbox-style line, uses that viewbox to allocate the canvas, then renders subsequent primitive commands such as ellipse, polygon, path, and line. Geometry fields parse as decimal numbers; radius values must remain syntactically valid and non-negative.
+
+### Harness Links
+- [[libfuzzer-raw-mvg-blob]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

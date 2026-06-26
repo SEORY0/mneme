@@ -19,3 +19,14 @@ Keep the tag directory structurally valid and violate only the per-tag offset/le
 
 ## Linked Policies
 round recovery policies
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- An ICC profile has a fixed-size header with a file signature, version, class, color spaces, creation time, and illuminant fields, followed by a tag table. Each tag table entry names a tag signature, an aligned tag-data offset, and a tag-data size; text-description tag data starts with its own type signature and reserved field before string length fields.
+
+### Harness Links
+- [[libfuzzer-raw-icc-profile-bytes]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

@@ -19,3 +19,14 @@ Preserve the selector that reaches the target disassembler, then use an instruct
 
 ## Linked Policies
 [[tic30-disassembler-branch-operand-overflow]]
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- The Capstone fuzz target consumes raw instruction bytes and disassembles them under a configured architecture/mode. Relevant ARM memory operands encode base/index registers plus optional shift type/value metadata.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

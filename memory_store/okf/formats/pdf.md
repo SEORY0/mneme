@@ -54,3 +54,16 @@ intact and a non-empty `/Contents`.
 
 ## Round 4 Verified Contracts
 - [[pdf-inline-image-negative-dimension]]: Inline image dictionaries in a renderable page content stream can carry negative dimensions into stream skip/read arithmetic.
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- PDF inputs need a version marker, catalog, pages tree, page objects, trailer/root, and usually a coherent xref or enough structure for MuPDF repair. The relevant path is page lookup over the forward page map.
+- PDF inputs can use plain xref tables, repaired missing xrefs, object streams, indirect page/resource objects, annotations, and form XObjects. MuPDF will attempt to repair malformed xref state, but target reachability depends on object-cache and xref-entry lifetimes rather than simple syntax acceptance.
+- The relevant PDF path uses page annotations with string objects that can be literal or hex encoded. Poppler routes BOM-prefixed UTF-8 strings through UTF-8-to-UTF-16 conversion when objects are read by the Lexer and later consumed by annotation code.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

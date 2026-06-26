@@ -19,3 +19,14 @@ Start from a valid contiguous frame and mutate trailer extent metadata without b
 
 ## Linked Policies
 round recovery policies
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- A c-blosc2 frame has a header, chunk metadata, compressed chunk payloads, and optional trailer metadata. Trailer extent fields are validated against the frame buffer and can steer how much trailing metadata is considered available.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

@@ -44,3 +44,14 @@ recursive descent reaches the unbounded depth.
 - [[json-string-unescape-terminator]]: String values can expose copy-plus-terminator bugs when the token length and decoded output length differ.
 - [[json-primitive-termination]]: Whole-input primitives can expose code paths that expect a terminated span after tokenization.
 - [[libmagic-json-truncated-constant]]: Truncated constants can reach hand-written detector cursor bugs when recognition advances before confirming the full spelling.
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- The jplist input is ordinary JSON parsed by JSMN into a flat token array. Arrays iterate over direct child counts; objects treat key and value tokens as a pair while advancing a shared index through nested structures.
+
+### Harness Links
+- [[libfuzzer-raw-json-bytes]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.
