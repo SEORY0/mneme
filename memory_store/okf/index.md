@@ -30,6 +30,7 @@ Task-agnostic, distilled patterns. Abstract only — no task ids, no concrete of
 - [json](formats/json.md)
 - [md3-model](formats/md3-model.md)
 - [media-container](formats/media-container.md)
+- [mvg](formats/mvg.md)
 - [pcap](formats/pcap.md)
 - [pdf](formats/pdf.md)
 - [sip-text](formats/sip-text.md)
