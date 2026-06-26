@@ -66,15 +66,15 @@ except Exception:
 server = Server("specialist")
 
 _TOOL_KINDS = [
-    ("specialist.rethink_reachability", "rethink_reachability",
+    ("rethink_reachability", "rethink_reachability",
      "Hard-failure specialist: redesign the reachability path to the target sink."),
-    ("specialist.relocalize_sink", "relocalize_sink",
+    ("relocalize_sink", "relocalize_sink",
      "Hard-failure specialist: relocalize the crash/sink target."),
-    ("specialist.escape_basin", "escape_basin",
+    ("escape_basin", "escape_basin",
      "Hard-failure specialist: escape a local basin of attraction."),
-    ("specialist.diversify_family", "diversify_family",
+    ("diversify_family", "diversify_family",
      "Hard-failure specialist: diversify the corpus/seed family."),
-    ("specialist.review_consolidation", "review_consolidation",
+    ("review_consolidation", "review_consolidation",
      "Hard-failure specialist: review and consolidate offline knowledge."),
 ]
 

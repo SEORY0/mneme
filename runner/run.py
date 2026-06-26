@@ -116,24 +116,31 @@ def _write_mcp_config(run_dir: Path, server_env: dict | None = None) -> dict:
     mcp_dir = _PROJECT_ROOT / "mcp"
     python = sys.executable
 
+    # Claude Code/MCP passes this `env` dict as the COMPLETE child environment
+    # (it does not inherit the parent). A minimal 4-var env drops PATH/HOME and
+    # the API keys, which crashes the server at startup ("Connection closed") so
+    # its tools never register. Merge os.environ so PATH/HOME/OPENAI_API_KEY/etc.
+    # reach the server processes.
+    full_env = {**os.environ, **(server_env or {})}
+
     mcp_servers = {
         "memory": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "memory_server.py")],
-            "env": server_env or {},
+            "env": full_env,
         },
         "verify": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "verify_server.py")],
-            "env": server_env or {},
+            "env": full_env,
         },
         "specialist": {
             "type": "stdio",
             "command": python,
             "args": [str(mcp_dir / "specialist_server.py")],
-            "env": server_env or {},
+            "env": full_env,
         },
     }
 

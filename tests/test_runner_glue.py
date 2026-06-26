@@ -75,71 +75,60 @@ def test_write_verify_config_produces_required_keys(tmp_path):
 # ---------------------------------------------------------------------------
 
 def _extract_tool_refs(text: str) -> set[str]:
-    """Extract `server.tool_name` references from prompt markdown."""
-    import re
-    # Match backtick-quoted tool names like `memory.get_repair_policy`
-    return set(re.findall(r"`((?:memory|verify|specialist)\.[a-zA-Z_]+)`", text))
+    """Extract `mcp__<server>__<tool>` references from prompt markdown.
 
-
-def test_prompt_tool_refs_match_registered_tools():
-    """Every tool name referenced in system.md must exist in the actual server registrations.
-
-    Tool names are derived from the actual server module registrations, not hardcoded.
+    Claude Code namespaces MCP tools as ``mcp__<server>__<tool>``; the prompts
+    must reference that exact callable form (not a dotted ``server.tool``,
+    which is an INVALID Claude Code tool name and never resolves).
     """
-    import importlib.util
+    import re
+    return set(re.findall(r"mcp__(?:memory|verify|specialist)__[a-zA-Z_]+", text))
 
-    prompts_dir = Path(__file__).resolve().parents[1] / "prompts"
-    system_md = (prompts_dir / "system.md").read_text()
-    kickoff_md = (prompts_dir / "kickoff.md").read_text()
-    all_text = system_md + "\n" + kickoff_md
 
-    refs = _extract_tool_refs(all_text)
+def _registered_mcp_names() -> set[str]:
+    """Derive the real exposed tool names (``mcp__<server>__<bare>``) from the
+    server modules — the bare names they actually register, namespaced by server.
 
-    # Derive tool names from actual server modules
+    Tool names MUST be ``^[a-zA-Z0-9_-]+$`` (no dots) or Claude Code drops them.
+    """
+    import re
     mcp_dir = Path(__file__).resolve().parents[1] / "mcp"
-
-    # Load specialist_server and extract tool names from _TOOL_KINDS
+    names: set[str] = set()
+    # memory / verify: bare names appear as `name="..."` in their list_tools
+    for server in ("memory", "verify"):
+        src = (mcp_dir / f"{server}_server.py").read_text()
+        for bare in re.findall(r'types\.Tool\(\s*name="([^"]+)"', src):
+            assert "." not in bare, f"{server} tool name has an invalid dot: {bare!r}"
+            names.add(f"mcp__{server}__{bare}")
+    # specialist: bare names are the first element of each _TOOL_KINDS tuple
+    import importlib.util
     spec = importlib.util.spec_from_file_location(
         "specialist_server", mcp_dir / "specialist_server.py"
     )
     specialist_mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(specialist_mod)
-    specialist_tools = {name for name, _, _ in specialist_mod._TOOL_KINDS}
+    for bare, _kind, _desc in specialist_mod._TOOL_KINDS:
+        assert "." not in bare, f"specialist tool name has an invalid dot: {bare!r}"
+        names.add(f"mcp__specialist__{bare}")
+    return names
 
-    # Load memory_server and extract tool names from list_tools
-    spec = importlib.util.spec_from_file_location(
-        "memory_server", mcp_dir / "memory_server.py"
-    )
-    memory_mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(memory_mod)
-    # Read tool names from the source code of list_tools handler
-    # (since list_tools is async and we can't easily call it, extract from the tool definitions)
-    memory_tools = {
-        "memory.search_okf_for_generate",
-        "memory.get_repair_policy",
-        "memory.get_discriminator_evidence",
-        "memory.record_proposal",
-        "memory.scope_check",
-    }
 
-    # Load verify_server and extract tool names from list_tools
-    spec = importlib.util.spec_from_file_location(
-        "verify_server", mcp_dir / "verify_server.py"
-    )
-    verify_mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(verify_mod)
-    # Extract from the source code (since list_tools is async)
-    verify_tools = {
-        "verify.run",
-        "verify.confirm_if_available",
-    }
+def test_prompt_tool_refs_match_registered_tools():
+    """Every `mcp__server__tool` the prompts reference must be a real exposed tool,
+    and the names must be dot-free (or Claude Code never registers them)."""
+    prompts_dir = Path(__file__).resolve().parents[1] / "prompts"
+    all_text = (prompts_dir / "system.md").read_text() + "\n" + (prompts_dir / "kickoff.md").read_text()
 
-    all_registered = memory_tools | verify_tools | specialist_tools
+    refs = _extract_tool_refs(all_text)
+    registered = _registered_mcp_names()
 
-    bad_refs = refs - all_registered
+    assert registered, "no MCP tools derived from server modules"
+    assert refs, "prompts reference no mcp__ tools — agent cannot discover them"
+
+    bad_refs = refs - registered
     assert not bad_refs, (
         f"Prompt references tools not registered by any server: {bad_refs}\n"
-        f"All registered: {all_registered}"
+        f"All registered: {sorted(registered)}"
     )
 
 

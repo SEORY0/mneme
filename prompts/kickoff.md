@@ -6,21 +6,21 @@ You are starting a new repair run. The task card is at `task/card.md` in your wo
 
 1. Read `task/card.md` to learn the target description, input format, vulnerability classes,
    harness convention, seed hints, and recon context.
-2. Call `memory.get_repair_policy` with the initial `failure_class` (from the task card
+2. Call `mcp__memory__get_repair_policy` with the initial `failure_class` (from the task card
    classification, or `"unknown"` if not specified) and `verifier_signal` (`"none"` if none).
-3. Call `memory.search_okf_for_generate` with any relevant query keys from the task card.
+3. Call `mcp__memory__search_okf_for_generate` with any relevant query keys from the task card.
 4. Begin the recon → generate → verify loop as specified in the system prompt.
 
 ## Workspace Layout
 
 - `task/card.md` — full task card with description, classification, seed hints, recon (read-only)
 - `candidate/` — write your candidate PoC files here
-- `proposals/` — written by `memory.record_proposal` (do not write directly)
+- `proposals/` — written by `mcp__memory__record_proposal` (do not write directly)
 - `skills/` — reference procedures (read-only)
 
 ## Verify Verdict Fields
 
-`verify.run` returns a `RuntimeVerdict` with these fields:
+`mcp__verify__run` returns a `RuntimeVerdict` with these fields:
 - `failure_class`: one of `no_crash` | `bad_format` | `wrong_sink` | `generic_crash`
 - `target_likelihood`: `low` | `medium` | `high`
 - `crash_type`: sanitizer crash type string or null

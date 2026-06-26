@@ -23,4 +23,4 @@ def test_options_exclude_memory_store(tmp_path):
 
 def test_system_prompt_loaded(tmp_path):
     opts = agent_driver.build_options(tmp_path, tmp_path, mcp_servers={})
-    assert "verify.run" in agent_driver.system_prompt_text(opts)
+    assert "mcp__verify__run" in agent_driver.system_prompt_text(opts)
