@@ -43,3 +43,6 @@ the buffer end.
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+
+## Round 4 Verified Contracts
+- [[sip-content-length-folded-boundary]]: A plausible SIP request plus terminal Content-Length header can expose numeric/folded-whitespace one-byte boundary reads.

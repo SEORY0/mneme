@@ -1,0 +1,40 @@
+---
+type: causal-policy
+title: Ndr Cab Compression State Uaf
+description: Verified recovery for generic_crash with parser_reached_sanitizer_or_segfault on ndr-cab inputs.
+failure_class: generic_crash
+verifier_signal: parser_reached_sanitizer_or_segfault
+candidate_family: construct
+input_format: ndr-cab
+harness_convention: libfuzzer
+access_scope: generate
+success_count: 1
+confidence: medium
+tags: [generic-crash, parser-reached-sanitizer-or-segfault, construct, ndr-cab, verified_recovery]
+match_keys: [generic-crash, parser-reached-sanitizer-or-segfault, ndr-cab, use-after-free]
+allowed_scopes: [generate]
+forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
+evidence_level: high
+train_only: true
+---
+# Ndr Cab Compression State Uaf
+
+- key: `generic_crash x parser_reached_sanitizer_or_segfault`
+- outcome: verified recovery
+- confidence: 0.69
+- success_count: 1
+- failure_count: 0
+- formats: [[ndr-cab]]
+
+## Failure Shape
+A prior candidate reached `generic_crash` before the verifier-confirmed repair. The successful candidate kept the `ndr-cab` recognition envelope and placed the mutation in the cross-field invariant consumed by the target parser or sink.
+## Procedure
+Select the CAB public-structure path in the generic NDR fuzzer and provide compressed-chunk-shaped data so the CAB/NDR compression code initializes and tears down MSZIP state. The vulnerable build keeps compression dictionary ownership under the wrong allocation hierarchy, so freeing the compression state leaves related state dangling; the fixed build uses the corrected talloc ownership and exits cleanly.
+
+Retarget from this failure key by preserving the format gate first, then changing exactly the relation named above. Prefer compact construction for construct traces and seed-preserving mutation for seed traces.
+
+## Verifier Contract
+The expected signal is `parser_reached_sanitizer_or_segfault` with a vulnerable-build crash and clean fixed build. Parser reachability without the differential crash is not sufficient.
+
+## Negative Guards
+Do not store raw payload bytes, exact positions, or submit metadata. Do not widen the mutation after the parser envelope is accepted; if the fixed image also crashes, shrink back to the single boundary relation.

@@ -51,3 +51,6 @@ intact and a non-empty `/Contents`.
 ## Round 3 Verified Contracts
 - [[pdf-xref-stream-negative-width]]: XRef stream dictionaries can drive signed sizing disagreement during entry parsing.
 - [[pdf-invalid-indirect-resource]]: Renderable page resources can carry invalid indirect references into rasterization if the catalog, pages tree, and page dictionary stay coherent.
+
+## Round 4 Verified Contracts
+- [[pdf-inline-image-negative-dimension]]: Inline image dictionaries in a renderable page content stream can carry negative dimensions into stream skip/read arithmetic.

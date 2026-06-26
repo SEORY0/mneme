@@ -16,3 +16,6 @@ The carrier is an archive envelope recognized by BFD as XCOFF. Member headers an
 - Top-level recognition is mandatory; generic archive shells are usually rejected too early.
 - The armap member can be validly referenced while its body is too short for reader assumptions.
 - Mutate the symbol-map member body rather than all archive members at once.
+
+## Round 4 Verified Contracts
+- [[xcoff-archive-short-armap-uninit-count]]: A recognized big archive can enable the 64-bit armap path while the member body is shorter than the initial symbol-count read.

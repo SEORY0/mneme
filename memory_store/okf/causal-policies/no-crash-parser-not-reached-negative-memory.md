@@ -37,3 +37,20 @@ Rebuild the carrier around the exact harness envelope before adding a vulnerabil
 
 ## Negative Memory
 Do not repeat the same carrier plus broad mutation after this signal. Do not promote the diagnosis into a recovery until a later verifier-confirmed candidate flips the official gate.
+
+## Round 4 Reinforcement
+- key: `no_crash x parser_not_reached`
+- outcome: persistent failure basin
+- support_count: 2
+- candidate_families: construct
+- observed_formats: dms, flac
+
+### Procedure
+Treat this as an envelope or harness-shape failure. Rebuild the carrier around the exact fuzzer input contract, confirm parser reachability, then add one target invariant.
+
+### Diagnosed Dead Ends
+- The radare2 build exposes regression fuzz targets, but the active DMS/IA target and required DMS envelope were not isolated within the iteration budget. Broad source search found only generic strlen sites and no concrete parser gate to craft against.
+- A minimal FLAC-like stream did not progress into the decoder state needed for padding-frame output. No suitable seed corpus was exposed by the image, and the bounded attempt did not reach the main-output-buffer reuse condition.
+
+### Negative Memory
+Do not repeat the same carrier plus broad mutation after this signal. Do not promote this basin into a recovery until a later verifier-confirmed candidate flips the official gate.

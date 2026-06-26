@@ -37,3 +37,22 @@ Keep the accepted envelope but move from broad value changes to the feature sele
 
 ## Negative Memory
 Do not repeat the same carrier plus broad mutation after this signal. Do not promote the diagnosis into a recovery until a later verifier-confirmed candidate flips the official gate.
+
+## Round 4 Reinforcement
+- key: `no_crash x parser_reached_no_crash`
+- outcome: persistent failure basin
+- support_count: 5
+- candidate_families: construct, seed-mutate
+- observed_formats: dns-wire-packet, hdf5, pdf, raw-compress-buffer, rtsp-response
+
+### Procedure
+The parser or executor ran, but the target state was absent. Keep the valid envelope and retarget the semantic selector, state transition, table kind, or option named by the diagnosis.
+
+### Diagnosed Dead Ends
+- Raw compression inputs reached the compress fuzzer but did not land on the narrow condition where compressed block bytes fit while the per-block size slot write exceeds the caller-provided destination size. Deterministic sweeps over size, compressor, and filter settings stayed in no-crash behavior before the time cap.
+- Minimal PDFs with transparency group XObjects rendered successfully and did not force the pdf14 device push/pop failure path. The missing trigger is likely a resource or rendering-failure condition inside a transparency group rather than just presence of a group dictionary.
+- Basic DNS packet and zone-text probes reached the Knot fuzzers but did not trigger the MemorySanitizer false-positive around memzero in wire_ctx error handling. The likely missing condition is a packet path that calls wire_ctx_read after an established wire error and then uses the zeroed destination in MSAN-visible logic.
+- Raw HDF5 corpus seeds opened under the extended harness but did not expose a dataset/attribute path that reaches the vulnerable sprintf formatting. Prefixing for the alternate read harness was invalid for the active extended harness, and raw seeds remained no-crash.
+
+### Negative Memory
+Do not repeat the same carrier plus broad mutation after this signal. Do not promote this basin into a recovery until a later verifier-confirmed candidate flips the official gate.

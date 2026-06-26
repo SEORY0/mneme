@@ -23,3 +23,6 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 # Citations
 - Distilled from a server-verified round solve with this format.
+
+## Round 4 Verified Contracts
+- [[mruby-string-search-tail-read]]: A valid script can drive heap-backed string search where a missing multi-byte needle reaches the buffer tail.
