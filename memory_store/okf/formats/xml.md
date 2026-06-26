@@ -19,3 +19,5 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+## Round 3 Verified Contracts
+- [[xml-xinclude-fallback-namespace-uaf]]: XInclude fallback ownership bugs require the entity/envelope options and serialization path, not just malformed XML.

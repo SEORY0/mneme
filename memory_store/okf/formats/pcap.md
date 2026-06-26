@@ -19,3 +19,5 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+## Round 3 Verified Contracts
+- [[pcap-usb-metadata-short-capture]]: Classic PCAP packet records can reach link-type fixup with a capture length shorter than the metadata header.

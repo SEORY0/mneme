@@ -48,3 +48,6 @@ intact and a non-empty `/Contents`.
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+## Round 3 Verified Contracts
+- [[pdf-xref-stream-negative-width]]: XRef stream dictionaries can drive signed sizing disagreement during entry parsing.
+- [[pdf-invalid-indirect-resource]]: Renderable page resources can carry invalid indirect references into rasterization if the catalog, pages tree, and page dictionary stay coherent.

@@ -19,3 +19,5 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 # Citations
 - Distilled from train-set solves with this format + curated format knowledge.
+## Round 3 Verified Contracts
+- [[elf-section-group-member-bounds]]: Section-group payloads can be syntactically valid while a member index escapes the section table consumed later.
