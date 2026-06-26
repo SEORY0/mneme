@@ -184,38 +184,41 @@ def _fake_solve(task_dir: Path, run_dir: Path) -> dict:
     }
 
 
-def _apply_confirm_gate(
+_CRASH_FAILURE_CLASSES = frozenset({"wrong_sink", "generic_crash"})
+
+
+def _should_submit_on_crash(
     candidate_path: "str | None",
     verdict: "RuntimeVerdict | None",
-    confirm_verdict: "ConfirmVerdict | None",
 ) -> tuple[bool, str]:
-    """Pure confirm gate logic — returns (should_submit, reason).
+    """Server-authoritative submit decision — returns (should_submit, reason).
 
-    Rules (spec §5/§6):
-    - If no candidate or no tier-1 verdict: do not submit.
-    - confirm available + target_match=True  → submit.
-    - confirm available + both_crash=True    → do not submit (too generic).
-    - confirm available + target_match=False → do not submit (wrong target).
-    - confirm unavailable + target_likelihood=high → submit (high-confidence fallback).
-    - confirm unavailable + target_likelihood!=high → do not submit.
+    The LOCAL 2-tier confirm (verify_core.confirm, vul+fix docker + sink heuristic)
+    proved too strict: it false-negatived a real solve (arvo:10400 — crash at
+    mng_get_long classified `wrong_sink`, blocked submit, but the SERVER's official
+    vul!=0 & fix==0 verify said target_match=True). The SERVER is the official
+    verifier, so the runner submits any candidate that CRASHED the vulnerable build
+    in tier-1 and lets the server decide `solved`. We do not submit candidates that
+    did not crash (no_crash / bad_format with low likelihood) — those cannot be the
+    target and would waste a submit.
+
+    Rules:
+    - No candidate / no tier-1 verdict → do not submit.
+    - Tier-1 shows a crash (failure_class in {wrong_sink, generic_crash}, OR
+      target_likelihood in {medium, high}) → submit; server decides target_match.
+    - Otherwise (no_crash / bad_format, low likelihood) → do not submit.
     """
     if not candidate_path or not Path(candidate_path).is_file():
         return False, "no_candidate"
     if verdict is None:
         return False, "no_verdict"
-
-    if confirm_verdict is not None and confirm_verdict.available:
-        if confirm_verdict.target_match:
-            return True, "confirm_target_match"
-        elif confirm_verdict.both_crash:
-            return False, "both_crash_too_generic"
-        else:
-            return False, "confirm_no_target_match"
-    else:
-        # confirm unavailable — high-confidence fallback
-        if verdict.target_likelihood == "high":
-            return True, "high_confidence_fallback"
-        return False, f"low_confidence_{verdict.target_likelihood}"
+    crashed = (
+        verdict.failure_class in _CRASH_FAILURE_CLASSES
+        or verdict.target_likelihood in ("medium", "high")
+    )
+    if crashed:
+        return True, "crash_submit"
+    return False, f"no_crash_local_{verdict.failure_class}"
 
 
 def _extract_repo_src(task_dir: Path, run_dir: Path) -> None:
@@ -352,27 +355,16 @@ def _real_solve(
             description=description,
         )
 
-    # C2: Tier-2 confirm gate
-    confirm_verdict = None
-    if candidate_path and Path(candidate_path).is_file() and verdict is not None:
-        try:
-            confirm_verdict = verify_core.confirm(
-                Path(candidate_path),
-                vul_image=imgs["vul_image"],
-                fix_image=imgs["fix_image"],
-                run_cmd=run_cmd,
-                timeout_s=timeout_s,
-                description=description,
-            )
-        except Exception:
-            confirm_verdict = None  # Docker unavailable — fall back to high-confidence gate
-
-    should_submit, submit_reason = _apply_confirm_gate(candidate_path, verdict, confirm_verdict)
+    # Submit decision is server-authoritative: submit any candidate that crashed the
+    # vulnerable build in tier-1, then let the official server verify decide `solved`.
+    # (The local vul+fix confirm is still available to the AGENT via the verify MCP
+    # tool, but the runner no longer gates submission on it — it false-negatived real
+    # solves.)
+    should_submit, submit_reason = _should_submit_on_crash(candidate_path, verdict)
 
     return {
         "candidate_path": candidate_path,
         "verdict": verdict,
-        "confirm_verdict": confirm_verdict,
         "should_submit": should_submit,
         "submit_reason": submit_reason,
     }
@@ -427,7 +419,6 @@ def solve(
 
     candidate_path = solve_result.get("candidate_path")
     verdict = solve_result.get("verdict")
-    confirm_verdict = solve_result.get("confirm_verdict")
     # In fake mode there is no gate result; fake mode never submits
     should_submit = solve_result.get("should_submit", False) and not fake_mode
     submit_reason = solve_result.get("submit_reason", "fake_mode" if fake_mode else "no_gate_result")
@@ -484,15 +475,11 @@ def solve(
         result["official_vul_exit"] = official["vul_exit"]
         result["official_fix_exit"] = official["fix_exit"]
 
-    # M2: Write solved/verified/poc_path so consolidate.propose won't auto-refuse
-    # solved/verified = True only when confirm gate confirmed a real target match
-    confirmed_target = (
-        confirm_verdict is not None
-        and confirm_verdict.available
-        and confirm_verdict.target_match
-    ) or target_match
-    result["solved"] = confirmed_target
-    result["verified"] = confirmed_target
+    # solved/verified come ONLY from the SERVER's official vul!=0 & fix==0 verify
+    # (set in `target_match` above when the candidate was submitted). No local-confirm
+    # override — the server is the authoritative verifier.
+    result["solved"] = target_match
+    result["verified"] = target_match
     result["poc_path"] = candidate_path if candidate_path else None
     result["submit_reason"] = submit_reason
 
