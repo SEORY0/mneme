@@ -39,6 +39,12 @@ Task-agnostic, distilled patterns. Abstract only — no task ids, no concrete of
 - [xml](formats/xml.md)
 - [yara-rules](formats/yara-rules.md)
 
+- [flatbuffers-monster-json](formats/flatbuffers-monster-json.md)
+- [mruby-script](formats/mruby-script.md)
+- [postscript](formats/postscript.md)
+- [proj-params](formats/proj-params.md)
+- [ucl](formats/ucl.md)
+
 ## strategies
 - [construct](strategies/construct.md)
 - [fuzzer](strategies/fuzzer.md)
@@ -46,3 +52,18 @@ Task-agnostic, distilled patterns. Abstract only — no task ids, no concrete of
 - [seed-mutate](strategies/seed-mutate.md)
 - [seed-sweep](strategies/seed-sweep.md)
 - [tiny-probe](strategies/tiny-probe.md)
+
+## causal-policies
+- [flatbuffers-json-escape-boundary](causal-policies/flatbuffers-json-escape-boundary.md)
+- [generic-crash-official-clean-negative-memory](causal-policies/generic-crash-official-clean-negative-memory.md)
+- [mruby-bigint-base-range](causal-policies/mruby-bigint-base-range.md)
+- [mvg-text-attribute-key-buffer](causal-policies/mvg-text-attribute-key-buffer.md)
+- [no-crash-format-recognition-negative-memory](causal-policies/no-crash-format-recognition-negative-memory.md)
+- [no-crash-parser-reached-clean-negative-memory](causal-policies/no-crash-parser-reached-clean-negative-memory.md)
+- [no-crash-parser-reached-no-sink-negative-memory](causal-policies/no-crash-parser-reached-no-sink-negative-memory.md)
+- [no-crash-specialized-clean-exit-negative-memory](causal-policies/no-crash-specialized-clean-exit-negative-memory.md)
+- [no-crash-target-path-not-reached-negative-memory](causal-policies/no-crash-target-path-not-reached-negative-memory.md)
+- [no-crash-wrapper-surface-mismatch-negative-memory](causal-policies/no-crash-wrapper-surface-mismatch-negative-memory.md)
+- [postscript-nul-filename-stream](causal-policies/postscript-nul-filename-stream.md)
+- [proj-grid-selector-buffer](causal-policies/proj-grid-selector-buffer.md)
+- [ucl-multiline-string-boundary](causal-policies/ucl-multiline-string-boundary.md)

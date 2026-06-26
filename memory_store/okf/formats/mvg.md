@@ -36,3 +36,8 @@ geometry field that reaches the target primitive.
 
 # Citations
 - Distilled from a server-verified train solve with an MVG ellipse geometry bug.
+
+## Text annotation expansion
+- Text annotation expansion bugs require a valid canvas plus a text primitive that invokes image-attribute lookup.
+- Keep geometry ordinary when the described sink is text translation; mutate only the attribute key shape.
+- A parser-reached sink-match signal on text expansion is stronger evidence than a generic renderer crash elsewhere.
