@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 runs/
 memory_store/memory_stats.jsonl
+learning/round-*/traces/
 .env
 src/*.egg-info/
 external/
