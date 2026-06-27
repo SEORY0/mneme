@@ -37,3 +37,14 @@ interleaving.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- Ghostscript accepts PostScript or PDF bytes directly. PostScript image programs can set page size, colorspace, current transformation matrix, image dimensions, bits per component, image matrix, and image data source. A nonzero translate plus an image larger than the remaining page span can create a clipped image region whose device origin differs from the source image origin.
+
+### Harness Links
+- [[libfuzzer-ghostscript-tiffsep-device]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

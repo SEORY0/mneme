@@ -479,3 +479,210 @@ Splash font path code is reached.
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- libFuzzer passes the raw file bytes directly. The harness creates a RawImage from front-loaded fields, then consumes a full tile rectangle, constructs VC5Decompressor on the remaining stream, allocates image data, and calls decode. Exceptions are swallowed, so success requires satisfying parser gates and causing an actual sanitizer-detected memory error.
+
+## Format Links
+- [[rawspeed-vc5-fuzzer-envelope]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target feeds raw bytes to FFmpeg target_dec_fuzzer. It scans forward packet by packet, opens a fixed decoder, optionally reads codec parameters from a trailing context block, and decodes each packet until input exhaustion or an iteration cap.
+
+## Format Links
+- [[ffmpeg-aac-decoder-packet-stream]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target consumes the whole file as the decoder byte stream. A small number of bytes also select color format and core count, then the same buffer is used for header decoding followed by frame decoding.
+
+## Format Links
+- [[hevc-elementary-stream]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The selected libFuzzer target copies raw input into a fixed static buffer, truncates at the buffer size, and calls the config parser with an effective length one less than the copied size. It then walks parsed config lines recursively. The harness is not a file parser and no filename or sidecar files are available.
+
+## Format Links
+- [[lwan-config]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The reader harness installs a synthetic smart-card reader, connects a card from the first chunk, binds PKCS#15, then consumes later chunks during card operations. The decode harness loops over PKCS#15 entry decoders and also tries public-key, tokeninfo, and unused-space parsers directly on the raw blob.
+
+## Format Links
+- [[opensc-pkcs15-asn1-or-reader-chunk-stream]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target passes the raw bytes to Assimp Importer.ReadFileFromMemory with no filename hint. Format detection is signature/content based, and material libraries are sidecar opens through Assimp's IO system rather than embedded in the main OBJ bytes.
+
+## Format Links
+- [[wavefront-obj-with-mtl]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer harness returns early for short inputs, then copies the first input region into the format string and the remaining region into the buffer string before calling flb_strptime with a stack tm object.
+
+## Format Links
+- [[fluent-bit-strptime-format-plus-buffer]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target feeds raw bytes directly to the XSLT stylesheet fuzzer. It initializes a fixed source XML document internally, parses the input as a stylesheet, applies it, frees the transform result, and disallows external I/O through security preferences.
+
+## Format Links
+- [[xslt-stylesheet]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target feeds the raw bytes to the sudoers parser through an in-memory file stream. It initializes defaults and invokes the sudoers grammar directly. Parser errors are non-crashing; the candidate must reach include expansion rather than merely trigger a syntax diagnostic.
+
+## Format Links
+- [[sudoers]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The selected fuzzer sends raw stdin to Ghostscript configured with the CUPS raster device. The harness exercises the full interpreter/rendering path. Clean PDF errors and successful rendering both exit normally, so the crash requires a specific interpreter repair/lifetime interaction.
+
+## Format Links
+- [[pdf]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target embeds Ghostscript, copies raw input bytes to Ghostscript stdin, and runs a CUPS raster output device with batch/no-pause options. Parser selection is by document syntax with no sidecar file or mode byte.
+
+## Format Links
+- [[postscript-ghostscript-pattern-document]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target NUL-terminates the raw input, splits on the first two newlines, initializes both projections with the old PROJ API, parses the third line as coordinates, then calls the transform function.
+
+## Format Links
+- [[proj-parameter-lines]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target consumes raw bytes directly. Inputs beginning with a JSON object are routed to the JSON reader. The crash occurs during parse-time assignment, before any need for a valid drawing body.
+
+## Format Links
+- [[libredwg-json]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The Ghostscript fuzz target reads raw document bytes from stdin into an in-process Ghostscript interpreter configured for raster output. There is no separate file system envelope; the font program must be embedded in the document stream itself.
+
+## Format Links
+- [[postscript-or-pdf-with-cff-type2-font]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The run_poc wrapper reads raw bytes from the PoC file and invokes the CPython fuzz target. The observed output shows source bytes are accepted directly; there is no separate file-format envelope or length prefix.
+
+## Format Links
+- [[python-source]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- fuzzshark initializes Wireshark dissectors, registers the configured target dissector as a postdissector, wraps the raw bytes in a packet record with synthetic metadata, and calls epan_dissect_run. There is no file-format wrapper around the packet bytes.
+
+## Format Links
+- [[wireshark-nbap-dissector-payload]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The target is the OpenSC pkcs15init fuzzer. It parses profile text, connects a virtual reader, binds the profile to the card driver, then exercises init, PIN storage, data object storage, key generation, finalization, sanity checks, and erase operations.
+
+## Format Links
+- [[opensc-pkcs15init-profile-plus-virtual-reader-stream]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target NUL-terminates the raw input and calls jq_compile on it. It does not feed JSON input through the compiled program. Parser and compile diagnostics are non-crashing outcomes.
+
+## Format Links
+- [[jq-filter]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target copies raw bytes into an Exiv2 DataBuf, opens an image by sniffing the bytes, calls readMetadata, prints metadata and structures, then calls writeMetadata inside a catch-all exception boundary.
+
+## Format Links
+- [[exiv2-image-metadata-container]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libFuzzer target feeds the raw input to libredwg, decodes DWG/DXF/JSON, then randomly exercises an output path such as encode, DXF, JSON, or GeoJSON before freeing the drawing.
+
+## Format Links
+- [[dwg-dxf-json-drawing-data]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The fuzz target writes raw input as a temporary file and runs GPAC probe/analyze filtering. It is not a direct call to gf_sdp_info_parse. If the probe graph cannot infer a supported input type, it fails setup and never reaches the SDP parser.
+
+## Format Links
+- [[sdp]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The fuzzer initializes an nDPI flow as QUIC over UDP, derives the QUIC version from the first input word, passes the rest to crypto-data extraction, and then processes either GQUIC CHLO tags or TLS data depending on the selected version.
+
+## Format Links
+- [[gquic-quic-crypto-data]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The libical extended fuzzer reads raw bytes as a NUL-terminated calendar string, parses it with libical, and normalizes parsed components. The observed harness did not require an external filename or archive wrapper.
+
+## Format Links
+- [[icalendar]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

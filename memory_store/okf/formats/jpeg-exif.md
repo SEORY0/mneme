@@ -21,3 +21,14 @@ specific entry tables after Exif data is recognized.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- The loader accepts raw image bytes and recognizes JPEG APP1 Exif data as well as Exif/TIFF-style payloads. Exif data contains a TIFF header, image file directories, typed entries with counts, and value areas; maker-note payloads are nested vendor-specific data reachable from Exif entries.
+
+### Harness Links
+- [[libfuzzer-libexif-loader]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

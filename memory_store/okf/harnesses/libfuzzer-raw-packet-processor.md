@@ -15,3 +15,12 @@ okf_support: 0
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The fuzz target passes the entire input directly to nDPI packet processing as one packet. There is no pcap header and no leading mode selector.
+
+## Format Links
+- [[raw-ipv4-packet-carrying-netbios]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -133,3 +133,25 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- The input must be a complete renderable PDF, not a standalone stream object. A useful skeleton contains a catalog, pages tree, page, content stream, trailer, and startxref. Ghostscript can repair malformed cross-reference data, but ordinary repair of xref/startxref or stream lengths is not sufficient by itself.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- A renderable PDF needs a header, catalog, pages tree, page object, media box, resources dictionary, content stream, and image XObject stream. PDF image XObjects declare width, height, bits per component, colorspace, interpolate flag, stream length, and image data; page content invokes an image resource with graphics-state transforms.
+
+### Harness Links
+- [[libfuzzer-mupdf-pdf-renderer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

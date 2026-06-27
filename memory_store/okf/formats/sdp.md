@@ -23,3 +23,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ## Round 6 Verified Contract
 - [[sdp-token-linebuf-overflow]]: Official verification showed that the accepted format skeleton should be preserved while one parser-read logical line violates the relevant fixed-buffer invariant. This is a causal recovery claim backed by official vulnerable/fixed verification.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- SDP consists of line-oriented session fields such as version, origin, session name, timing, optional control attributes, media descriptions, RTP map attributes, and fmtp attributes. The target parser is reachable from the RTP SDP filter after the filter receives SDP text and length.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

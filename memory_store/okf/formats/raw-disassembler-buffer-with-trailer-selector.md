@@ -20,3 +20,25 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- This harness input is not an object file. The leading bytes are treated directly as instruction bytes, and the final trailer selects the BFD disassembler architecture, machine value, and flavor.
+
+### Harness Links
+- [[libfuzzer-binutils-disassembler]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- The disassembler frame is raw instruction bytes plus a fixed trailer selector. It does not require ELF, archive, or section headers; parser reach depends on selecting the correct BFD architecture and leaving the instruction bytes in the front segment.
+
+### Harness Links
+- [[libfuzzer-binutils-disassembler]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

@@ -50,3 +50,14 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- The input is Ruby source text. The relevant BER directive is the pack/unpack template character for base-128 integer encoding. The unpack caller tracks a source index and a template count; BER has no fixed element size, so the normal short-buffer size guard does not stop an empty source before calling the BER helper.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

@@ -17,3 +17,14 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- This fuzzshark target is configured for a UDP dissector selected through the IP protocol dissector table. The input is treated as packet bytes for that dissector family rather than as a pcap file. Payloads that look like UDP plus higher-level BER-style data can execute cleanly without reaching property-list handling.
+
+### Harness Links
+- [[libfuzzer-fuzzshark-epan]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

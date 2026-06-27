@@ -15,3 +15,12 @@ okf_support: 0
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 11 Input Contract
+- The harness writes the raw input bytes to a temporary file and opens that file through BFD auto-detection before checking archive format. There is no mode-selector byte and no FuzzedDataProvider field carving; all structure is in the archive bytes.
+
+## Format Links
+- [[som-library-archive]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

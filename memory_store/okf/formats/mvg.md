@@ -52,3 +52,14 @@ geometry field that reaches the target primitive.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 11 Factual Contract
+
+### Schema / Invariants
+- MVG is a line-oriented vector drawing format. A minimal document can begin with a viewbox/canvas declaration followed by drawing primitives. The ellipse primitive carries center coordinates, radii, and angle bounds as decimal fields; this parser path has no checksum or container header beyond recognizable MVG syntax.
+
+### Harness Links
+- [[libfuzzer-graphicsmagick-mvg]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.
