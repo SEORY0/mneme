@@ -43,3 +43,6 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 13 Facts
+- The target parser is libxml2's xmlTextReader path over an XML document containing DTD declarations, entity declarations, and possible entity-reference nodes. The vulnerable lifetime shape is tied to freeing document-level entity structures before freeing reader node lists that can still contain references.

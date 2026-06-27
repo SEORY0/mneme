@@ -22,3 +22,6 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 13 Facts
+- The xpswrite target accepts Ghostscript-readable document languages such as PostScript, PDF, and XPS. Simple image operators can render pages through the device, but the described bug depends on xpswrite output finalization and libtiff client-data lifetime, not merely on rendering any bitmap.

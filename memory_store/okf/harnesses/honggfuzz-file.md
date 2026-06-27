@@ -31,3 +31,6 @@ okf_support: 4
 
 ## Round 9 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 13 Facts
+- The source fuzzer writes raw input to a temporary file, opens it with BFD auto-detection, and calls archive-format checking. The arvo image wrapper for this task appears to be honggfuzz-oriented and did not produce the normal one-input libFuzzer execution transcript.

@@ -9,7 +9,7 @@ input_format: "mosquitto-config-text"
 harness_convention: "libfuzzer"
 vuln_class: "heap-use-after-free-read"
 access_scope: generate
-success_count: 1
+success_count: 2
 confidence: high
 tags: ["wrong-sink", "target-crash-despite-sink-mismatch", "mosquitto-config-text", "verified-recovery", "round-12"]
 match_keys: ["wrong_sink", "target_crash_despite_sink_mismatch", "mosquitto-config-text", "libfuzzer", "heap-use-after-free-read", "verified_recovery"]
@@ -51,3 +51,22 @@ The libFuzzer input is written directly to a temporary Mosquitto configuration f
 - Do not store raw payload bytes, exact positions, task identifiers, or submit metadata.
 - Do not widen mutation after the parser envelope is accepted; shrink back to the single boundary relation when the fixed image also crashes.
 - Do not promote this policy to another format unless the same failure key and verifier signal recur under official comparison.
+## Round 13 Reinforcement
+
+- key: `wrong_sink x target_crash_despite_sink_mismatch`
+- candidate family: `construct`
+- related format facts: [[mosquitto-config-text]]
+- related harness facts: [[libfuzzer]]
+
+### Procedure Delta
+Use a minimal Mosquitto broker configuration that first creates the implicit default listener through a default-listener directive, then appends a separate explicit listener so the listener array is reallocated, then uses another default-listener directive. The final directive touches the stale default-listener pointer retained from before reallocation.
+
+### Format Contract Delta
+Mosquitto broker configuration is newline-separated directive text. Some global directives implicitly create or modify the default listener, while explicit listener directives append listener records to the listener array. Directives are processed sequentially and later directives operate on parser state created by earlier lines.
+
+### Harness Contract Delta
+The selected libFuzzer target writes the raw input bytes to a temporary Mosquitto configuration file and invokes the broker in test-configuration mode. There is no binary envelope, mode selector, MQTT packet wrapper, or FuzzedDataProvider carving.
+
+### Evidence Shape
+- Support: additional round-13 official target match.
+- Scope: generator repair for the same failure-keyed basin.

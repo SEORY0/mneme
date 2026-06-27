@@ -19,3 +19,6 @@ okf_support: 3
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 13 Facts
+- The source tree builds OpenThread fuzz targets including ip6-send, radio-receive-done, ncp-uart-received, and cli-uart-received. Local verify identified the selected target as the ip6-send honggfuzz wrapper; the wrapper printed fuzzing usage instead of consuming the supplied single PoC file as raw input.

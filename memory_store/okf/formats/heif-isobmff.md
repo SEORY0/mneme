@@ -20,3 +20,6 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 13 Facts
+- The handler recognizes ISO BMFF HEIF files by a leading file-type box with supported HEIF brands. Structurally valid seeds include ftyp plus a HEIF box graph that libheif can load and decode; short ftyp-only carriers reach the handler but are rejected by libheif as unsupported or incomplete.

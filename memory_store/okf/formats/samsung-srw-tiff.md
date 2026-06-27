@@ -19,3 +19,6 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 13 Facts
+- The Samsung SRW path is TIFF-based. Reachability depends on baseline TIFF structure plus Samsung-identifying metadata, image dimensions, bit depth, compression selector, strip offsets/byte counts, and Samsung line/row offset metadata. Samsung V0 compressed data is row-oriented; the target invariant involves upward prediction being selected where no previous rows are valid.

@@ -16,3 +16,7 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 13 Facts
+- The gstoraster harness passes the raw input bytes through Ghostscript stdin with cups output-device arguments, quiet/batch/no-pause flags, and no leading mode selector or FuzzedDataProvider carving.
+- The harness is the same raw gstoraster libFuzzer target as other Ghostscript tasks: no input prefix, no external file dependencies, and Ghostscript is invoked with fixed cups rasterization arguments.

@@ -1,0 +1,15 @@
+---
+type: harness
+title: "Afl Libfuzzer"
+access_scope: generate
+confidence: medium
+tags: ["afl-libfuzzer", "harness", "round-13"]
+forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
+train_only: true
+---
+# Afl Libfuzzer
+
+## Round 13 Facts
+- The kimgio HEIF AFL-compatible wrapper feeds the whole PoC as QBuffer data to the Qt image handler. The handler peeks at the header through canRead, then reads all remaining bytes and passes the memory buffer to libheif. There is no front selector.
+- The selected RawSpeed parser wrapper consumes raw bytes as a camera file, constructs a RawParser, gets a decoder, disables crop/unknown-camera hard failures, then calls decodeRaw and decodeMetaData. C++ RawSpeed exceptions are caught; sanitizer faults are the relevant signal.
+- The GraphicsMagick DPX AFL-compatible wrapper consumes the entire PoC as a DPX image file through the coder_DPX_fuzzer target. There is no front selector; parser reachability depends on a valid DPX header and element metadata.

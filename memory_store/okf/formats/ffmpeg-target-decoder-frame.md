@@ -20,3 +20,6 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 13 Facts
+- The FFmpeg target decoder fuzzer treats the front of the input as one or more raw packet regions separated by a fixed split tag. When the input is large enough, a fixed-size tail configures codec context fields and optional extradata before avcodec_open2 and packet decoding.

@@ -20,3 +20,6 @@ The fuzzer input is split at a NUL byte into profile text and a synthetic smart-
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 13 Facts
+- OpenSC virtual-reader fuzz inputs are synthetic smart-card transcripts. Reader chunks are length-prefixed; the first chunk is used as ATR/card identity data and later chunks are returned as APDU response data with trailing status words. For this bug, the semantic invariant is that SW1 indicating success must be paired with the correct SW2 before key material is consumed.

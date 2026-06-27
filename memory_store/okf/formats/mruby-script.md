@@ -72,3 +72,8 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 13 Facts
+- The input is plain mruby source text, not bytecode or protobuf. Large integer literals are compiled into bigint pool entries and loaded by the VM at runtime. Literal base and digit count affect the serialized bigint representation and whether the crash is the target or an off-target both-build failure.
+- The input is plain mruby source text. Valid Ruby syntax is required; calls into sprintf-style float formatting can select the exponential formatter and vary precision and rounding behavior.
+- The input is plain mruby source text. Valid scripts execute through mrb_load_string; method calls such as p, print, method lookup, and Kernel introspection are ordinary Ruby-level operations in this harness.

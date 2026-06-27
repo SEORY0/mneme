@@ -19,3 +19,6 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+
+## Round 13 Facts
+- The logical input is not an AAC file. Front-loaded FuzzedDataProvider fields choose encoder parameters such as sample rate, channel mode, bit-rate, audio object type, SBR/USAC/DRC flags, and then supply synthetic PCM frame bytes or fill values.
