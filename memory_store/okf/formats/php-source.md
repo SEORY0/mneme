@@ -22,3 +22,11 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The input format is plain PHP source. Useful candidates are complete scripts that avoid parse errors and interpreter bailouts, then run repeated loops or function calls to make JIT traces hot. Global variable access, mutation of refcounted values, and binding/importing globals are the relevant language features for this bug class.
+- Harness link: [[libfuzzer-tracing-jit]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

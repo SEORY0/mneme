@@ -59,3 +59,11 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The useful structure is raw XML text with an internal DTD declaring an element and namespace declaration attributes. Namespace declarations can be written with a prefix or default xmlns name, and DTD attribute type/default choices control whether validation attempts ID handling on the namespace declaration.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

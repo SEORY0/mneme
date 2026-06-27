@@ -18,3 +18,11 @@ through its normal interpreter.
 
 ## Round {ROUND} Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 19 Input Contract
+
+- gstoraster_fuzzer passes the entire input as Ghostscript stdin using the cups raster device arguments. There is no custom fuzzer envelope; the bytes must be a Ghostscript/PDF/PostScript document accepted from stdin.
+- Format link: [[pdf-postscript-cmap]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

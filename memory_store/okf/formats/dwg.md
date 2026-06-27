@@ -29,3 +29,11 @@ legacy table records. Modern DWG headers route to different decoders and miss th
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- DWG begins with an AutoCAD version marker that selects the binary decoder generation. R13/R2000-era files contain section metadata, class records, object tables, handles, and bit-packed object streams; class count and type ranges must remain coherent enough to reach object dispatch.
+- Harness link: [[libfuzzer-raw-dwg-dxf-json-dispatcher]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

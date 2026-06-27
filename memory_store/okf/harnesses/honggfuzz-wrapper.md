@@ -31,3 +31,11 @@ okf_support: 3
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 19 Input Contract
+
+- The objdump-safe fuzzer writes the raw input to a temporary file and runs objdump display logic with many dump options enabled but unsafe exiting paths disabled. There is no input prefix or FuzzedDataProvider split.
+- Format link: [[alpha-ecoff-object]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

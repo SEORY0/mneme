@@ -25,3 +25,11 @@ text fallback. It appends termination where needed but does not otherwise carve 
 
 ## Round {ROUND} Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 19 Input Contract
+
+- The LibreDWG libFuzzer harness dispatches raw input by leading syntax: DWG version marker for binary DWG, JSON opening syntax for JSON, otherwise DXF text. It does not carve a mode byte.
+- Format link: [[dwg]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

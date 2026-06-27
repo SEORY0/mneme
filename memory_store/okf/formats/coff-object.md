@@ -21,3 +21,11 @@ count, followed by an optional string table.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- COFF objects require a file header, section table, raw section data, relocation entries, and a symbol table/string table relation. AArch64 relocation handling depends on machine type, relocation type, section flags, and symbols that make BFD apply the relocation.
+- Harness link: [[honggfuzz-libfuzzer-driver]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

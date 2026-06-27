@@ -18,3 +18,11 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Input Contract
+
+- The OSS-Fuzz run_poc wrapper invokes the generated FFmpeg target decoder fuzzer on the PoC file. The decoder fuzzer consumes the file as packet bytes for one compiled decoder, can split packets internally, and may use a trailing context block on larger inputs. There is no front mode byte and no FuzzedDataProvider object.
+- Format link: [[ffmpeg-mpegvideo-target-decoder-packets]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

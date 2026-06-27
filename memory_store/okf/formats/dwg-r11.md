@@ -21,3 +21,11 @@ CRC/sentinel data, and entity/table payloads whose offsets must remain mutually 
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- R11 DWG files start with an AC legacy version marker and include pre-R13 section tables, sentinels, header variables, entity/block ranges, table records, optional auxheader data, and CRC/sentinel material. Small random corruption usually exits early.
+- Harness link: [[libfuzzer-raw-dwg-dxf-json-dispatcher]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

@@ -17,3 +17,11 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- JPEG XL inputs are binary codestream/container bytes. Valid seeds carry enough codestream structure to reach the decoder, but feature groups such as noise require specific image metadata and frame data rather than arbitrary padding.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

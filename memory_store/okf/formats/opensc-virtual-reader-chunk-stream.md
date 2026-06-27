@@ -43,3 +43,11 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The target domain is an OpenSC virtual smart-card exchange. Inputs need to model an ATR followed by card responses to APDUs. Oberthur PKCS#15 parsing depends on selected files and returned TLV-like records for token metadata, certificates, keys, authentication objects, or private file-control structures.
+- Harness link: [[honggfuzz-libfuzzer-compatible]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

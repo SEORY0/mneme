@@ -30,3 +30,11 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 19 Factual Contract
+
+- The objects fuzzer accepts raw git object body bytes, not a loose-object or zlib envelope. Tag objects are line-oriented headers followed by an optional blank-line separator and message body; the parser reaches tag message handling only after object, type, tag, and optional tagger headers are accepted.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

@@ -15,3 +15,11 @@ okf_support: 0
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 19 Input Contract
+
+- The fuzzshark binary reads a packet-capture input file and was configured at runtime for a UDP dissector under an IP protocol table. It disables unrelated dissectors before processing the file. The input is not a bare protocol payload.
+- Format link: [[pcap-udp-packet]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

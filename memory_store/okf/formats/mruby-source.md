@@ -49,3 +49,11 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The input is plain mruby source code. Useful candidates must be syntactically valid Ruby and reach compiler/codegen behavior rather than binary parsing. Block forms with ordinary arguments, splats, destructuring, defaults, nested lambdas, and block forwarding are accepted language constructs.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

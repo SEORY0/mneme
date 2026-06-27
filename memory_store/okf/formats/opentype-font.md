@@ -90,3 +90,11 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- OpenType fonts have a sfnt header, a table directory, and checksummed table records. Variable fonts add variation tables such as axis definitions, glyph variation data, metric variation data, and optional feature-variation records; OTS may drop variation-related tables when validation fails.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

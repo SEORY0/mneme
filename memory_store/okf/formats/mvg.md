@@ -88,3 +88,11 @@ geometry field that reaches the target primitive.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- MVG is accepted as raw drawing commands. A path primitive can contain SVG-like move, line, and curve commands inside quoted path data; polyline/polygon primitives are separate MVG records. Path rendering converts parsed primitive points into a PathInfo array and adds ghostline closure entries for open subpaths.
+- Harness link: [[afl-libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

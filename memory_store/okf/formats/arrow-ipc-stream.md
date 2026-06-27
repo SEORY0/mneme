@@ -20,3 +20,11 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- Arrow IPC stream data is a sequence of framed FlatBuffer messages. Schema messages define dictionary ids and nested value types; dictionary batch messages carry record-batch payloads and an is-delta flag; record batches follow after required dictionaries are available. The target relation requires a valid nested dictionary stream where a later dictionary batch is treated as a delta and concatenated with an earlier dictionary.
+- Harness link: [[afl-libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

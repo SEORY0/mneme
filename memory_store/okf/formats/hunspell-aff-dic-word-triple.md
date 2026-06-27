@@ -34,3 +34,11 @@ The input represents three logical files: the word to check, an affix file, and 
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The logical data consists of a word, an affix file, and a dictionary file. The affix file can declare encoding, flags, compound controls, replacement tables, conversion tables, suffix rules, and compound-pattern rewrite rules. The dictionary begins with a word count and then stems with optional flags.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

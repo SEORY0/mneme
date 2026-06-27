@@ -41,3 +41,11 @@ Preserve the selector that reaches the target disassembler, then use an instruct
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The input is a raw instruction stream followed by disassembler selector metadata. TIC30 instructions are fixed-width words interpreted by architecture-specific printer tables; operand encodings include register operands, indirect operands, branch operands, and parallel-operation variants that can route through different formatting helpers.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

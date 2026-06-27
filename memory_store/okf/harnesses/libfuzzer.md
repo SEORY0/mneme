@@ -1194,3 +1194,11 @@ Splash font path code is reached.
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Input Contract
+
+- libFuzzer feeds the entire file as the raw data buffer to libgit2 object parsing for multiple object types. There is no mode byte, length prefix, argv file format, or fuzzer-side terminator.
+- Format link: [[git-raw-object]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

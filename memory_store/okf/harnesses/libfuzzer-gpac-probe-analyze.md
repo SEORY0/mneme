@@ -18,3 +18,11 @@ elementary-stream start codes.
 
 ## Round {ROUND} Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 19 Input Contract
+
+- The active binary is GPAC fuzz_probe_analyze. It treats the raw input as a media asset in a temporary file and runs GPAC probing and inspection. There is no mode byte or FuzzedDataProvider layout; successful reachability appears in the inspection output and codec-specific parser diagnostics.
+- Format link: [[gpac-vvc-or-hevc-media-probe-input]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

@@ -15,3 +15,11 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 19 Input Contract
+
+- The generated fuzzshark binary selected the IP dissector target. It consumes the raw file bytes as an IP packet buffer, not as a pcap file and not as direct XCSL text. Reaching XCSL through this target requires a syntactically acceptable IP packet that reaches TCP dissection and then the XCSL TCP heuristic.
+- Format link: [[wireshark-fuzzshark-ip-to-xcsl]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.
