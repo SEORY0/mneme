@@ -26,3 +26,17 @@ offset/stride tables.
 
 # Citations
 - Distilled from server-verified training outcomes with this format family.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- GIF parsing requires a valid signature, logical screen descriptor, palette relationship, image
+  descriptor, LZW minimum code size, sub-block image data, and terminator.
+- The vulnerable path is entered by selecting interlaced image decoding and producing decoded
+  pixels, not by corrupting the trailer.
+
+### Harness Links
+- [[honggfuzz-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

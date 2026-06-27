@@ -22,3 +22,18 @@ buffer.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- MapServer mapfiles are line-oriented text files whose first significant token must be the MAP
+  keyword and whose top-level block normally ends with END.
+- Keywords such as NAME consume string tokens.
+- Quoted strings are accumulated by a lexer state machine into a shared buffer; normal closing
+  quotes store a terminator, while EOF inside that state can leave the buffer unterminated.
+
+### Harness Links
+- [[afl-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

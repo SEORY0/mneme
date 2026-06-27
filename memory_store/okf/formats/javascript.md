@@ -38,3 +38,16 @@ terminators.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The input format is plain JavaScript source.
+- RegExp literals and RegExp constructor calls are parsed and compiled by Hermes before execution;
+  JavaScript exceptions are swallowed by the harness.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

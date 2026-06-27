@@ -44,3 +44,14 @@ options once, then parses the buffer in parse-only mode.
 
 ## Round 8 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 9 Input Contract
+- The AFL-style file harness rejects very small and very large files, writes the fuzz input as a
+  mapfile, and calls the normal mapfile loader.
+- The input is not carved; bytes are interpreted directly by the MapServer lexer/parser.
+
+## Round 9 Format Links
+- [[mapserver-mapfile]]
+
+## Round 9 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -20,3 +20,16 @@ okf_support: 2
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The libdwarf frame fuzzer expects a complete object/debug file, commonly ELF or PE, with coherent
+  section headers and DWARF frame sections.
+- Reaching the target requires valid enough CIE/FDE records and augmentation strings/data lengths
+  for dwarf_get_fde_list and augmentation-data accessors to parse them.
+
+### Harness Links
+- [[afl-file-fuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

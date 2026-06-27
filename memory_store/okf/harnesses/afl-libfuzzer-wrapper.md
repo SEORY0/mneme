@@ -19,3 +19,24 @@ okf_support: 3
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 9 Input Contract
+- The AFL-style fuzzer writes the raw bytes to a temporary file, opens it with BFD using auto target
+  detection, checks archive format, and closes it.
+- It does not carve the input or consume fields from the back.
+- The AFL-style target treats the input as one raw radio PSDU, rejects frames above the radio
+  maximum, initializes an OpenThread leader instance, then passes the frame to radio receive
+  completion.
+- There is no mode selector or back-consumed size field.
+- The selected wrapper wrote raw bytes to a temporary file and invoked UPX test mode on it.
+- There was no input carving.
+- The output indicated the test_packed_file_fuzzer path, which reports NotPackedException or file-
+  size rejection for invalid envelopes.
+
+## Round 9 Format Links
+- [[ieee802154-thread-mle-frame]]
+- [[upx-packed-pe]]
+- [[xcoff-archive]]
+
+## Round 9 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

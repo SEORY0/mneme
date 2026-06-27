@@ -19,3 +19,15 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The fuzzer expects a raw Blosc compressed buffer whose header reports nonzero uncompressed size, a
+  compressed size equal to the total input length, and a buffer that passes blosc_cbuffer_validate
+  before decompression into an output allocation sized from the compressed length.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

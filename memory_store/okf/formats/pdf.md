@@ -95,3 +95,25 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- PDF inputs for this harness are complete raw documents.
+- Useful corpus samples have a normal PDF envelope with indirect objects, content streams, pages,
+  fonts, and xref/trailer data; parser reach depends on a loadable document and at least one page
+  renderable by Poppler.
+- The PDF harness expects a complete PDF byte stream with header, indirect objects, xref/trailer,
+  and a catalog.
+- Rendering requires a page tree and at least one page object; content streams and image XObjects
+  can have independent stream dictionaries, filters, declared lengths, and resource references.
+- PDF inputs are complete raw documents.
+- Parser reach requires recognizable PDF structure with xref/trailer and at least one page;
+  malformed content streams or resource objects can still be repairable enough for MuPDF to render
+  and enter image/bitmap handling.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

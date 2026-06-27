@@ -26,3 +26,16 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ## Round 4 Verified Contracts
 - [[mruby-string-search-tail-read]]: A valid script can drive heap-backed string search where a missing multi-byte needle reaches the buffer tail.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text.
+- Array literals/ranges are enough to reach the core Array implementation; calling shift with an
+  explicit integer argument uses the multi-shift path rather than the one-element shift helper.
+
+### Harness Links
+- [[honggfuzz-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

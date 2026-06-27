@@ -21,3 +21,17 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 - Distilled from train-set solves with this format + curated format knowledge.
 ## Round 3 Verified Contracts
 - [[pcap-usb-metadata-short-capture]]: Classic PCAP packet records can reach link-type fixup with a capture length shorter than the metadata header.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The harness expects a complete PCAP file, not a raw packet.
+- A valid global header and packet record are required.
+- The vulnerable path is reached through Ethernet linktype parsing, VLAN ethertype rechecks, and
+  then MPLS ethertype handling.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -27,3 +27,17 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The target accepts raw OpenType/TrueType font bytes.
+- Valid fonts need a normal sfnt table directory and shaping-relevant tables such as cmap/glyf or
+  CFF plus metrics/layout tables; corrupting table offsets or lengths too broadly tends to be
+  sanitized away before shaping.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

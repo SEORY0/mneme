@@ -22,3 +22,18 @@ interleaving.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- Ghostscript accepts raw PostScript or PDF on this harness.
+- Pattern dictionaries need coherent PatternType, PaintType, TilingType, BBox, step values, matrix,
+  and PaintProc entries to reach tiling.
+- Image dictionaries need coherent dimensions, bits per component, image matrix, decode array, and
+  data source.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
