@@ -32,3 +32,14 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- The useful format is XML text with optional declarations, encodings, entities, and nested content that can drive libxml2 input-buffer growth and error handling. Merely malformed XML or entity expansion is insufficient without the allocation/reset timing.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

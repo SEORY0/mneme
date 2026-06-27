@@ -39,3 +39,14 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source code. FileTest is exposed in the runtime as a class in the vulnerable build, so scripts can interact with it through class operations that would normally be invalid for a module.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

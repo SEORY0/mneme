@@ -21,3 +21,14 @@ status words and the preceding bytes are copied as APDU response data.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input is a sequence of little-endian length-prefixed chunks. The first chunk becomes the reader ATR. Later chunks are returned as APDU responses, with the final two response bytes interpreted as status words and the preceding bytes copied as response data.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

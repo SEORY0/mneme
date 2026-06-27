@@ -117,3 +117,19 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- PDF input is accepted as raw file bytes. Poppler needs a normal header, catalog/pages/page graph, valid xref or recoverable objects, and stream dictionaries with Length entries before page rendering or stream construction paths are exercised.
+- The PDF needs a header, catalog, pages node, page object, resources dictionary with a usable font, and a content stream whose declared length matches parseable text operators. A simple text object is sufficient to drive glyph metadata creation.
+- The input must be a loadable PDF document with enough catalog, page, xref/trailer, and page resources for Poppler to create pages and render them. Broken-file reachability depends on preserving document repair gates while corrupting a narrow object/resource relation.
+- Renderable PDFs need a valid page tree, resources, font references, and content streams. Font-related crashes are best approached from real PDFs that embed or select fonts which drive FreeType glyph loading rather than from a bare object skeleton.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-raw-pdf-renderer]]
+- [[raw-pdf-text-extraction-render-harness]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

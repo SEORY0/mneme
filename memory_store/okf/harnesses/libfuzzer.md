@@ -422,3 +422,60 @@ Splash font path code is reached.
 
 ## Round 9 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 10 Input Contract
+- The libFuzzer entry rejects only empty input, then calls magic_buffer on the entire byte string. There is no mode byte, file path, FuzzedDataProvider layout, or checksum gate.
+- The local verifier runs a curl FTP libFuzzer target on the raw file bytes. No front/back FuzzedDataProvider carving was visible from the candidate behavior; the whole file is consumed by the target wrapper as its stimulus.
+- Raw libFuzzer bytes are interpreted directly as a C string. There is no archive or file envelope despite the coarse card; parser reachability depends on a final terminator and no newline.
+- The active binary was the HarfBuzz shape fuzzer. It consumes the entire file as an hb_blob, creates an hb_face and hb_font, shapes fixed ASCII text, then reuses trailing input bytes as UTF-32 text for a second shaping pass. There is no external wrapper or checksum.
+- The libFuzzer input is raw bytes with a maximum-size gate. The 4i path is enabled only for word-aligned input; fields are consumed from the front with no file wrapper, checksum, or magic.
+- The fuzz harness feeds the raw file bytes directly to the Lwan HTTP request parser. There is no mode byte or provider-carved trailer; preserving a valid request-line and header-line grammar is enough to reach header parsing.
+- The harness installs a fake OpenSC reader, connects a card, binds PKCS15, and consumes APDU response chunks front-to-back. After binding, additional chunks supply operation inputs and parameters for object operations.
+- The libFuzzer target passes the entire raw byte string to poppler::document::load_from_raw_data, skips locked or unloaded documents, creates each page, and renders each page with poppler::page_renderer. There is no FuzzedDataProvider carving.
+- The fuzzer passes raw IE bytes to scan-result and probe-request P2P handlers, and also treats long inputs as action frames. No outer 802.11 frame is needed for the scan/probe IE path.
+- Raw libFuzzer bytes are split by the target: most bytes are passed to the JPEG XL decoder and the final option word is consumed by the harness. A valid seed reaches basic-info, frame, image-output, and full-image decoder events; changing suffix bits alters the output-buffer path.
+- The harness passes the raw file bytes to libbpf object open-from-memory and then closes the object. There is no extra provider-carved metadata; the ELF section graph itself must drive reachability.
+- The fuzz target launches Ghostscript in-process with a CUPS raster output device and copies raw input bytes to Ghostscript stdin. There is no outer archive; parser selection is by document syntax.
+- The fuzzer consumes the whole input as a little-endian ByteStream. It creates RawImage metadata from the front fields, reads offset and compatibility fields, allocates image data, constructs LJpegDecompressor over the remaining bytes, and catches RawSpeed exceptions.
+- The selected GStreamer discoverer harness wraps the raw file bytes in an appsrc URI. Typefinding and parser selection happen inside the pipeline; there is no separate filename or container wrapper required for text subtitle inputs.
+- The libFuzzer input is raw bytes. Inputs shorter than the configuration prefix are ignored; successful candidates must satisfy encoder initialization before frame bytes are passed to the encode API.
+- Raw bytes are written to a temporary file, opened by libdwarf, and processed through repeated frame-list reads for debug-frame and exception-frame sections under several frame-rule settings.
+- The fuzzer writes the raw bytes to a temporary file, opens it, calls dwarf_init_b, then repeatedly reads .debug_frame and .eh_frame while varying frame-rule default values. There is no selector byte or FuzzedDataProvider carving.
+- The active verifier binary consumes raw file bytes as the XML fuzzer input. Some libxml2 fuzzers support option and allocation-limit fields, but the observed target accepted raw XML-style files directly and did not expose a separate mode byte in these attempts.
+- Fuzzshark initializes Wireshark epan and passes raw bytes to one configured dissector handle. In this run the handle was the UDP dissector from the IP protocol table, not an IS-IS or CLNP dissector.
+- The active binary was GPAC fuzz_probe_analyze. It writes or treats the raw bytes as a probed media input; there is no mode byte. Failed candidates produced an empty inspection document or a filter setup failure rather than a direct parser call.
+- The harness copies raw bytes into a NUL-terminated buffer and executes them with the mruby string loader. There is no length trailer or multi-field provider contract; reachability depends on valid mruby syntax and runtime operations.
+- The target compiles and executes raw PHP source bytes directly. There is no file-format wrapper; reaching the sink requires valid PHP code that creates attributes and forces reflection-based instantiation during execution.
+- The fuzzer passes the entire raw byte string as a SIP message buffer, calls parse_msg, parse_headers, parse_sdp, and several SIP header parsers. There is no front selector or FuzzedDataProvider layout; SIP and Content-Length syntax are the main gates.
+- The observed verifier runs an FFmpeg Media100 codec fuzzer over the raw file bytes plus wrapper-supplied codec context. There is no external container parser in these attempts; packet bytes must themselves satisfy the converter and downstream decoder gates.
+- The FFmpeg demux fuzzer feeds raw bytes through a custom AVIO context. For non-flat builds it can reserve a trailer for IO controls and filename hints, but this run reported the image2 demux target rather than the expected animated JPEG XL demux target.
+
+## Round 10 Format Links
+- [[curl-protocol-fuzzer-input]]
+- [[elf-dwarf-frame-object]]
+- [[elf-dwarf-object]]
+- [[elf-with-btf]]
+- [[ffmpeg-media100-packet]]
+- [[file-magic-raw-buffer]]
+- [[http-request]]
+- [[image-jpegxl-or-image2]]
+- [[jpeg-xl-codestream]]
+- [[libavc-encoder-config-plus-frame-bytes]]
+- [[libidn2-raw-domain-or-uint32-codepoints]]
+- [[mruby-script]]
+- [[ogg-opus-or-gpac-probe-input]]
+- [[opensc-fuzz-reader-chunks]]
+- [[opentype-aat-morx-font]]
+- [[ovs-odp-text]]
+- [[pdf]]
+- [[pdf-postscript]]
+- [[php-script]]
+- [[rawspeed-ljpeg-decompressor-envelope]]
+- [[sip-message-with-sdp-body]]
+- [[subtitle-text]]
+- [[wifi-p2p-information-elements]]
+- [[wireshark-udp-dissector-payload]]
+- [[xml]]
+
+## Round 10 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

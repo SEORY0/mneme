@@ -20,3 +20,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- The vulnerable IS-IS area-address CLV is a type-length-value record whose value contains one or more length-prefixed area addresses; the formatting bug is associated with a specific address length. The selected target, however, receives UDP payload structure, beginning with UDP header fields when routed through the UDP dissector.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

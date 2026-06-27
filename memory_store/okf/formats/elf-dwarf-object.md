@@ -21,3 +21,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- The fuzzer expects a complete object/debug file container, not a raw DWARF section. It initializes libdwarf on the file and then queries frame data from standard frame sections, requiring valid section metadata plus CIE/FDE records for augmentation parsing.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

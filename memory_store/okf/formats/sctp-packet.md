@@ -21,3 +21,14 @@ specific handshake state before later chunks are interpreted deeply.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- SCTP packets have a common header followed by typed chunks with chunk-local lengths and padding. In this client harness the common header is synthesized by the target for the fuzzed packet, so the file bytes after the selector represent chunk payloads rather than a full wire packet.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

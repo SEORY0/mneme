@@ -21,3 +21,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 10 Factual Contract
+
+### Schema / Invariants
+- The execute fuzzer consumes a normal PHP source file. Attribute syntax is parsed at compile time, and reflection can materialize attribute objects by invoking their constructors with positional and named attribute arguments.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

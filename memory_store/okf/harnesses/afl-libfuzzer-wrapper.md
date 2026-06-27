@@ -40,3 +40,12 @@ okf_support: 3
 
 ## Round 9 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 10 Input Contract
+- The verifier runs a RawSpeed AFL-style parser/get-decoder/decode wrapper on raw file bytes. An empty file aborts in harness setup, while nonempty candidate containers are parsed or rejected without a target sanitizer report.
+
+## Round 10 Format Links
+- [[rawspeed-camera-file-or-jpeg-container]]
+
+## Round 10 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
