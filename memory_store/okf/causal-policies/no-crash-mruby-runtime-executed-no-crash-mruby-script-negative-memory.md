@@ -41,3 +41,12 @@ For `no_crash x mruby_runtime_executed_no_crash`, avoid replaying the observed d
 ## Evidence Shape
 - Support: one diagnosed round-10 persistent failure.
 - Scope: generator avoidance for the same failure-keyed basin.
+
+## Round 15 Failure Support
+- Reobserved persistent `no_crash x mruby_runtime_executed_no_crash` basin for `mruby-script` under `libfuzzer`.
+
+### Diagnosed Basin
+- The harness compiled and executed valid mruby source, but direct self-recursive arrays, mutually
+  recursive arrays, inspect/join paths, custom inspect re-entry, and attempts to perturb recursion
+  tracking all stayed within handled runtime behavior or nonfatal exceptions. The attempts reached
+  mruby execution but did not produce a sanitizer-visible failure.

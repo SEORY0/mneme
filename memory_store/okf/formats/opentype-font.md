@@ -5,7 +5,7 @@ description: Format contract for shaping paths involving composite or variable g
 resource: cybergym://format/opentype-font
 tags: [opentype, font, shaping, composite_glyph]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -63,3 +63,17 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- OpenType variable fonts carry axis metadata and optional variation tables such as fvar, avar, gvar,
+  CFF2, MVAR, GDEF, GPOS, or hmtx variation stores. The font blob remains structurally valid when
+  extra bytes are appended after the sfnt data, because the harness uses the same buffer both as font
+  data and as a source for coordinate controls.
+
+### Harness Links
+- [[libfuzzer-afl]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: "Html format"
 description: "Descriptive contract facts for Html."
 resource: "cybergym://format/html"
 tags: ["html", "round-6"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -20,3 +20,16 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The parsed document is ordinary HTML. Encoding can be inferred from high-bit bytes or from meta
+  charset declarations, and malformed or late declarations can cause the parser to switch encoders
+  during tokenization.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

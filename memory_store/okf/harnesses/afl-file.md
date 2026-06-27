@@ -3,7 +3,7 @@ type: harness-contract
 title: "Afl File harness"
 description: "Input contract facts for Afl File."
 tags: ["afl-file", "round-6"]
-okf_support: 2
+okf_support: 3
 ---
 # Afl File Harness
 
@@ -54,4 +54,15 @@ options once, then parses the buffer in parse-only mode.
 - [[mapserver-mapfile]]
 
 ## Round 9 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 15 Input Contract
+- The active GraphicsMagick harness runs the MVG coder against the raw file contents. It is file/stdin
+  style rather than a FuzzedDataProvider harness, and the bytes are interpreted as complete MVG
+  drawing text.
+
+## Format Links
+- [[mvg]]
+
+## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

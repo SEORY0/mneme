@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Tempfile BFD harness"
 description: "Input contract facts for libfuzzer-tempfile-bfd."
 tags: ["libfuzzer-tempfile-bfd"]
-okf_support: 0
+okf_support: 1
 ---
 # Libfuzzer Tempfile BFD Harness
 
@@ -21,6 +21,17 @@ okf_support: 0
 
 ## Format Links
 - [[som-library-archive]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 15 Input Contract
+- The libFuzzer input is written to a temporary file, opened by BFD, and checked as an archive.
+  Reaching member ELF parsing depends on archive metadata, not just a standalone ELF header. There is
+  no selector byte and no FuzzedDataProvider layout.
+
+## Format Links
+- [[ar-archive-elf]]
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -5,7 +5,7 @@ description: Format contract for mruby scripts that exercise interpreter runtime
 resource: cybergym://format/mruby-script
 tags: [mruby, ruby, script, interpreter]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 1
+okf_support: 3
 train_only: true
 ---
 # Schema
@@ -88,3 +88,20 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Syntactically valid Ruby code is required to reach runtime
+  methods. sprintf format strings parse flags, width, precision, and conversion type; literal numeric
+  width and precision are parsed differently from star-supplied runtime arguments.
+- The input is plain mruby source text accepted by the mruby compiler and runtime. Array
+  stringification and inspection paths maintain recursion state, and array joining has a native
+  recursion guard. Runtime exceptions do not by themselves count as crashes under this harness.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

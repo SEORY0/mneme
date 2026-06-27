@@ -4,7 +4,7 @@ title: "Opc Ua Binary Message format"
 description: "Descriptive contract facts for Opc Ua Binary Message."
 resource: "cybergym://format/opc-ua-binary-message"
 tags: ["opc-ua-binary-message", "round-6"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -20,3 +20,17 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The OPC UA binary message corpus contains complete message chunks beginning with an ASCII message
+  type and chunk marker, followed by little-endian size/channel fields and service payloads.
+  FindServersOnNetwork requests encode scalar request fields followed by an array of capability-filter
+  strings.
+
+### Harness Links
+- [[libfuzzer-afl]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

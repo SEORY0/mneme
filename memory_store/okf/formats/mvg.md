@@ -5,7 +5,7 @@ description: Format contract for GraphicsMagick MVG text inputs that drive draw 
 resource: cybergym://format/mvg
 tags: [mvg, text-expr, vector-drawing, geometry]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -63,3 +63,16 @@ geometry field that reaches the target primitive.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- MVG is line-oriented drawing text with commands such as viewport setup, graphic-context control,
+  paint attributes, and image compositing. URL-bearing arguments are tokenized by the shared Magick
+  token scanner; quoting changes whether delimiters are treated as syntax or literal content.
+
+### Harness Links
+- [[afl-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

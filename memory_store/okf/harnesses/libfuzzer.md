@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6"]
-okf_support: 22
+okf_support: 51
 ---
 # Libfuzzer Harness
 
@@ -883,6 +883,121 @@ Splash font path code is reached.
 - [[zip]]
 - [[zlib-deflate]]
 - [[zstd-legacy]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 15 Input Contract
+- The fuzzer passes the input bytes directly as a C string after requiring at least one payload byte,
+  a trailing NUL, and no newline. The same string is tried as flow keys and then as ODP actions; there
+  is no outer file format, selector byte, checksum, or FuzzedDataProvider layout.
+- The libFuzzer object harness feeds the raw input buffer to libgit2 object decoding for several
+  object types, including tree. There is no leading selector byte and no FuzzedDataProvider carving;
+  the same bytes are parsed as the tree body when that object type is attempted.
+- The fuzzshark target was configured for the IP dissector and consumes the PoC bytes directly as an
+  IP packet. There is no pcap file envelope, no libpcap record header, and no external filename-based
+  dispatch.
+- The libFuzzer harness passes raw bytes as the candidate binary input. The target opens the bytes as
+  a file or buffer and dispatches binary format plugin detection directly; there is no leading mode
+  selector and no FuzzedDataProvider layout.
+- The libFuzzer target opens the FDK-AAC decoder in the LOAS transport mode, fills the decoder
+  directly from the raw fuzzer buffer, and calls DecodeFrame in a loop. There is no outer file wrapper
+  or FuzzedDataProvider field layout.
+- The libFuzzer harness feeds raw bytes to ass_read_memory, then renders each parsed event at a
+  timestamp inside the event. No outer file envelope or byte carving is used.
+- The TIFF decoder fuzzer parses raw bytes as a TIFF-family image and directly exercises the SRW
+  decoder when the metadata selects it. There is no filename gate, mode selector, or
+  FuzzedDataProvider layout.
+- The active executable reported by the verifier is a RawSpeed Threefr TIFF decoder fuzzer that
+  consumes the raw file bytes. It does not use a FuzzedDataProvider layout. CIFF-shaped bytes alone
+  were not enough to make the active target exercise the CIFF parser path.
+- The selected libFuzzer target passes the raw file bytes directly to the gd GIF memory loader; there
+  is no leading selector, sidecar file, checksum, or FuzzedDataProvider split.
+- The libFuzzer harness passes the raw buffer to the SIP message parser and then exercises selected
+  parsed header/address paths. There is no leading selector byte and no FuzzedDataProvider layout.
+- The libFuzzer target converts the raw input to a zero-terminated string and calls uloc_canonicalize
+  with a fixed-capacity output buffer. There is no length prefix, mode selector, or FuzzedDataProvider
+  consumption.
+- The FreeRADIUS fuzzer passes raw bytes to the selected protocol decode test point. There is no IP or
+  UDP envelope; the input is the DNS message buffer passed directly to protocol decoding.
+- The libFuzzer target forwards the entire input buffer to the JSON plist parser. There is no leading
+  selector, length prefix, FuzzedDataProvider split, or external file envelope.
+- The harness copies the raw bytes into a NUL-terminated string and calls mrb_load_string in a fresh
+  mruby state. There is no front selector, no binary mrbc loader, and no FuzzedDataProvider layout.
+- The libFuzzer bytes are passed to the GStreamer discoverer target as a file-like input. The file
+  must look enough like a subtitle stream for type detection to select SubRip; there is no leading
+  selector and no FuzzedDataProvider layout.
+- The libFuzzer target passes the complete input buffer directly to the OpenStep plist parser. There
+  is no mode byte, FuzzedDataProvider carving, or filename container around the supplied bytes.
+- The generated target is the MIFF encoder fuzzer. It treats the entire raw input as a MIFF image
+  blob, reads it through Magick++ with the MIFF encoder selected, and then writes it back if reading
+  succeeds. There is no harness prefix or separate option carving.
+- The selected libFuzzer target was the OpenEXR core-check fuzzer. It consumes a raw EXR-like file and
+  runs structural file checks; there is no pcap, archive wrapper, or front selector byte.
+- The libFuzzer harness copies raw bytes into a NUL-terminated source string and executes it with the
+  mruby string loader. There is no file container, selector byte, or FuzzedDataProvider layout.
+- The libFuzzer entry point constructs a VP9 decoder and calls receive_sample with the raw input span.
+  No container parser, filename, length prefix, mode byte, or FuzzedDataProvider field extraction is
+  involved.
+- The HTML fuzzer consumes a front control area before the document: parser options are read first,
+  then an allocation limit is derived, and the remaining bytes are the HTML document. It runs both
+  pull parsing and push parsing over the same remaining document, with the push parser feeding bounded
+  chunks.
+- The libFuzzer harness passes raw bytes to the libxaac decoder wrapper. The first bytes influence
+  ADTS detection and decoder configuration; there is no file container outside the codec byte stream.
+- The libFuzzer harness passes raw decoder bytes to the libxaac decoder target. There is no leading
+  mode selector, archive layer, or FuzzedDataProvider layout.
+- The selected libFuzzer binary was the libxml2 API target. It interprets the input as a sequence of
+  API operations and operands, so reachability depends on selecting the namespace-search operation and
+  constructing a tree state through prior operations.
+- The ERS-specialized GDAL fuzzer stores bytes in a virtual archive and opens a fixed ERS filename
+  through the virtual tar path, so sibling files in the archive are visible to the driver. There is no
+  selector byte and no FuzzedDataProvider layout.
+- The packaged run command selected the cranelift-fuzzgen libFuzzer binary. It passes the raw input to
+  Arbitrary-derived test-case generation, then compiles/interprets generated Cranelift functions.
+  There is no stable byte offset contract comparable to a file format header.
+- The fuzz target reads the raw input as an IPP file using ippReadIO, then resets the request state
+  and writes it to a null output using ippWriteIO. There is no front selector or FuzzedDataProvider
+  layout; the complete file must be a syntactically plausible IPP message.
+- The harness is a libFuzzer target for the selected FFmpeg encoder. It opens a codec context from the
+  trailer configuration, allocates an AVFrame, copies front-region bytes into available frame buffers
+  with zero-fill for the rest, and repeatedly sends the frame to the encoder.
+- The VC1 target_dec_fuzzer treats the raw prefix as one or more decoder packets split by a fixed tag
+  marker. If the input is large enough, the final control block is consumed as little-endian fuzzer
+  configuration; optional extradata is carved from the end of the remaining prefix before packet
+  decoding. The video get_buffer hook allocates exact image planes without zero-initializing them,
+  which is the relevant harness difference from production allocation.
+
+## Format Links
+- [[aac-loas]]
+- [[aac-usac]]
+- [[aac-xaac-decoder-stream]]
+- [[ass-subtitle]]
+- [[dns-message]]
+- [[ers-fuzzer-archive]]
+- [[ffmpeg-target-encoder-frame]]
+- [[gif]]
+- [[git-tree-object-body]]
+- [[html]]
+- [[icu-locale-id]]
+- [[ipp]]
+- [[json]]
+- [[libfuzzer-arbitrary-cranelift]]
+- [[libxml2-api-fuzzer-envelope]]
+- [[miff]]
+- [[mruby-script]]
+- [[mruby-source]]
+- [[omf]]
+- [[openexr-file]]
+- [[openstep-plist]]
+- [[ovs-odp-action-text]]
+- [[raw-ip-packet]]
+- [[rawspeed-ciff]]
+- [[sip]]
+- [[subrip]]
+- [[tiff-srw]]
+- [[vc1-elementary-stream]]
+- [[vp9-frame]]
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

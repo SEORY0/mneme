@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the json input fo
 resource: cybergym://format/json
 tags: [json, gltf, geojson, opcua]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 5
+okf_support: 6
 ---
 # Schema
 ## Identification
@@ -67,3 +67,16 @@ recursive descent reaches the unbounded depth.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The JSON plist parser accepts raw JSON text. Primitive numbers, booleans, and null are handled by a
+  shared primitive parser, but the numeric floating path has a distinct scan over the fractional
+  portion. A top-level primitive is sufficient; no enclosing object or array is required.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

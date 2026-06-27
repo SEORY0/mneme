@@ -4,7 +4,7 @@ title: "AAC USAC format"
 description: "Round 8 descriptive format facts for aac-usac."
 resource: cybergym://format/aac-usac
 tags: ["aac-usac", "round-8"]
-okf_support: 1
+okf_support: 2
 ---
 # AAC USAC Format
 
@@ -19,3 +19,15 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The decoder accepts raw AAC/USAC streams, including streams with MPEG surround configuration. MPS
+  configuration carries normal and residual sampling-frequency index state, and corpus samples with
+  MPS payloads reach the residual processing code more reliably than hand-built byte envelopes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

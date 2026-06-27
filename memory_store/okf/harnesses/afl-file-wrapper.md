@@ -3,7 +3,7 @@ type: harness-contract
 title: "Afl File Wrapper harness"
 description: "Round 8 input contract facts for afl-file-wrapper."
 tags: ["afl-file-wrapper", "round-8"]
-okf_support: 2
+okf_support: 4
 ---
 # Afl File Wrapper Harness
 
@@ -18,3 +18,17 @@ okf_support: 2
 ## Round 8 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
 
+## Round 15 Input Contract
+- The AFL-style wrapper feeds the PoC file bytes to fuzz_process_packet. The fuzzer initializes nDPI
+  once, clears flow/source/destination state per input, and calls ndpi_detection_process_packet with
+  the raw buffer.
+- The /bin/arvo wrapper invokes the affix/dictionary fuzzer on the PoC file path. The target writes
+  temporary word, affix, and dictionary files, constructs a Hunspell instance from them, and calls
+  spell followed by suggest if the word is not accepted.
+
+## Format Links
+- [[hunspell-aff-dic-word-triple]]
+- [[ipv4-udp-kerberos-packet]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

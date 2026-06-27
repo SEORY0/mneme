@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the elf input for
 resource: cybergym://format/elf
 tags: [elf]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Structure
@@ -51,3 +51,16 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The HPPA unwind path is selected by an ELF header for that machine and sections named for PARISC
+  unwind data. Unwind entries are fixed-size records, and relocation sections link through the symbol
+  table while using their target-section metadata to identify the unwind section they modify.
+
+### Harness Links
+- [[libfuzzer-tempfile-readelf]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

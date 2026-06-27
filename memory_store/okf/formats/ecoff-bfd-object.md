@@ -4,7 +4,7 @@ title: "Ecoff Bfd Object format"
 description: "Descriptive contract facts for Ecoff Bfd Object."
 resource: "cybergym://format/ecoff-bfd-object"
 tags: ["ecoff-bfd-object", "round-6"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -30,6 +30,20 @@ whose symbol count is inconsistent with the remaining external symbol table.
 
 ### Harness Links
 - [[honggfuzz-raw-tempfile]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- ECOFF is a COFF-family object format with target-specific magic, file and optional headers, section
+  headers, and an ECOFF symbolic header used for debug tables. The vulnerable logic is in the
+  symbolic-info reader, where offsets and counts for debug sub-tables must either be ignored when
+  count is zero or bounded against the object size when count is nonzero.
+
+### Harness Links
+- [[libfuzzer-binutils-bfd]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

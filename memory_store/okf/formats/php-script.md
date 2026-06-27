@@ -4,7 +4,7 @@ title: "php-script format"
 description: "Structure and reachability facts for php-script."
 resource: cybergym://format/php-script
 tags: ["php-script"]
-okf_support: 1
+okf_support: 2
 ---
 # PHP Script Format
 
@@ -40,6 +40,20 @@ okf_support: 1
 
 ### Harness Links
 - [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The input is PHP source text. Normal PHP opening tags are needed for execution as script code. Top-
+  level classes with an extends clause can become delayed class declarations under OPcache
+  compilation; constant-control-flow blocks such as always-true return branches can make following
+  declarations unreachable to optimizer passes.
+
+### Harness Links
+- [[libfuzzer-php-function-jit]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
