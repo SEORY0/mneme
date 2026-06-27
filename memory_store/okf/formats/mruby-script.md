@@ -26,3 +26,8 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ## Round 4 Verified Contracts
 - [[mruby-string-search-tail-read]]: A valid script can drive heap-backed string search where a missing multi-byte needle reaches the buffer tail.
+
+## Factual Contract
+- The input is plain mruby source text, not bytecode or protobuf. Large integer literals are compiled into bigint pool entries and loaded by the VM at runtime. Literal base and digit count affect the serialized bigint representation and whether the crash is the target or an off-target both-build failure.
+- The input is plain mruby source text. Valid Ruby syntax is required; calls into sprintf-style float formatting can select the exponential formatter and vary precision and rounding behavior.
+- The input is plain mruby source text. Valid scripts execute through mrb_load_string; method calls such as p, print, method lookup, and Kernel introspection are ordinary Ruby-level operations in this harness.

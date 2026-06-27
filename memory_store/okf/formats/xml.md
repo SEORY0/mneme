@@ -21,3 +21,6 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 - Distilled from train-set solves with this format + curated format knowledge.
 ## Round 3 Verified Contracts
 - [[xml-xinclude-fallback-namespace-uaf]]: XInclude fallback ownership bugs require the entity/envelope options and serialization path, not just malformed XML.
+
+## Factual Contract
+- The target parser is libxml2's xmlTextReader path over an XML document containing DTD declarations, entity declarations, and possible entity-reference nodes. The vulnerable lifetime shape is tied to freeing document-level entity structures before freeing reader node lists that can still contain references.

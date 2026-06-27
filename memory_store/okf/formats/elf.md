@@ -24,3 +24,6 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ## Round 4 Verified Contracts
 - [[elf-missing-section-header-null-deref]]: A valid ELF header with nonzero section metadata but absent section-header table can make later section processing dereference missing loader state.
+
+## Factual Contract
+- YARA's ELF module consumes raw ELF bytes, validates the outer ELF and section-header structure, then resolves symbol names through the linked string table for symbol-table entries. A symbol table and its linked string table must be internally coherent enough for the module to reach symbol-name resolution.
