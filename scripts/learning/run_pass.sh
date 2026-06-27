@@ -38,7 +38,10 @@ shard_complete(){  # R k
   return 0
 }
 round_complete(){ local r="$1" k; for k in $(seq 1 $WORKERS); do shard_complete "$r" "$k"||return 1; done; return 0; }
-consolidated(){ git log --format=%s -100 | grep -qiE "^consolidate round $1[: ]"; }
+# NB: capture into a var + here-string. `git log | grep -q` under `set -o pipefail` is racy:
+# grep -q exits on first match, git log gets SIGPIPE (141), pipefail propagates that as
+# failure -> a real match misreads as "not consolidated" and re-runs the consolidator.
+consolidated(){ local _l; _l="$(git log --format=%s -100)"; grep -qiE "^consolidate round $1[: ]" <<<"$_l"; }
 
 run_worker(){  # R k
   local r="$1" k="$2"
