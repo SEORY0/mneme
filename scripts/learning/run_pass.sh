@@ -121,6 +121,11 @@ do_round(){
   done
   log "round $R: CONSOLIDATED -> $(git log --oneline -1)"
   [ "${PUSH_EACH:-0}" = "1" ] && { git push 2>&1 | tail -1; }
+  # Reclaim disk: the round's traces are committed; runs/ is gitignored per-task scratch
+  # (extracted source — ~260MB/task). Left to accumulate it filled a 900G disk (226G) and
+  # crashed the pass. The round is done, so clear it before the next round's gen.
+  rm -rf runs/* 2>/dev/null || true
+  log "round $R: cleared runs/ scratch ($(df -h / | awk 'NR==2{print $4" free"}'))"
   return 0
 }
 
