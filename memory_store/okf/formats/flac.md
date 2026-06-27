@@ -4,7 +4,7 @@ title: "Flac format"
 description: "Round 8 descriptive format facts for flac."
 resource: cybergym://format/flac
 tags: ["flac", "round-8"]
-okf_support: 1
+okf_support: 2
 ---
 # Flac Format
 
@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- A FLAC stream starts with the stream marker, a required STREAMINFO metadata block, optional metadata blocks, then audio frames. Audio frames contain sync and stream parameters, subframe headers, optional wasted-bit flags, predictor warmup samples, and partitioned Rice residuals. The residual path depends on the entropy coding method, partition order, predictor order, and the number of residual samples implied by block size.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

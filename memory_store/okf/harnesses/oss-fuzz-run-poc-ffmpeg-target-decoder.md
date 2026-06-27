@@ -1,0 +1,20 @@
+---
+type: harness-contract
+title: "oss-fuzz-run_poc-ffmpeg-target-decoder harness"
+description: "Descriptive harness contract facts for oss-fuzz-run_poc-ffmpeg-target-decoder."
+tags: ["oss-fuzz-run-poc-ffmpeg-target-decoder", "round-18"]
+okf_support: 1
+train_only: true
+---
+# Oss Fuzz Run Poc Ffmpeg Target Decoder Harness
+
+## Round 18 Input Contract
+
+### Schema / Invariants
+- The oss-fuzz `run_poc` wrapper invokes the compiled `ffmpeg_AV_CODEC_ID_RV40_fuzzer`. The target_dec_fuzzer treats the entire file as packet bytes and repeatedly parses/decodes packets; there is no archive envelope, mode byte, or FuzzedDataProvider layout.
+
+### Format Links
+- [[ffmpeg-rv40-decoder-packet]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

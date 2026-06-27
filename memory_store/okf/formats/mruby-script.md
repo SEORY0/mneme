@@ -5,7 +5,7 @@ description: Format contract for mruby scripts that exercise interpreter runtime
 resource: cybergym://format/mruby-script
 tags: [mruby, ruby, script, interpreter]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 3
+okf_support: 4
 train_only: true
 ---
 # Schema
@@ -105,3 +105,14 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Bigint arithmetic paths are reached by syntactically valid scripts that construct integer values outside the immediate fixnum representation before invoking division or modulo operations.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "Opensc Card Fuzzer harness"
 description: "Input contract facts for opensc-card-fuzzer."
 tags: ["opensc-card-fuzzer", "round-17"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Opensc Card Fuzzer Harness
@@ -33,3 +33,14 @@ train_only: true
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 18 Input Contract
+
+### Schema / Invariants
+- The fuzzer consumes raw bytes as a virtual reader/card exchange rather than as an ISO file. Prior chunks establish card type and later chunks answer APDU commands issued by OpenSC. No LLM/API interaction or external card is involved.
+
+### Format Links
+- [[opensc-virtual-reader-apdu-stream]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

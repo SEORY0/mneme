@@ -4,7 +4,7 @@ title: mruby-source format
 description: Format contract for mruby-source.
 resource: cybergym://format/mruby-source
 tags: [mruby-source, "round-16"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Schema
@@ -38,3 +38,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary mruby source text. Sprintf format strings are interpreted at runtime; numeric width and precision fields are parsed from decimal text before the C implementation casts them for internal formatting arithmetic.
+
+### Harness Links
+- [[libfuzzer-raw-mruby-source]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

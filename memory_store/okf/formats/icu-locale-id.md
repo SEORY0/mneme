@@ -4,7 +4,7 @@ title: icu-locale-id format
 description: Format contract for icu-locale-id.
 resource: cybergym://format/icu-locale-id
 tags: [icu-locale-id]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -26,3 +26,14 @@ Inputs follow the `icu-locale-id` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- ICU locale IDs can contain language, script, region, variants, private-use material, and keyword assignments. The language-tag conversion path canonicalizes locale components and maps Unicode locale keywords and attributes into BCP-style extension subtags, which can substantially expand the output relative to the input.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

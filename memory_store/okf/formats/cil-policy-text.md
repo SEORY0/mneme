@@ -4,7 +4,7 @@ title: "CIL Policy Text format"
 description: "Descriptive contract facts for CIL Policy Text."
 resource: "cybergym://format/cil-policy-text"
 tags: ["cil-policy-text", "round-6", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # Schema
 ## Identification
@@ -44,3 +44,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- CIL policy text is parenthesized S-expression-like declarations. A minimal policy needs class/permission, sid/user/role/type, allow, and context scaffolding before optional blocks and blockinherit declarations are semantically processed.
+
+### Harness Links
+- [[libfuzzer-raw-cil-policy]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

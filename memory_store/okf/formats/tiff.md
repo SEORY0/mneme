@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the tiff input fo
 resource: cybergym://format/tiff
 tags: [tiff, image, directory-format, extra-samples]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 2
+okf_support: 4
 ---
 # Schema
 ## Structure
@@ -47,3 +47,16 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- TIFF inputs require a coherent byte-order/header pair, an image-file-directory, and tag entries describing planar configuration, samples, strips or tiles, and sample format. Existing planar and alpha TIFF seeds are useful for reaching GraphicsMagick's TIFF reader without hand-building every tag.
+- TIFF files use a byte-order header, an image-file-directory table, and tag records for geometry, compression, tile or strip offsets, and byte counts. The intended relation is a compressed tiled image where raw tile reading fails but downstream decompression is still attempted.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-graphicsmagick-bigtiff-coder]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: "Hunspell Aff Dic Word format"
 description: "Descriptive contract facts for hunspell-aff-dic-word."
 resource: "cybergym://format/hunspell-aff-dic-word"
 tags: ["hunspell-aff-dic-word", "round-17"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -23,3 +23,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- The first logical file is an `.aff` file with directives such as character set, flag mode, compound/affix options, and affix rules. The second is a `.dic` file beginning with a word count followed by word entries with optional slash-separated flag vectors. In numeric flag mode, flag vectors are comma-separated decimal numbers.
+
+### Harness Links
+- [[libfuzzer-front-carved-hunspell-affdic]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -9,7 +9,7 @@ input_format: "cil-policy-text"
 harness_convention: "libfuzzer"
 vuln_class: "heap-use-after-free"
 access_scope: generate
-success_count: 1
+success_count: 2
 confidence: high
 tags: ["generic-crash", "parser-reached-target-sink", "cil-policy-text", "libfuzzer", "construct", "verified-recovery", "round-17"]
 match_keys: ["generic-crash", "parser-reached-target-sink", "cil-policy-text", "libfuzzer", "construct", "heap-use-after-free", "verified-recovery"]
@@ -49,3 +49,8 @@ Use [[libfuzzer]]; preserve the observed input contract before mutating deeper f
 ## Evidence Shape
 - Support: 1 server-verified round 17 solve.
 - Candidate family: construct.
+
+## Round 18 Verified Evidence
+- Verifier key: `wrong_sink x parser_reached_target_sink`.
+- Vulnerability class: `heap-use-after-free`.
+- Recovery summary: Use a syntactically valid CIL policy scaffold with an optional block that contains both a resolvable blockinherit and an unresolved blockinherit.

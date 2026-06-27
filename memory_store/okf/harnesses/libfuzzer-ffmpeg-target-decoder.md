@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Ffmpeg Target Decoder harness"
 description: "Input contract facts for libfuzzer-ffmpeg-target-decoder."
 tags: ["libfuzzer-ffmpeg-target-decoder", "round-11"]
-okf_support: 1
+okf_support: 4
 train_only: true
 ---
 # Libfuzzer Ffmpeg Target Decoder Harness
@@ -36,3 +36,17 @@ train_only: true
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 18 Input Contract
+
+### Schema / Invariants
+- FFmpeg target_dec_fuzzer treats the leading data as one or more raw packets separated by an internal tag. If the input is large enough, a fixed-size trailer is consumed as codec-context configuration such as width, height, flags, and optional extradata.
+- The FFmpeg target decoder fuzzer initializes one compiled decoder, assigns a custom get_buffer2 callback for video, optionally consumes a configuration tail from the end of inputs larger than the threshold, then splits the remaining front bytes into packets on the fixed tag. It may initialize a parser based on a tail flag; otherwise packets are sent directly to avcodec_send_packet and avcodec_receive_frame.
+- FFmpeg target_dec_fuzzer feeds raw packets directly to the selected decoder, optionally using a fixed-size trailer as codec-context configuration. Without the trailer, the packet itself must provide dimensions accepted by the decoder.
+
+### Format Links
+- [[ffmpeg-target-decoder-frame]]
+- [[ffmpeg-target-decoder-packets-vp9]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

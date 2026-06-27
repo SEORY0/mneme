@@ -4,7 +4,7 @@ title: "blosc-chunk format"
 description: "Structure and reachability facts for blosc chunk."
 resource: cybergym://format/blosc-chunk
 tags: ["blosc-chunk", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # Blosc Chunk Format
 
@@ -32,3 +32,14 @@ okf_support: 2
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- A raw Blosc chunk begins with a compact header containing version, compressor format, flags, type size, uncompressed size, block size, and total compressed size. The fuzzer requires the header compressed size to equal the file size and the uncompressed size to be nonzero. For non-memcpy chunks, a block-start table follows the header and each block is decoded from the table-indicated location as a stream of per-split compressed-size tokens and payload bytes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

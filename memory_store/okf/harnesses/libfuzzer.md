@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6", "round-16"]
-okf_support: 79
+okf_support: 104
 ---
 # Libfuzzer Harness
 
@@ -1135,3 +1135,62 @@ Splash font path code is reached.
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 18 Input Contract
+
+### Schema / Invariants
+- The decoder fuzzer feeds the raw input as a complete FLAC byte stream to the FLAC decoder. There is no FuzzedDataProvider carving or mode selector in the extracted target; file structure gates are the FLAC marker, metadata, frame headers, and per-frame CRC checks.
+- The libFuzzer harness feeds the raw byte buffer to multiple KArchive handlers, including the 7z handler, without a selector byte or FuzzedDataProvider layout.
+- The libFuzzer bytes are consumed directly by a little-endian ByteStream helper. The harness builds a RawImage from leading scalar fields, reads a declared number of strip records from the remaining bytes, runs PhaseOneDecompressor::decompress, and then checks the allocated image buffer for initialized memory. There is no outer file magic or mode selector.
+- The harness is libFuzzer over raw chunk bytes. It rejects inputs shorter than the Blosc minimum header, rejects total-size mismatches, validates the header, allocates an output buffer, and calls the Blosc decompressor directly. There is no mode selector or FuzzedDataProvider carving.
+- OpenThread fuzz targets feed raw bytes to specific subsystems such as IP6 send, radio receive, NCP UART, and CLI UART. Some harnesses carve a leading byte as a link-security option before appending the remaining bytes to an OpenThread message.
+- The OTS fuzzer passes the entire raw input buffer to OTSContext::Process with no leading selector. If the input is a font collection, the harness also processes each contained face. A single standalone sfnt font is therefore accepted as raw fuzzer input.
+- The fuzzer passes the entire raw byte buffer directly to LibTTF load_from_memory. There is no wrapper, mode byte, checksum enforcement, or fuzzer-side carving.
+- The harness consumes data with FuzzedDataProvider. It first consumes a capability array and init flags, may consume bytes to build an unserialized state, then repeatedly consumes booleans to choose serialization and parser read/write operations.
+- The subset fuzzer treats the full byte buffer as the font blob. It always performs one subset attempt with a built-in codepoint list, and for sufficiently large inputs it also reads subset flags and a codepoint list from the tail of the same buffer. There is no separate container; appended tail data changes the second subset request as well as the font bytes.
+- The LibRaw fuzzer consumes the front of the input as the camera file and uses a FuzzedDataProvider-style tail for runtime options and output-parameter toggles. Scalar consumers are taken from the back, so preserving the file bytes at the front while appending a configuration tail is required to avoid corrupting the image parser.
+- The harness copies the entire raw input into a NUL-terminated buffer and evaluates it with mrb_load_string. There is no filename wrapper, selector byte, or FuzzedDataProvider carving.
+- The observed local verifier ran the universal transform fuzzer rather than a raw CGATS loader. That harness reads leading scalar fields for source and destination pixel formats, then treats a fixed-size following slice as an ICC profile and the remaining bytes as transform data. Plain CGATS text therefore does not satisfy the active harness contract.
+- The MuPDF PDF renderer harness consumes the whole raw buffer as a PDF memory stream, opens the document, counts pages, and renders pages. It has no prefix carving, and ordinary MuPDF exceptions are caught rather than counted as crashes.
+- The fuzzer passes the raw input bytes as an in-memory PDF stream to the document loader, counts pages, and renders pages when available. There is no leading selector or carved metadata. Loader exceptions and repair failures are caught, so malformed PDFs often become no-crash warnings.
+- The fuzz target feeds raw bytes directly to ddsi_typemap_deser, then iterates complete identifier-object pairs, maps complete identifiers to minimal identifiers, constructs dependent type-info arrays, calls ddsi_type_ref_proxy, adds the type object, and unreferences it. There is no fuzzer byte carving beyond the CDR deserializer.
+- The Assimp harness passes the entire raw input to ReadFileFromMemory with the realtime-quality post-processing preset. There is no fuzzer selector byte or secondary container around the model.
+- The observed fuzzer writes the raw input to a temporary file, initializes libdwarf from that file, walks compilation-unit and sibling DIE state, calls source-file and line-context helper paths, then performs cleanup. It is raw file input with no fuzzer prefix, but it did not match the location-list harness named in the task description.
+- The libxaac encoder harness uses FuzzedDataProvider rather than raw AAC framing. Fields are consumed from the provider to configure encoder parameters and input data before invoking encoder processing.
+- The first input byte is a selector and also influences the fixed-size byte-sink capacity. The remaining bytes are interpreted as a NUL-terminated locale string. Selector values congruent to the language-tag case call Locale::toLanguageTag with a CheckedArrayByteSink over a stack buffer, so the same leading byte both chooses the target path and constrains output space.
+- The visible codebase includes URI and SIP stack consumers, but the generated arvo harness selection was not identified as a direct raw URI parser. No FuzzedDataProvider layout was observed for this task.
+- The Poppler fuzzer passes raw bytes to load a PDF document from memory, skips locked or unloadable documents, then renders every page. There is no leading selector. The target JBIG2 code is reached only through page rendering of an image stream using the JBIG2 decoder.
+- The visible libvips generic buffer harness feeds the whole raw input to vips_image_new_from_buffer and then writes the image to an output buffer. In this generated run, local verify reported a matrix-save buffer fuzzer, indicating the active harness did not match the task description.
+- The miniz fuzzer passes raw bytes to the in-memory ZIP reader. If initialization succeeds, it iterates files, validates file headers, obtains names and stats, and attempts extraction. There is no leading selector or wrapper beyond normal ZIP structures.
+- The FFmpeg target decoder harness runs the fixed H.264 decoder on the raw input as decoder packets. There is no outer media container requirement and no front selector byte; sufficiently large inputs may reserve tail bytes for codec context options.
+- The targeted FFmpeg decoder fuzzer sends packet bytes directly to the selected decoder, optionally using a trailing fuzzer-control block to set codec context fields, parser use, flags, and extradata. Packets are split on an internal tag if present; otherwise the leading packet payload is decoded as one packet. There is no media container requirement for this target.
+
+### Format Links
+- [[7z-archive]]
+- [[assimp-model]]
+- [[blosc-chunk]]
+- [[dds-xtypes-typemap-cdr]]
+- [[elf-dwarf-object]]
+- [[ffmpeg-notchlc-packet]]
+- [[flac]]
+- [[fuji-raf-raw]]
+- [[h264-annex-b-stream]]
+- [[icu-locale-id]]
+- [[lcms-cgats-or-icc-transform-harness]]
+- [[libxaac-encoder-fuzzed-provider-stream]]
+- [[mruby-script]]
+- [[openthread-meshcop-tlv-or-packet]]
+- [[opentype-font-subset-input]]
+- [[opentype-truetype-font]]
+- [[pdf]]
+- [[pdf-jbig2-image-stream]]
+- [[pdf-with-tounicode-cmap]]
+- [[rawspeed-phaseone-decompressor-envelope]]
+- [[sip-uri-or-sip-message]]
+- [[tiff]]
+- [[truetype-sfnt]]
+- [[usbredir-fuzzed-provider-stream]]
+- [[zip]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

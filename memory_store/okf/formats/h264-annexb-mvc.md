@@ -3,7 +3,7 @@ type: format-family
 title: "h264-annexb-mvc format"
 description: "Structure and invariants for the h264-annexb-mvc input format."
 tags: ["h264-annexb-mvc", "round-14"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- The decoder consumes H.264 Annex B-style elementary streams made of start-code-prefixed NAL units. Sequence and picture parameter sets establish decoding state before slice and SEI NALs. SEI NALs can contain multiple payloads; each payload has a type, length, payload bytes, and rbsp trailing bits. The described sink involves film grain characteristics data inside MVC SEI parsing.
+
+### Harness Links
+- [[honggfuzz-libavc-mvc-decoder]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: "elf-dwarf-object format"
 description: "Structure and reachability facts for ELF/DWARF object."
 resource: cybergym://format/elf-dwarf-object
 tags: ["elf-dwarf-object", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # ELF Dwarf Object Format
 
@@ -43,3 +43,14 @@ okf_support: 2
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- The input is an object file carrying DWARF debug sections. Useful seeds need ELF structure plus compilation-unit metadata, DIE trees, line information, and any target-specific location-list or attribute sections needed by the selected libdwarf example path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

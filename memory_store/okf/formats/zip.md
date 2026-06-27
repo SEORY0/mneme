@@ -5,7 +5,7 @@ description: Format contract for importers that enumerate ZIP members before par
 resource: cybergym://format/zip
 tags: [zip, archive, member_name]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -27,3 +27,14 @@ ZIP carriers require consistent local headers and central-directory entries. For
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- A ZIP archive is located from its end-of-central-directory record, which declares central-directory size, central-directory position, entry counts, and optional comment. The central directory then describes per-file metadata and points back to local file headers. This bug class depends on a mismatch between where the end record is found and where the central directory claims to begin, while still satisfying coarse archive-size bounds.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

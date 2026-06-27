@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the pdf input for
 resource: cybergym://format/pdf
 tags: [pdf, "round-16"]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 7
+okf_support: 9
 ---
 # Schema
 ## Identification
@@ -212,3 +212,16 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- A PDF input needs the PDF header, catalog, pages tree, page object, resources, content stream, xref, and trailer. An Indexed color space is represented as an array with a base color space, maximum index, and lookup table. Pattern is a color-space category rather than a valid Indexed base and must be rejected when the color space is resolved for painting.
+- A PDF begins with a version header, then objects, page tree data, optional streams, cross-reference information, trailer, and an end marker for deeper document loading. MuPDF will still attempt repair on damaged PDFs after seeing a plausible header, so very short headers can reach early version parsing even when the rest of the document is absent.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-ghostscript]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

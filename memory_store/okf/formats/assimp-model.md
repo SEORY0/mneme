@@ -4,7 +4,7 @@ title: "Assimp Model format"
 description: "Descriptive contract facts for Assimp Model."
 resource: "cybergym://format/assimp-model"
 tags: ["assimp-model", "round-6"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -31,3 +31,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- Assimp accepts whole model files selected by importer signatures. To reach SortByPTypeProcess, the imported scene must contain at least one mesh with face and primitive-type metadata that survives earlier post-processing stages.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.
