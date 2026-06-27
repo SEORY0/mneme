@@ -35,3 +35,16 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- Classic pcap uses a global header with a network/link-type field followed by per-packet timestamp and captured-length records.
+- Pcapng uses a section header, interface description blocks with a per-interface link type, and enhanced packet blocks.
+- PcapPlusPlus reads the first packet via libpcap before constructing a RawPacket.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -15,3 +15,19 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 17 Input Contract
+- The XAAC libFuzzer harness feeds the whole input buffer to the decoder setup/decode path; there is no separate FuzzedDataProvider layout in the PoC.
+- A local seed corpus existed and was used for mutation, but official submit showed the vulnerable build stayed clean.
+
+## Round 17 Format Links
+- [[aac-xaac-decoder-stream]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 17 Format Links
+- [[aac-xaac-decoder-stream]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

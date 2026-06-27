@@ -17,3 +17,15 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- The parser expects a method, path, version line, header lines, and a blank-line terminator.
+- Header dispatch first groups by a short prefix and then applies per-header name and separator checks before storing header values.
+
+### Harness Links
+- [[afl-libfuzzer-raw-request-parser]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

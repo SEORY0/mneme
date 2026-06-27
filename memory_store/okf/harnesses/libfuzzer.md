@@ -1064,3 +1064,74 @@ Splash font path code is reached.
 
 ## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 17 Input Contract
+- The MuPDF pdf_fuzzer consumes raw PDF bytes from the input file, opens them as a PDF stream, counts pages, and renders page pixmaps.
+- There is no fuzzer-side prefix or mode byte; malformed xrefs may be repaired locally but often form an off-target basin.
+- The harness is libFuzzer raw bytes passed to fuzzshark.
+- It initializes a packet record with a generic encapsulation value and runs epan dissection directly; there is no filename, archive, or length prefix added by the harness.
+- The htslib hts_open fuzzer opens raw input bytes as an in-memory hts file.
+- When the detected category is sequence data, it reads the SAM/BAM/CRAM header, then loops over records and writes them to a SAM sink, exercising both read-time validation logs and write-time formatting.
+- The harness writes the raw fuzz bytes to a temporary pcap path, opens it with PcapFileReaderDevice, reads one packet, constructs a Packet from the RawPacket, and queries IPv4 layers.
+- There is no extra carving beyond the file bytes.
+- The libFuzzer harness consumes raw bytes directly and interprets the leading bytes as mode and request fields for the Fluent Bit signv4 canonical request path.
+- No checksum or external file wrapper is used.
+- The secilc fuzzer consumes raw CIL policy text, adds it as an in-memory policy file, compiles it, builds the policy database, and runs optimization/write paths.
+- There is no leading mode selector or length prefix.
+- The harness passes raw bytes to RawSpeed Buffer and RawParser, obtains a decoder, disables strict unknown-camera failure, then calls decodeRaw and decodeMetaData while swallowing RawspeedException at the outer level.
+- The fuzz_policy target reads raw newline-delimited text with no binary framing.
+- It iterates multiple policy passes over the same parsed arrays, invokes the sudoers policy plugin, and stubs some platform services.
+- Environment variables must be supplied through env lines, but policy may reject them unless the settings allow them.
+- The harness feeds raw bytes to OpenEXR checkFile in memory.
+- It exercises both C++ stream checks and the core in-memory read callback; no filename extension or archive wrapper is required.
+- The MuPDF pdf_fuzzer reads raw PDF bytes directly, opens them as a document stream, and renders pages.
+- There is no harness-level selector; failures caught by MuPDF exception handling may be swallowed unless they corrupt state across the protected region.
+- The harness writes the carved affix and dictionary halves to temporary files, constructs Hunspell from them, calls spell on the carved word, and only calls suggest if spell rejects the word.
+- The fuzzshark harness consumes raw bytes but is configured for a specific dissector/table pair, not automatically for every Wireshark dissector.
+- For this task the observable initialization disabled other protocol paths and configured UDP under the IP protocol table; raw wiretap-encapsulation ALP bytes were not dispatched to the target dissector.
+- The harness writes raw bytes as a temporary object file, opens it with BFD, checks object format, and asks BFD to load separate debug-file information.
+- There is no archive wrapper unless the input itself is an archive.
+- The php-fuzz-execute harness executes raw PHP source from the input file.
+- There is no leading mode byte.
+- Engine startup and script execution complete normally unless the PHP code itself invokes the vulnerable API path.
+- The harness first parses FuzzBuffer chunks.
+- Each chunk becomes a DLT_RAW Packet passed to Zeek packet_mgr, and event cleanup runs after each chunk.
+- Inputs lacking the packet magic are ignored before packet parsing.
+- The generated libxml2 fuzzer consumes raw XML-like bytes and initializes the fuzz target internally.
+- There is no external length prefix or FuzzedDataProvider contract.
+- The observable output confirms fuzzer initialization and normal execution even when XML parsing errors are present.
+- The harness stores raw bytes as a tar in /vsimem and opens /vsitar/{...}/testavc with the AVCBIN OGR driver.
+- It uses the OGR generic fuzzer path to open the dataset and iterate layers/features.
+- The newer hts_open fuzzer first sniffs the raw input as an in-memory hts file, then for sequence data reopens the same bytes and writes them through SAM, BAM, and CRAM output modes.
+- This means a SAM input can trigger CRAM encoder bugs even though the input itself is not a CRAM file.
+- The libFuzzer harness executes the raw buffer as a PHP request from memory.
+- It compiles and runs the supplied source with normal PHP runtime semantics; no filename wrapper or length prefix is required beyond the fuzz buffer size.
+
+## Round 17 Format Links
+- [[avcbin-tar-coverage]]
+- [[bam]]
+- [[cil-policy-text]]
+- [[elf-dwarf-aranges]]
+- [[fluent-bit-signv4-fuzzer-buffer]]
+- [[hunspell-aff-dic-word]]
+- [[openexr]]
+- [[pcap]]
+- [[pdf]]
+- [[php-script]]
+- [[php-source]]
+- [[sam]]
+- [[sony-arw-tiff]]
+- [[sudo-policy-lines]]
+- [[wireshark-fuzzshark]]
+- [[wireshark-rrc-packet]]
+- [[xml]]
+- [[zeek-fuzzbuffer-ip-gre-ieee80211]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 17 Format Links
+- [[pdf]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

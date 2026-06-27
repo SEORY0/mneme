@@ -76,3 +76,15 @@ geometry field that reaches the target primitive.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- MVG is text and line oriented.
+- A canvas/view declaration can be followed directly by drawing primitives; primitive geometry fields are parsed as numeric tokens without an outer binary container.
+
+### Harness Links
+- [[graphicsmagick-mvg-raw-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -20,3 +20,19 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- PDF xref streams are indirect stream objects with a Type marker, table size, field-width array, optional index array, root trailer reference, stream body entries, and a start marker pointing to the active xref stream.
+- A PDF xref stream is an indirect stream object with a dictionary declaring xref type, object count, field widths, and optional index ranges.
+- A trailer-style start pointer and EOF marker are needed for the parser to consider the xref stream.
+- The tested carrier was a minimal PDF with xref-stream dictionaries and stream bodies.
+- Corrupt field-width arrays and mismatched index declarations can affect parser and repair behavior before page rendering.
+
+### Harness Links
+- [[ghostscript-gstoraster-raw-pdf]]
+- [[libfuzzer-mupdf-pdf-renderer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

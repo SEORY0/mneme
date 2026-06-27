@@ -17,3 +17,19 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 17 Input Contract
+- The generated OpenSC target runs the PKCS#15 reader fuzzer on raw file bytes.
+- The harness is not a FuzzedDataProvider layout; the bytes are parsed as an encoded card/PKCS#15 object stream by the reader.
+
+## Round 17 Format Links
+- [[opensc-pkcs15-asn1]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 17 Format Links
+- [[opensc-pkcs15-asn1]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

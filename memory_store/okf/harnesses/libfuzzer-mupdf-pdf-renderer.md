@@ -34,3 +34,19 @@ train_only: true
 
 ## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 17 Input Contract
+- libFuzzer passes the raw byte buffer directly to MuPDF as a PDF memory stream; there is no outer fuzzer envelope.
+- A syntactically plausible PDF header, objects, xref or xref stream, start marker, and EOF marker are needed to reach document loading and page rendering.
+
+## Round 17 Format Links
+- [[pdf-xref-stream]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 17 Format Links
+- [[pdf-xref-stream]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

@@ -196,3 +196,19 @@ the FreeType font wrapper.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- PDF objects can be kept minimal for this harness: catalog, pages, page, content stream, resources, and xref are enough to reach rendering.
+- Shading resources invoke PDF functions during page rendering; Separation and DeviceN color spaces invoke tint functions during fill operations.
+- Function dictionaries derive input count from Domain pairs and output count from Range or caller expectations.
+- A minimal PDF page requires catalog, pages, page, contents, resources, and xref/trailer structure.
+- MuPDF tolerates some malformed object graphs through repair, but repaired xref and missing-resource failures can remain off-target.
+- Image resources need to be wired through page resources before rendering attempts to decode their streams.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

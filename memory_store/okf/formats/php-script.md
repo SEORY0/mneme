@@ -57,3 +57,16 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input is a PHP program, not a bare INI document.
+- To exercise the target, the script must call parse_ini_string explicitly.
+- INI scanner modes change interpretation of booleans, nulls, numeric-looking strings, quoted strings, arrays, sections, and interpolation-like tokens.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

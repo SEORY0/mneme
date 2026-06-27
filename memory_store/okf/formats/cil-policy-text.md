@@ -31,3 +31,16 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- CIL policies require enough global scaffolding for classorder, sidorder, user/role/type declarations, and allow rules before compilation continues into reset logic.
+- Optional blocks may be removed when unresolved symbols remain inside them.
+- A classcommon association links a class to a common permission set and survives as semantic state beyond simple text parsing.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

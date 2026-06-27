@@ -31,3 +31,15 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- For this runtime the input is not a capture file.
+- It is consumed by a Wireshark fuzzshark dissector configured for UDP under the IP protocol table, so payload bytes must satisfy the UDP dissector and any subsequent protocol handoff.
+
+### Harness Links
+- [[fuzzshark-udp-dissector]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

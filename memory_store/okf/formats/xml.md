@@ -46,3 +46,16 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ## Round 13 Facts
 - The target parser is libxml2's xmlTextReader path over an XML document containing DTD declarations, entity declarations, and possible entity-reference nodes. The vulnerable lifetime shape is tied to freeing document-level entity structures before freeing reader node lists that can still contain references.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- libxml2 dictionaries intern element and attribute names in string pools.
+- Fuzzing builds use a deterministic dictionary seed, so hash collisions can be generated offline.
+- The risky comparison only occurs after hash equality and lookup into an occupied dictionary slot; ordinary non-colliding names never reach the memcmp path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -35,3 +35,19 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 17 Input Contract
+- The harness writes raw input to a temporary file, opens it with BFD auto-detection, and explicitly checks archive format.
+- There is no selector byte and no provider-carved layout.
+
+## Round 17 Format Links
+- [[som-library-or-som-object]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 17 Format Links
+- [[som-library-or-som-object]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

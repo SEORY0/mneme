@@ -17,3 +17,18 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 17 Input Contract
+- The harness writes raw fuzzer bytes to a temporary PCAP file, opens it with libpcap, copies each captured packet into an exactly sized heap buffer, and passes the packet to nDPI workflow processing.
+
+## Round 17 Format Links
+- [[pcap-ipv4-udp-bittorrent]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 17 Format Links
+- [[pcap-ipv4-udp-bittorrent]]
+
+## Round 17 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

@@ -26,3 +26,15 @@ Inputs follow the `aac-xaac-decoder-stream` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 17 Factual Contract
+
+### Schema / Invariants
+- The decoder accepts an AAC/XAAC-style compressed audio stream.
+- Reaching the target residual TNS routine requires a parsed decoder configuration, frame data, and flags that enable residual processing before TNS filter parameters are applied.
+
+### Harness Links
+- [[libfuzzer-xaac-decoder]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
