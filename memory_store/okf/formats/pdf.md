@@ -155,3 +155,14 @@ the FreeType font wrapper.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The target format is a complete PDF or PostScript job for Ghostscript's CUPS raster path. PDF xref streams are indirect stream objects with a trailer dictionary, width array, length, root reference, and startxref pointer. Declaring an empty xref table alone is not sufficient without a coherent document graph.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

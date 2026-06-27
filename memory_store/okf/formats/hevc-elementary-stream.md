@@ -20,3 +20,14 @@ The input is a raw HEVC byte stream, not a container. The decoder recognizes Ann
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The active target is the FFmpeg HEVC decoder fuzzer. The useful input is an HEVC elementary stream, optionally split by the target-decoder fuzz tag and optionally followed by a trailing codec-context block. Parameter sets and slice NAL units must be coherent enough for frame decoding.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

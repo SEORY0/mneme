@@ -61,3 +61,14 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The payload is raw mruby source text. The relevant pack template directives are b and B, where an optional count controls how many bit characters are produced; a star count means use the available source bits.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

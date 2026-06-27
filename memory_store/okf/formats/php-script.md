@@ -32,3 +32,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The payload is ordinary PHP source, not a serialized wrapper. It must include executable PHP code that reaches the standard library range function with string endpoints and a numeric step.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

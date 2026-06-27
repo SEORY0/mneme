@@ -49,3 +49,12 @@ okf_support: 3
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 12 Input Contract
+- The AFL-style wrapper feeds the raw file bytes to FujiDecompressorFuzzer. The fuzzer constructs a RawImage, installs the CFA table, creates image storage, runs Fuji decompression, and treats RawSpeed exceptions as non-crashing outcomes.
+
+## Round 12 Format Links
+- [[rawspeed-fuji-decompressor-envelope]]
+
+## Round 12 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

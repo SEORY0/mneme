@@ -1,7 +1,7 @@
 ---
 type: causal-policy
 title: "No Crash Decoder Exception Or Clean Return Rawspeed Cr2 Decompressor Envelope Negative Memory"
-description: "Round 8 negative memory for no_crash with verifier signal decoder_exception_or_clean_return."
+description: "Strengthened negative memory through round 12 for no_crash with verifier signal decoder_exception_or_clean_return."
 failure_class: "no_crash"
 verifier_signal: "decoder_exception_or_clean_return"
 candidate_family: "construct"
@@ -11,35 +11,47 @@ vuln_class: "slice-width-miscalculation"
 access_scope: generate
 success_count: 0
 confidence: medium
-tags: ["no-crash", "decoder-exception-or-clean-return", "rawspeed-cr2-decompressor-envelope", "negative_memory", "round-8"]
-match_keys: ["no_crash", "decoder_exception_or_clean_return", "rawspeed-cr2-decompressor-envelope", "libfuzzer", "negative_memory"]
+tags: ["no-crash", "decoder-exception-or-clean-return", "rawspeed-cr2-decompressor-envelope", "negative-memory", "round-8", "round-12"]
+match_keys: ["no_crash", "decoder_exception_or_clean_return", "rawspeed-cr2-decompressor-envelope", "libfuzzer", "slice-width-miscalculation", "negative_memory"]
 allowed_scopes: [generate]
 forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
 evidence_level: medium
 train_only: true
-round: 8
+round: 12
 ---
 # No Crash Decoder Exception Or Clean Return Rawspeed Cr2 Decompressor Envelope Negative Memory
 
+- key: `no_crash x decoder_exception_or_clean_return`
+- outcome: persistent failure / basin to avoid
+- success_count: 0
+- failure_count: 1
+- related format facts: [[rawspeed-cr2-decompressor-envelope]]
+- related harness facts: [[libfuzzer]]
+
+## Failure Shape
+Several fuzzer-envelope variants with different slice-width relations reached only clean return or swallowed RawSpeed exceptions. The synthetic LJpeg-like payload was not valid enough to drive Cr2Decompressor::decodeN_X_Y into the slice-copy invariant.
+
 ## Policy
-Treat `no_crash x decoder_exception_or_clean_return` as a persistent failure basin for `rawspeed-cr2-decompressor-envelope` under `libfuzzer`. Preserve any reachability it proved, but do not keep mutating the same field basin unless the next verification changes the signal.
-
-## Diagnosed Dead End
-- Envelope fields reached the Cr2Decompressor harness shape, and single-slice width variants were tried, but the synthetic compressed payload did not form a valid enough LJpeg frame to drive decodeN_X_Y into the slice-copy invariant.
-
-## Format and Harness Gates
-- Format: The fuzzer-specific RawSpeed envelope starts with little-endian raw image metadata, followed by little-endian slicing fields, then an LJpeg-compressed payload consumed by the decompressor. For the single-slice case, the last-slice width is the meaningful width for the only slice.
-- Harness: The harness reads fields front-to-back from a ByteStream, creates a RawImage, reads slice count, regular slice width, and last-slice width, then constructs Cr2Decompressor and calls decode. Exceptions are swallowed; only memory safety failures count.
+Treat `no_crash x decoder_exception_or_clean_return` on `rawspeed-cr2-decompressor-envelope` as a basin to avoid unless a new candidate changes the parser gate, state relation, or official target sink. Preserve any proven reachability, but reject variants that return to the same verifier signal without changing the causal gate under test.
 
 ## Procedure
-1. Before retrying this basin, rebuild the carrier around the exact harness contract and confirm parser reachability.
-2. Replace the failed mutation family with a more specific invariant that would change the verifier signal.
-3. Avoid broad seed mutation, oversized mutation, or off-target crash chasing when this same signal recurs.
+1. Keep only the smallest parser or harness envelope that the verifier proved was reached.
+2. Identify the missing causal relation from the signal: parser selection, container acceptance, length relation, stateful subobject, allocation state, or official target sink.
+3. Change one relation at a time and discard candidates that return to the same clean-exit, off-target-crash, wrong-sink, usage-only, or both-image-crash basin.
+4. If a local crash is not an official target match, shrink or discard it before mutating deeper fields.
+5. Promote a recovery from this basin only after a later verifier-confirmed target match.
+
+## Format Contract
+The fuzzer-specific RawSpeed carrier begins with a RawImage construction envelope, then a slice count and signed slice-width table, followed by compressed LJpeg-style image data consumed by Cr2Decompressor. The slice widths must both pass image-size sanity checks and remain inconsistent enough to expose the c-p-p relation.
+
+## Harness Contract
+The libFuzzer target consumes fields front-to-back from a little-endian ByteStream, creates a RawImage, reads slice metadata, constructs Cr2Decompressor on the remaining stream, allocates image storage, calls decode, and swallows RawSpeed exceptions.
 
 ## Negative Memory
-- Do not promote this basin into a recovery policy until an official vulnerable/fixed verifier target match is observed.
-- Do not preserve raw bytes, offsets, checksums, or task-local identifiers.
+- Do not resubmit broad mutations that only reproduce `decoder_exception_or_clean_return`.
+- Do not count parser reachability, both-image crashes, local wrapper crashes, clean exits, or fixed-image crashes as success.
+- Do not store raw payload bytes, exact positions, task identifiers, or submit metadata.
 
 ## Evidence Shape
-- Support: one round-8 persistent failure trace.
-- Scope: generator avoidance and retargeting for the same failure key.
+- Support: diagnosed persistent failures from rounds 8 and 12.
+- Scope: generator repair and basin avoidance only.

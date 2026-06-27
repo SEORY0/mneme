@@ -41,3 +41,14 @@ round recovery policies
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- ICC profiles have a fixed header describing profile class, data colorspace, profile connection space, and a tag table. lcms opens the profile from memory, derives input channel count from the header colorspace, then creates a transform to an sRGB destination using profile tags and pipeline stages.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

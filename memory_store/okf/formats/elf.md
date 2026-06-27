@@ -24,3 +24,14 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ## Round 4 Verified Contracts
 - [[elf-missing-section-header-null-deref]]: A valid ELF header with nonzero section metadata but absent section-header table can make later section processing dereference missing loader state.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- ELF parsing uses the file header to locate program headers and section headers. Dynamic symbol recovery may use dynamic-segment tags and virtual-address-to-file-offset translation through loadable program headers when section headers are absent.
+
+### Harness Links
+- [[file-parser]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -32,3 +32,14 @@ status words and the preceding bytes are copied as APDU response data.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The input is a concatenation of reader chunks. Each chunk starts with a little-endian length field followed by that many response bytes. The first chunk becomes the card ATR; later chunks are APDU response bodies whose final status bytes become the APDU status words.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

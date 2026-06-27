@@ -41,3 +41,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The input is a complete OpenType/TrueType font blob with normal table-directory structure. The relevant vulnerable family is used by array-like table records whose first element can be accessed after reading the array length.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -42,3 +42,14 @@ fields become the record text parsed by Fluent Bit.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The general parser fuzzer consumes control bytes before the record: parser format selection, optional time fields, time retention, optional typecast table, optional decoder list, and then the remaining bytes as the log record parsed by the selected parser.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -21,3 +21,14 @@ unescaped matching delimiter before constructing a string node.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- OpenStep plist input is raw text containing dictionaries, arrays, strings, comments, separators, and legacy strings-style constructs. The parser accepts complete plist text directly, and valid seeds from the OpenStep/string test corpus reach deeper cleanup paths than tiny hand-built dictionaries.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

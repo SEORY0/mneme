@@ -21,3 +21,14 @@ signed decimal text and immediately allocates and writes a terminator based on i
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The ar format begins with a global magic and then a sequence of fixed-width member headers. Member headers contain text fields for name and size and a small trailer marker; member payloads are padded to member alignment. A special long-name-table member is recognized by its reserved name and its size controls allocation of the shared filename table.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

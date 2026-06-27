@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 12 Factual Contract
+
+### Schema / Invariants
+- The fuzzer-specific RawSpeed carrier begins with a RawImage construction envelope, then a slice count and signed slice-width table, followed by compressed LJpeg-style image data consumed by Cr2Decompressor. The slice widths must both pass image-size sanity checks and remain inconsistent enough to expose the c-p-p relation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
