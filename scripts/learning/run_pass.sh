@@ -37,8 +37,11 @@ pin_branch(){
   fi
 }
 
-ratelimited(){  # any of the given log files show a rate/usage-limit marker
-  grep -qiE "rate limit|rate.limit|429|usage limit|quota|too many requests|exceeded your|insufficient_quota|over.capacity" "$@" 2>/dev/null
+ratelimited(){  # any of the given log files show a GENUINE rate/usage-limit marker.
+  # NB: must NOT match source code. Bare "429" matched "4294967295" (UINT32_MAX) and bare
+  # "quota" matched "quotaon" in task source, causing false 20-min sleeps on plain worker
+  # crashes. Require actual rate-limit phrasing instead.
+  grep -qiE "rate.?limit|too many requests|usage limit|insufficient_quota|quota exceeded|exceeded your current quota|x-ratelimit|retry.?after|429 too many|over.?capacity|overloaded" "$@" 2>/dev/null
 }
 
 shard_complete(){  # R k
