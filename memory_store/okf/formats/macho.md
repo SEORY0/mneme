@@ -20,3 +20,14 @@ Mach-O begins with a fixed header containing CPU/file type fields, a load-comman
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- Mach-O files carry a header with CPU/file type metadata, a declared load-command count, and an aggregate load-command byte region. UPX's Mach-O packer walks the declared command sequence during can-unpack probing, so the count and command-region consistency are the key parser relation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

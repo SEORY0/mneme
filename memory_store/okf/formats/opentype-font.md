@@ -52,3 +52,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- OpenType fonts contain table records and layout tables such as GSUB/GPOS. ClassDef subtables encode glyph-to-class mappings either as contiguous class value arrays or range records, and malformed counts can affect allocation sizes.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

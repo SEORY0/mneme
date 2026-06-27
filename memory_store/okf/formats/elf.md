@@ -38,3 +38,16 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ## Round 13 Facts
 - YARA's ELF module consumes raw ELF bytes, validates the outer ELF and section-header structure, then resolves symbol names through the linked string table for symbol-table entries. A symbol table and its linked string table must be internally coherent enough for the module to reach symbol-name resolution.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- BFD accepts a minimal ELF64 little-endian object when the ELF header, section header table, and section-name string table are mutually consistent. The AArch64 synthetic-symbol path consults a dynamic section if it is declared with the expected section type and flags.
+- The described bug is in ELF program-header handling: loadable segments have file offsets, virtual addresses, file sizes, memory sizes, and alignment, and the vulnerable invariant is whether the low load address is computed from the virtual page base instead of incorporating segment file offset.
+
+### Harness Links
+- [[libfuzzer]]
+- [[qemu-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

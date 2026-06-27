@@ -22,3 +22,12 @@ okf_support: 3
 
 ## Round 13 Facts
 - The source tree builds OpenThread fuzz targets including ip6-send, radio-receive-done, ncp-uart-received, and cli-uart-received. Local verify identified the selected target as the ip6-send honggfuzz wrapper; the wrapper printed fuzzing usage instead of consuming the supplied single PoC file as raw input.
+
+## Round 14 Input Contract
+- The selected OpenSC target was fuzz_pkcs15_decode. Its source has a libFuzzer-style entrypoint, but the observed wrapper output was the honggfuzz usage path. The source-level contract consumes a little-endian length prefix before separating parser bytes from reader-emulation bytes.
+
+## Round 14 Format Links
+- [[pkcs15-decode-fuzzer-input]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

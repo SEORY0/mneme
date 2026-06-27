@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The active input is a raw libgit2 object body. The fuzzer tries the same bytes as blob, tree, commit, and tag content. Commit and tag bodies can contain signature lines with decimal timestamp and timezone fields, but the object parser does not require a loose-object envelope around the bytes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- Input is raw JavaScript source text. The relevant syntax family combines switch statements, case/default labels, function declarations, and intentionally unclosed block/function scopes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -801,3 +801,88 @@ Splash font path code is reached.
 - The target is the WMAVoice decoder fuzzer, not the ASF demuxer. It consumes raw decoder packets plus the decoder-fuzzer configuration tail; container bytes alone do not necessarily provide codec extradata or valid packet boundaries.
 - The libFuzzer harness consumes the raw input file bytes directly. It writes those bytes to a temporary file, initializes a TurboJPEG compression handle, then loops over several pixel-format/subsampling/quality configurations. Each iteration tries to load the temporary file with the twelve-bit image loader; on success, most iterations allocate a fixed-size destination buffer, compress into it with reallocation disabled, and then reads the emitted compressed bytes to expose MemorySanitizer state. There is no leading mode byte and no FuzzedDataProvider layout.
 - The individual FFmpeg demuxer fuzzer uses the Argo BRP demuxer directly. For inputs larger than the harness metadata threshold, the last metadata region is not part of the demuxer byte stream; it controls IO buffer size, seekability, advertised file size, filename suffix behavior, and interrupt budget. With seekability enabled, the harness exposes AVIO seeking to the demuxer, but reads still advance through the supplied byte stream, so a header lookahead can consume one block while later packet reading consumes following bytes.
+
+## Round 14 Input Contract
+- The libFuzzer target passes the input bytes directly to libgit2 object parsing helpers. There is no mode prefix or FuzzedDataProvider splitting; the harness supplies NUL-terminated object buffers internally before invoking object parsers.
+- The libFuzzer target consumes the raw file bytes directly. The first byte is reduced modulo the platform table and the remaining bytes are disassembled with detail output enabled. There is no file-format wrapper, checksum, or length trailer.
+- The MuPDF libFuzzer target consumes raw PDF bytes from memory, opens the document as PDF, iterates pages, rasterizes each page to an RGB pixmap, catches MuPDF exceptions, and treats only process-level sanitizer failures as crashes.
+- Raw libFuzzer bytes are passed to stream_decompress. The first few bytes seed the harness PRNG and are not decompressed; the remaining bytes are split into pseudo-random input chunks and decompressed with pseudo-random output buffer sizes.
+- The libFuzzer harness treats the final byte as the pcap linktype, then overwrites that byte with a string terminator and passes the remaining buffer to pcap_compile with optimization enabled. The filter text therefore must be complete before the last byte.
+- The libFuzzer target consumes leading configuration bytes before constructing the parser input. The vulnerable parser receives a pointer into the buffer but retains a size or end relation from the uncarved input, so the harness contract matters more than JSON complexity.
+- The fuzzer copies all raw bytes to a NUL-terminated buffer, opens an mruby state, calls the string loader, closes the state, and frees the copy. There is no selector, bytecode envelope, or FuzzedDataProvider layout.
+- The binutils libFuzzer harness consumes raw object-file bytes, opens them through BFD, and runs the disassembler selected from the object architecture. Parser reachability depends on BFD accepting the ELF container and assigning the CRX architecture.
+- The libFuzzer harness passes the raw byte buffer and explicit size directly to the UCL parser. There is no leading mode selector, no trailing checksum, and no requirement that the file be NUL terminated.
+- The GraphicsMagick coder fuzzer treats the raw file bytes as a blob for a specific coder, reads the image, then, for writable coders, writes it back using the same coder. The selected binary was the PTIF-family TIFF coder; there was no extra fuzzer prefix.
+- The htslib fuzzer copies raw bytes into an in-memory hFILE, opens it through hts_open logic, dispatches variant data to VCF read/write paths, and consumes the entire file as the candidate VCF/BCF stream.
+- The uncompress fuzzer uses the first two input bytes to size the destination buffer, then passes the entire raw input, including those sizing bytes, to miniz uncompress. This means buffer sizing bytes are also part of the zlib stream unless the stream is arranged accordingly.
+- The libFuzzer harness passes raw bytes to the chunk decompressor only after the total compressed-size field exactly matches the input size, the uncompressed size is nonzero, and the chunk validator accepts the header and block-start table.
+- The libFuzzer target passes raw bytes to luaL_loadbufferx in text mode and then executes the compiled chunk. It does not call luaL_openlibs, so standard library functions are unavailable unless they are language builtins or explicitly defined by the input.
+- The njs libFuzzer target treats the full byte string as a script, creates a VM with silent options, runs the process-script path once, and destroys the VM. There is no leading mode byte or external file wrapper.
+- The njs libFuzzer target consumes raw bytes as a script, creates a VM with silent options, processes the script once, and reports only process-level crashes. There is no file or envelope header.
+- The relevant fuzzers feed raw bytes to libexif constructors and then enumerate/dump EXIF entries and maker-note values. Reaching the sink requires the input to parse far enough that a recognized maker-note entry is later formatted, not merely loaded.
+- The intended fuzzer is a raw WGSL reader to WGSL writer libFuzzer target. In this run, the local task wrapper expected a directory-style input path and exited before consuming the raw file bytes, so parser reachability could not be confirmed.
+- The binutils libFuzzer wrapper feeds raw object-file bytes to an objdump-style target. Local verify labeled the low-level read helper as a sink mismatch, but the crashing stack traversed the AArch64 synthetic-symbol dynamic-section parser, so submission was required.
+- The secilc fuzzer adds the raw input as a CIL source file, compiles the CIL database, builds a policydb, optimizes it, and writes it to a null output. The input is not binary policy and has no checksum or selector.
+- The LibreDWG libFuzzer target consumes raw bytes, autodetects DWG/DXF/JSON, decodes into an in-memory DWG object, then randomly exercises output encoders. The target bug is in the DWG decode phase before output conversion.
+- The jplist fuzz target passes the libFuzzer byte buffer directly to plist_from_json with the exact byte length and then frees the produced plist root.
+- The libFuzzer harness passes raw bytes to Exiv2's read/print/write flow. The JP2 detector requires the signature box framing before the file-type box is parsed; no external filename extension or checksum is supplied by the harness.
+- The H3 libFuzzer target rejects inputs smaller than the native argument structure, casts raw bytes directly to that structure, calls cellToVertex with the supplied index and vertex number, then also calls cellToVertexes, vertexToLatLng, and isValidVertex on the supplied index.
+- The config fuzzer copies raw bytes into a NUL-terminated string, zeroes the domain global structure after default init, calls ddsi_config_init, and finalizes the returned config state if parsing succeeds.
+- The mruby libFuzzer harness copies raw bytes into a NUL-terminated Ruby script and evaluates it with mrb_load_string. Crashes must be triggered by script execution; ordinary Ruby exceptions are caught by the interpreter path and do not count.
+- The selected libFuzzer binary feeds the raw bytes directly to mruby as source code. There is no protobuf schema, no leading mode byte, and no FuzzedDataProvider splitting for this task.
+- The binutils harness consumes raw object bytes, opens the file through BFD, and runs an addr2line-style lookup path. It prints unresolved source locations for accepted objects that do not contain a usable target line mapping.
+- Although the source harness is a MuPDF document fuzzer, the task binary accepts raw image bytes and reaches the BMP loader directly. No leading selector, archive wrapper, or checksum was needed for the accepted carrier.
+- The binutils harness consumes raw object bytes and runs an objcopy-like path. It accepts ELF containers and reports no recognized debugging information when the object lacks enough usable debug metadata for higher-level processing.
+- Although the source harness is named pdf_fuzzer and opens the memory stream with a PDF label, MuPDF registers all document handlers and content recognition can route archive-like inputs into the CBZ/ZIP handler before rendering pages.
+- The libFuzzer harness treats the input as raw bytes for a temporary protocols-file stream. Newlines delimit rules; there is no length prefix or checksum. A protocol-name delimiter must be present for the attribute parser to process the left-hand side.
+- The libFuzzer target passes raw bytes to the MVC decoder. Several bytes at fixed positions are used as decoder configuration selectors such as architecture, color format, and core count, but the stream bytes are otherwise decoded directly through a header pass followed by repeated frame decode calls.
+- The libxml2 harness forces DTD validation, disables XInclude, loads the escaped entity table, then runs pull parsing, post-parse validation, push parsing, and reader traversal under the same allocation-failure limit. It checks whether malloc failure reporting matches each parser mode.
+- The GDAL harness maps the raw fuzz bytes as a virtual tar file and opens a fixed data-file path inside that tar. It then reads up to a bounded raster window from opened datasets, which is what exercises EHdrRasterBand block reads.
+- The mruby libFuzzer harness evaluates the raw byte buffer as a NUL-terminated Ruby script. There is no binary bytecode wrapper or length prefix; the script must both reach the BigInt path and exercise a later operation that exposes the bad state.
+- The UPX fuzzer writes raw input bytes to a temporary file and runs the packed-file test/list path through PackMaster. There is no fuzzer prefix; a syntactically plausible Mach-O sample is needed before the Mach-O packer logic is reached.
+- The libheif file fuzzer consumes raw HEIF file bytes, checks file type and brand, reads a context from memory, obtains the primary image and all top-level image handles, queries metadata and dimensions, and attempts image decoding for primary, top-level, and thumbnail handles.
+- The fuzz target builds an xmllint argv internally from structured front-loaded fields, then registers the first entity as the main input document unless its URL begins with a dash. Resource loading resolves URLs from the serialized entity table.
+- The FFmpeg target decoder fuzzer treats the main prefix as packet data. When the input is large enough, the final fixed-size suffix is consumed as decoder configuration, including dimensions, parser enablement, flags, extradata size, keyframe patterning, and flush behavior.
+
+## Round 14 Format Links
+- [[blosc2-chunk]]
+- [[bmp]]
+- [[capstone-disasm-selector-plus-bytes]]
+- [[cyclonedds-xml-config]]
+- [[dwg-dxf-json-autodetect]]
+- [[ehdr-tar]]
+- [[elf]]
+- [[elf-crx-object]]
+- [[elf-shf-compressed-debug-section]]
+- [[elf-with-stabs-debug-sections]]
+- [[git-raw-object]]
+- [[h264-annexb-mvc]]
+- [[h3-raw-native-struct]]
+- [[heif-isobmff]]
+- [[hevc-elementary-stream]]
+- [[javascript]]
+- [[javascript-source]]
+- [[jp2]]
+- [[jpeg-exif]]
+- [[json]]
+- [[json-with-settings-prefix]]
+- [[libxml2-lint-fuzzdata]]
+- [[libxml2-valid-fuzzer-envelope]]
+- [[lua-source]]
+- [[macho]]
+- [[mruby-script]]
+- [[ndpi-custom-protocol-rule]]
+- [[pcap-filter-expression]]
+- [[pdf]]
+- [[ruby-script]]
+- [[ruby-source]]
+- [[selinux-cil-policy-text]]
+- [[tiff]]
+- [[vcf-text]]
+- [[wgsl]]
+- [[zip]]
+- [[zlib-deflate]]
+- [[zstd-legacy]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

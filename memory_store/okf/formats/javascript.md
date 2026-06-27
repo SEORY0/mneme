@@ -51,3 +51,14 @@ terminators.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The input is plain JavaScript source. The relevant language feature is RegExp.prototype[Symbol.split] over strings whose byte length differs from character length, especially when the regular expression is made sticky and repeated matches update lastIndex.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

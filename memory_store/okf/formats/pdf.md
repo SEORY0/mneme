@@ -166,3 +166,18 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- PDF shading dictionaries can reference a Type 3 stitching function through the page resource shading table. A stitching function uses a single input domain, an array of subfunctions, boundary values, encode pairs, and an optional range array that determines the outer result arity. Subfunctions may independently declare their own range-derived arity.
+- PDF object streams are stream objects declaring object count, first-object table size, and stream length; their data begins with object-number and relative-offset pairs followed by serialized objects. Reachability also needs a PDF header, trailer/root, catalog, pages tree, and renderable page graph.
+- PDF inputs need a header, indirect catalog/pages/page objects, content stream, xref/trailer, and optional annotations or structure-tree objects to exercise annotation processors. MuPDF tolerates repairable structure but rendering must reach the page or annotation processor.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-ghostscript-device-wrapper]]
+- [[libfuzzer-mupdf-pdf-renderer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

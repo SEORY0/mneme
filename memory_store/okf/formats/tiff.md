@@ -36,3 +36,14 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- TIFF inputs use a header pointing to an image-file-directory table. Compression, bits-per-sample, sample layout, strip or tile metadata, and photometric fields determine whether GraphicsMagick preserves a compression mode into the writer. Project samples include high-bit-depth grayscale and truecolor images suitable for seed mutation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

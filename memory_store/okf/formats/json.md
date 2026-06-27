@@ -55,3 +55,15 @@ recursive descent reaches the unbounded depth.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The parser accepts JSON-like object syntax and string values. String escaping is handled inside the lexer rather than by requiring a fully valid document, so a short input can still reach string-unescape handling.
+- The jplist parser accepts raw JSON text and parses primitive values directly, including top-level numbers. Floating numeric tokens take a separate fractional scan path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

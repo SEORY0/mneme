@@ -32,3 +32,14 @@ specific entry tables after Exif data is recognized.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- libexif accepts either raw EXIF payloads or JPEG APP1 EXIF envelopes. Maker-note interpretation depends on a MakerNote tag with vendor-identifying data; the Apple path has value-formatting cases that require at least a short length before subtracting from it.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

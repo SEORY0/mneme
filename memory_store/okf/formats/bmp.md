@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- A BMP file starts with a file header containing the bitmap-data offset, followed by an information header. Low bit-depth RGB images have a palette whose entry size depends on the header family, and the palette is read before pixel data.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -21,3 +21,14 @@ blocks; recovery code may scan around a slid b_info location when metadata is in
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- UPX-packed Unix inputs need a real executable envelope plus UPX loader metadata, including l_info, p_info, block-info records, and compressed payload blocks. Simple magic markers are not enough to enter unpack logic.
+
+### Harness Links
+- [[libfuzzer-file-command-wrapper]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -22,3 +22,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- CIL is parenthesized policy text. Map classes are declared with classmap and classmapping, kernel classes with class, common permission sets with common, and classcommon links a kernel class to a common permission set.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

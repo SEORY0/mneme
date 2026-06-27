@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The accepted format is Ruby source text executed by mruby. Environment objects are created by local-variable captures in closures, procs, bindings, methods defined from captured scopes, fibers, and block constructs; GC.start can force marking after an environment has been closed or unshared.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

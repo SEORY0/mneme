@@ -23,3 +23,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ## Round 13 Facts
 - The handler recognizes ISO BMFF HEIF files by a leading file-type box with supported HEIF brands. Structurally valid seeds include ftyp plus a HEIF box graph that libheif can load and decode; short ftyp-only carriers reach the handler but are rejected by libheif as unsupported or incomplete.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- HEIF files are ISO BMFF containers. Image spatial extents are stored in image-property boxes as full boxes with width and height fields, and item/property associations determine which image handles observe those dimensions.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

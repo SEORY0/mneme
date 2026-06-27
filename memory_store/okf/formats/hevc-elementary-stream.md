@@ -31,3 +31,14 @@ The input is a raw HEVC byte stream, not a container. The decoder recognizes Ann
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The target format is an HEVC elementary stream made from start-code-delimited NAL units. Useful carriers need parameter sets before slice-like units so the decoder can configure picture dimensions and coding-tree state.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

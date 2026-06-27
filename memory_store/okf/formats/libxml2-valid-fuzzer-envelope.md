@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The valid fuzzer input begins with parser options and an allocator-failure limit, followed by escaped URL/content string pairs. Backslash-newline terminates each string and doubled backslashes encode literal backslashes. The first URL/content pair is the main XML entity, with later pairs available to the external entity loader.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

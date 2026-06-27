@@ -21,3 +21,14 @@ as Ruby code by the harness.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The input is protobuf text for a Ruby AST-like Function message. The converter emits a Ruby method wrapper, scoped begin blocks, sequential variable assignments, constants, variable references, and binary operators. Variable references are modulo the current live variable count, so assignments must establish live operands before later expressions can use them.
+
+### Harness Links
+- [[libfuzzer-libprotobuf-mutator]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

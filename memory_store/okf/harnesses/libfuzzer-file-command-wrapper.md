@@ -16,3 +16,12 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 14 Input Contract
+- The fuzzer writes the raw bytes to a temporary file and invokes UPX command paths such as test/list/decompress against that file. The candidate must be a complete packed executable recognized by UPX.
+
+## Round 14 Format Links
+- [[upx-packed-elf]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

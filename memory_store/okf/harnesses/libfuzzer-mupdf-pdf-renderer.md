@@ -16,3 +16,12 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 14 Input Contract
+- The MuPDF fuzzer opens the raw bytes as a PDF stream, counts pages, and rasterizes each page to an RGB pixmap under a capped allocator. It catches MuPDF exceptions, so only native sanitizer faults count as crashes.
+
+## Round 14 Format Links
+- [[pdf]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

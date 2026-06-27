@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The input is Lua source text. Tail calls are produced by return statements that immediately call another function. The syntax gate is ordinary Lua parsing; no file container, checksum, or binary chunk wrapper is needed for text-mode inputs.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
