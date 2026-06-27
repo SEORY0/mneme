@@ -36,7 +36,8 @@ server on 127.0.0.1:8666 are the VERIFIER, not an LLM API — using them is fine
 `runner ... solve` (that path calls a model); use the gen/verify/submit subcommands instead.
 
 ## Environment
-- Repo /home/nsd/mneme; branch `feat/5worker-learning`. venv `.venv`. You do NOT commit.
+- Repo /home/nsd/mneme; venv `.venv`. You do NOT commit and do NOT touch git at all — no
+  `git checkout`, `git switch`, `git branch`, `git reset`, `git add`, or `git commit`.
 - Verifier server must be up: `curl -s -m2 127.0.0.1:8666/ -o /dev/null -w '%{http_code}\n'`.
 - `.env` holds CYBERGYM_* (the CLI loads it). No OPENAI/ANTHROPIC key is needed by you —
   if mneme ever tries to use one, that's a bug; stay on gen/verify/submit.

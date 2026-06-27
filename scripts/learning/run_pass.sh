@@ -26,6 +26,17 @@ ts(){ date +%H:%M:%S; }
 log(){ echo "[$(ts)] $*"; }
 safe_task(){ printf '%s' "$1" | tr ':/' '__'; }
 
+# Branch-drift guard: a runaway codex once ran `git checkout <other-branch>` and committed a
+# round there, orphaning it. Pin the branch we started on and restore it after every codex call.
+EXPECT_BRANCH="$(git branch --show-current)"
+pin_branch(){
+  local b; b="$(git branch --show-current)"
+  if [ "$b" != "$EXPECT_BRANCH" ]; then
+    log "!! branch drifted to '$b' — restoring '$EXPECT_BRANCH'"
+    git checkout "$EXPECT_BRANCH" >/dev/null 2>&1 || true
+  fi
+}
+
 ratelimited(){  # any of the given log files show a rate/usage-limit marker
   grep -qiE "rate limit|rate.limit|429|usage limit|quota|too many requests|exceeded your|insufficient_quota|over.capacity" "$@" 2>/dev/null
 }
@@ -59,6 +70,7 @@ worker_wave(){  # R -> runs all incomplete shards once (parallel), then reports 
     fi
   done
   for p in "${pids[@]:-}"; do [ -n "${p:-}" ] && wait "$p" 2>/dev/null || true; done
+  pin_branch
   round_complete "$r"
 }
 
@@ -92,6 +104,7 @@ do_round(){
   while ! consolidated "$R"; do
     { printf 'Set ROUND=%s. Consolidate round %s now (it is COMPLETE).\n\n' "$R" "$R"; cat docs/codex-consolidator-prompt.md; } \
       | ROUND="$R" timeout "$WORKER_TIMEOUT" "${CODEX[@]}" - > "logs/round-${R}-consolidator.log" 2>&1 || true
+    pin_branch
     consolidated "$R" && break
     if ratelimited logs/round-${R}-consolidator.log; then
       rate_waits=$((rate_waits+1))

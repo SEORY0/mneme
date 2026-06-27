@@ -26,7 +26,9 @@ memory snapshot; all promotion happens serially between rounds. Improvements com
   the ranges it wrote policies for).
 
 ## Prerequisites (check once per machine / boot)
-- Branch `feat/5worker-learning` checked out (off `learn/okf-noapi`). venv `.venv`.
+- The learning branch (`feat/learning-rounds-6plus`) checked out. venv `.venv`. Workers and the
+  consolidator must NEVER switch branches (`git checkout <branch>`/`switch`/`reset`) — commit on
+  whatever branch is already checked out.
 - CyberGym submission/verify server up on 127.0.0.1:8666:
   `curl -s -m2 127.0.0.1:8666/ -o /dev/null -w '%{http_code}\n'`.
 - `.env` at repo root with `CYBERGYM_*` (no OpenAI/Anthropic key needed).
