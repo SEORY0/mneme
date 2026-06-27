@@ -3,8 +3,8 @@ type: format-family
 title: "Blosc Compressed Chunk"
 description: "Round 12 factual format contract for blosc compressed chunk."
 resource: cybergym://format/blosc-compressed-chunk
-tags: ["blosc-compressed-chunk", "format-contract", "round-12"]
-okf_support: 0
+tags: ["blosc-compressed-chunk", "format-contract", "round-12", "round-16"]
+okf_support: 1
 train_only: true
 ---
 # Blosc Compressed Chunk
@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- A Blosc chunk has a compact header carrying version/codec flags, type size, uncompressed size, block size and compressed size, followed by block metadata and compressed block data. Header total-size consistency matters; malformed compressed-size markers can crash locally without being an official target match.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

@@ -41,3 +41,20 @@ For `generic_crash x local_crash_not_reproduced_officially`, avoid replaying the
 ## Evidence Shape
 - Support: one diagnosed round-10 persistent failure.
 - Scope: generator avoidance for the same failure-keyed basin.
+
+## Round 16 Evidence Addendum
+
+### Failure Key
+- `generic_crash x local_crash_not_reproduced_officially` for `pdf` under `libfuzzer-mupdf-pdf-renderer`.
+
+### Procedure Update
+- Renderable PDFs exercising path clipping, nested clipping, image-mask clipping, Type3 text rendering, and annotation appearance rendering were tried. Two clipped rendering variants crashed the local wrapper but did not reproduce as vulnerable-image failures on official submit, so they appear to be local-wrapper or non-target crashes rather than the described scissor-aliasing split.
+- Keep the previously recorded negative-memory policy active; this addendum only strengthens the same basin-to-avoid with another diagnosed persistent failure.
+
+### Format Contract
+- A minimal PDF needs a catalog, page tree, page, media box, and content stream to reach MuPDF page rendering. Content streams can drive clipping through path operators, image XObjects and image masks, Type3 glyph programs, and annotation appearance form XObjects. Broken xref data may be repaired, but rendering-specific bugs need a valid page graph.
+- Harness: The MuPDF fuzzer opens the entire input buffer as a PDF memory stream, counts pages, and rasterizes each page to an RGB pixmap. There is no prefix carving or mode selector; MuPDF exceptions are caught, so only process-level sanitizer faults are meaningful.
+
+### Evidence Shape
+- Support: one diagnosed persistent failure from round 16.
+- Scope: generator avoidance for the same failure-keyed basin.

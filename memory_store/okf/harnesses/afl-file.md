@@ -2,8 +2,8 @@
 type: harness-contract
 title: "Afl File harness"
 description: "Input contract facts for Afl File."
-tags: ["afl-file", "round-6"]
-okf_support: 3
+tags: ["afl-file", "round-6", "round-16"]
+okf_support: 5
 ---
 # Afl File Harness
 
@@ -65,4 +65,15 @@ options once, then parses the buffer in parse-only mode.
 - [[mvg]]
 
 ## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 16 Input Contract
+- The built binary is an AFL-style listen fuzzer. It reads one raw SCTP packet including the common header and injects it into a passive endpoint; it does not use the connect-fuzzer first-byte handshake selector in this task image.
+- The built target is AFL-style and reads one raw object/archive file. It invokes binutils symbol-reading behavior after BFD identifies the format; no external selector controls the format path.
+
+## Round 16 Format Links
+- [[ecoff-bfd-object]]
+- [[sctp-packet]]
+
+## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

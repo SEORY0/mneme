@@ -3,8 +3,8 @@ type: format-family
 title: "Html format"
 description: "Descriptive contract facts for Html."
 resource: "cybergym://format/html"
-tags: ["html", "round-6"]
-okf_support: 2
+tags: ["html", "round-6", "round-16"]
+okf_support: 4
 ---
 # Schema
 ## Identification
@@ -33,3 +33,16 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- The useful payload is not a standalone browser document requirement; it is an HTML byte stream consumed by libxml2. Long comments, script data, entity-like text, nested tags, and attributes are all syntactically tolerated enough to reach parser logic, but the expensive path depends on how tokenization state spans chunk boundaries.
+- The target content is HTML with meta charset or content-type declarations and attributes. Charset changes and malformed/unclosed attributes are relevant, but the parser must be driven through libxml2's HTML input buffering and encoding conversion paths rather than merely supplying invalid markup.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-libxml2-html]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

@@ -3,8 +3,8 @@ type: format-family
 title: "Ecoff Bfd Object format"
 description: "Descriptive contract facts for Ecoff Bfd Object."
 resource: "cybergym://format/ecoff-bfd-object"
-tags: ["ecoff-bfd-object", "round-6"]
-okf_support: 2
+tags: ["ecoff-bfd-object", "round-6", "round-16"]
+okf_support: 3
 ---
 # Schema
 ## Identification
@@ -47,3 +47,14 @@ whose symbol count is inconsistent with the remaining external symbol table.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- ECOFF objects include a file header, optional header, section headers, and symbolic/debug header tables. The vulnerable path depends on symbolic information with file-descriptor records referring into local-symbol tables using base/count fields.
+
+### Harness Links
+- [[afl-file]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

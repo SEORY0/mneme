@@ -3,8 +3,8 @@ type: format-family
 title: "elf-dwarf-object format"
 description: "Structure and reachability facts for ELF/DWARF object."
 resource: cybergym://format/elf-dwarf-object
-tags: ["elf-dwarf-object"]
-okf_support: 1
+tags: ["elf-dwarf-object", "round-16"]
+okf_support: 2
 ---
 # ELF Dwarf Object Format
 
@@ -32,3 +32,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- The relevant DWARF carrier is an object file with normal ELF structure plus debug sections. A .debug_addr section alone can be syntactically present, but address extraction also depends on CU context fields such as address size and address base, and on lookup indexes supplied through libdwarf APIs.
+
+### Harness Links
+- [[libfuzzer-libdwarf-debug-addr]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

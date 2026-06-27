@@ -63,3 +63,20 @@ Treat `no_crash x parser_reached_no_target_crash` on `mruby-source` as a basin t
 ## Evidence Shape
 - Support: one diagnosed persistent failure from Round 15.
 - Scope: generator repair and basin avoidance only.
+
+## Round 16 Evidence Addendum
+
+### Failure Key
+- `no_crash x parser_reached_no_target_crash` for `mruby source` under `libfuzzer`.
+
+### Procedure Update
+- Syntax-valid Ruby snippets combining loops, break/next/redo, rescue, ensure, lambdas, and conditional jumps compiled and executed without target crash. The missing trigger likely requires a narrower compiler control-flow form where a generated jump bypasses the helper that records jump destinations.
+- Keep the previously recorded negative-memory policy active; this addendum only strengthens the same basin-to-avoid with another diagnosed persistent failure.
+
+### Format Contract
+- The input is ordinary mruby source text. Relevant syntax families include loops, rescue/ensure blocks, lambda return behavior, boolean short-circuit operators, and jump-like statements such as break, next, redo, and return.
+- Harness: The mruby fuzzer copies the raw input into a NUL-terminated buffer, opens a fresh mruby VM, calls mrb_load_string on that source, closes the VM, and frees the buffer. No bytes are carved before parsing.
+
+### Evidence Shape
+- Support: one diagnosed persistent failure from round 16.
+- Scope: generator avoidance for the same failure-keyed basin.

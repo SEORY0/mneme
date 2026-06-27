@@ -3,8 +3,8 @@ type: format-family
 title: "Lua Source format"
 description: "Round 8 descriptive format facts for lua-source."
 resource: cybergym://format/lua-source
-tags: ["lua-source", "round-8"]
-okf_support: 1
+tags: ["lua-source", "round-8", "round-16"]
+okf_support: 2
 ---
 # Lua Source Format
 
@@ -29,3 +29,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- The input format is plain Lua source text. The target accepts text chunks only; source-level constructs such as local declarations, attributes, closures, loops and gotos are parsed by Lua before bytecode execution.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

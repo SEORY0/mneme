@@ -2,8 +2,8 @@
 type: harness-contract
 title: "Libfuzzer Mupdf Pdf Renderer harness"
 description: "Input contract facts for libfuzzer-mupdf-pdf-renderer."
-tags: ["libfuzzer-mupdf-pdf-renderer", "round-11"]
-okf_support: 1
+tags: ["libfuzzer-mupdf-pdf-renderer", "round-11", "round-16"]
+okf_support: 2
 train_only: true
 ---
 # Libfuzzer Mupdf Pdf Renderer Harness
@@ -24,4 +24,13 @@ train_only: true
 - [[pdf]]
 
 ## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 16 Input Contract
+- The MuPDF fuzzer opens the entire input buffer as a PDF memory stream, counts pages, and rasterizes each page to an RGB pixmap. There is no prefix carving or mode selector; MuPDF exceptions are caught, so only process-level sanitizer faults are meaningful.
+
+## Round 16 Format Links
+- [[pdf]]
+
+## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -3,8 +3,8 @@ type: format-family
 title: "Sctp Packet"
 description: "Round 7 factual format contract for sctp-packet."
 resource: cybergym://format/sctp-packet
-tags: ["sctp-packet", "format-contract", "round-7"]
-okf_support: 1
+tags: ["sctp-packet", "format-contract", "round-7", "round-16"]
+okf_support: 2
 train_only: true
 ---
 # Sctp Packet
@@ -32,3 +32,14 @@ specific handshake state before later chunks are interpreted deeply.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- SCTP packets have a common header followed by typed chunks. INIT chunks carry an initiate tag, receive window, stream counts, initial sequence value, and optional parameters such as cookie-preserve. ERROR chunks carry nested causes such as stale-cookie with a staleness value.
+
+### Harness Links
+- [[afl-file]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

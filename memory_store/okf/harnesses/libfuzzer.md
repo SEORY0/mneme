@@ -2,8 +2,8 @@
 type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
-tags: ["libfuzzer", "round-6"]
-okf_support: 51
+tags: ["libfuzzer", "round-6", "round-16"]
+okf_support: 79
 ---
 # Libfuzzer Harness
 
@@ -1000,4 +1000,67 @@ Splash font path code is reached.
 - [[vp9-frame]]
 
 ## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 16 Input Contract
+- The YARA harness consumes the file bytes directly as a scan target; there is no leading mode selector or FuzzedDataProvider envelope. Parser reachability depends on the PE loader mapping sections and the dotnet module accepting the CLR metadata streams.
+- The GraphicsMagick coder fuzzer feeds the raw input bytes as a Magick blob to the MNG reader. There is no leading mode byte, container wrapper, or FuzzedDataProvider carving.
+- The libFuzzer harness carves the last bytes of the input into flavour, machine and architecture controls and passes the remaining leading bytes as the disassembler buffer. Parser reach requires the architecture and machine controls to select the intended disassembler.
+- The Leptonica fuzzer reads raw file bytes as an image and then runs image operations after successful decode. There is no external wrapper; reaching the vulnerable path requires the TIFF loader to produce a Pix from the old-JPEG branch before the rotate/shear operation.
+- The stb_image fuzzer receives raw bytes, first calls the info parser, rejects very large decoded dimensions, and then decodes the same memory buffer with a requested RGBA output. There is no prefix or external file wrapper.
+- The harness feeds the raw file bytes directly to the Blosc decompression fuzzer. There is no leading mode byte or datasource envelope; parser reach depends on a self-consistent chunk header and enough block/table data for the decompressor selected by the header.
+- The decompression fuzzer consumes raw chunk bytes. It rejects short inputs, rejects a header compressed size different from the file size, rejects zero uncompressed size, validates the compressed buffer, allocates an output buffer, then calls Blosc decompression.
+- The selected binary is the wolfSSL RSA libFuzzer target. Bytes are not raw RSA keys; they are consumed front-to-back by the datasource. Choosing fixed P, Q and E skips their string fields, while D is always parsed. An operation selector outside the implemented cases still exercises key-field parsing before returning.
+- The fuzzer consumes fields front-to-back: optional proxy text, URI text, method byte, authentication text, buffer-size controls, a large custom-header key view, and finally a fixed-size null-terminated response slice assigned to the client response before calling the parser helper.
+- The MuPDF fuzzer opens the raw bytes as a PDF stream, counts pages, and renders every page to an RGB pixmap with the identity transform. It does not use a prefix, mode selector, or FuzzedDataProvider layout.
+- The secilc libFuzzer harness treats the input as one raw CIL source file, adds it to a policy database, compiles it and attempts policydb output. There is no binary envelope or mode selector; syntactic validity and enough base policy declarations are required before optional-block reset logic is reached.
+- The BFD fuzzer consumes raw bytes as an input file and lets BFD auto-detect the format. There is no selector byte; reaching the sink requires BFD to classify the bytes as a VMS object/library and invoke the VMS index traversal code.
+- The mruby fuzzer copies the raw input into a NUL-terminated buffer, opens a fresh mruby VM, calls mrb_load_string on that source, closes the VM, and frees the buffer. No bytes are carved before parsing.
+- The HarfBuzz subset fuzzer consumes raw font bytes as a whole font. There is no datasource envelope. Parser reach requires a valid enough sfnt/OpenType structure for the subset pipeline to load faces and build subset maps.
+- The Ghostscript raster fuzzer passes raw stdin bytes to gsapi with a cups raster output device. There is no fuzzer envelope; a valid enough PDF header, objects, xref stream, startxref, and EOF marker are required for the PDF interpreter to reach xref processing.
+- The nDPI fuzzer passes the raw input bytes directly to ndpi_detection_process_packet. The input is not pcap-framed; IP/TCP headers, ports, and TLS record shape determine whether the TLS parser path is selected.
+- The harness creates a fresh Lua state, loads the raw bytes with text-only mode and executes the chunk only if loading succeeds. Standard libraries are not opened, so candidates must avoid depending on library globals for reachability.
+- The lcms harness consumes raw profile bytes from memory and exercises profile opening plus color-management operations. There is no wrapper; the profile header and tag table must remain coherent enough for profile creation before malformed tag internals matter.
+- The H3 fuzzer treats the raw bytes as the struct when enough bytes are present. It calls grid distance/path helpers on the two indexes, calls localIjToCell with mode zero, calls cellToLocalIj, then repeats local-IJ conversion using the supplied mode.
+- The LibRaw fuzzer feeds the raw input buffer to `open_buffer`, then attempts unpacking and processing modes. There is no extra envelope. Inputs above the harness size limit are ignored; valid seed-mutation is preferable to constructing a RAW file from scratch.
+- The libxml2 valid fuzzer consumes fixed-size option fields first, configures validation-oriented parsing, then reads entity strings from the remaining bytes. Raw XML bytes without this envelope do not exercise the same parser path.
+- The libxml2 HTML fuzzer does not treat all bytes purely as document text; a leading control area can select parser options and allocation behavior before the remaining bytes are parsed as HTML. The harness exercises both pull and push parsing paths with bounded chunks.
+- The active binary is the generic raw disassembler fuzzer, not the extended two-region disassembler harness. It uses little-endian display/endian settings, derives the architecture and machine from the trailing selector fields, then repeatedly calls the selected disassembler on the instruction buffer.
+- The libxaac encoder fuzzer consumes configuration fields before any PCM bytes. If creation succeeds, it obtains the encoder input buffer, initializes it, then loops over remaining provider bytes choosing either copied bytes or a repeated fill value before each process call.
+- The ntopng harness wraps the raw bytes with `fmemopen`, opens them through libpcap offline parsing, sets the datalink from the PCAP and passes each packet record to the packet dissector. Packet record captured length and original length influence the trusted L4 length used by the ICMP parser.
+- The ntopng fuzzer opens the input as an offline pcap stream, sets the datalink from the pcap handle, and passes each packet to packet dissection. Reaching the DHCP option parser requires pcap framing, link/IP/UDP decoding, ndpi protocol classification as DHCP, and host/flow state sufficient for the DHCP branch.
+- The Wireshark fuzzshark target is configured for the DNS dissector in the UDP-port dissector table and passes the raw input buffer as packet data through epan. The input is not a pcap file and does not need IP or UDP headers for this target.
+- The Pulley fuzzer consumes raw bytes with `arbitrary::Unstructured`. In interpreter mode it parses a vector of materialized ops, filters out unsafe ops, appends a return operation, encodes the retained ops to Pulley bytecode and runs the interpreter. The vulnerable filter permits `GetSp` even when its destination is a special register.
+
+## Round 16 Format Links
+- [[arbitrary-pulley-op-vector]]
+- [[binutils-disassembler-frame]]
+- [[blosc-chunk]]
+- [[blosc-compressed-chunk]]
+- [[cil-policy-text]]
+- [[dns-message]]
+- [[fluent-bit-http-fuzzer-envelope]]
+- [[fuji-raf-raw]]
+- [[fuzzeddataprovider-encoder-config-plus-pcm]]
+- [[fuzzing-datasource-rsa-fields]]
+- [[h3-raw-native-struct]]
+- [[html]]
+- [[icc-profile]]
+- [[ipv4-tcp-tls]]
+- [[jpeg]]
+- [[libxml2-valid-fuzzer-entity-envelope]]
+- [[lua-source]]
+- [[mng]]
+- [[mruby-source]]
+- [[opentype-font]]
+- [[pcap-dhcpv4]]
+- [[pcap-ethernet-ip-icmp]]
+- [[pdf]]
+- [[pdf-xref-stream]]
+- [[pe-dotnet]]
+- [[raw-disassembler-buffer]]
+- [[tiff-ojpeg]]
+- [[vms-bfd-object-or-library]]
+
+## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

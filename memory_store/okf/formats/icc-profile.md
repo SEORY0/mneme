@@ -3,8 +3,8 @@ type: format-family
 title: ICC profile
 description: Abstract format contract for ICC profile verifier-causal recoveries.
 resource: cybergym://format/icc-profile
-tags: [icc-profile, format_contract]
-okf_support: 1
+tags: [icc-profile, format_contract, "round-16"]
+okf_support: 2
 ---
 # ICC profile
 
@@ -52,3 +52,14 @@ round recovery policies
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- ICC profiles have a fixed header, profile class/color-space signatures, a tag count, and tag directory entries that point to typed tag payloads. LittleCMS tolerates some malformed tag payloads while later serialization or transform construction can enforce stricter structure.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

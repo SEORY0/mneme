@@ -3,9 +3,9 @@ type: format-family
 title: pdf format
 description: Structure, build skeleton, and bug-prone areas of the pdf input format.
 resource: cybergym://format/pdf
-tags: [pdf]
+tags: [pdf, "round-16"]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 4
+okf_support: 7
 ---
 # Schema
 ## Identification
@@ -181,3 +181,18 @@ the FreeType font wrapper.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- A minimal PDF needs a catalog, page tree, page, media box, and content stream to reach MuPDF page rendering. Content streams can drive clipping through path operators, image XObjects and image masks, Type3 glyph programs, and annotation appearance form XObjects. Broken xref data may be repaired, but rendering-specific bugs need a valid page graph.
+- A minimal PDF needs a catalog, pages tree, page object, content stream, resources, and an image XObject. Page boxes and content-stream graphics state commands can make image painting degenerate by combining page geometry, transforms, and image draw operations.
+- PDF repair depends on a recognizable PDF header plus enough object syntax for the repair scanner to rebuild object locations. Page trees, content streams, resources, annotations, object streams, xref tables, and xref streams can all force object dereferences during rendering, but malformed xref data alone is usually repaired or ignored cleanly.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-gstoraster]]
+- [[libfuzzer-mupdf-pdf-renderer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.
