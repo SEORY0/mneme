@@ -50,3 +50,16 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Input Contract
+- The FFmpeg target-decoder libFuzzer harness consumes raw file bytes as one or more packets separated by the harness packet delimiter. An optional trailing configuration block can set codec context fields for large inputs; this CLUT path did not require it. Local verify may classify the sanitizer report as wrong_sink even when the described parser function is reached.
+- The FFmpeg target-decoder harness consumes raw decoder packets separated by a fixed delimiter and can optionally consume a trailing codec-context configuration block for large inputs. It does not demux RealMedia containers; demuxed RV60 packet payloads are needed for reliable reachability.
+- The FFmpeg target-decoder harness is an elementary decoder harness. It splits input into packets by the harness delimiter and may use a trailing context-configuration block; it does not demux AVI containers before calling the FFV1 decoder.
+
+## Round 20 Format Links
+- [[ffmpeg-dvbsub-packet-stream]]
+- [[ffmpeg-ffv1-elementary-packet-stream]]
+- [[ffmpeg-rv60-elementary-packet-stream]]
+
+## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

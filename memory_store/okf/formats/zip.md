@@ -38,3 +38,14 @@ ZIP carriers require consistent local headers and central-directory entries. For
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- A ZIP archive needs local file headers, central-directory entries, and an end-of-central-directory record with mutually consistent names, sizes, compression method, CRC, and central-directory accounting. Duplicate central entries may point at one local member, and deflated members are accepted when the header metadata agrees with the compressed stream.
+
+### Harness Links
+- [[libfuzzer-miniz-zip-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

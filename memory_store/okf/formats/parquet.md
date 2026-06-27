@@ -21,3 +21,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- Parquet parser reach depends on a coherent file envelope with footer metadata and terminal magic. Existing corpus files include very small minimized cases and larger fuzzing cases; valid footer/page structure matters more than isolated magic bytes.
+
+### Harness Links
+- [[libfuzzer-parquet-arrow-raw-file]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -15,3 +15,12 @@ okf_support: 0
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 20 Input Contract
+- The active target is fuzzshark configured for the udp dissector in the ip.proto table, with several higher-level dissectors disabled. It consumes the raw file as the dissector payload; no pcap frame envelope is supplied by the input.
+
+## Round 20 Format Links
+- [[wireshark-udp-dissector-payload]]
+
+## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -42,3 +42,14 @@ The input represents three logical files: the word to check, an affix file, and 
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- The input contains a query word plus two text dictionary files. AFF files use directive lines such as encoding, replacement, phonetic, break, and try tables; DIC files start with a word-count line followed by entries. The two file bodies must be separated according to the harness split, not by filenames.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -63,3 +63,14 @@ round recovery policies
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- The postscript fuzzer opens the raw bytes as an ICC profile, reads flags and intent selector from early 32-bit words in the same input, then invokes CSA and CRD generation. Valid ICC header/tag structure is required before CRD code is reached.
+
+### Harness Links
+- [[lcms-postscript-fuzzer-raw-icc-profile]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

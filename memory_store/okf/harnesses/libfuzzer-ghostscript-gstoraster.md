@@ -20,3 +20,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Input Contract
+- The gstoraster fuzzer feeds raw input as interpreter stdin with CUPS raster style device arguments. There is no separate filename or container wrapper supplied by the harness, so inputs must either be directly interpretable or use PostScript operators available from stdin.
+- The Ghostscript gstoraster harness runs the supplied bytes as a single document. The bytes are raw PDF/PostScript input to the interpreter; there is no fuzzer-side prefix or field carving.
+
+## Round 20 Format Links
+- [[pdf]]
+- [[postscript-or-pdf-interpreter-input]]
+
+## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

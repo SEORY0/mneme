@@ -98,3 +98,19 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- OpenType inputs are whole sfnt fonts with a table directory mapping four-character tags to table bodies. AAT shaping bugs may require Apple-specific layout tables; ordinary TrueType glyph, cmap, GSUB, GPOS, kern, or morx samples do not necessarily exercise kerx format-specific code.
+- OpenType/SFNT input is a raw font container with a table directory and tagged table records. The target path is in the GSUB layout table: a single-substitution lookup serializes a coverage table during subsetting. Minimal headers or isolated GSUB-like bytes are not sufficient because HarfBuzz validates table structure before layout serialization.
+- OpenType fonts are table-directory formats: the sfnt directory names each table and records its length and checksum, and individual tables carry their own versioned layouts. The STAT table has a versioned header followed by design-axis records and axis-value records; newer minor versions include an elided fallback name field that older headers do not provide.
+- OpenType sfnt fonts begin with a directory of table records, each with a tag, checksum, table offset, and table length. Required tables such as head, hhea, maxp, hmtx, cmap, name, loca, and glyf gate initial loading; substructures inside cmap, name, glyph, or embedded-bitmap tables may carry additional relative offsets.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-harfbuzz-subset]]
+- [[libfuzzer-ots]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

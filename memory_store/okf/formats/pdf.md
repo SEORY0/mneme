@@ -225,3 +225,14 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- The PDF needs a catalog, pages tree, page resources, a content stream applying an ExtGState, a form XObject for the mask group, and a function object referenced as the soft-mask transfer function. Painting after selecting the ExtGState is what forces Ghostscript to begin the transparency mask.
+
+### Harness Links
+- [[libfuzzer-ghostscript-gstoraster]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -431,3 +431,11 @@
 {"policy": "tftp-request-stream-construct-parser-reached-accept-input-segv-uninitialized-hook-pointer-dereference-verified-recovery", "success": true}
 {"policy": "no-crash-mpegvideo-decoder-reached-clean-ffmpeg-mpegvideo-target-decoder-packets-negative-memory", "success": false}
 {"policy": "no-crash-mxf-demuxer-completed-quickly-mxf-negative-memory", "success": false}
+{"policy": "ffmpeg-dvbsub-packet-stream-construct-parser-reached-clut-entry-index-oob-out-of-bounds-index-write-verified-recovery", "round": 20, "success": true}
+{"policy": "raw-ipv4-packet-construct-raw-ip-packet-target-sink-ndpi-check-amazon-video-heap-buffer-overflow-read-verified-recovery", "round": 20, "success": true}
+{"policy": "opentype-font-seed-mutate-ots-stat-serialize-uninitialized-fallback-use-of-uninitialized-value-verified-recovery", "round": 20, "success": true}
+{"policy": "shell-script-construct-parser-reached-target-bad-cast-undefined-behavior-bad-cast-verified-recovery", "round": 20, "success": true}
+{"policy": "wkt-plus-wkb-split-stream-construct-parser-reached-edge-noding-builder-stack-lifetime-bug-stack-use-after-scope-read-verified-recovery", "round": 20, "success": true}
+{"policy": "pdf-construct-parser-reached-sink-mismatch-but-official-target-match-stack-buffer-overflow-write-verified-recovery", "round": 20, "success": true}
+{"policy": "mp3-id3v2-construct-parser-reached-target-match-null-dereference-read-verified-recovery", "round": 20, "success": true}
+{"policy": "openvswitch-expression-retarget-overlong-zero-hex-lex-buffer-underflow-verified-recovery", "retarget": true, "round": 20, "success": true}

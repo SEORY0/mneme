@@ -64,3 +64,7 @@ Treat `no_crash x corpus_parquet_cases_clean` on `parquet` as a basin to avoid u
 ## Evidence Shape
 - Support: one diagnosed persistent failure from round 9.
 - Scope: generator repair and basin avoidance only.
+
+## Round 20 Additional Diagnosis
+- Small in-repo Parquet fuzzing corpus cases parsed or were rejected cleanly and did not reproduce the described malformed-file crash. The unresolved relation remains a narrower footer or page metadata invariant rather than generic malformed Parquet reachability.
+- The round 20 harness observation identifies the active input as a raw Parquet file for the parquet-arrow fuzzer; preserve coherent footer and page metadata before retargeting.

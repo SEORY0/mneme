@@ -26,3 +26,14 @@ okf_support: 3
 
 ## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 20 Input Contract
+- The active target is hb-subset-fuzzer. It consumes the file bytes directly as a font blob; there is no leading mode byte, FuzzedDataProvider carving, or external file envelope.
+- The subset fuzzer treats the whole input as an hb_blob font and runs fixed text subsetting. For sufficiently large inputs it also reads a trailing flags byte and trailing UTF-32 codepoints from the same buffer.
+
+## Round 20 Format Links
+- [[opentype-font]]
+- [[opentype-font-subset-input]]
+
+## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

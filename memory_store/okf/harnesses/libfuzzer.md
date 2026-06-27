@@ -1202,3 +1202,41 @@ Splash font path code is reached.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 20 Input Contract
+- The HarfBuzz fuzzer consumes the file bytes as a font blob. The subset-oriented harness also treats a trailing codepoint block as input text, so font data and selected glyph coverage can both influence reachability. No external filename or archive envelope is required.
+- The libFuzzer target feeds raw file bytes directly into a jbig2 decoder context, then completes and outputs decoded pages. There is no extra mode selector or front/back field carving outside the JBIG2 stream.
+- The harness passes the raw input as a NUL-terminated template string capped to an internal fixed buffer, compiles it with a descriptor exposing path strings and a file-list sequence, and frees the compiled template if compilation succeeds. There is no surrounding file header.
+- The libFuzzer harness consumes the first four bytes from the front as a little-endian settings mask and passes all remaining bytes as the JSON buffer to JsonCpp's CharReader. There is no checksum or outer file container.
+- The harness passes raw bytes directly to the Shell parser once. There is no container format, no leading mode byte, and no FuzzedDataProvider field carving.
+- The harness consumes little-endian chunk lengths from the input. It connects a virtual reader, binds a PKCS#15 card, and only after a successful bind reads more chunks as operation inputs for object operations such as decipher, derive, wrap, unwrap, or signature.
+- The harness searches for a NUL split marker. Bytes before it are parsed as WKT, and parsing the WKB begins at the split marker itself, so the marker also serves as the WKB endian selector. The harness then runs set-operation APIs on the two parsed geometries.
+- The Ghostscript raster fuzz target consumes raw PostScript or PDF bytes through the interpreter. There is no task-level mode byte in the observed raster harness; accepted input must be a document that Ghostscript can initialize and process.
+- The harness uses LLVM FuzzedDataProvider to consume many output-parameter scalars and then passes the remaining bytes to LibRaw::open_buffer. For this provider pattern, preserving the raw file as the remaining payload and placing parameter material where the provider consumes it is necessary to reach unpack and processing stages.
+- The generated command uses a Ghostscript ps2write device fuzz target. It consumes raw document bytes, not standalone font bytes, so TrueType data needs a PostScript or PDF carrier that causes font loading and glyph rendering.
+- The harness reads a leading word length and word bytes, then splits the remaining bytes evenly into temporary AFF and DIC files. It constructs Hunspell with those files, calls spell on the word, and calls suggest when the word is not accepted.
+- The harness passes raw encoded image bytes to SkCodec, wraps the codec in SkAndroidCodec, constructs SkAnimatedImage, and repeatedly calls decodeNextFrame while drawing and advancing frames. There is no external mode selector or file wrapper beyond the image format.
+- The Serenity FuzzTTF harness gives the entire input buffer directly to OpenType::Font::try_load_from_externally_owned_memory. There is no filename, archive, or mode byte; successful reachability depends on a structurally coherent sfnt directory and table set.
+- The GPAC target is the probe/analyze fuzzer. It consumes raw media bytes and emits inspection output when a stream is recognized. There is no visible mode byte or FuzzedDataProvider field split in front of the media data.
+- The actual harness parses the whole input as a TIFF structure, checks whether the DNG decoder is appropriate, constructs a DNG decoder, disables several optional failure modes, then calls raw decode and metadata decode. It does not pass the bytes directly to LJpegDecompressor.
+- The FFmpeg SEGAFILM demuxer fuzzer consumes raw CPK bytes directly and dispatches to the Sega FILM demuxer. There is no extra wrapper, selector byte, or checksum outside the container format.
+
+## Round 20 Format Links
+- [[animated-image]]
+- [[hunspell-aff-dic-word-triple]]
+- [[jbig2]]
+- [[json-with-settings-prefix]]
+- [[libraw-fuzzed-provider-plus-raw-image]]
+- [[lwan-template]]
+- [[ogg-opus]]
+- [[opensc-virtual-reader-apdu-stream]]
+- [[opentype-font]]
+- [[postscript-pdf-cmap]]
+- [[postscript-pdf-truetype-font]]
+- [[rawspeed-dng-tiff-raw-container]]
+- [[sega-film-cpk]]
+- [[shell-script]]
+- [[wkt-plus-wkb-split-stream]]
+
+## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

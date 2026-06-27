@@ -43,3 +43,16 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- The target bug is in Wireshark's Bluetooth L2CAP signaling dissector, where related keys inserted into a wmem tree must have matching key-part lengths. L2CAP signaling records contain a channel header and command records with command code, identifier, length, and command-specific fields.
+- The vulnerable lookup expects a six-byte MAC-like address. Some Wireshark call paths derive manufacturer names from shorter OUI buffers; a successful input must reach one of those dissector fields rather than merely placing short bytes in the UDP payload.
+
+### Harness Links
+- [[libfuzzer-fuzzshark-ip-proto-udp]]
+- [[libfuzzer-fuzzshark-udp]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

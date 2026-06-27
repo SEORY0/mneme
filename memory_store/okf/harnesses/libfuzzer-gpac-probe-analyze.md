@@ -26,3 +26,12 @@ elementary-stream start codes.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 20 Input Contract
+- The GPAC probe/analyze harness writes the raw input bytes as a temporary media asset and runs format probing and analysis. The fuzzer input is the media file itself; there is no leading mode selector or FuzzedDataProvider carving.
+
+## Round 20 Format Links
+- [[mp3-id3v2]]
+
+## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

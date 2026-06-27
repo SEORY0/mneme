@@ -27,3 +27,14 @@ The carrier is a syntactically valid calendar component with properties. GEO val
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- iCalendar is line-oriented text with BEGIN/END component markers and properties shaped as name, optional parameters, colon, and value. VCALENDAR commonly includes VERSION and nested VEVENT records. GEO values use two numeric coordinates separated by a semicolon, while selected text-list properties are split on commas with escaping rules.
+
+### Harness Links
+- [[libfuzzer-libical-parse-string]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

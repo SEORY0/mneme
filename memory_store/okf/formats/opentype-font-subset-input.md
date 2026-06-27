@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font. Table directory coherence is required for face creation; CFF/CFF2, cmap, layout, and subset-relevant tables influence bimap and subset planning behavior.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

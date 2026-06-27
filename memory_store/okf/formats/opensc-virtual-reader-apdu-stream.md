@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- OpenSC virtual-reader fuzz inputs are chunked APDU transcripts, not card files. The initial chunk acts as the ATR and subsequent chunks act as APDU response bodies with status words; higher-level PKCS#15 behavior depends on returning a coherent card-profile dialogue.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

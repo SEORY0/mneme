@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 20 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input begins with a settings bitmask, followed by the JSON document. The bitmask can enable optional reader behavior such as comments, single quotes, dropped null placeholders, trailing commas, special floats, duplicate-key rejection, and extra-input handling. JSON strings use backslash escapes and Unicode escape sequences that are interpreted by the reader.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
