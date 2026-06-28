@@ -62,3 +62,14 @@ terminators.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The input is plain JavaScript source. Useful probes can exercise constructor calls, property access, prototype manipulation, and generic built-in method dispatch without any file envelope or checksum.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

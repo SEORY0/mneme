@@ -60,3 +60,14 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- TIFF inputs use a byte-order header followed by image file directories whose tags describe image dimensions, photometric interpretation, samples per pixel, planar layout, compression, tiling or strip layout, alpha, and data offsets. The libtiff RGBA reader path is selected by combinations that require libtiff conversion to RGBA rather than direct scanline import.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -43,3 +43,14 @@ status words and the preceding bytes are copied as APDU response data.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The input is a sequence of reader chunks. Each chunk begins with a native-endian small length field followed by that many response bytes. The first chunk is used as the card ATR, later chunks are returned as APDU responses with trailing status words when long enough, and extra chunks can become payload and parameter buffers for PKCS#15 operations.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-style-reader-fuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

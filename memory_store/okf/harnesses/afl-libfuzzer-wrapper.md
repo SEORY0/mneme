@@ -68,3 +68,12 @@ okf_support: 4
 
 ## Round 21 Notes (samsung-srw-tiff-raw)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 22 Input Contract
+- The image wrapper runs fuzzshark_ip on a single raw input file. The configured dissector target is IP, so the input is treated as an IP-layer packet rather than as a pcap file or an Ethernet frame. WCP is not directly registered as an IP payload protocol in the inspected source.
+
+## Format Links
+- [[ip-carried-wcp]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

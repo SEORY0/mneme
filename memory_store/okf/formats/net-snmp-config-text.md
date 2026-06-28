@@ -21,3 +21,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- Net-SNMP configuration input is plain text split into directive lines. Directive keywords select handlers and the rest of the line is parsed as arguments. File-reference directives route through path construction logic that combines configured directories with user-supplied path text.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

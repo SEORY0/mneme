@@ -258,3 +258,16 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The attempted PDF carrier used a normal catalog, pages tree, page object, annotation array, widget annotations, and appearance Form XObjects. Annotation appearance streams are PDF content streams that can contain graphics-state save operations and drawing operators; invalid resources or operators can create rendering errors if the appearance is actually rendered.
+- A small PDF with a catalog, pages tree, one page, resources, and a content stream is sufficient. The MuPDF parser is tolerant of simple repaired structure, so a fully polished cross-reference table is not necessary when the core page graph and stream objects are recognizable.
+- A useful Poppler PDF for this path needs a catalog, pages tree, page resources, content stream, and an image-mask XObject. Image-mask rendering uses the current transformation matrix to choose scaling and can route to Splash mask scaling when the mask is enlarged relative to source dimensions.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

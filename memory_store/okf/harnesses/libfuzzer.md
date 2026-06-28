@@ -1490,3 +1490,90 @@ Splash font path code is reached.
 
 ## Round 21 Notes (ffmpeg-av1-obu-stream)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 22 Input Contract
+- The GraphicsMagick coder fuzzer treats the whole input as a PTIF/TIFF blob and drives image loading. There is no external selector or FuzzedDataProvider contract; all reachability gates are TIFF header and IFD tag consistency.
+- The libFuzzer harness passes the input bytes as a seekable raw WavPack file. It opens with tags, editable tags, wrapper handling, DSD-as-PCM, checksum bypass, and normalization flags, then exercises metadata, wrapper, layout, and sample decode APIs.
+- The selected nDPI target is the pcap reader fuzzer, not the raw packet fuzzer. The input must be a capture file; packets inside the capture are fed through the nDPI workflow and then through TLS TCP detection.
+- The libFuzzer input is carved from the back: final selector fields configure BFD architecture and machine, and the prefix becomes the buffer passed to the disassembler. Reaching the sink requires a valid selector combination before instruction bytes matter.
+- The source tree contains a color-conversion fuzzer that consumes a raw front-to-back field layout, but the container wrapper for this task runs the file-fuzzer binary on the provided path. The worker can provide only a single file path as the PoC, so the described raw color-conversion harness was not the executed harness.
+- The harness feeds raw bytes directly to LibRaw. There is no mode selector or FuzzedDataProvider carving; the first bytes must identify the raw-camera subformat.
+- The libFuzzer harness rejects inputs below a small minimum size. Accepted bytes are written unchanged to a temporary file and passed to the HAProxy configuration reader; there is no file-format wrapper, checksum, or mode byte.
+- The harness initializes libxml2, installs a custom entity loader, parses the main entity through tree, push, and reader APIs, then iterates reader nodes and attributes. Input is not raw XML; the XML document must be wrapped in the fuzzer entity envelope.
+- The container wrapper invokes dct_fuzzer on the PoC path. The described decompressor path and the source-level JPEG image parser are not directly selected by this wrapper, so the harness contract is a raw fuzzer input for the DCT target rather than a normal JPEG decode command.
+- The libssh2 client fuzzer writes the raw input to the server side of a socketpair, shuts down writing, and calls libssh2_session_handshake on the client side. The bytes must therefore be a mock server stream, not a complete bidirectional transcript or file format.
+- The active fuzzer is the raw sudoers parser. It rejects tiny inputs, initializes fixed globals for a root user context running an id command with arguments, parses the byte stream as sudoers syntax, and only after a successful parse performs sudoers lookup twice and displays privileges.
+- The harness feeds the entire raw input buffer as one c-blosc2 frame to the frame-loading path and then asks for variable-length metalayers. There is no mode selector, integrity side channel, or FuzzedDataProvider carving.
+- The libFuzzer bytes are copied into a freshly allocated buffer, a string terminator is appended, and the result is passed directly to the speech synthesis API with SSML parsing enabled. There is no mode selector, checksum, or length-prefixed wrapper.
+- The wrapper runs the Serenity FuzzJs target. The fuzzer feeds raw JavaScript source to the parser and executes it in the engine; there is no leading mode byte, corpus directory requirement, or structured binary container. The task generation step required manual recovery because source extraction hit an absolute-link packaging issue, but the runtime wrapper and source were available.
+- Verify identifies the active target as a wolfSSL server fuzzer. The input is a raw client-to-server TLS byte stream; there is no length prefix, packet capture wrapper, or FuzzedDataProvider selector.
+- The libFuzzer harness passes the raw byte buffer directly to Kamailio's parse_msg path, then asks follow-on parsers to inspect parsed headers. There is no wrapper or checksum; parser reachability depends on making the first line and target header recognizable.
+- The harness compiles a fixed rule importing the PE module and scans the entire raw input buffer as a candidate PE file. There is no selector byte or FuzzedDataProvider split; the rule calls into PE helpers during the scan.
+- The harness passes the raw input bytes to the libbpf in-memory object opener with a generated object name and closes the object only if opening succeeds. There is no archive wrapper or command-line option encoded in the input.
+- The harness feeds raw bytes to LibRaw identification. There is no carved prefix; parser reachability depends on the first top-level atoms looking like a CR3 file.
+- The oss-fuzzshark wrapper configures the IP dissector and disables several unrelated dissectors before processing capture-file inputs. The input is not raw packet bytes; it must be a valid capture envelope containing packets.
+- The harness uses LLVM FuzzedDataProvider. A small selector is consumed from the back and must choose the gunzip path; a random-length string is then consumed as the compressed input. Treating the first byte as the mode selector is a dead end.
+- The harness passes the raw input buffer directly to the PAC parser after enforcing a small minimum size and a bounded maximum size. There is no file container, checksum, or mode selector; all bytes are interpreted as the PAC blob.
+- The active Ghostscript target was a device fuzzer that consumes the raw document bytes as a PDF/PostScript-like input. There is no FuzzedDataProvider carving; the input must be a complete document accepted by the interpreter.
+- The libFuzzer harness parses the stylesheet and source document normally first. Only after both documents are accepted does it enable the allocation limit and call the XSLT stylesheet parser and transformer, so malformed XML or missing secondary entities prevents reaching the target allocation-failure path.
+- The harness prefix contains two little-endian part lengths, a flags byte, and a decoder configuration struct. Part one is passed to decoder initialization, then parts two and three are decoded sequentially. A flag chooses between regular initialization and AudioSpecificConfig initialization.
+- The harness opens the raw bytes as a PDF stream, iterates every page, and renders each page to a pixmap with a stack-local transform matrix. The input is not carved by a leading selector and is not a path to an external file.
+- The harness passes raw config text to the Net-SNMP config reader. There is no binary envelope or selector byte; the first token on a line determines the parser feature.
+- The active binary is the libxml2 DTD validation fuzzer. It forces DTD validation, sets the fuzz external-entity loader, enables the memory limit around pull, post-validation, push, and reader parser paths, and consumes raw libFuzzer bytes through the custom front-carved entity format.
+- The GraphicsMagick coder fuzzer reads the raw input as a PDB blob through Magick++ image loading. There is no extra harness selector or FuzzedDataProvider carving; parser reachability depends on the PDB magic fields and record header consistency.
+- The fuzzer loads raw bytes as a PDF document through the C++ Poppler API, skips locked or unloadable documents, and renders each page through a page renderer. The input is not a pcap, archive, or multi-file corpus; it is a single PDF byte stream.
+- The fuzzer writes raw input bytes to a temporary file and invokes UPX list or test mode on that file. The input is not length-prefixed and has no selector; parser reachability depends on UPX recognizing the temporary file as a packed executable.
+- The libFuzzer harness passes the raw byte vector to WAMR runtime initialization and wasm_runtime_load, then unloads any loaded module and destroys the runtime. There is no fuzzer prefix or archive wrapper; invalid modules are normally rejected during load.
+- The harness passes the raw input bytes to libbpf as an in-memory object file. There is no selector byte or FuzzedDataProvider layout; the ELF section table and BTF/BTF.ext headers determine parser reachability.
+- FuzzedDataProvider scalar fields are consumed from the back, leaving the front as the image buffer. The harness opens the remaining buffer, unpacks image and thumbnail data, converts raw data to an image, then runs several interpolation modes through dcraw processing.
+- The harness is FFmpeg's target_dec_fuzzer built for the MVHA video decoder. If the input is long enough, the last fixed-size trailer sets width, height, parser flags, keyframe pattern, extradata size, and related context fields. The decoder receives raw packets from the prefix; normal media containers are not demuxed.
+- The FFmpeg target decoder fuzzer treats front bytes as one or more decoder packets separated by a fixed fuzz tag. When the input is large enough, a fixed-size trailer at the back configures codec context fields such as bits per coded sample, flags, sample rate, and channel count. There is no file header requirement for this decoder target.
+- The libFuzzer target is FFmpeg's target_dec_fuzzer compiled for the H263I decoder. It installs a custom video get_buffer2 callback that allocates frame buffers without zeroing, optionally initializes an AVParser from tail flags, decodes until iteration or pixel limits are hit, and treats clean decoded-pixel output as a non-crashing run.
+- For larger inputs, the FFmpeg demuxer harness carves the tail into a binary control block and a filename block. The control block sets I/O buffer size, seekability flags, virtual file size, optional extension selection, and interrupt behavior; the remaining leading bytes are served through a custom AVIO reader.
+- The harness initializes one FFmpeg decoder selected at build time, installs a custom get-buffer callback for video frames, and allocates frame planes without zeroing in the vulnerable variant. Inputs must match the selected codec family; otherwise they are rejected before slice-state behavior is reached.
+- The wrapper runs the compress12 libFuzzer target on a single file path. The target writes raw input bytes to a temporary file, loads the image repeatedly with different pixel formats and compression options, and sums the compressed destination bytes to expose uninitialized data.
+- The FFmpeg demuxer harness consumes raw file bytes. There is no selector byte or trailer context; the RIFF/QCP magic and chunk layout must be present at the start of the input.
+
+## Format Links
+- [[binutils-disassembler-buffer-with-trailer-selector]]
+- [[c-blosc2-frame]]
+- [[cr3-isobmff-atoms]]
+- [[elf-btf]]
+- [[elf-with-btf-ext]]
+- [[faad2-split-aac]]
+- [[ffmpeg-apac-decoder-packet]]
+- [[ffmpeg-demuxer-fuzzer-carved-stream]]
+- [[ffmpeg-raw-decoder-packet]]
+- [[ffmpeg-target-decoder-packet]]
+- [[fuzzed-provider-gzip-stream]]
+- [[haproxy-config]]
+- [[heif]]
+- [[javascript]]
+- [[jpeg-dct-fuzzer-raw]]
+- [[libraw-fuzzed-provider-plus-raw-image]]
+- [[libxml2-fuzzer-entity-envelope]]
+- [[libxml2-valid-fuzz-entities]]
+- [[libxslt-fuzz-entities]]
+- [[mvha-raw-packet]]
+- [[net-snmp-config-text]]
+- [[pac]]
+- [[pcap-or-pcapng-ip-capture]]
+- [[pcap-tls-clienthello]]
+- [[pdb-imageviewer]]
+- [[pdf]]
+- [[pe]]
+- [[ppm]]
+- [[riff-qcp]]
+- [[rollei-raw-text-header]]
+- [[sip-message]]
+- [[ssh-server-byte-stream]]
+- [[ssml]]
+- [[sudoers-policy]]
+- [[tiff]]
+- [[tls-client-byte-stream]]
+- [[upx-packed-elf]]
+- [[wasm]]
+- [[wavpack]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

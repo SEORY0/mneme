@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The XSLT fuzzer consumes a big-endian allocation-limit prefix, then a sequence of virtual entities. Each virtual entity is encoded as a URL string and a content string terminated by a backslash-newline marker, with doubled backslashes used for literal backslashes. The first entity is the stylesheet and the second entity is the source XML document.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

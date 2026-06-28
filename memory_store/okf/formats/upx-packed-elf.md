@@ -57,3 +57,14 @@ blocks; recovery code may scan around a slid b_info location when metadata is in
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- UPX test/list harnesses operate on complete executable files. For this target, the relevant format is a UPX-packed Linux ELF whose unpacker metadata and original ELF dynamic segment are coherent enough for UPX to enter Linux ELF unpacking. Dynamic entries such as string table, symbol table, hash table, and size fields must point into loadable file-backed regions.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -31,3 +31,14 @@ line. This parser path scans those leading separators before normal message-line
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The active input is raw SIP message text. A request line followed by colon-delimited headers is enough to enter message parsing; Via header bodies use a protocol/transport prefix, host text, optional semicolon parameters, and normally end at a header line terminator.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

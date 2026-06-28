@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The fuzzer consumes output-processing options first through LLVM FuzzedDataProvider and then passes all remaining front bytes as the raw image. Seed corpora include multiple camera raw formats. Chromatic-aberration coefficients and color-processing options are scalar fields separate from the image payload.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

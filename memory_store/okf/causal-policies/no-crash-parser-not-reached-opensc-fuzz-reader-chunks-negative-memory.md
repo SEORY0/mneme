@@ -55,3 +55,14 @@ The libFuzzer harness replaces OpenSC's reader with a fuzz reader, consumes the 
 ## Evidence Shape
 - Support: diagnosed persistent failures from rounds 7 and 12.
 - Scope: generator repair and basin avoidance only.
+
+## Round 22 Additional Failure Shape
+A length-prefixed reader conversation with a plausible smart-card ATR and success-like APDU replies reached the reader fuzzer but did not bind deeply enough into the CoolKey PKCS#15 emulation path. The missing gate is a realistic CoolKey object-discovery transcript, not just a syntactically chunked stream.
+
+## Round 22 Retarget Note
+For `no_crash x parser_not_reached` on `opensc-fuzz-reader-chunks`, do not repeat broad ATR/APDU chunk mutations unless the candidate changes the card-profile discovery transcript or the PKCS#15 object-discovery state. The prior idprime ATR-table dead end and the new CoolKey binding dead end both point to missing reader conversation state rather than a generic chunk-envelope issue.
+
+## Round 22 Evidence Shape
+- Support: 1 additional diagnosed persistent failure from round 22.
+- Harness note: the observed harness behaves like a honggfuzz/libFuzzer-style reader fuzzer over length-prefixed reader chunks.
+

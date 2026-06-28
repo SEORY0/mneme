@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- HEIF inputs are ISO-BMFF-style box files. The bundled corpus contains ordinary HEIC files with color and alpha variants; those are useful for reaching the file parser but do not directly provide the raw plane layout expected by the separate color-conversion fuzzer.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

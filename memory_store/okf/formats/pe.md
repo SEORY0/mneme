@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- PE files begin with an MZ header and PE signature, followed by COFF and optional headers, data-directory entries, and a section table. The YARA PE module maps RVAs to file positions through section virtual locations, raw data positions, and raw sizes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

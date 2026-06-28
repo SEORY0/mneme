@@ -60,3 +60,14 @@ from the in-memory frame.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- A c-blosc2 frame is a binary frame with a msgpack-like header, one or more chunk payloads, and a trailer that can hold variable-length metalayer records. The trailer contains indexed metadata records and a footer with trailer extent information; the parser trusts trailer-relative content positions while walking metalayer records.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

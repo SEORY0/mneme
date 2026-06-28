@@ -51,3 +51,12 @@ okf_support: 1
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 22 Input Contract
+- The libFuzzer harness writes raw bytes to a temporary file, opens that file through BFD auto-detection, calls the archive-format check, and closes the BFD. There is no leading selector, checksum, or in-memory record wrapper.
+
+## Format Links
+- [[bfd-archive-or-object]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

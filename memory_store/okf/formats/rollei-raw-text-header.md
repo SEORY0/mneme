@@ -11,3 +11,14 @@ train_only: true
 
 ## Round 13 Facts
 - The Rollei path is selected by a textual raw-camera signature near the start of the file. The parser then reads newline-delimited ASCII-style metadata records with optional key/value delimiters and an end-of-header marker. Recognized keys set geometry and thumbnail offsets, but this bug can be reached during metadata parsing before a complete image payload is needed.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The Rollei raw path is a text-header style format: an identifying signature is followed by newline-delimited metadata lines. Parser reachability depends on the signature and on preserving the line-oriented envelope; the crash relation is an unterminated metadata line at the local buffer boundary.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
