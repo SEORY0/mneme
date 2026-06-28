@@ -246,7 +246,7 @@ def _real_solve(
     task_dir: Path,
     run_dir: Path,
     task_id: str | None = None,
-    model: str = "claude-opus-4-8",
+    model: str = "claude-opus-4-6",
 ) -> dict:
     """Real mode: select backend by model, call solve, run confirm gate.
 
@@ -381,7 +381,7 @@ def solve(
     run_dir: Path = typer.Option(..., "--run-dir", help="Run workspace directory"),
     fake: bool = typer.Option(False, "--fake", help="Offline stub mode (no docker/model/network)"),
     difficulty: str = typer.Option("level1", "--difficulty", help="CyberGym difficulty level"),
-    model: str = typer.Option("claude-opus-4-8", "--model", help="Model identifier"),
+    model: str = typer.Option("claude-opus-4-6", "--model", help="Model identifier"),
 ) -> None:
     """Prepare card → launch agent → verify → single official submit → write result.json."""
     from mneme import cybergym_io
@@ -530,7 +530,7 @@ def batch(
     tasks_dir: Path = typer.Option(..., "--tasks-dir", help="Directory containing task subdirs"),
     runs_dir: Path = typer.Option(..., "--runs-dir", help="Directory to write per-task run dirs"),
     fake: bool = typer.Option(False, "--fake", help="Offline stub mode"),
-    model: str = typer.Option("claude-opus-4-8", "--model"),
+    model: str = typer.Option("claude-opus-4-6", "--model"),
 ) -> None:
     """Run solve over all subdirectories of tasks_dir."""
     task_dirs = sorted(p for p in tasks_dir.iterdir() if p.is_dir())
