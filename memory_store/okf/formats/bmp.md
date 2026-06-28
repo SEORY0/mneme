@@ -4,7 +4,7 @@ title: "Bmp format"
 description: "Round 8 descriptive format facts for bmp."
 resource: cybergym://format/bmp
 tags: ["bmp", "round-8"]
-okf_support: 1
+okf_support: 2
 ---
 # Bmp Format
 
@@ -40,3 +40,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- BMP samples contain a file header, DIB header, optional palette or masks, and pixel data. Malformed DIB sizes, palette sizes, negative dimensions, and malformed RLE streams can reach parser error/debug paths after the BMP magic and header gates are satisfied.
+
+### Harness Links
+- [[libfuzzer-raw-bytes]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

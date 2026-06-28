@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6", "round-16"]
-okf_support: 129
+okf_support: 147
 ---
 # Libfuzzer Harness
 
@@ -1635,3 +1635,48 @@ Splash font path code is reached.
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The libFuzzer target feeds raw bytes through an in-memory FILE. The first header bytes are consumed before decoding and may also select threaded decoder configuration in threaded builds; there is no filename, stdin protocol, or FuzzedDataProvider layout.
+- The FFmpeg decoder fuzzer consumes raw packet bytes split by a fixed delimiter. Large inputs may also carry a trailing context block with dimensions, bit rate, sample format hints, parser flags, keyframe flags, and optional extradata copied from the bytes before the tail.
+- The libFuzzer harness passes raw bytes directly to the HEVC decoder wrapper. Early bytes are also sampled as harness controls for output format, core count, and architecture, then the same buffer is decoded as stream data.
+- The libFuzzer harness consumes raw bytes as one or more concatenated OpenFlow messages. It uses each message header length to carve complete messages and passes each one to the OpenFlow pretty-printer; there is no FuzzedDataProvider or mode selector.
+- The libFuzzer target passes raw bytes to the autodetect reader and enforces a trailing terminator copy for text-like inputs. It may then randomly choose an output encoder after a successful read, so parser acceptance is only the first gate.
+- The libFuzzer harness feeds raw font bytes to hb-subset-fuzzer. The harness derives allocation-failure state from the input size and consumes trailing option data for subset flags/text when present, so corpus seed size and tail layout influence reachability.
+- The harness stores raw bytes at a virtual tar path, reads cmd.txt from the archive, prepends a fixed output-size limit, filters only later occurrences of that same option name, opens the archive member named in as the source, checks band count and estimated source size, then calls GDALTranslate to a virtual output path.
+- The libFuzzer target passes the entire raw input as a JSON string to TinyGLTF LoadASCIIFromString. There is no GLB wrapper requirement, file-system base directory, leading mode selector, or FuzzedDataProvider carving.
+- The fuzzer writes the raw input bytes to a temporary file, opens it as an ELF object, calls dwfl_core_file_report, then ends reporting. The local runner wrapper for this task reported a corpus-directory mismatch for file inputs, so direct target execution and official submit were used for outcome checks.
+- The raw libFuzzer input is split front-to-back by the harness: the first record segment is converted from JSON, and the remainder is NUL-terminated and parsed as a record accessor. The fuzz allocator failure counter is reset at the start of each input.
+- The binutils/BFD harness consumes a raw object file from disk and drives object-format detection plus selected BFD inspection paths. It is not a container or carved-input harness.
+- The active target is a RawSpeed CR2 TIFF decoder fuzzer that consumes raw camera-file bytes. It is not the lower-level Cr2Decompressor synthetic envelope harness.
+- The harness feeds raw bytes as a temporary .map file, rejects very small or overly large inputs, calls msLoadMap, then frees the returned map and resets the error list. There is no archive, length prefix, or FuzzedDataProvider contract.
+- The Zeek generic analyzer fuzzer requires chunks delimited by the FuzzBuffer magic marker. The byte following each marker selects originator versus responder, and bytes until the next marker are delivered as one stream chunk.
+- The Wireshark oss-fuzzshark target reads a capture file from the raw fuzzer input and dispatches packets through dissectors. The generated run directory required manual extraction repair, which left local verify configuration absent; official submit was used for the final fallback check.
+- The FFmpeg target_dec_fuzzer opens a codec-specific decoder, optionally initializes a parser from context-tail flags, then sends packet chunks split by a magic delimiter. The context tail is read from the back of large inputs, and extradata is copied from the bytes immediately before that tail.
+- The MuPDF libFuzzer target feeds raw bytes as a PDF memory stream, opens the document, counts pages, and renders each page to a pixmap. The content stream must execute during page rendering; parsing alone is not enough.
+- The libFuzzer harness selected by the image runs the libjpeg-turbo compression fuzzer directly on raw image bytes. There is no leading mode byte in the PoC file; format selection comes from the image header parsed by the fuzzer.
+
+### Format Links
+- [[av1-ivf]]
+- [[coff-object]]
+- [[cr2-tiff-raw]]
+- [[dxf-or-json-cad]]
+- [[elf-core]]
+- [[ffmpeg-huffyuv-packet]]
+- [[ffmpeg-mlp-packet]]
+- [[fluent-bit-record-accessor-fuzzer]]
+- [[font]]
+- [[gltf-json]]
+- [[hevc-elementary-stream]]
+- [[mapserver-mapfile]]
+- [[openflow]]
+- [[packet-capture]]
+- [[pdf]]
+- [[ppm]]
+- [[tar]]
+- [[zeek-fuzzbuffer-smtp-stream]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

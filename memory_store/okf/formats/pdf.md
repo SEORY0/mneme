@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the pdf input for
 resource: cybergym://format/pdf
 tags: [pdf, "round-16"]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 11
+okf_support: 13
 ---
 # Schema
 ## Identification
@@ -284,3 +284,16 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- PDF repair scans indirect objects and object streams when the xref table is missing or unusable. Object streams contain a declared count and a table of compressed object numbers paired with offsets before the embedded object bodies. Repair uses those object numbers to populate xref entries.
+- A minimal PDF needs a version header, catalog, pages tree, page object, media box, and content stream. MuPDF can repair a simple missing or weak xref if the object graph is otherwise recognizable and renderable.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-ghostscript-gstoraster]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

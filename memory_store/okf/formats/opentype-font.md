@@ -5,7 +5,7 @@ description: Format contract for shaping paths involving composite or variable g
 resource: cybergym://format/opentype-font
 tags: [opentype, font, shaping, composite_glyph, "round-16"]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 5
+okf_support: 6
 train_only: true
 ---
 # Schema
@@ -125,3 +125,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- OTS expects a complete sfnt font or font collection with table directory records, checksums, offsets, lengths, and table payloads. The suspected invariant involves sanitizer output serialization where OTSStream::Write computes over caller data and then WriteRaw may grow the backing buffer.
+
+### Harness Links
+- [[libfuzzer-ots]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

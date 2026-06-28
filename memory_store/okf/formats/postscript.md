@@ -5,7 +5,7 @@ description: Format contract for PostScript programs that exercise interpreter s
 resource: cybergym://format/postscript
 tags: [postscript, text-expr, interpreter, stream]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 1
+okf_support: 3
 train_only: true
 ---
 # Schema
@@ -34,3 +34,16 @@ PostScript inputs are programs, not raw stream objects. A useful minimal carrier
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- PostScript arrays are normally delimited by a mark object from an opening bracket and consumed by the closing bracket. A closing bracket without a matching mark can interact with stack recovery and operators that expect preserved operands.
+- The trigger requires a PostScript program that installs a subclassing or forwarding output device, obtains the underlying output child with .currentoutputdevice, causes an error or parameter transition that unsubclasses and frees the child, then sends later device operations through the stale device reference.
+
+### Harness Links
+- [[libfuzzer-ghostscript-postscript]]
+- [[libfuzzer-gstoraster-stdin]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: "Mng"
 description: "Round 12 factual format contract for mng."
 resource: cybergym://format/mng
 tags: ["mng", "format-contract", "round-12", "round-16"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Mng
@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- MNG uses a distinct signature followed by PNG-style chunks: big-endian length, four-character chunk type, chunk data, and CRC. The image header establishes the stream before control chunks such as DISC are interpreted.
+
+### Harness Links
+- [[afl-file]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: nef-tiff format
 description: "Round 23 descriptive structure and invariant facts for nef-tiff."
 resource: cybergym://format/nef-tiff
 tags: ["nef-tiff", "round-23"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Nef Tiff Format
@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- A NEF file is TIFF-like: byte order and TIFF magic lead to an IFD table. The Nikon decoder is selected from Make/Model metadata. The compressed path requires a CFA-bearing IFD with compression set to Nikon compressed raw, one strip offset/count pair, image width and height, bits per sample, and Nikon metadata entries used by the decompressor.
+
+### Harness Links
+- [[libfuzzer-rawspeed-tiffdecoderfuzzer-nefdecoder]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

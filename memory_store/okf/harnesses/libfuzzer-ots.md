@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer OTS harness"
 description: "Input contract facts for libfuzzer-ots."
 tags: ["libfuzzer-ots", "round-20"]
-okf_support: 1
+okf_support: 2
 ---
 # Libfuzzer OTS Harness
 
@@ -15,3 +15,14 @@ okf_support: 1
 
 ## Round 20 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The fuzzer passes raw font bytes to OTSContext::Process with an expanding output stream sized from the input. If the input is a collection and the initial processing succeeds, the harness also reprocesses individual fonts from the collection.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

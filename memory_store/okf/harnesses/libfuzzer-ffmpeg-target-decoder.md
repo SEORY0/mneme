@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Ffmpeg Target Decoder harness"
 description: "Input contract facts for libfuzzer-ffmpeg-target-decoder."
 tags: ["libfuzzer-ffmpeg-target-decoder", "round-11"]
-okf_support: 4
+okf_support: 5
 train_only: true
 ---
 # Libfuzzer Ffmpeg Target Decoder Harness
@@ -63,3 +63,14 @@ train_only: true
 
 ## Round 20 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- If the input exceeds the trailer threshold, the final trailer configures codec context fields such as dimensions, flags, parser use, extradata length, sample/channel fields, keyframe flags, flush pattern, and debug/workaround flags. The fuzzer then opens the codec, optionally parses packets, sends them to the decoder, and drains frames while reporting decoded pixels.
+
+### Format Links
+- [[ffmpeg-target-decoder-vp6f]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

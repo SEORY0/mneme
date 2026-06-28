@@ -4,7 +4,7 @@ title: Hevc Elementary Stream format
 description: Format contract for hevc elementary stream inputs.
 resource: cybergym://format/hevc-elementary-stream
 tags: [hevc-elementary-stream, memory-uninitialized-use, round-11]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -42,3 +42,14 @@ The input is a raw HEVC byte stream, not a container. The decoder recognizes Ann
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- The input is a raw HEVC elementary stream with decoder-recognized NAL units. Parameter sets must precede slice-like data for reconstruction and filtering paths such as SAO to become reachable.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the tiff input fo
 resource: cybergym://format/tiff
 tags: [tiff, image, directory-format, extra-samples]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 4
+okf_support: 5
 ---
 # Schema
 ## Structure
@@ -71,3 +71,14 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- Classic TIFF needs a valid header, IFD, strip offset/count tables, BitsPerSample/SamplesPerPixel/PlanarConfig, and RowsPerStrip small enough for the RGBA stripped fallback. The vulnerable fallback is selected when normal quantum import is not available but libtiff can still read RGBA strips; alpha is only assigned when the image is matte.
+
+### Harness Links
+- [[libfuzzer-graphicsmagick-coder]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

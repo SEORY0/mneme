@@ -4,7 +4,7 @@ title: "Coff Object"
 description: "Round 7 factual format contract for coff-object."
 resource: cybergym://format/coff-object
 tags: ["coff-object", "format-contract", "round-7"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Coff Object
@@ -29,3 +29,14 @@ count, followed by an optional string table.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- A COFF object contains a file header, optional section headers, a symbol table, and a trailing string table for long names. Symbol records carry a name reference, value, section number, type, storage class, and auxiliary-record count.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

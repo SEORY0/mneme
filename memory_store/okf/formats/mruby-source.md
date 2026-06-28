@@ -4,7 +4,7 @@ title: mruby-source format
 description: Format contract for mruby-source.
 resource: cybergym://format/mruby-source
 tags: [mruby-source, "round-16"]
-okf_support: 4
+okf_support: 6
 train_only: true
 ---
 # Schema
@@ -68,3 +68,16 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Runtime array bugs require syntactically valid code that reaches Array assignment/splice operations rather than bytecode or a secondary container.
+- The format is plain mruby source text. Integer literals exceeding the immediate range become heap-backed bigint objects; generic Object#dup and Object#clone can be invoked directly on those values.
+
+### Harness Links
+- [[honggfuzz-file]]
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

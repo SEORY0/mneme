@@ -4,7 +4,7 @@ title: "Mapserver Mapfile"
 description: "Round 7 factual format contract for mapserver-mapfile."
 resource: cybergym://format/mapserver-mapfile
 tags: ["mapserver-mapfile", "format-contract", "round-7"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Mapserver Mapfile
@@ -37,3 +37,14 @@ buffer.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- A MapServer mapfile is a nested keyword language with MAP, LAYER, CLASS, and CLUSTER blocks closed by END. CLUSTER blocks may contain numeric distance/buffer fields, a region string, and group/filter expressions that allocate expression state.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

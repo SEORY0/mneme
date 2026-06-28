@@ -486,3 +486,14 @@
 {"policy": "skia-serialized-path-construct-parser-reached-path-deserializer-heap-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
 {"policy": "isobmff-compressed-box-construct-parser-reached-target-sink-local-sink-mismatch-heap-buffer-overflow-write-verified-recovery", "round": 23, "success": true}
 {"policy": "pdf-construct-parser-reached-target-sink-local-sink-mismatch-heap-buffer-overflow-write-verified-recovery", "round": 23, "success": true}
+{"policy": "openflow-construct-parser-reached-target-uaf-heap-use-after-free-write-verified-recovery", "round": 24, "success": true}
+{"policy": "nef-tiff-construct-local-classifier-was-low-but-output-showed-a-target-path-crash-in-nikon-decompression-official-submit-confirmed-target-match-assertion-failure-in-compressed-raw-decode-verified-recovery", "round": 24, "success": true}
+{"policy": "font-seed-mutate-corpus-seed-crash-official-match-allocation-failure-null-deref-verified-recovery", "round": 24, "success": true}
+{"policy": "mruby-source-construct-parser-reached-target-array-splice-heap-buffer-overflow-read-verified-recovery", "round": 24, "success": true}
+{"policy": "pdf-construct-parser-reached-out-of-bounds-write-verified-recovery", "round": 24, "success": true}
+{"policy": "pgm-construct-parser-reached-missing-pixel-data-debug-path-undefined-behavior-in-debug-format-error-path-verified-recovery", "round": 24, "success": true}
+{"policy": "mruby-source-construct-parser-reached-with-crash-in-bigint-string-conversion-after-duplicate-uninitialized-bigint-copy-verified-recovery", "round": 24, "success": true}
+{"policy": "bigint-pair-construct-parser-reached-use-of-uninitialized-value-verified-recovery", "round": 24, "success": true}
+{"policy": "mng-construct-parser-reached-target-chunk-reader-heap-buffer-overflow-read-verified-recovery", "round": 24, "success": true}
+{"policy": "ffmpeg-ipmovie-construct-truncated-header-parser-reached-uninitialized-signature-compare-use-of-uninitialized-value-verified-recovery", "round": 24, "success": true}
+{"policy": "pdf-construct-parser-reached-target-clip-stack-heap-buffer-overflow-write-verified-recovery", "round": 24, "success": true}

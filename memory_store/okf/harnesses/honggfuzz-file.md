@@ -3,7 +3,7 @@ type: harness-contract
 title: "Honggfuzz File harness"
 description: "Input contract facts for honggfuzz-file."
 tags: ["honggfuzz-file", "round-9"]
-okf_support: 4
+okf_support: 5
 ---
 # Honggfuzz File Harness
 
@@ -34,3 +34,14 @@ okf_support: 4
 
 ## Round 13 Facts
 - The source fuzzer writes raw input to a temporary file, opens it with BFD auto-detection, and calls archive-format checking. The arvo image wrapper for this task appears to be honggfuzz-oriented and did not produce the normal one-input libFuzzer execution transcript.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The harness copies the raw file bytes into a NUL-terminated string, opens a fresh mruby VM, calls the string loader, then closes the VM. There is no leading selector byte or structured fuzzer-provider layout.
+
+### Format Links
+- [[mruby-source]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "libfuzzer-ghostscript-gstoraster harness"
 description: "Descriptive harness contract facts for libfuzzer-ghostscript-gstoraster."
 tags: ["libfuzzer-ghostscript-gstoraster", "round-18"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Libfuzzer Ghostscript Gstoraster Harness
@@ -31,3 +31,14 @@ train_only: true
 
 ## Round 20 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The gstoraster fuzz target feeds the raw input bytes to Ghostscript as a document stream with no fuzzer prefix or carving.
+
+### Format Links
+- [[pdf]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

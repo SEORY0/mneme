@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Mruby Load String harness"
 description: "Input contract facts for libfuzzer-mruby-load-string."
 tags: ["libfuzzer-mruby-load-string", "round-11"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Libfuzzer Mruby Load String Harness
@@ -31,3 +31,14 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The fuzzer copies the entire input to a newly null-terminated string, opens an mruby state, calls mrb_load_string on the source, then closes the state.
+
+### Format Links
+- [[mruby-source]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

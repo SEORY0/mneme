@@ -3,7 +3,7 @@ type: harness-contract
 title: "libfuzzer-gstoraster-stdin harness"
 description: "Descriptive harness contract facts for libfuzzer-gstoraster-stdin."
 tags: ["libfuzzer-gstoraster-stdin", "round-18"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Libfuzzer Gstoraster Stdin Harness
@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The gstoraster fuzzer runs Ghostscript with raster-device arguments and feeds the candidate as PostScript input. There is no custom byte carving before the interpreter sees the program.
+
+### Format Links
+- [[postscript]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

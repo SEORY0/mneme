@@ -3,7 +3,7 @@ type: harness-contract
 title: "Afl File harness"
 description: "Input contract facts for Afl File."
 tags: ["afl-file", "round-6", "round-16"]
-okf_support: 5
+okf_support: 6
 ---
 # Afl File Harness
 
@@ -77,3 +77,14 @@ options once, then parses the buffer in parse-only mode.
 
 ## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 24 Factual Contract
+
+### Input Contract
+- The GraphicsMagick coder fuzzer reads the raw file bytes as an image blob and dispatches to the MNG reader. There is no fuzzer-side prefix, selector byte, or FuzzedDataProvider field layout.
+
+### Format Links
+- [[mng]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

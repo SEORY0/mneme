@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the ppm input for
 resource: cybergym://format/ppm
 tags: [ppm, "round-22"]
 timestamp: 2026-06-28T06:03:30Z
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 
@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- PPM inputs begin with an ASCII magic, dimensions, max component value, then raster samples. High-bit-depth PPM seeds can reach the compressor and color conversion/entropy paths without needing JPEG marker construction.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
