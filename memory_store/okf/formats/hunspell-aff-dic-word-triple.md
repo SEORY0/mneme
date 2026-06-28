@@ -4,7 +4,7 @@ title: Hunspell Aff Dic Word Triple format
 description: Format contract for hunspell aff/dic/word triple inputs.
 resource: cybergym://format/hunspell-aff-dic-word-triple
 tags: [hunspell-aff-dic-word-triple, heap-buffer-overflow-read, round-11]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Schema
@@ -53,3 +53,14 @@ The input represents three logical files: the word to check, an affix file, and 
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer-front-carved)
+
+### Schema / Invariants
+- The affix file can declare UTF-8 encoding and prefix rules. Dictionary entries can attach flags to words. Prefix condition checks compare affix rule conditions against the candidate word and have special handling for UTF-8 continuation bytes.
+
+### Harness Links
+- [[libfuzzer-front-carved]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

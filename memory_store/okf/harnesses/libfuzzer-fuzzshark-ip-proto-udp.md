@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Fuzzshark Ip Proto UDP harness"
 description: "Input contract facts for libfuzzer-fuzzshark-ip-proto-udp."
 tags: ["libfuzzer-fuzzshark-ip-proto-udp"]
-okf_support: 0
+okf_support: 1
 ---
 # Libfuzzer Fuzzshark Ip Proto UDP Harness
 
@@ -23,4 +23,14 @@ okf_support: 0
 - [[wireshark-udp-dissector-payload]]
 
 ## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (wireshark-udp-dissector-payload-btle)
+
+- The active Wireshark harness is fuzzshark configured for dissector udp in table ip.proto. It consumes the raw file as the UDP payload for that dissector; it is not a pcap/pcapng file parser in this task.
+
+## Round 21 Format Links (wireshark-udp-dissector-payload-btle)
+- [[wireshark-udp-dissector-payload-btle]]
+
+## Round 21 Notes (wireshark-udp-dissector-payload-btle)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

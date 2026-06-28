@@ -4,7 +4,7 @@ title: "Jpeg format"
 description: "Descriptive contract facts for Jpeg."
 resource: "cybergym://format/jpeg"
 tags: ["jpeg", "round-6", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # Schema
 ## Identification
@@ -31,3 +31,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- JPEG inputs require SOI/marker structure, frame headers, tables, scan headers, and entropy-coded scan data. This vulnerability is in transforming malformed arithmetic-coded JPEG input into baseline Huffman output; the trigger depends on coefficient values that survive decode/transform and are later encoded with default Huffman tables.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6", "round-16"]
-okf_support: 104
+okf_support: 129
 ---
 # Libfuzzer Harness
 
@@ -1239,4 +1239,254 @@ Splash font path code is reached.
 - [[wkt-plus-wkb-split-stream]]
 
 ## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (http-request-with-proxy-v2-prefix)
+
+- Raw bytes are copied into a fixed static request buffer and parsed from that copy. The harness always enables proxy-protocol parsing, but addressability is determined by the copied buffer rather than the original file length.
+
+## Round 21 Format Links (http-request-with-proxy-v2-prefix)
+- [[http-request-with-proxy-v2-prefix]]
+
+## Round 21 Notes (http-request-with-proxy-v2-prefix)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (pe-dotnet)
+
+- The YARA dotnet libFuzzer target scans the raw file bytes as a memory buffer with rules importing the dotnet module. There is no leading mode byte or FuzzedDataProvider carving.
+
+## Round 21 Format Links (pe-dotnet)
+- [[pe-dotnet]]
+
+## Round 21 Notes (pe-dotnet)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (pdf)
+
+- The Poppler harness feeds raw PDF bytes, loads the document from memory, iterates pages, and renders each page. There is no byte carving before the PDF parser.
+
+## Round 21 Format Links (pdf)
+- [[pdf]]
+
+## Round 21 Notes (pdf)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (binutils-disassemble-buffer-with-selector-suffix)
+
+- Raw libFuzzer bytes are used directly. The final bytes are carved by the harness into architecture and machine selectors; only the preceding bytes are disassembled.
+
+## Round 21 Format Links (binutils-disassemble-buffer-with-selector-suffix)
+- [[binutils-disassemble-buffer-with-selector-suffix]]
+
+## Round 21 Notes (binutils-disassemble-buffer-with-selector-suffix)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (pcap-ipv6)
+
+- The fuzzer writes the raw bytes to a temporary pcap file, opens it with PcapPlusPlus, reads the first packet, and constructs a parsed Packet. The PoC is the pcap file, not only the packet payload.
+
+## Round 21 Format Links (pcap-ipv6)
+- [[pcap-ipv6]]
+
+## Round 21 Notes (pcap-ipv6)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (redis-format-string)
+
+- The harness copies raw bytes into a NUL-terminated string, declares the output command pointer without initialization, calls redisFormatCommand with no variadic arguments, and frees the output pointer if it appears non-null.
+
+## Round 21 Format Links (redis-format-string)
+- [[redis-format-string]]
+
+## Round 21 Notes (redis-format-string)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (c-blosc2-frame)
+
+- The fuzzer passes raw bytes to blosc2_schunk_from_buffer and then decompresses chunks from the resulting super-chunk. The local wrapper reported a directory expectation for verify, so official submit was the reliable signal.
+
+## Round 21 Format Links (c-blosc2-frame)
+- [[c-blosc2-frame]]
+
+## Round 21 Notes (c-blosc2-frame)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (dxf-text)
+
+- The LibreDWG libFuzzer harness receives raw bytes, dispatches by leading syntax to DWG, JSON, or DXF text, adds null termination when needed, parses into a drawing, then may write the drawing through output encoders.
+
+## Round 21 Format Links (dxf-text)
+- [[dxf-text]]
+
+## Round 21 Notes (dxf-text)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (shell-script)
+
+- The libFuzzer harness passes the raw input bytes directly as a Shell::Parser source string and calls parse once. There is no container, selector byte, or FuzzedDataProvider carving.
+
+## Round 21 Format Links (shell-script)
+- [[shell-script]]
+
+## Round 21 Notes (shell-script)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (apfs-disk-image)
+
+- Raw bytes are wrapped by a memory-backed Sleuthkit image. The selected harness opens an APFS pool from that image, derives a pool image at a hard-coded container block, then calls the APFS filesystem walker.
+
+## Round 21 Format Links (apfs-disk-image)
+- [[apfs-disk-image]]
+
+## Round 21 Notes (apfs-disk-image)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (sony-arw-tiff)
+
+- The active RawSpeed TIFF decoder fuzzer consumes the raw bytes directly, parses the TIFF root, constructs ArwDecoder, disables crop/unknown-fail behavior, and catches RawSpeed exceptions. Sanitizer-visible faults must occur after parser acceptance.
+
+## Round 21 Format Links (sony-arw-tiff)
+- [[sony-arw-tiff]]
+
+## Round 21 Notes (sony-arw-tiff)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (zstd-sequence-compression-api-bytes)
+
+- The sequence_compression_api fuzzer consumes has-dictionary, dictionary size, window log, compression level, and block-delimiter mode from the end of the byte buffer. Explicit delimiter mode is selected by a consumed control value; the remaining bytes influence generated source and sequence content.
+
+## Round 21 Format Links (zstd-sequence-compression-api-bytes)
+- [[zstd-sequence-compression-api-bytes]]
+
+## Round 21 Notes (zstd-sequence-compression-api-bytes)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (opensc-virtual-card-stream-asn1)
+
+- The active OpenSC binary is fuzz_card. It consumes raw bytes as a virtual-card/card-driver transcript rather than as a bare ASN.1 object, with no separate file envelope.
+
+## Round 21 Format Links (opensc-virtual-card-stream-asn1)
+- [[opensc-virtual-card-stream-asn1]]
+
+## Round 21 Notes (opensc-virtual-card-stream-asn1)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (ipv4-tcp-http)
+
+- The harness initializes nDPI once, allocates a flow, passes the raw input bytes directly to ndpi_detection_process_packet, calls detection giveup, serializes the resulting flow, and frees the flow. There is no FuzzedDataProvider or filename-level parsing.
+
+## Round 21 Format Links (ipv4-tcp-http)
+- [[ipv4-tcp-http]]
+
+## Round 21 Notes (ipv4-tcp-http)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (truetype-font-hdmx)
+
+- Raw input is used as a HarfBuzz blob. The harness creates a face, subsets with default text, and optionally reads a tail region as flags and codepoints; appending unrelated tail bytes can make later over-reads addressable, so table placement inside the sfnt matters.
+
+## Round 21 Format Links (truetype-font-hdmx)
+- [[truetype-font-hdmx]]
+
+## Round 21 Notes (truetype-font-hdmx)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (jpeg)
+
+- The libjpeg-turbo source includes fuzzers and seed corpora for compression, decompression, and transform paths. The relevant harness is expected to consume a whole JPEG-like byte stream, not a separate parameter file.
+
+## Round 21 Format Links (jpeg)
+- [[jpeg]]
+
+## Round 21 Notes (jpeg)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (icu-locale-id)
+
+- The harness wraps raw bytes with MakeZeroTerminatedInput and calls uloc_isRightToLeft directly. There is no leading mode selector and no back-to-front field consumption.
+
+## Round 21 Format Links (icu-locale-id)
+- [[icu-locale-id]]
+
+## Round 21 Notes (icu-locale-id)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (pcap-udp-bittorrent-utp)
+
+- Raw bytes are opened with fmemopen and pcap_fopen_offline. Each decoded packet is passed to NetworkInterface::dissectPacket; the BitTorrent-specific flow hook is downstream of packet decoding and protocol classification.
+
+## Round 21 Format Links (pcap-udp-bittorrent-utp)
+- [[pcap-udp-bittorrent-utp]]
+
+## Round 21 Notes (pcap-udp-bittorrent-utp)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (tpm2-command)
+
+- The harness initializes libtpms TPM2 state, runs a fixed Startup command, processes the raw input as one TPM command, snapshots volatile/permanent state, restores it, and terminates. There is no file format wrapper beyond the TPM command bytes.
+
+## Round 21 Format Links (tpm2-command)
+- [[tpm2-command]]
+
+## Round 21 Notes (tpm2-command)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (mruby-source)
+
+- Raw libFuzzer bytes are treated as a null-terminated mruby source string and executed with mrb_load_string. There is no outer file format; syntax validity and source execution are the only harness gates.
+
+## Round 21 Format Links (mruby-source)
+- [[mruby-source]]
+
+## Round 21 Notes (mruby-source)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (opentype-cff2-font)
+
+- FreeType ftfuzzer treats the raw input as either a single font file or an archive of font files, opens faces and named instances, and exercises face loading and variation-coordinate paths. There is no leading mode selector byte.
+
+## Round 21 Format Links (opentype-cff2-font)
+- [[opentype-cff2-font]]
+
+## Round 21 Notes (opentype-cff2-font)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (gdal-mrf-lerc)
+
+- The GDAL fuzzer writes the raw input into a virtual or temporary dataset name, registers drivers, opens it, and for raster datasets reads checksums from bands. It does not automatically create MRF sidecar index or data files from separate inputs.
+
+## Round 21 Format Links (gdal-mrf-lerc)
+- [[gdal-mrf-lerc]]
+
+## Round 21 Notes (gdal-mrf-lerc)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (liblouis-table-plus-escaped-text)
+
+- Raw libFuzzer bytes are carved by the harness: the leading block is written to a temporary table file, lou_checkTable gates execution, and the remaining bytes are copied to a mutable string before _lou_extParseChars and translation.
+
+## Round 21 Format Links (liblouis-table-plus-escaped-text)
+- [[liblouis-table-plus-escaped-text]]
+
+## Round 21 Notes (liblouis-table-plus-escaped-text)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (heif-isobmff)
+
+- The libheif file fuzzer consumes the whole input as a HEIF file from memory, checks file type and brand, reads a context, obtains the primary and top-level image handles, queries dimensions and metadata, and attempts decoding. There is no selector byte or external corpus directory for this generated task.
+
+## Round 21 Format Links (heif-isobmff)
+- [[heif-isobmff]]
+
+## Round 21 Notes (heif-isobmff)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (ffmpeg-av1-obu-stream)
+
+- The demuxer fuzzer feeds raw bytes to the configured AV1 OBU demuxer. Small inputs are interpreted as the stream body; the demuxer repeatedly reads a bounded stack header and calls the OBU size parser during packet reads.
+
+## Round 21 Format Links (ffmpeg-av1-obu-stream)
+- [[ffmpeg-av1-obu-stream]]
+
+## Round 21 Notes (ffmpeg-av1-obu-stream)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

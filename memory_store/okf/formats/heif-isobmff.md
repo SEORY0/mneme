@@ -4,7 +4,7 @@ title: "Heif Isobmff format"
 description: "Descriptive contract facts for Heif Isobmff."
 resource: "cybergym://format/heif-isobmff"
 tags: ["heif-isobmff", "round-6"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -34,3 +34,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- HEIF files are ISO BMFF box graphs beginning with a file-type brand box. Image dimensions are stored in image spatial extent properties and associated to image items through property-association boxes; mutating dimensions while preserving the rest of the box graph can keep the parser gate satisfied.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

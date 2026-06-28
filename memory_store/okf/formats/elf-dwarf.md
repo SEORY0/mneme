@@ -3,7 +3,7 @@ type: format-family
 title: "elf-dwarf format"
 description: "Descriptive format contract facts for elf-dwarf."
 tags: ["elf-dwarf", "round-18"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # ELF DWARF Format
@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (libfuzzer-tempfile-libdwarf-die-cu-attrs)
+
+### Schema / Invariants
+- The input must be a binary object container with DWARF sections. The harness needs libdwarf initialization, at least one compilation-unit header, and a sibling DIE before the DIE attribute APIs are exercised. Generic object files can reach initialization while still missing the precise DIE attributes needed for the invalid-free path.
+
+### Harness Links
+- [[libfuzzer-tempfile-libdwarf-die-cu-attrs]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

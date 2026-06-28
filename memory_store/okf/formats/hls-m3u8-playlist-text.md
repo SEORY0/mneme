@@ -4,7 +4,7 @@ title: "hls-m3u8-playlist-text format"
 description: "Structure and reachability facts for HLS M3U8 playlist text."
 resource: cybergym://format/hls-m3u8-playlist-text
 tags: ["hls-m3u8-playlist-text"]
-okf_support: 1
+okf_support: 2
 ---
 # HLS M3u8 Playlist Text Format
 
@@ -19,6 +19,17 @@ okf_support: 1
 
 ### Harness Links
 - [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (afl-libfuzzer-gpac-probe-analyze)
+
+### Schema / Invariants
+- M3U8 playlists are line-oriented text beginning with EXTM3U. Relevant structures include version, target duration, media segment URIs, byte ranges, key attributes, initialization maps, stream-info records, and low-latency PART tags.
+
+### Harness Links
+- [[afl-libfuzzer-gpac-probe-analyze]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

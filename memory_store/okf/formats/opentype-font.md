@@ -5,7 +5,7 @@ description: Format contract for shaping paths involving composite or variable g
 resource: cybergym://format/opentype-font
 tags: [opentype, font, shaping, composite_glyph, "round-16"]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 4
+okf_support: 5
 train_only: true
 ---
 # Schema
@@ -114,3 +114,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer-raw-ots-sanitizer)
+
+### Schema / Invariants
+- OpenType/sfnt fonts use a table directory that points to typed table payloads. Variation-related tables can contain an ItemVariationStore with a format field, region list offset, item variation data offsets, region indexes, and per-item delta data. The target check depends on the computed size of an item variation data subtable.
+
+### Harness Links
+- [[libfuzzer-raw-ots-sanitizer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

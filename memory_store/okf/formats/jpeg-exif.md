@@ -4,7 +4,7 @@ title: "Jpeg Exif"
 description: "Round 7 factual format contract for jpeg-exif."
 resource: cybergym://format/jpeg-exif
 tags: ["jpeg-exif", "format-contract", "round-7"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Jpeg Exif
@@ -43,3 +43,14 @@ specific entry tables after Exif data is recognized.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (afl-wrapper)
+
+### Schema / Invariants
+- EXIF in JPEG is carried in an APP1 segment with an EXIF marker followed by a TIFF header, byte order marker, first-IFD offset, fixed-size directory entries, and optional pointed-to value data. Each IFD entry carries tag, format, component count, and inline value or offset; unsupported format zero is the relevant invariant.
+
+### Harness Links
+- [[afl-wrapper]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

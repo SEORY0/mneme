@@ -4,7 +4,7 @@ title: mruby-source format
 description: Format contract for mruby-source.
 resource: cybergym://format/mruby-source
 tags: [mruby-source, "round-16"]
-okf_support: 3
+okf_support: 4
 train_only: true
 ---
 # Schema
@@ -57,3 +57,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- The input is Ruby source code. String#index and String#split with a string separator reach mruby's byte-string search helper when both haystack and needle lengths are large enough for the quick-search branch.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

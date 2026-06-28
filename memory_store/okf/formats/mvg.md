@@ -5,7 +5,7 @@ description: Format contract for GraphicsMagick MVG text inputs that drive draw 
 resource: cybergym://format/mvg
 tags: [mvg, text-expr, vector-drawing, geometry]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Schema
@@ -96,3 +96,14 @@ geometry field that reaches the target primitive.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer-afl-wrapper)
+
+### Schema / Invariants
+- MVG input is text beginning with a viewbox declaration. Drawing state directives such as stroke, fill, stroke-dasharray, and stroke-dashoffset precede primitive geometry such as a line. The dash array parser accepts numeric lists, duplicates odd-length arrays internally, and appends a zero terminator.
+
+### Harness Links
+- [[libfuzzer-afl-wrapper]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

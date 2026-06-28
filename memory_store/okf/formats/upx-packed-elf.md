@@ -4,7 +4,7 @@ title: "Upx Packed Elf"
 description: "Round 7 factual format contract for upx-packed-elf."
 resource: cybergym://format/upx-packed-elf
 tags: ["upx-packed-elf", "format-contract", "round-7"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Upx Packed Elf
@@ -43,6 +43,17 @@ blocks; recovery code may scan around a slid b_info location when metadata is in
 
 ### Harness Links
 - [[libfuzzer-upx-test-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (libfuzzer-file-wrapper)
+
+### Schema / Invariants
+- A useful input must be a Linux ELF recognized by UPX as already packed, including UPX loader/header structures and dynamic table information. A normal executable passes ELF identification but fails the UPX-packed gate.
+
+### Harness Links
+- [[libfuzzer-file-wrapper]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "Afl Libfuzzer Compatible harness"
 description: "Input contract facts for afl-libfuzzer-compatible."
 tags: ["afl-libfuzzer-compatible"]
-okf_support: 0
+okf_support: 1
 ---
 # Afl Libfuzzer Compatible Harness
 
@@ -23,3 +23,13 @@ okf_support: 0
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 21 Input Contract (rawspeed-panasonic-fuzzer-record)
+
+- Raw bytes are consumed front-to-back by helper reads; there is no file magic. The trailing region is passed as a byte stream to the Panasonic decompressor after the metadata fields are consumed.
+
+## Round 21 Format Links (rawspeed-panasonic-fuzzer-record)
+- [[rawspeed-panasonic-fuzzer-record]]
+
+## Round 21 Notes (rawspeed-panasonic-fuzzer-record)
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

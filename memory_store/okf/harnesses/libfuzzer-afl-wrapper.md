@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Afl Wrapper harness"
 description: "Input contract facts for libfuzzer-afl-wrapper."
 tags: ["libfuzzer-afl-wrapper"]
-okf_support: 0
+okf_support: 1
 ---
 # Libfuzzer Afl Wrapper Harness
 
@@ -14,4 +14,14 @@ okf_support: 0
 - [[opentype-sbix-font]]
 
 ## Round 10 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (mvg)
+
+- The harness sets the GraphicsMagick coder to MVG and passes the raw file bytes to Image.read; there is no leading selector byte and no FuzzedDataProvider carving.
+
+## Round 21 Format Links (mvg)
+- [[mvg]]
+
+## Round 21 Notes (mvg)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

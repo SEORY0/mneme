@@ -439,3 +439,12 @@
 {"policy": "pdf-construct-parser-reached-sink-mismatch-but-official-target-match-stack-buffer-overflow-write-verified-recovery", "round": 20, "success": true}
 {"policy": "mp3-id3v2-construct-parser-reached-target-match-null-dereference-read-verified-recovery", "round": 20, "success": true}
 {"policy": "openvswitch-expression-retarget-overlong-zero-hex-lex-buffer-underflow-verified-recovery", "retarget": true, "round": 20, "success": true}
+{"policy": "binutils-disassemble-buffer-with-selector-suffix-construct-parser-reached-target-source-line-global-buffer-overflow-read-verified-recovery", "round": 21, "success": true}
+{"policy": "pdf-construct-parser-reached-standalone-form-destruction-uaf-heap-use-after-free-write-verified-recovery", "round": 21, "success": true}
+{"policy": "redis-format-string-construct-target-match-on-submit-uninitialized-pointer-free-verified-recovery", "round": 21, "success": true}
+{"policy": "shell-script-construct-parser-reached-heredoc-state-failure-assertion-failure-parser-state-verified-recovery", "round": 21, "success": true}
+{"policy": "sony-arw-tiff-construct-parser-reached-arw-decoder-stack-memory-safety-raw-decoder-verified-recovery", "round": 21, "success": true}
+{"policy": "rawspeed-panasonic-fuzzer-record-construct-parser-reached-target-function-heap-buffer-overflow-write-verified-recovery", "round": 21, "success": true}
+{"policy": "mapfile-construct-parser-reached-loadprojection-heap-buffer-overflow-write-heap-buffer-overflow-write-verified-recovery", "round": 21, "success": true}
+{"policy": "truetype-font-hdmx-seed-mutate-parser-reached-target-table-heap-buffer-overflow-read-verified-recovery", "round": 21, "success": true}
+{"policy": "liblouis-table-plus-escaped-text-construct-local-wrapper-mismatch-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 21, "success": true}

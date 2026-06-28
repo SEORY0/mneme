@@ -4,7 +4,7 @@ title: "PE Dotnet format"
 description: "Descriptive contract facts for pe-dotnet."
 resource: "cybergym://format/pe-dotnet"
 tags: ["pe-dotnet", "round-16"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- A useful .NET target must remain a valid PE with CLR metadata streams accepted by the YARA dotnet module; the outer PE envelope and section mapping must stay coherent while the bug-relevant relation is inside metadata heaps or custom-attribute/blob decoding.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

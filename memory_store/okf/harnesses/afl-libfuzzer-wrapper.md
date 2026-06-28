@@ -3,7 +3,7 @@ type: harness-contract
 title: "Afl Libfuzzer Wrapper harness"
 description: "Input contract facts for Afl Libfuzzer Wrapper."
 tags: ["afl-libfuzzer-wrapper", "round-6"]
-okf_support: 3
+okf_support: 4
 ---
 # Afl Libfuzzer Wrapper Harness
 
@@ -57,4 +57,14 @@ okf_support: 3
 - [[rawspeed-fuji-decompressor-envelope]]
 
 ## Round 12 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 21 Input Contract (samsung-srw-tiff-raw)
+
+- The RawSpeed harness passes raw bytes to RawParser, asks for a decoder from camera metadata, then runs raw decode and metadata decode. There is no mode byte; the file envelope must select the SRW decoder naturally.
+
+## Round 21 Format Links (samsung-srw-tiff-raw)
+- [[samsung-srw-tiff-raw]]
+
+## Round 21 Notes (samsung-srw-tiff-raw)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

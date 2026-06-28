@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the pdf input for
 resource: cybergym://format/pdf
 tags: [pdf, "round-16"]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 9
+okf_support: 11
 ---
 # Schema
 ## Identification
@@ -236,3 +236,25 @@ the FreeType font wrapper.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- The relevant PDF structure is a catalog, page tree, page, and annotation object. FreeText annotations need page linkage, a rectangle, default appearance string, and contents; odd or malformed Unicode contents can cause layoutText to return before initializing output values.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (libfuzzer-raw-poppler-renderer)
+
+### Schema / Invariants
+- A raw PDF needs a catalog, page tree, page object, annotation array, xref table, and trailer. Widget annotations under a page can also act as form fields when they carry form-field keys. A widget is treated as standalone when it is reachable from page annotations but absent from the AcroForm fields array.
+
+### Harness Links
+- [[libfuzzer-raw-poppler-renderer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: icu-locale-id format
 description: Format contract for icu-locale-id.
 resource: cybergym://format/icu-locale-id
 tags: [icu-locale-id]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Schema
@@ -37,3 +37,14 @@ Inputs follow the `icu-locale-id` family contract.
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- ICU locale IDs are raw NUL-terminated strings with language, optional script and region, and extension or private-use segments. The right-to-left fast path first asks for script, then extracts a short language subtag and searches a compact language-direction table.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
