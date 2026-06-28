@@ -10,3 +10,10 @@ external/
 logs/
 .omc/
 *.log
+
+# CyberGym submission server's SQLite DB (server state, NOT a mneme artifact).
+# A server launched from this dir writes poc.db here; never commit it (submission
+# history) and never delete it while the server is live. See docs/architecture-notes.md.
+poc.db
+poc.db-shm
+poc.db-wal

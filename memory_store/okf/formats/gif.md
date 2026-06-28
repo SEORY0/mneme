@@ -4,7 +4,7 @@ title: GIF format
 description: Structure and bug-prone gates for GIF image stream inputs.
 resource: cybergym://format/gif
 tags: [gif, construct, global-buffer-overflow-read]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Structure
@@ -26,3 +26,30 @@ offset/stride tables.
 
 # Citations
 - Distilled from server-verified training outcomes with this format family.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- GIF parsing requires a valid signature, logical screen descriptor, palette relationship, image
+  descriptor, LZW minimum code size, sub-block image data, and terminator.
+- The vulnerable path is entered by selecting interlaced image decoding and producing decoded
+  pixels, not by corrupting the trailer.
+
+### Harness Links
+- [[honggfuzz-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- GIF parser reachability requires the signature, logical screen descriptor, palette relationship,
+  graphics-control extension, image descriptor, image-data sub-block stream, and trailer to be
+  coherent enough for gd's GIF reader to return an image.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

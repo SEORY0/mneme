@@ -31,3 +31,15 @@ okf_support: 1
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `global-buffer-overflow-write`
+- observed: 2 traces; solved: 2 (illustrative — not for ranking)
+- top input_formats: http-request (1), udp-framed-quakeworld (1)
+- top harnesses: fuzzshark-ip-proto-udp (1), libfuzzer (1)
+- observed strategies: construct (2)
+<!-- END observed-census -->

@@ -16,3 +16,24 @@ DWG inputs use a header that selects a decoder generation, followed by control-t
 - Pick the decoder generation deliberately.
 - Sparse section metadata can reach malformed section handling before object lookup.
 - Random bytes after the header are usually a bad-format basin.
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- DWG inputs start with an ASCII version marker that selects the decoder generation. Legacy R11 files
+use pre-R13 section and table metadata, including header variables, entity ranges, block ranges, and
+legacy table records. Modern DWG headers route to different decoders and miss this bug class.
+
+### Harness Links
+- [[libfuzzer-raw-dwg-dxf-json-dispatcher]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- DWG begins with an AutoCAD version marker that selects the binary decoder generation. R13/R2000-era files contain section metadata, class records, object tables, handles, and bit-packed object streams; class count and type ranges must remain coherent enough to reach object dispatch.
+- Harness link: [[libfuzzer-raw-dwg-dxf-json-dispatcher]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.

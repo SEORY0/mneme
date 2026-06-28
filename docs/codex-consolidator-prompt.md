@@ -3,7 +3,10 @@ round you are consolidating, e.g. 4). This is a TASK TO EXECUTE NOW using the sh
 model-free CLI — NOT a document to continue, echo, or summarize. Do not reprint these
 instructions. Report only what you actually did (files changed, commit hash).
 
-Context: `cd /home/nsd/mneme`; branch feat/5worker-learning; venv `.venv`.
+Context: `cd /home/nsd/mneme`; commit on the CURRENT branch; venv `.venv`.
+NEVER switch branches — do NOT run `git checkout <branch>`, `git switch`, `git branch -f`,
+`git reset`, or `git rebase`. Commit on whatever branch is already checked out. The only git
+write you may do is staging the files listed below and ONE `git commit`.
 The traces for THIS round are learning/round-$ROUND/traces/*.json; the round must already be
 COMPLETE (`bash scripts/learning/round_status.sh $ROUND` says ROUND COMPLETE). Verifier up on
 127.0.0.1:8666. ABSOLUTE: no LLM API — only gen/verify/submit + docker + local server.
@@ -18,6 +21,10 @@ Execute IN ORDER, then stop and report:
    memory_store/memory_stats.jsonl.
 3. PERSISTENT failures → negative-memory policies keyed by final_failure_class ×
    verifier_signal.
+3b. TAXONOMY CENSUS (deterministic, descriptive): run
+   `.venv/bin/python scripts/learning/build_taxonomy.py --through-round $ROUND` to refresh
+   `okf/vuln-classes/` & `okf/strategies/` + index links from all traces so far. NOT
+   verifier-gated, NOT fed into memory_stats. (Output is covered by the step-8 git add.)
 4. Run `.venv/bin/python scripts/audit_leak.py memory_store/okf` — must print nothing.
 5. RETARGET CHECK: re-solve 3-5 of THIS round's FAILED tasks with the updated memory via
    gen/verify/submit into runs/cons_<safe_task>; keep edits that flip failed→solved.
@@ -82,7 +89,8 @@ bash scripts/learning/round_status.sh "$ROUND"   # must say "ROUND COMPLETE"
 ```
 
 ## Environment
-- Repo /home/nsd/mneme; branch `feat/5worker-learning`. venv `.venv`. Keep `.venv/bin/pytest -q` green.
+- Repo /home/nsd/mneme; commit on the CURRENT branch (never `git checkout`/`switch`/`reset` a
+  branch). venv `.venv`. Keep `.venv/bin/pytest -q` green.
 - Verifier up: `curl -s -m2 127.0.0.1:8666/ -o /dev/null -w '%{http_code}\n'`.
 - Hygiene for memory writes: `from mneme.task_card import redact_for_promotion` — run it on
   EVERY memory text; never store task ids, raw PoC bytes, exact offsets/addresses, checksums.
@@ -124,6 +132,13 @@ Process traces in a single coherent pass (no concurrency here — that's the poi
      if absent; add a `## harnesses` section to `okf/index.md`.
    - Merge into existing files (don't duplicate); keep abstract (no task ids/bytes/offsets); do
      NOT append success rows for these (they carry no success/failure — they are facts, not policies).
+4b. **TAXONOMY CENSUS (deterministic, descriptive — like the range report).** Run
+   `.venv/bin/python scripts/learning/build_taxonomy.py --through-round $ROUND`. It normalizes
+   every trace's `vuln_class` / `candidate_family` (via `mneme.vocab`) onto canonical keys and
+   refreshes a marker-delimited `## Observed census` block in `okf/vuln-classes/<class>.md` and
+   `okf/strategies/<strategy>.md` (hand-authored prose OUTSIDE the markers is preserved), plus the
+   index links. It is NOT verifier-gated and is NEVER written into `memory_stats.jsonl` ranking —
+   same grade as the formats/harnesses breadth channel; runs are idempotent.
 5. `redact_for_promotion` on EVERY edited text. Verify no leakage:
    `.venv/bin/python scripts/audit_leak.py memory_store/okf` (must print nothing).
 

@@ -19,3 +19,17 @@ The carrier is an archive envelope recognized by BFD as XCOFF. Member headers an
 
 ## Round 4 Verified Contracts
 - [[xcoff-archive-short-armap-uninit-count]]: A recognized big archive can enable the 64-bit armap path while the member body is shorter than the initial symbol-count read.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The relevant format is an archive containing a XCOFF archive map.
+- The outer archive has a global magic and fixed-width member headers; the vulnerable path is
+  deeper, after BFD recognizes the file as an archive and parses the armap member with a symbol
+  count and name table.
+
+### Harness Links
+- [[afl-libfuzzer-wrapper]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

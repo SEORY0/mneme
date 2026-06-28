@@ -19,7 +19,27 @@ SPLIT_PATH = REPO_ROOT / "data" / "okf_split.json"
 LEARNING_DIR = REPO_ROOT / "learning"
 USED_TASKS_PATH = LEARNING_DIR / "used_tasks.txt"
 
-ARVO_DATA_ROOT = Path(os.environ.get("CYBERGYM_DATA_ROOT", "/data/cybergym_data/data")) / "arvo"
+_DATA_ROOT = Path(os.environ.get("CYBERGYM_DATA_ROOT", "/data/cybergym_data/data"))
+ARVO_DATA_ROOT = _DATA_ROOT / "arvo"
+OSS_FUZZ_DATA_ROOT = _DATA_ROOT / "oss-fuzz"
+
+# task-id prefix -> local docker repo holding the <id>-vul images.
+_SUBSET_REPO = {"arvo": "n132/arvo", "oss-fuzz": "cybergym/oss-fuzz"}
+
+
+def _subset_data_root(subset: str) -> Path:
+    """Per-subset data root, read at call time so tests can monkeypatch the
+    module-level *_DATA_ROOT globals."""
+    return OSS_FUZZ_DATA_ROOT if subset == "oss-fuzz" else ARVO_DATA_ROOT
+
+
+def _split_task(task_id: str) -> tuple[str | None, str | None]:
+    """'arvo:123' -> ('arvo','123'); 'oss-fuzz:99' -> ('oss-fuzz','99'); unknown
+    subset or no numeric id -> (None, None)."""
+    subset, sep, sub_id = task_id.partition(":")
+    if sep and subset in _SUBSET_REPO and sub_id.isdigit():
+        return subset, sub_id
+    return None, None
 
 
 def load_split(split_path: Path = SPLIT_PATH) -> dict:
@@ -62,22 +82,20 @@ def safe_task(task_id: str) -> str:
 
 
 def is_runnable_local(task_id: str) -> bool:
-    """A task is runnable-local iff it is an arvo:<N> with both the data dir and
-    a non-empty `docker images -q n132/arvo:<N>-vul`.
+    """A task is runnable-local iff it is an arvo:<N> or oss-fuzz:<N> with both
+    the subset's data dir and a non-empty `docker images -q <repo>:<N>-vul`.
 
     This is the ONLY helper that touches docker/fs; tests monkeypatch
     `runnable_local_filter` so they never call it.
     """
-    if not task_id.startswith("arvo:"):
+    subset, n = _split_task(task_id)
+    if subset is None:
         return False
-    n = task_id.split(":", 1)[1]
-    if not n.isdigit():
-        return False
-    if not (ARVO_DATA_ROOT / n).exists():
+    if not (_subset_data_root(subset) / n).exists():
         return False
     try:
         out = subprocess.run(
-            ["docker", "images", "-q", f"n132/arvo:{n}-vul"],
+            ["docker", "images", "-q", f"{_SUBSET_REPO[subset]}:{n}-vul"],
             capture_output=True, text=True, timeout=30,
         )
     except (OSError, subprocess.SubprocessError):
@@ -85,15 +103,15 @@ def is_runnable_local(task_id: str) -> bool:
     return out.returncode == 0 and out.stdout.strip() != ""
 
 
-def _available_arvo_vul_ids() -> set[str]:
-    """Set of arvo numeric ids that have a local n132/arvo:<N>-vul image.
+def _available_vul_ids(repo: str) -> set[str]:
+    """Set of numeric ids that have a local <repo>:<N>-vul image.
 
-    ONE `docker images` call (not one per task) — listing all n132/arvo tags and
-    keeping the <N> of every <N>-vul tag.
+    ONE `docker images` call (not one per task) — listing all of `repo`'s tags
+    and keeping the <N> of every <N>-vul tag.
     """
     try:
         out = subprocess.run(
-            ["docker", "images", "n132/arvo", "--format", "{{.Tag}}"],
+            ["docker", "images", repo, "--format", "{{.Tag}}"],
             capture_output=True, text=True, timeout=60,
         )
     except (OSError, subprocess.SubprocessError):
@@ -110,25 +128,26 @@ def _available_arvo_vul_ids() -> set[str]:
 def runnable_local_filter(tasks: Iterable[str]) -> List[str]:
     """Filter an iterable of task ids to the runnable-local ones, order-preserving.
 
-    Uses a SINGLE `docker images` query for the vul-image check (not one docker
-    call per task — that made filtering ~1300 tasks take minutes). A task is
-    runnable-local iff it is arvo:<N> with the data dir present and an <N>-vul
-    image locally.
+    Handles both subsets: arvo:<N> (n132/arvo) and oss-fuzz:<N> (cybergym/oss-fuzz).
+    A task survives iff its subset's data dir is present AND an <N>-vul image
+    exists locally. Uses ONE `docker images` query per repo (not one per task —
+    that made filtering ~1500 tasks take minutes), cached for the call.
 
     Tests monkeypatch THIS function so they never call docker.
     """
     tasks = list(tasks)
-    vul_ids = _available_arvo_vul_ids()
+    vul_by_repo: dict[str, set[str]] = {}
     out = []
     for t in tasks:
-        if not t.startswith("arvo:"):
+        subset, n = _split_task(t)
+        if subset is None:
             continue
-        n = t.split(":", 1)[1]
-        if not n.isdigit():
+        repo = _SUBSET_REPO[subset]
+        if repo not in vul_by_repo:
+            vul_by_repo[repo] = _available_vul_ids(repo)
+        if n not in vul_by_repo[repo]:
             continue
-        if n not in vul_ids:
-            continue
-        if not (ARVO_DATA_ROOT / n).exists():
+        if not (_subset_data_root(subset) / n).exists():
             continue
         out.append(t)
     return out

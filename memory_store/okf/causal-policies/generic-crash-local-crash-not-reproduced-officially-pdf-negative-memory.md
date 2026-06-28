@@ -1,0 +1,60 @@
+---
+type: causal-policy
+title: "Generic Crash Local Crash Not Reproduced Officially PDF Negative Memory"
+description: "Round 10 negative memory for generic_crash with verifier signal local_crash_not_reproduced_officially."
+failure_class: "generic_crash"
+verifier_signal: "local_crash_not_reproduced_officially"
+candidate_family: "seed_mutate_and_construct"
+input_format: "pdf"
+harness_convention: "libfuzzer raw PDF renderer"
+vuln_class: "use-of-uninitialized-value"
+access_scope: generate
+success_count: 0
+confidence: medium
+tags: ["generic-crash", "local-crash-not-reproduced-officially", "negative-memory", "round-10"]
+match_keys: ["generic_crash", "local_crash_not_reproduced_officially", "pdf", "libfuzzer raw PDF renderer", "negative_memory"]
+allowed_scopes: [generate]
+forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
+evidence_level: medium
+train_only: true
+round: 10
+---
+# Generic Crash Local Crash Not Reproduced Officially PDF Negative Memory
+
+## Policy
+For `generic_crash x local_crash_not_reproduced_officially`, avoid replaying the observed dead end. This negative memory is co-equal with positive policies and should redirect generation before another official submission.
+
+## Procedure
+1. A simple text PDF and multiple font-heavy PDF seeds exercised Poppler rendering.
+2. When `generic_crash x local_crash_not_reproduced_officially` appears for `pdf`, treat this candidate family as a basin-to-avoid rather than as evidence of proximity to the target.
+3. Keep any proven parser/harness envelope, but change the missing gate or state relation before submitting again.
+
+## Format Contract
+- Renderable PDFs need a valid page tree, resources, font references, and content streams. Font-related crashes are best approached from real PDFs that embed or select fonts which drive FreeType glyph loading rather than from a bare object skeleton.
+- Harness: The harness feeds raw PDF bytes to Poppler and renders pages. There is no FuzzedDataProvider split; parser reachability depends on PDF validity and page renderability.
+
+## Negative Memory
+- Do not treat this verifier signal as a near miss unless a later candidate changes the missing gate or state relation.
+- Do not submit candidates that are clean, parser-mismatched, off-target, or crashing both fixed and vulnerable images in this same shape.
+- Preserve only descriptive format facts from the failed attempt; do not promote an unverified causal recovery.
+
+## Evidence Shape
+- Support: one diagnosed round-10 persistent failure.
+- Scope: generator avoidance for the same failure-keyed basin.
+
+## Round 16 Evidence Addendum
+
+### Failure Key
+- `generic_crash x local_crash_not_reproduced_officially` for `pdf` under `libfuzzer-mupdf-pdf-renderer`.
+
+### Procedure Update
+- Renderable PDFs exercising path clipping, nested clipping, image-mask clipping, Type3 text rendering, and annotation appearance rendering were tried. Two clipped rendering variants crashed the local wrapper but did not reproduce as vulnerable-image failures on official submit, so they appear to be local-wrapper or non-target crashes rather than the described scissor-aliasing split.
+- Keep the previously recorded negative-memory policy active; this addendum only strengthens the same basin-to-avoid with another diagnosed persistent failure.
+
+### Format Contract
+- A minimal PDF needs a catalog, page tree, page, media box, and content stream to reach MuPDF page rendering. Content streams can drive clipping through path operators, image XObjects and image masks, Type3 glyph programs, and annotation appearance form XObjects. Broken xref data may be repaired, but rendering-specific bugs need a valid page graph.
+- Harness: The MuPDF fuzzer opens the entire input buffer as a PDF memory stream, counts pages, and rasterizes each page to an RGB pixmap. There is no prefix carving or mode selector; MuPDF exceptions are caught, so only process-level sanitizer faults are meaningful.
+
+### Evidence Shape
+- Support: one diagnosed persistent failure from round 16.
+- Scope: generator avoidance for the same failure-keyed basin.

@@ -169,3 +169,339 @@
 {"policy": "no-crash-opentype-variable-font-parser-reached-clean-negative-memory", "success": false}
 {"policy": "no-crash-pdf-bad-format-parser-not-reached-negative-memory", "success": false}
 {"policy": "no-crash-openflow-ofp-port-stats-parser-reached-clean-exit-negative-memory", "success": false}
+{"policy": "generic-crash-off-target-tiff-family-crash-official-clean-tiff-negative-memory", "success": false}
+{"policy": "generic-crash-target-mismatch-runtime-harness-mismatch-jpeg-card-but-qpdf-runtime-negative-memory", "success": false}
+{"policy": "generic-crash-vul-only-generic-crash-official-target-mismatch-dcr-tiff-raw-negative-memory", "success": false}
+{"policy": "no-crash-assimp-importer-clean-exit-assimp-model-negative-memory", "success": false}
+{"policy": "no-crash-bad-format-parser-not-reached-pdf-negative-memory", "success": false}
+{"policy": "no-crash-decoder-executed-without-target-crash-ffmpeg-target-decoder-frame-negative-memory", "success": false}
+{"policy": "no-crash-decompressor-envelope-reached-clean-or-exception-rawspeed-decompressor-envelope-negative-memory", "success": false}
+{"policy": "no-crash-disassembler-executed-clean-raw-disassembler-buffer-negative-memory", "success": false}
+{"policy": "no-crash-file-fuzzer-parser-clean-exit-heif-isobmff-negative-memory", "success": false}
+{"policy": "no-crash-font-sink-not-reached-postscript-pdf-with-type2-cff-font-negative-memory", "success": false}
+{"policy": "no-crash-harness-usage-only-disk-or-filesystem-image-negative-memory", "success": false}
+{"policy": "no-crash-interpreter-error-before-sink-postscript-pfb-font-stream-negative-memory", "success": false}
+{"policy": "no-crash-ip-dissector-clean-exit-wireshark-fuzzshark-ip-negative-memory", "success": false}
+{"policy": "no-crash-jpeg-harness-clean-exit-jpeg-negative-memory", "success": false}
+{"policy": "no-crash-local-wrapper-crash-not-official-dav1d-fuzzer-input-negative-memory", "success": false}
+{"policy": "no-crash-mip-rx-clean-exit-mongoose-mip-raw-packet-negative-memory", "success": false}
+{"policy": "no-crash-object-not-recognized-or-no-symbols-ecoff-bfd-object-negative-memory", "success": false}
+{"policy": "no-crash-parser-not-reached-or-cmap-value-gate-not-triggered-postscript-cmap-negative-memory", "success": false}
+{"policy": "no-crash-parser-not-reached-or-error-path-not-triggered-html-negative-memory", "success": false}
+{"policy": "no-crash-parser-not-reached-or-feature-not-selected-opensc-smart-card-response-stream-asn-1-negative-memory", "success": false}
+{"policy": "no-crash-parser-not-reached-or-no-sanitizer-signal-wkb-negative-memory", "success": false}
+{"policy": "no-crash-parser-not-reached-or-unpoisoned-boundary-xml-negative-memory", "success": false}
+{"policy": "no-crash-parser-not-reached-or-wrong-entity-shape-dxf-negative-memory", "success": false}
+{"policy": "no-crash-parser-reached-clean-exit-json-negative-memory", "success": false}
+{"policy": "no-crash-parser-reached-no-target-c-blosc2-frame-negative-memory", "success": false}
+{"policy": "no-crash-parser-reached-without-target-sink-or-clean-exit-spix-leptonica-image-family-negative-memory", "success": false}
+{"policy": "no-crash-parser-rejected-or-clean-cil-policy-negative-memory", "success": false}
+{"policy": "no-crash-parser-rejected-or-clean-pkcs15-encode-fuzzer-input-negative-memory", "success": false}
+{"policy": "no-crash-pdf-loaded-no-utf16-overflow-pdf-negative-memory", "success": false}
+{"policy": "no-crash-pdf-repair-without-target-sink-pdf-negative-memory", "success": false}
+{"policy": "no-crash-query-executed-without-internal-error-sql-negative-memory", "success": false}
+{"policy": "no-crash-required-directory-missing-gml-graph-text-negative-memory", "success": false}
+{"policy": "no-crash-selected-harness-executed-clean-jpeg-or-vips-fuzzer-input-negative-memory", "success": false}
+{"policy": "no-crash-selected-ip6-send-harness-clean-exit-openthread-ip6-message-negative-memory", "success": false}
+{"policy": "no-crash-sink-mismatch-or-nonreproducible-crash-raw-instruction-stream-negative-memory", "success": false}
+{"policy": "no-crash-traceback-parser-gate-identified-but-not-reproduced-pef-object-negative-memory", "success": false}
+{"policy": "no-crash-ucasemap-titlecase-clean-exit-icu-ucasemap-fuzzer-bytes-negative-memory", "success": false}
+{"policy": "no-crash-valid-fuzzer-reader-clean-exit-libxml2-valid-fuzzer-envelope-negative-memory", "success": false}
+{"policy": "opc-ua-binary-message-seed-mutate-verified-recovery", "success": true}
+{"policy": "mvg-construct-geometry-radius-verified-recovery", "success": true}
+{"policy": "raw-disassembler-buffer-with-trailer-selector-construct-verified-recovery", "success": true}
+{"policy": "pcap-openvpn-seed-mutate-verified-recovery", "success": true}
+{"policy": "ply-iostreambuffer-overlong-line", "success": true}
+{"policy": "raw-socket-option-value-construct-verified-recovery", "success": true}
+{"policy": "cil-policy-text-construct-from-repo-examples-verified-recovery", "success": true}
+{"policy": "wasm-construct-wasm-init-expression-verified-recovery", "success": true}
+{"policy": "binutils-disassembler-fuzz-frame-construct-disassembler-frame-verified-recovery", "success": true}
+{"policy": "icc-profile-construct-icc-desc-tag-verified-recovery", "success": true}
+{"policy": "ipv4-tcp-http-request-construct-verified-recovery", "success": true}
+{"policy": "sdp-token-linebuf-overflow", "success": true}
+{"policy": "agentx-pdu-construct-parser-reached-agentx-context-string-oob-read-verified-recovery", "success": true}
+{"policy": "ar-archive-construct-parser-reached-sink-match-verified-recovery", "success": true}
+{"policy": "riff-wav-cart-construct-parser-reached-sink-misattributed-to-memset-verified-recovery", "success": true}
+{"policy": "ani-riff-construct-parser-reached-short-riff-size-read-verified-recovery", "success": true}
+{"policy": "ttc-opentype-font-construct-parser-reached-sink-misattributed-to-allocator-verified-recovery", "success": true}
+{"policy": "fio-ini-construct-target-stack-overflow-verified-recovery", "success": true}
+{"policy": "lxc-config-text-construct-parser-reached-rt-signal-suffix-oob-read-verified-recovery", "success": true}
+{"policy": "yara-rule-text-construct-parser-reached-ubsan-callback-type-mismatch-verified-recovery", "success": true}
+{"policy": "sip-message-construct-parser-reached-sink-match-verified-recovery", "success": true}
+{"policy": "sip-construct-parser-reached-sink-match-verified-recovery", "success": true}
+{"policy": "dhcpv4-construct-parser-reached-confirmed-target-verified-recovery", "success": true}
+{"policy": "ipv4-tcp-tls-construct-parser-reached-verified-recovery", "success": true}
+{"policy": "protobuf-text-mruby-function-construct-parser-reached-sink-match-verified-recovery", "success": true}
+{"policy": "mapfile-construct-parser-reached-verified-recovery", "success": true}
+{"policy": "dwg-seed-preserve-parser-reached-legacy-r11-decoder-verified-recovery", "success": true}
+{"policy": "openstep-plist-construct-parser-reached-sink-match-verified-recovery", "success": true}
+{"policy": "coff-object-construct-parser-reached-verified-recovery", "success": true}
+{"policy": "wav-seed-mutate-parser-reached-verified-recovery", "success": true}
+{"policy": "kml-construct-parser-reached-target-stack-memcpy-param-overlap-verified-recovery", "success": true}
+{"policy": "pe-construct-parser-reached-target-stack-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "pcap-ipv4-tcp-http-construct-parser-reached-target-stack-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "shell-script-construct-parser-reached-sink-mismatch-but-official-target-match-heap-use-after-free-read-verified-recovery", "success": true}
+{"policy": "ucl-configuration-construct-target-sink-crash-local-mislabeled-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "proj-params-construct-parser-reached-target-stack-use-after-free-verified-recovery", "success": true}
+{"policy": "pdf-with-opentype-cff-font-seed-mutate-target-match-confirmed-stack-buffer-overflow-write-verified-recovery", "success": true}
+{"policy": "pdf-construct-pdf-repair-parser-reached-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "pdf-seed-mutate-parser-reached-heap-use-after-free-read-verified-recovery", "success": true}
+{"policy": "ply-seed-mutate-parser-reached-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "pdf-with-opentype-cff-font-construct-target-match-confirmed-integer-overflow-to-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "aac-sbr-fuzzer-buffer-seed-mutate-parser-reached-sink-mismatch-label-but-stack-matches-hf-adjustment-global-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "aac-usac-seed-mutate-parser-reached-heap-buffer-overflow-write-verified-recovery", "success": true}
+{"policy": "gmt-construct-parser-reached-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "pdf-construct-parser-reached-sink-mismatch-but-official-target-match-stack-buffer-underflow-read-verified-recovery", "success": true}
+{"policy": "hb-set-fuzzer-binary-instruction-stream-construct-parser-reached-target-heap-oob-read-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "fluent-bit-http-fuzzer-buffer-construct-parser-reached-double-free-cleanup-heap-double-free-verified-recovery", "success": true}
+{"policy": "blosc-chunk-construct-official-target-match-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "selinux-cil-policy-text-construct-parser-reached-optional-reset-uaf-server-match-heap-use-after-free-verified-recovery", "success": true}
+{"policy": "gif-construct-target-stack-reached-global-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "markdown-construct-from-description-parser-reached-container-marker-overread-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "dxf-text-construct-parser-reached-indxf-uaf-server-match-heap-use-after-free-verified-recovery", "success": true}
+{"policy": "mruby-script-construct-parser-reached-target-crash-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "net-snmp-config-text-construct-config-config-parser-reached-asan-signal-off-by-one-read-verified-recovery", "success": true}
+{"policy": "pcap-construct-target-sink-reached-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "gas-assembly-text-construct-parser-reached-macro-expansion-server-match-null-dereference-or-invalid-buffer-state-verified-recovery", "success": true}
+{"policy": "mapserver-mapfile-construct-parser-reached-target-crash-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "php-script-construct-parser-reached-target-crash-heap-use-after-free-read-verified-recovery", "success": true}
+{"policy": "pdf-seed-mutate-official-target-match-invalid-memory-read-verified-recovery", "success": true}
+{"policy": "dns-message-checksig-fuzzer-record-seed-mutate-target-sink-reached-undefined-behavior-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "fluent-bit-parser-control-logfmt-typecast-overread-retarget-verified-recovery", "success": true}
+{"policy": "cpython-sre-match-payload-post-init-retarget-verified-recovery", "success": true}
+{"policy": "http-request-construct-parser-reached-target-global-buffer-overflow-verified-recovery", "success": true}
+{"policy": "bfd-archive-containing-truncated-msdos-construct-generic-crash-target-confirmed-by-submit-verified-recovery", "success": true}
+{"policy": "pdf-construct-parser-reached-target-area-verified-recovery", "success": true}
+{"policy": "wifi-p2p-information-elements-seed-mutate-parser-reached-target-confirmed-by-submit-verified-recovery", "success": true}
+{"policy": "pdf-postscript-construct-target-match-on-submit-verified-recovery", "success": true}
+{"policy": "pdf-type3-font-construct-parser-reached-target-confirmed-by-submit-verified-recovery", "success": true}
+{"policy": "subtitle-text-construct-target-match-on-submit-verified-recovery", "success": true}
+{"policy": "libavc-encoder-config-frame-construct-generic-crash-target-confirmed-by-submit-verified-recovery", "success": true}
+{"policy": "camera-seed-mutate-parser-reached-target-confirmed-by-submit-verified-recovery", "success": true}
+{"policy": "udp-rtcp-compound-construct-parser-reached-target-sink-verified-recovery", "success": true}
+{"policy": "ovs-odp-text-retarget-parser-reached-clean-exit-nested-action-reallocation-verified-recovery", "success": true}
+{"policy": "mvg-construct-parser-reached-renderer-crash-arithmetic-overflow-to-renderer-crash-verified-recovery", "success": true}
+{"policy": "rawspeed-vc5-fuzzer-envelope-construct-parser-reached-target-highpass-decode-heap-buffer-overflow-write-verified-recovery", "success": true}
+{"policy": "hevc-elementary-stream-construct-target-match-memory-uninitialized-use-verified-recovery", "success": true}
+{"policy": "raw-disassembler-buffer-with-trailer-selector-construct-parser-reached-disassembler-table-boundary-read-global-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "som-library-archive-construct-parser-reached-sink-mismatch-but-official-target-match-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "raw-ipv4-packet-carrying-netbios-construct-target-match-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "raw-disassembler-buffer-with-trailer-selector-construct-short-instruction-reaches-nds32-decode-short-buffer-disassembler-read-verified-recovery", "success": true}
+{"policy": "pdf-with-embedded-truetype-font-construct-target-confirmed-by-submit-null-dereference-verified-recovery", "success": true}
+{"policy": "macho-seed-mutate-parser-reached-macho-load-command-read-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "sudoers-construct-parser-reached-expand-include-negative-size-param-verified-recovery", "success": true}
+{"policy": "proj-parameter-lines-construct-target-match-axis-index-out-of-bounds-verified-recovery", "success": true}
+{"policy": "libredwg-json-construct-parser-reached-dynapi-header-set-value-stack-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "hunspell-aff-dic-word-triple-construct-official-target-match-after-submit-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"failure_class": "wrong_sink", "input_format": "git-raw-object", "policy": "git-raw-object-construct-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "sink_mismatch"}
+{"failure_class": "wrong_sink", "input_format": "ar-archive", "policy": "ar-archive-construct-parser-reached-official-target-match-heap-buffer-overflow-write-verified-recovery", "round": 12, "success": true, "verifier_signal": "parser_reached_official_target_match"}
+{"failure_class": "generic_crash", "input_format": "netbios-name-service-packet", "policy": "netbios-name-service-packet-construct-local-both-crash-label-but-official-target-match-undefined-behavior-out-of-bounds-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "local_both_crash_label_but_official_target_match"}
+{"failure_class": "generic_crash", "input_format": "cil", "policy": "cil-construct-target-sink-match-heap-buffer-overflow-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "target_sink_match"}
+{"failure_class": "no_crash", "input_format": "php-script", "policy": "php-script-construct-local-wrapper-expected-corpus-dir-but-official-confirmed-integer-overflow-verified-recovery", "round": 12, "success": true, "verifier_signal": "local_wrapper_expected_corpus_dir_but_official_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "javascript-source", "policy": "javascript-source-construct-sink-mismatch-stack-buffer-overflow-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "sink_mismatch"}
+{"failure_class": "wrong_sink", "input_format": "ase", "policy": "ase-seed-mutate-parser-reached-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "parser_reached_official_target_match"}
+{"failure_class": "wrong_sink", "input_format": "rawspeed-fuji-decompressor-envelope", "policy": "rawspeed-fuji-decompressor-envelope-construct-target-invariant-crash-despite-coarse-sink-invalid-color-filter-array-assumption-verified-recovery", "round": 12, "success": true, "verifier_signal": "target_invariant_crash_despite_coarse_sink"}
+{"failure_class": "generic_crash", "input_format": "pdf-cmap", "policy": "pdf-cmap-construct-parser-reached-cmap-state-split-verified-recovery", "round": 12, "success": true, "verifier_signal": "parser_reached"}
+{"failure_class": "wrong_sink", "input_format": "openstep-plist", "policy": "openstep-plist-seed-mutate-local-sink-mismatch-but-official-target-match-heap-use-after-free-verified-recovery", "round": 12, "success": true, "verifier_signal": "local_sink_mismatch_but_official_target_match"}
+{"failure_class": "wrong_sink", "input_format": "mosquitto-config-text", "policy": "mosquitto-config-text-construct-target-crash-despite-sink-mismatch-heap-use-after-free-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "target_crash_despite_sink_mismatch"}
+{"failure_class": "generic_crash", "input_format": "elf", "policy": "elf-construct-parser-reached-use-of-uninitialized-value-verified-recovery", "round": 12, "success": true, "verifier_signal": "parser_reached"}
+{"failure_class": "wrong_sink", "input_format": "miff", "policy": "miff-construct-parser-reached-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 12, "success": true, "verifier_signal": "parser_reached_official_target_match"}
+{"failure_class": "wrong_sink", "input_format": "mng", "policy": "mng-retarget-parser-reached-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "retarget": true, "round": 12, "success": true, "verifier_signal": "parser_reached_sink_mismatch"}
+{"failure_class": "wrong_sink", "input_format": "openpgp signed message", "policy": "openpgp-signed-message-seed-mutate-parser-reached-proc-plaintext-uaf-heap-use-after-free-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "parser_reached_proc_plaintext_uaf"}
+{"failure_class": "generic_crash", "input_format": "elf", "policy": "elf-construct-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "wrong_sink", "input_format": "rollei-raw-text-header", "policy": "rollei-raw-text-header-construct-target-confirmed-by-submit-stack-buffer-overflow-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "target_confirmed_by_submit"}
+{"failure_class": "wrong_sink", "input_format": "elf-shared-object-with-versioned-dynamic-symbol", "policy": "elf-shared-object-with-versioned-dynamic-symbol-construct-parser-reached-print-dynamic-symbol-stack-overflow-stack-buffer-overflow-write-verified-recovery", "round": 13, "success": true, "verifier_signal": "parser_reached_print_dynamic_symbol_stack_overflow"}
+{"failure_class": "generic_crash", "input_format": "c-blosc2-frame", "policy": "c-blosc2-frame-seed-mutate-parser-reached-frame-get-vlmetalayers-invalid-negative-length-memory-access-verified-recovery", "round": 13, "success": true, "verifier_signal": "parser_reached_frame_get_vlmetalayers"}
+{"failure_class": "generic_crash", "input_format": "mruby-script", "policy": "mruby-script-construct-official-target-match-after-both-crash-variants-signed-length-bigint-load-verified-recovery", "round": 13, "success": true, "verifier_signal": "official_target_match_after_both_crash_variants"}
+{"failure_class": "generic_crash", "input_format": "ipv4-tcp-http-response", "policy": "ipv4-tcp-http-response-construct-target-sink-stack-buffer-overflow-stack-buffer-overflow-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "target_sink_stack_buffer_overflow"}
+{"failure_class": "wrong_sink", "input_format": "mosquitto-config-text", "policy": "mosquitto-config-text-construct-target-crash-despite-sink-mismatch-heap-use-after-free-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "target_crash_despite_sink_mismatch"}
+{"failure_class": "wrong_sink", "input_format": "dhcpv6-with-foreign-radius-option", "policy": "dhcpv6-with-foreign-radius-option-regression-seed-mutate-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "sink_mismatch"}
+{"failure_class": "wrong_sink", "input_format": "wasm-binary", "policy": "wasm-binary-construct-loader-stack-boundary-overflow-heap-buffer-overflow-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "loader_stack_boundary_overflow"}
+{"failure_class": "generic_crash", "input_format": "md3", "policy": "md3-seed-mutate-parser-reached-heap-buffer-overflow-read-verified-recovery", "round": 13, "success": true, "verifier_signal": "parser_reached"}
+{"failure_class": "generic_crash", "input_format": "json-with-settings-prefix", "policy": "json-with-settings-prefix-construct-target-sink-reached-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "target_sink_reached"}
+{"failure_class": "wrong_sink", "input_format": "ffmpeg-midivid-packet", "policy": "ffmpeg-midivid-packet-construct-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "sink_mismatch"}
+{"failure_class": "wrong_sink", "input_format": "json", "policy": "json-construct-parser-reached-target-function-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "parser_reached_target_function"}
+{"failure_class": "wrong_sink", "input_format": "elf", "policy": "elf-construct-target-stack-reached-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "target_stack_reached"}
+{"failure_class": "wrong_sink", "input_format": "json", "policy": "json-construct-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "sink_mismatch"}
+{"failure_class": "generic_crash", "input_format": "protobuf-text-mruby-function", "policy": "protobuf-text-mruby-function-construct-target-sink-reached-invalid-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "target_sink_reached"}
+{"failure_class": "wrong_sink", "input_format": "bmp", "policy": "bmp-construct-parser-reached-target-palette-reader-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "parser_reached_target_palette_reader"}
+{"failure_class": "generic_crash", "input_format": "zip", "policy": "zip-construct-sink-mismatch-zip-entry-decompression-crash-verified-recovery", "round": 14, "success": true, "verifier_signal": "sink_mismatch"}
+{"failure_class": "generic_crash", "input_format": "ndpi-custom-protocol-rule", "policy": "ndpi-custom-protocol-rule-construct-parser-reached-stack-overflow-in-rule-handler-stack-buffer-overflow-write-verified-recovery", "round": 14, "success": true, "verifier_signal": "parser_reached_stack_overflow_in_rule_handler"}
+{"failure_class": "wrong_sink", "input_format": "macho", "policy": "macho-seed-mutate-target-stack-reached-heap-buffer-overflow-read-verified-recovery", "round": 14, "success": true, "verifier_signal": "target_stack_reached"}
+{"failure_class": "wrong_sink", "input_format": "ovs-odp-action-text", "policy": "ovs-odp-action-text-construct-parser-reached-target-fixed-clean-stack-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_fixed_clean"}
+{"failure_class": "generic_crash", "input_format": "git-tree-object-body", "policy": "git-tree-object-body-construct-target-sink-match-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "target_sink_match"}
+{"failure_class": "wrong_sink", "input_format": "omf", "policy": "omf-construct-parser-reached-target-confirmed-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "generic_crash", "input_format": "ipv4-udp-capwap", "policy": "ipv4-udp-capwap-construct-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "generic_crash", "input_format": "elf", "policy": "elf-construct-parser-reached-target-confirmed-heap-buffer-overflow-write-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "fuzzing-datasource-rsa-fields", "policy": "fuzzing-datasource-rsa-fields-construct-parser-reached-target-sink-out-of-bounds-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "generic_crash", "input_format": "ass-subtitle", "policy": "ass-subtitle-construct-target-hash-function-reached-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "target_hash_function_reached"}
+{"failure_class": "wrong_sink", "input_format": "tiff-srw", "policy": "tiff-srw-construct-parser-reached-target-confirmed-use-after-poison-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "mruby-script", "policy": "mruby-script-construct-parser-reached-target-fixed-clean-integer-truncation-negative-size-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_fixed_clean"}
+{"failure_class": "wrong_sink", "input_format": "gif", "policy": "gif-construct-parser-reached-target-function-undefined-behavior-out-of-bounds-write-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_function"}
+{"failure_class": "wrong_sink", "input_format": "sip", "policy": "sip-construct-parser-reached-target-confirmed-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "ar-archive-elf", "policy": "ar-archive-elf-construct-parser-reached-target-confirmed-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "json", "policy": "json-construct-parser-reached-target-accepted-by-submit-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_accepted_by_submit"}
+{"failure_class": "generic_crash", "input_format": "subrip", "policy": "subrip-seed-mutate-parser-reached-target-confirmed-heap-buffer-overflow-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "openstep-plist", "policy": "openstep-plist-construct-parser-reached-target-accepted-by-submit-out-of-bounds-read-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_accepted_by_submit"}
+{"failure_class": "generic_crash", "input_format": "miff", "policy": "miff-seed-mutate-target-sink-match-use-of-uninitialized-value-verified-recovery", "round": 15, "success": true, "verifier_signal": "target_sink_match"}
+{"failure_class": "generic_crash", "input_format": "vp9-frame", "policy": "vp9-frame-construct-parser-reached-official-target-match-assertion-failure-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_official_target_match"}
+{"failure_class": "wrong_sink", "input_format": "aac-usac", "policy": "aac-usac-seed-replay-parser-reached-target-confirmed-undefined-behavior-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "wrong_sink", "input_format": "ers-fuzzer-archive", "policy": "ers-fuzzer-archive-construct-parser-reached-target-confirmed-undefined-behavior-verified-recovery", "round": 15, "success": true, "verifier_signal": "parser_reached_target_confirmed"}
+{"failure_class": "no_crash", "input_format": "mng", "policy": "mng-construct-local-classifier-missed-fuzz-target-exit-fatal-error-after-unsupported-mng-magnification-method-verified-recovery", "round": 16, "success": true, "verifier_signal": "local_classifier_missed_fuzz_target_exit"}
+{"failure_class": "wrong_sink", "input_format": "binutils-disassembler-frame", "policy": "binutils-disassembler-frame-construct-parser-reached-target-sink-undefined-behavior-verified-recovery", "round": 16, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "wrong_sink", "input_format": "cil-policy-text", "policy": "cil-policy-text-construct-parser-reached-target-sink-heap-use-after-free-verified-recovery", "round": 16, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "generic_crash", "input_format": "pcap containing IPv4/UDP/SIP", "policy": "pcap-containing-ipv4-udp-sip-construct-target-stack-reached-heap-buffer-overflow-read-verified-recovery", "round": 16, "success": true, "verifier_signal": "target_stack_reached"}
+{"failure_class": "generic_crash", "input_format": "pdf-xref-stream", "policy": "pdf-xref-stream-construct-parser-reached-heap-buffer-overflow-write-verified-recovery", "round": 16, "success": true, "verifier_signal": "parser_reached"}
+{"failure_class": "wrong_sink", "input_format": "arrow-ipc-stream", "policy": "arrow-ipc-stream-construct-patch-ipc-metadata-parser-reached-variadic-buffer-count-path-heap-buffer-overflow-write-verified-recovery", "round": 16, "success": true, "verifier_signal": "parser_reached_variadic_buffer_count_path"}
+{"failure_class": "wrong_sink", "input_format": "arbitrary-pulley-op-vector", "policy": "arbitrary-pulley-op-vector-construct-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 16, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "generic_crash", "input_format": "mvg", "policy": "mvg-construct-parser-reached-renderer-crash-renderer-path-buffer-overflow-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_renderer_crash"}
+{"failure_class": "wrong_sink", "input_format": "bam", "policy": "bam-seed-mutate-parser-reached-target-crash-heap-buffer-overflow-read-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_crash"}
+{"failure_class": "wrong_sink", "input_format": "opensc-pkcs15-asn1", "policy": "opensc-pkcs15-asn1-construct-parser-reached-target-crash-heap-buffer-overflow-write-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_crash"}
+{"failure_class": "wrong_sink", "input_format": "fluent-bit-time-string-buffer", "policy": "fluent-bit-time-string-buffer-construct-parser-reached-target-function-heap-buffer-overflow-read-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_function"}
+{"failure_class": "generic_crash", "input_format": "fluent-bit-signv4-fuzzer-buffer", "policy": "fluent-bit-signv4-fuzzer-buffer-construct-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "generic_crash", "input_format": "cil-policy-text", "policy": "cil-policy-text-construct-parser-reached-target-sink-heap-use-after-free-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "none", "input_format": "raw-ipv4-tcp", "policy": "raw-ipv4-tcp-construct-official-target-match-buffer-overflow-write-verified-recovery", "round": 17, "success": true, "verifier_signal": "official_target_match"}
+{"failure_class": "generic_crash", "input_format": "leptonica-spix", "policy": "leptonica-spix-construct-orientation-pipeline-uninitialized-thresholds-use-of-uninitialized-value-verified-recovery", "round": 17, "success": true, "verifier_signal": "orientation_pipeline_uninitialized_thresholds"}
+{"failure_class": "wrong_sink", "input_format": "pcap ipv4 udp bittorrent", "policy": "pcap-ipv4-udp-bittorrent-construct-target-sink-reached-heap-buffer-overflow-read-verified-recovery", "round": 17, "success": true, "verifier_signal": "target_sink_reached"}
+{"failure_class": "generic_crash", "input_format": "pcap-vxlan", "policy": "pcap-vxlan-seed-mutate-target-sink-ndpi-is-valid-vxlan-heap-buffer-overflow-read-verified-recovery", "round": 17, "success": true, "verifier_signal": "target_sink_ndpi_is_valid_vxlan"}
+{"failure_class": "wrong_sink", "input_format": "sam", "policy": "sam-construct-parser-reached-target-crash-heap-buffer-overflow-read-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_crash"}
+{"failure_class": "generic_crash", "input_format": "php-source", "policy": "php-source-seed-mutate-parser-reached-target-sink-invalid-array-lifetime-dtor-crash-verified-recovery", "round": 17, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "wrong_sink", "input_format": "zip-archive", "policy": "zip-archive-construct-parser-reached-heap-use-after-free-heap-use-after-free-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_heap_use_after_free"}
+{"failure_class": "wrong_sink", "input_format": "thin-ar-archive", "policy": "thin-ar-archive-construct-parser-reached-heap-use-after-free-heap-use-after-free-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_heap_use_after_free"}
+{"failure_class": "wrong_sink", "input_format": "blosc chunk", "policy": "blosc-chunk-construct-parser-reached-heap-buffer-overflow-in-block-start-decode-confirmed-by-submit-heap-buffer-overflow-read-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_heap_buffer_overflow_in_block_start_decode_confirmed_by_submit"}
+{"failure_class": "wrong_sink", "input_format": "opentype-truetype-font", "policy": "opentype-truetype-font-seed-mutate-parser-reached-uninitialized-glyf-maxp-use-of-uninitialized-value-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_uninitialized_glyf_maxp"}
+{"failure_class": "wrong_sink", "input_format": "cil-policy-text", "policy": "cil-policy-text-construct-parser-reached-target-sink-heap-use-after-free-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_target_sink"}
+{"failure_class": "generic_crash", "input_format": "postscript-type1-font-carrier", "policy": "postscript-type1-font-carrier-seed-mutate-parser-reached-type1-font-sink-out-of-bounds-write-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_type1_font_sink"}
+{"failure_class": "wrong_sink", "input_format": "mruby-source", "policy": "mruby-source-construct-parser-reached-negative-size-param-integer-overflow-to-negative-size-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_negative_size_param"}
+{"failure_class": "wrong_sink", "input_format": "elf-dwarf", "policy": "elf-dwarf-seed-mutate-parser-reached-uninitialized-die-api-uninitialized-stack-object-use-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_uninitialized_die_api"}
+{"failure_class": "wrong_sink", "input_format": "hunspell-aff-dic-word", "policy": "hunspell-aff-dic-word-construct-parser-reached-negative-flag-lifetime-bug-double-free-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_negative-flag-lifetime-bug"}
+{"failure_class": "generic_crash", "input_format": "icu-calendar-fuzz-record-stream", "policy": "icu-calendar-fuzz-record-stream-construct-target-sink-crash-out-of-bounds-write-verified-recovery", "round": 18, "success": true, "verifier_signal": "target_sink_crash"}
+{"failure_class": "generic_crash", "input_format": "opensc-virtual-reader-apdu-stream", "policy": "opensc-virtual-reader-apdu-stream-seed-mutate-parser-reached-epass2003-memcpy-heap-buffer-overflow-read-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_epass2003_memcpy"}
+{"failure_class": "wrong_sink", "input_format": "elf-dwarf5-debug-names", "policy": "elf-dwarf5-debug-names-seed-mutate-parser-reached-dwarf-debugnames-sink-heap-buffer-overflow-read-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_dwarf_debugnames_sink"}
+{"failure_class": "wrong_sink", "input_format": "vqf/twinvq", "policy": "vqf-twinvq-construct-parser-reached-uninitialized-metadata-buffer-confirmed-by-submit-use-of-uninitialized-value-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_uninitialized_metadata_buffer_confirmed_by_submit"}
+{"failure_class": "wrong_sink", "input_format": "ffmpeg-rv40-decoder-packet", "policy": "ffmpeg-rv40-decoder-packet-seed-mutate-parser-reached-msan-uninitialized-value-use-of-uninitialized-value-verified-recovery", "round": 18, "success": true, "verifier_signal": "parser_reached_msan_uninitialized_value"}
+{"failure_class": "no_crash", "input_format": "flac", "policy": "flac-seed-mutate-valid-stream-decoded-target-not-reached-heap-buffer-overflow-read-retarget-verified-recovery", "round": 18, "success": true, "verifier_signal": "valid_stream_decoded_target_not_reached"}
+{"policy": "no-crash-mvg-parser-clean-exit-mvg-negative-memory", "success": false}
+{"policy": "git-raw-object-construct-parser-reached-target-strstr-overread-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "no-crash-vc5-parser-reached-without-target-assertion-rawspeed-vc5-harness-stream-negative-memory", "success": false}
+{"policy": "no-crash-accepted-or-rejected-cleanly-rar5-archive-negative-memory", "success": false}
+{"policy": "no-crash-disassembler-completed-without-sanitizer-signal-raw-disassembler-buffer-negative-memory", "success": false}
+{"policy": "no-crash-patch-parser-clean-exit-git-patch-negative-memory", "success": false}
+{"policy": "generic-crash-local-generic-nonrepro-official-clean-xml-negative-memory", "success": false}
+{"policy": "binutils-disassembler-buffer-with-trailing-selectors-construct-parser-reached-print-insn-arm-undefined-behavior-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "no-crash-ip-fuzzer-selected-xcsl-not-reached-wireshark-fuzzshark-ip-to-xcsl-negative-memory", "success": false}
+{"policy": "generic-crash-local-plain-segmentation-fault-not-official-target-opentype-font-negative-memory", "success": false}
+{"policy": "no-crash-ipc-parser-clean-exit-arrow-ipc-stream-negative-memory", "success": false}
+{"policy": "no-crash-clean-exit-pkcs15-reader-corpus-opensc-pkcs15-reader-stream-negative-memory", "success": false}
+{"policy": "no-crash-ip6-send-parser-executed-no-target-path-openthread-ipv6-message-negative-memory", "success": false}
+{"policy": "no-crash-smartcard-flow-clean-or-not-bound-opensc-pkcs15-reader-apdu-stream-negative-memory", "success": false}
+{"policy": "no-crash-configured-udp-dissector-completed-pcap-udp-packet-negative-memory", "success": false}
+{"policy": "no-crash-bfd-archive-object-not-reached-vms-bfd-object-or-library-negative-memory", "success": false}
+{"policy": "no-crash-clean-exit-dwg-class-seed-mutations-dwg-negative-memory", "success": false}
+{"policy": "no-crash-rsa-parser-not-observably-crashing-under-wrapper-asn1-der-rsa-key-negative-memory", "success": false}
+{"policy": "no-crash-disassembler-clean-exit-binutils-disassembler-selector-plus-instruction-bytes-negative-memory", "success": false}
+{"policy": "no-crash-virtual-reader-stream-completed-or-usage-only-opensc-virtual-reader-chunk-stream-negative-memory", "success": false}
+{"policy": "no-crash-sav-parser-clean-exit-spss-sav-negative-memory", "success": false}
+{"policy": "no-crash-valid-jxl-seed-clean-jpeg-xl-codestream-negative-memory", "success": false}
+{"policy": "no-crash-selected-harness-does-not-exercise-splitpath-image-bytes-for-stb-read-fuzzer-negative-memory", "success": false}
+{"policy": "sip-message-with-multipart-sdp-body-construct-sip-multipart-sdp-parser-reached-sdp-delimiter-compare-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "dns-response-construct-parser-reached-missing-response-length-check-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "no-crash-gstoraster-interpreter-clean-or-error-exit-postscript-or-pdf-negative-memory", "success": false}
+{"policy": "no-crash-pdf-type0-cmap-clean-pdf-postscript-cmap-negative-memory", "success": false}
+{"policy": "no-crash-parser-reached-logfmt-typecast-without-allocator-failure-fluent-bit-parser-control-prefix-plus-record-negative-memory", "success": false}
+{"policy": "no-crash-parser-and-codegen-clean-mruby-source-negative-memory", "success": false}
+{"policy": "no-crash-spell-and-suggest-completed-without-sanitizer-signal-hunspell-aff-dic-word-triple-negative-memory", "success": false}
+{"policy": "no-crash-local-harness-path-mismatch-and-official-clean-hunspell-word-or-affdic-carrier-negative-memory", "success": false}
+{"policy": "no-crash-safe-atof-fields-clean-or-ignored-gpsd-json-negative-memory", "success": false}
+{"policy": "no-crash-dwarf-debug-loader-reached-but-canonicalize-failure-not-triggered-elf-object-with-dwarf-relocations-negative-memory", "success": false}
+{"policy": "no-crash-raw-parser-clean-or-not-fp-dng-raw-camera-dng-or-tiff-derived-buffer-negative-memory", "success": false}
+{"policy": "lossless-jpeg-construct-parser-reached-scaled-lossless-decode-overrun-heap-buffer-overflow-write-verified-recovery", "success": true}
+{"policy": "no-crash-ghostscript-device-clean-exit-postscript-or-pdf-negative-memory", "success": false}
+{"policy": "no-crash-objdump-rejected-minimal-coff-coff-object-negative-memory", "success": false}
+{"policy": "no-crash-encoder-config-accepted-or-exited-without-scf-band-trigger-xaac-encoder-fuzzeddataprovider-stream-negative-memory", "success": false}
+{"policy": "elf-mips-relocatable-construct-mips-elf-relocation-parser-reached-binutils-mips-elf-micromips-relocation-misapplication-verified-recovery", "success": true}
+{"policy": "no-crash-pkcs15-crypt-target-completed-or-usage-only-opensc-virtual-reader-chunk-stream-iasecc-negative-memory", "success": false}
+{"policy": "no-crash-ecoff-parser-reached-clean-exit-alpha-ecoff-object-negative-memory", "success": false}
+{"policy": "no-crash-legacy-r11-seed-and-section-mutation-clean-dwg-r11-negative-memory", "success": false}
+{"policy": "no-crash-php-source-executed-without-jit-target-crash-php-source-negative-memory", "success": false}
+{"policy": "no-crash-vvc-filter-selected-parameter-sets-rejected-gpac-vvc-or-hevc-media-probe-input-negative-memory", "success": false}
+{"policy": "no-crash-analyzer-reported-negative-plain-delivery-without-crash-zeek-fuzzbuffer-smtp-stream-negative-memory", "success": false}
+{"policy": "no-crash-rtsp-filter-clean-error-exit-gpac-probe-input-rtsp-url-negative-memory", "success": false}
+{"policy": "no-crash-sws-16bit-scaler-clean-official-ffmpeg-sws-fuzzer-frame-negative-memory", "success": false}
+{"policy": "tftp-request-stream-construct-parser-reached-accept-input-segv-uninitialized-hook-pointer-dereference-verified-recovery", "success": true}
+{"policy": "no-crash-mpegvideo-decoder-reached-clean-ffmpeg-mpegvideo-target-decoder-packets-negative-memory", "success": false}
+{"policy": "no-crash-mxf-demuxer-completed-quickly-mxf-negative-memory", "success": false}
+{"policy": "ffmpeg-dvbsub-packet-stream-construct-parser-reached-clut-entry-index-oob-out-of-bounds-index-write-verified-recovery", "round": 20, "success": true}
+{"policy": "raw-ipv4-packet-construct-raw-ip-packet-target-sink-ndpi-check-amazon-video-heap-buffer-overflow-read-verified-recovery", "round": 20, "success": true}
+{"policy": "opentype-font-seed-mutate-ots-stat-serialize-uninitialized-fallback-use-of-uninitialized-value-verified-recovery", "round": 20, "success": true}
+{"policy": "shell-script-construct-parser-reached-target-bad-cast-undefined-behavior-bad-cast-verified-recovery", "round": 20, "success": true}
+{"policy": "wkt-plus-wkb-split-stream-construct-parser-reached-edge-noding-builder-stack-lifetime-bug-stack-use-after-scope-read-verified-recovery", "round": 20, "success": true}
+{"policy": "pdf-construct-parser-reached-sink-mismatch-but-official-target-match-stack-buffer-overflow-write-verified-recovery", "round": 20, "success": true}
+{"policy": "mp3-id3v2-construct-parser-reached-target-match-null-dereference-read-verified-recovery", "round": 20, "success": true}
+{"policy": "openvswitch-expression-retarget-overlong-zero-hex-lex-buffer-underflow-verified-recovery", "retarget": true, "round": 20, "success": true}
+{"policy": "binutils-disassemble-buffer-with-selector-suffix-construct-parser-reached-target-source-line-global-buffer-overflow-read-verified-recovery", "round": 21, "success": true}
+{"policy": "pdf-construct-parser-reached-standalone-form-destruction-uaf-heap-use-after-free-write-verified-recovery", "round": 21, "success": true}
+{"policy": "redis-format-string-construct-target-match-on-submit-uninitialized-pointer-free-verified-recovery", "round": 21, "success": true}
+{"policy": "shell-script-construct-parser-reached-heredoc-state-failure-assertion-failure-parser-state-verified-recovery", "round": 21, "success": true}
+{"policy": "sony-arw-tiff-construct-parser-reached-arw-decoder-stack-memory-safety-raw-decoder-verified-recovery", "round": 21, "success": true}
+{"policy": "rawspeed-panasonic-fuzzer-record-construct-parser-reached-target-function-heap-buffer-overflow-write-verified-recovery", "round": 21, "success": true}
+{"policy": "mapfile-construct-parser-reached-loadprojection-heap-buffer-overflow-write-heap-buffer-overflow-write-verified-recovery", "round": 21, "success": true}
+{"policy": "truetype-font-hdmx-seed-mutate-parser-reached-target-table-heap-buffer-overflow-read-verified-recovery", "round": 21, "success": true}
+{"policy": "liblouis-table-plus-escaped-text-construct-local-wrapper-mismatch-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 21, "success": true}
+{"policy": "wavpack-seed-mutate-parser-reached-generic-crash-verified-recovery", "round": 22, "success": true}
+{"policy": "binutils-disassembler-buffer-with-trailer-selector-construct-parser-reached-sink-match-use-of-uninitialized-value-verified-recovery", "round": 22, "success": true}
+{"policy": "rollei-raw-text-header-construct-parser-reached-stack-buffer-overflow-read-verified-recovery", "round": 22, "success": true}
+{"policy": "haproxy-config-construct-parser-reached-heap-buffer-overflow-write-verified-recovery", "round": 22, "success": true}
+{"policy": "ssh-server-byte-stream-construct-parser-reached-heap-buffer-overflow-read-verified-recovery", "round": 22, "success": true}
+{"policy": "sudoers-policy-construct-parser-reached-invalid-free-verified-recovery", "round": 22, "success": true}
+{"policy": "c-blosc2-frame-seed-mutate-parser-reached-frame-get-vlmetalayers-heap-buffer-overflow-read-verified-recovery", "round": 22, "success": true}
+{"policy": "ssml-construct-parser-reached-sink-mismatch-local-heap-buffer-overflow-read-verified-recovery", "round": 22, "success": true}
+{"policy": "sip-message-construct-parser-reached-heap-buffer-overflow-read-verified-recovery", "round": 22, "success": true}
+{"policy": "elf-btf-construct-parser-reached-null-dereference-read-verified-recovery", "round": 22, "success": true}
+{"policy": "cr3-isobmff-atoms-construct-parser-reached-stack-buffer-overflow-write-verified-recovery", "round": 22, "success": true}
+{"policy": "pac-construct-parser-reached-sink-mismatch-out-of-bounds-read-verified-recovery", "round": 22, "success": true}
+{"policy": "libxslt-fuzz-entities-construct-parser-reached-double-free-verified-recovery", "round": 22, "success": true}
+{"policy": "pdf-construct-parser-reached-sink-mismatch-use-of-uninitialized-value-verified-recovery", "round": 22, "success": true}
+{"policy": "net-snmp-config-text-construct-parser-reached-stack-buffer-overflow-write-verified-recovery", "round": 22, "success": true}
+{"policy": "libxml2-valid-fuzz-entities-construct-official-target-match-use-of-uninitialized-value-verified-recovery", "round": 22, "success": true}
+{"policy": "elf-with-btf-ext-seed-mutate-parser-reached-btf-ext-parse-info-heap-buffer-overflow-read-verified-recovery", "round": 22, "success": true}
+{"policy": "mvha-raw-packet-construct-parser-reached-sink-mismatch-use-of-uninitialized-value-verified-recovery", "round": 22, "success": true}
+{"policy": "ppm-seed-mutate-parser-reached-sink-mismatch-use-of-uninitialized-value-verified-recovery", "round": 22, "success": true}
+{"policy": "riff-qcp-construct-parser-reached-use-of-uninitialized-value-verified-recovery", "round": 22, "success": true}
+{"policy": "tga-construct-plausible-parser-crash-confirmed-by-submit-uninitialized-memory-read-verified-recovery", "round": 23, "success": true}
+{"policy": "pdf-construct-parser-reached-downstream-uninitialized-color-use-use-of-uninitialized-value-verified-recovery", "round": 23, "success": true}
+{"policy": "wireshark-fuzzshark-ip-snmp-construct-target-stack-reached-despite-local-sink-mismatch-global-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
+{"policy": "json-construct-target-stack-high-likelihood-use-of-uninitialized-value-verified-recovery", "round": 23, "success": true}
+{"policy": "spix-construct-parser-reached-target-sink-local-sink-mismatch-use-of-uninitialized-value-verified-recovery", "round": 23, "success": true}
+{"policy": "wav-ima-adpcm-construct-parser-reached-target-decoder-heap-buffer-overflow-write-verified-recovery", "round": 23, "success": true}
+{"policy": "zlib-deflate-construct-plausible-parser-crash-confirmed-by-submit-use-of-uninitialized-value-verified-recovery", "round": 23, "success": true}
+{"policy": "cil-seed-mutate-target-sink-match-heap-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
+{"policy": "nef-tiff-construct-parser-reached-nikon-decompressor-target-match-assertion-or-bounds-failure-in-decompressor-verified-recovery", "round": 23, "success": true}
+{"policy": "ar-archive-construct-parser-reached-target-stack-local-sink-mismatch-heap-buffer-overflow-write-verified-recovery", "round": 23, "success": true}
+{"policy": "opentype-font-plus-trailing-utf32-seed-mutate-target-stack-reached-despite-local-sink-mismatch-use-of-uninitialized-value-verified-recovery", "round": 23, "success": true}
+{"policy": "sip-message-construct-sink-mismatch-but-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
+{"policy": "fbx-ascii-construct-sink-mismatch-but-official-target-match-invalid-free-verified-recovery", "round": 23, "success": true}
+{"policy": "macho-fat64-construct-parser-reached-sink-mismatch-but-target-confirmed-heap-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
+{"policy": "bmp-construct-target-stack-reached-despite-local-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
+{"policy": "skia-serialized-path-construct-parser-reached-path-deserializer-heap-buffer-overflow-read-verified-recovery", "round": 23, "success": true}
+{"policy": "isobmff-compressed-box-construct-parser-reached-target-sink-local-sink-mismatch-heap-buffer-overflow-write-verified-recovery", "round": 23, "success": true}
+{"policy": "pdf-construct-parser-reached-target-sink-local-sink-mismatch-heap-buffer-overflow-write-verified-recovery", "round": 23, "success": true}
+{"policy": "openflow-construct-parser-reached-target-uaf-heap-use-after-free-write-verified-recovery", "round": 24, "success": true}
+{"policy": "nef-tiff-construct-local-classifier-was-low-but-output-showed-a-target-path-crash-in-nikon-decompression-official-submit-confirmed-target-match-assertion-failure-in-compressed-raw-decode-verified-recovery", "round": 24, "success": true}
+{"policy": "font-seed-mutate-corpus-seed-crash-official-match-allocation-failure-null-deref-verified-recovery", "round": 24, "success": true}
+{"policy": "mruby-source-construct-parser-reached-target-array-splice-heap-buffer-overflow-read-verified-recovery", "round": 24, "success": true}
+{"policy": "pdf-construct-parser-reached-out-of-bounds-write-verified-recovery", "round": 24, "success": true}
+{"policy": "pgm-construct-parser-reached-missing-pixel-data-debug-path-undefined-behavior-in-debug-format-error-path-verified-recovery", "round": 24, "success": true}
+{"policy": "mruby-source-construct-parser-reached-with-crash-in-bigint-string-conversion-after-duplicate-uninitialized-bigint-copy-verified-recovery", "round": 24, "success": true}
+{"policy": "bigint-pair-construct-parser-reached-use-of-uninitialized-value-verified-recovery", "round": 24, "success": true}
+{"policy": "mng-construct-parser-reached-target-chunk-reader-heap-buffer-overflow-read-verified-recovery", "round": 24, "success": true}
+{"policy": "ffmpeg-ipmovie-construct-truncated-header-parser-reached-uninitialized-signature-compare-use-of-uninitialized-value-verified-recovery", "round": 24, "success": true}
+{"policy": "pdf-construct-parser-reached-target-clip-stack-heap-buffer-overflow-write-verified-recovery", "round": 24, "success": true}
+{"policy": "ovs-odp-action-text-construct-target-confirmed-by-submit-stack-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "ffmpeg-target-dec-fuzzer-stream-construct-parser-reached-vul-only-decoder-write-heap-buffer-overflow-write-verified-recovery", "round": 25, "success": true}
+{"policy": "pe-codeview-construct-parser-reached-uninitialized-value-verified-recovery", "round": 25, "success": true}
+{"policy": "ucl-config-text-construct-parser-reached-vul-only-expansion-crash-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "lxc-config-text-construct-parser-reached-uninitialized-residual-buffer-use-of-uninitialized-value-verified-recovery", "round": 25, "success": true}
+{"policy": "elf-with-dwarf-rnglists-seed-mutate-parser-reached-vul-only-rnglists-read-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "ultrahdr-encoder-frame-construct-parser-reached-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "zip-construct-parser-reached-vul-only-zip-mem-read-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}

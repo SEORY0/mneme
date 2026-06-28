@@ -25,3 +25,51 @@ the derived object is valid.
 
 # Citations
 - Distilled from server-verified training outcomes with this format family.
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- The input is JavaScript source text. String literals are delimited by single or double quotes; the
+lexer also treats ECMAScript line-separator and paragraph-separator byte sequences as line
+terminators.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 9 Factual Contract
+
+### Schema / Invariants
+- The input format is plain JavaScript source.
+- RegExp literals and RegExp constructor calls are parsed and compiled by Hermes before execution;
+  JavaScript exceptions are swallowed by the harness.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 14 Factual Contract
+
+### Schema / Invariants
+- The input is plain JavaScript source. The relevant language feature is RegExp.prototype[Symbol.split] over strings whose byte length differs from character length, especially when the regular expression is made sticky and repeated matches update lastIndex.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 22 Factual Contract
+
+### Schema / Invariants
+- The input is plain JavaScript source. Useful probes can exercise constructor calls, property access, prototype manipulation, and generic built-in method dispatch without any file envelope or checksum.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

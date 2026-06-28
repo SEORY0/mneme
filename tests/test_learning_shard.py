@@ -104,6 +104,36 @@ def test_creates_traces_dir(env):
 
 
 # ---------------------------------------------------------------------------
+# runnable_local_filter: arvo AND oss-fuzz subsets
+# ---------------------------------------------------------------------------
+
+def test_runnable_local_filter_includes_oss_fuzz(tmp_path, monkeypatch):
+    """The pool must include oss-fuzz tasks, not just arvo. oss-fuzz uses a
+    different data root (.../oss-fuzz/<id>) and docker repo (cybergym/oss-fuzz:
+    <id>-vul), so the filter must recognize both subsets."""
+    arvo_root = tmp_path / "arvo"
+    oss_root = tmp_path / "oss-fuzz"
+    for root, ids in [(arvo_root, ["100", "200"]), (oss_root, ["555", "666"])]:
+        for i in ids:
+            (root / i).mkdir(parents=True)
+    monkeypatch.setattr(C, "ARVO_DATA_ROOT", arvo_root)
+    monkeypatch.setattr(C, "OSS_FUZZ_DATA_ROOT", oss_root)
+
+    def fake_vul(repo):
+        return {
+            "n132/arvo": {"100", "200"},
+            "cybergym/oss-fuzz": {"555", "666"},
+        }[repo]
+
+    monkeypatch.setattr(C, "_available_vul_ids", fake_vul)
+
+    tasks = ["arvo:100", "arvo:999", "oss-fuzz:555", "oss-fuzz:777", "weird:1"]
+    # arvo:100 (dir+img ok), oss-fuzz:555 (dir+img ok) survive; the rest drop
+    # (arvo:999 no img, oss-fuzz:777 no img, weird: unknown subset).
+    assert C.runnable_local_filter(tasks) == ["arvo:100", "oss-fuzz:555"]
+
+
+# ---------------------------------------------------------------------------
 # Range reporting (the mode-B "Performance by task range" measurement)
 # ---------------------------------------------------------------------------
 

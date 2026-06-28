@@ -24,3 +24,14 @@ assumption while still providing enough payload to enter decompression.
 
 # Citations
 - Distilled from server-verified training outcomes with this format family.
+
+## Round 6 Factual Contract
+
+### Schema / Invariants
+- The direct RawSpeed decompressor fuzzer consumes little-endian scalar image metadata, component count, CFA dimensions and CFA entries, followed by a Fuji compressed header parsed big-endian and per-block compressed payloads. Valid Fuji gates include supported dimensions, one or more fixed-width blocks, matching rounded width, supported bit depth/type, and total-lines matching image height.
+
+### Harness Links
+- [[afl-libfuzzer-wrapper]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.

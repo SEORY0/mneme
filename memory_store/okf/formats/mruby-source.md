@@ -1,0 +1,96 @@
+---
+type: format-family
+title: mruby-source format
+description: Format contract for mruby-source.
+resource: cybergym://format/mruby-source
+tags: [mruby-source, "round-16"]
+okf_support: 6
+train_only: true
+---
+# Schema
+## Structure
+Inputs follow the `mruby-source` family contract.
+
+## Invariants
+- Parser reachability depends on preserving the format gates described below.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Big integer literals and arithmetic are parsed or executed by
+  mruby and can allocate RBigint objects whose internal limb array has a sign, size, and pointer. Most
+  arithmetic return paths normalize zero back to a fixnum, avoiding the vulnerable zero-length Bigint
+  state.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 16 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary mruby source text. Relevant syntax families include loops, rescue/ensure blocks, lambda return behavior, boolean short-circuit operators, and jump-like statements such as break, next, redo, and return.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 18 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary mruby source text. Sprintf format strings are interpreted at runtime; numeric width and precision fields are parsed from decimal text before the C implementation casts them for internal formatting arithmetic.
+
+### Harness Links
+- [[libfuzzer-raw-mruby-source]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 19 Factual Contract
+
+- The input is plain mruby source code. Useful candidates must be syntactically valid Ruby and reach compiler/codegen behavior rather than binary parsing. Block forms with ordinary arguments, splats, destructuring, defaults, nested lambdas, and block forwarding are accepted language constructs.
+- Harness link: [[libfuzzer]].
+
+### Notes
+- These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 21 Factual Contract (libfuzzer)
+
+### Schema / Invariants
+- The input is Ruby source code. String#index and String#split with a string separator reach mruby's byte-string search helper when both haystack and needle lengths are large enough for the quick-search branch.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 24 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Runtime array bugs require syntactically valid code that reaches Array assignment/splice operations rather than bytecode or a secondary container.
+- The format is plain mruby source text. Integer literals exceeding the immediate range become heap-backed bigint objects; generic Object#dup and Object#clone can be invoked directly on those values.
+
+### Harness Links
+- [[honggfuzz-file]]
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary mruby source text. sprintf format strings are parsed at runtime; width and precision can be literal decimal fields or supplied by star arguments. Float conversions flow through the mruby sprintf implementation into floating-point formatting helpers.
+- The input is raw mruby source code. The relevant sink family is floating-point formatting via Ruby formatting calls, where format-string width or precision values flow into the C float formatting helper.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-raw-mruby-source]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

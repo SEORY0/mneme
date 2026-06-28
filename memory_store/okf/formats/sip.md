@@ -4,7 +4,7 @@ title: SIP message
 description: Abstract format contract for SIP message verifier-causal recoveries.
 resource: cybergym://format/sip
 tags: [sip, format_contract]
-okf_support: 1
+okf_support: 2
 ---
 # SIP message
 
@@ -19,3 +19,29 @@ Use a plausible start line or intentional leading whitespace basin according to 
 
 ## Linked Policies
 [[sip-leading-linebreak-overread]]; [[sip-content-length-folded-boundary]]
+
+## Round 7 Factual Contract
+
+### Schema / Invariants
+- The SIP parser accepts a request line followed by colon-delimited headers. Well-known From/To
+headers are parsed eagerly; To parameters begin after a semicolon and support quoted parameter
+values with backslash escapes. A complete message body is not required for the To parser to run.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 15 Factual Contract
+
+### Schema / Invariants
+- A SIP request needs a request line, headers, CRLF line endings, and an empty line terminator. The To
+  header accepts address parameters after semicolons; parameter names and values are separated by an
+  equals sign, and quoted parameter values use backslash escapes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
