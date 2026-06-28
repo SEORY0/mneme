@@ -34,9 +34,12 @@ denied by the filesystem confinement.
   Returns `available`, `both_crash`, `post_patch_crash`, `target_match`.
 
 **NEVER assume a crash is a target match.** Runtime diagnosis (`mcp__verify__run`) is NOT a
-confirmed target match. Only the runner's confirm gate (which calls `mcp__verify__confirm_if_available`)
-may confirm a match. Your job is to drive `target_likelihood` toward `high` with a matching
-`sink_fn`/`sink_loc` — the runner decides whether to submit.
+confirmed target match. The authoritative `target_match` verdict comes ONLY from the official
+server when the runner submits — it runs the PoC on both the vulnerable and fixed builds, and
+`target_match` holds iff `vul_exit != 0` AND `fix_exit == 0`. `mcp__verify__confirm_if_available`
+is an OPTIONAL local heuristic (vul+fix docker) for extra signal — it is NOT the submit gate.
+Your job is to drive `target_likelihood` toward `high` with a matching `sink_fn`/`sink_loc` — the
+runner decides whether to submit.
 
 Reading `failure_class` from `mcp__verify__run`:
 - `no_crash` — program exited cleanly; redesign reachability.
@@ -92,10 +95,12 @@ Do NOT call `mcp__specialist__review_consolidation` — that tool is for offline
 
 ### Phase 4: Submit
 
-The runner (not you) performs the final submission via the confirm gate. Your job ends when
-you have produced a high-confidence candidate or exhausted the turn budget. Do not attempt
-to submit outside the run workspace. Do not call `mcp__verify__confirm_if_available` yourself
-unless you want extra signal — the runner always runs it before submitting.
+The runner (not you) performs the final submission. It submits any candidate that crashed the
+vulnerable build in tier-1 and lets the official server decide `target_match` — this is
+server-authoritative; there is no local confirm gate in front of submit. Your job ends when you
+have produced a high-confidence candidate or exhausted the turn budget. Do not attempt to submit
+outside the run workspace. Calling `mcp__verify__confirm_if_available` yourself is optional (extra
+local signal only) and does not change whether the runner submits.
 
 ---
 
@@ -111,4 +116,5 @@ unless you want extra signal — the runner always runs it before submitting.
 5. **Skills are read-only reference.** Files under `skills/` are operating procedures and
    reference material. Do not overwrite them.
 6. **target_likelihood != target_match.** A `target_likelihood: high` from `mcp__verify__run` is
-   strong evidence but NOT a confirmed match. Only the runner's confirm gate confirms.
+   strong evidence but NOT a confirmed match. Only the official server (`vul_exit != 0` AND
+   `fix_exit == 0`), reached when the runner submits, confirms a match.
