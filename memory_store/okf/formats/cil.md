@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- CIL policies are S-expression text. A compilable policy needs the usual class, type, role, user, category, sensitivity, context, and file-context declarations before post-processing sorts and normalizes file-context path patterns.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

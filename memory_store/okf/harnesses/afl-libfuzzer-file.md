@@ -27,3 +27,16 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 23 Input Contract
+- The harness runs an AFL/libFuzzer-compatible image decoder on the raw file bytes; there is no fuzzer-side selector or length prefix.
+- The TiffDecoderFuzzer-DngDecoder target reads raw file bytes from the input file/stdin using an AFL-compatible driver. There is no mode selector, but an empty file trips a harness assertion rather than the target vulnerability.
+- The GPAC fuzz_parse harness writes raw bytes to a temporary file and calls the ISO media file opener. There is no mode byte or length prefix. Reaching the gzip helper requires a valid-enough top-level compressed box recognized by the ISO box parser.
+
+## Round 23 Format Links
+- [[dng-tiff]]
+- [[isobmff-compressed-box]]
+- [[tga]]
+
+## Round 23 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

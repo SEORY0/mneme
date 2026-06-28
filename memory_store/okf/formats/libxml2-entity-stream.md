@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input starts with a native integer parser-options word, followed by repeated URL/entity string pairs. Each string is terminated by a backslash-newline marker and literal backslashes are escaped by doubling. The first URL/entity pair is the main XML document, and later pairs are available to the external entity loader by URL.
+
+### Harness Links
+- [[afl-libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

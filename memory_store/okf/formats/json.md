@@ -80,3 +80,14 @@ recursive descent reaches the unbounded depth.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- ArduinoJson accepts standalone JSON string inputs. Escaped unicode sequences inside quoted strings are decoded by the deserializer before the resulting codepoint is encoded as UTF-8.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

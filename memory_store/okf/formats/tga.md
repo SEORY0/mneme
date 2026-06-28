@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- TGA parsing accepts a compact header with image type selecting raw or RLE true-color data, little-endian dimensions, pixel depth, descriptor bits, and then pixel packets. RLE packets carry a run marker/count byte followed by one source pixel that is replicated according to pixel depth.
+
+### Harness Links
+- [[afl-libfuzzer-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

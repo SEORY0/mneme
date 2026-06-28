@@ -17,3 +17,14 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- NGINX Unit configuration is a JSON object with top-level members such as listeners, routes, applications, and upstreams. Listener object keys and upstream server object keys are parsed as socket addresses. Addresses beginning with a colon have an empty host part before the port separator.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

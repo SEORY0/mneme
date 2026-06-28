@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The uncompress harness expects a zlib-wrapped deflate stream. Fixed-Huffman blocks can encode literals, length symbols, distance symbols, and an end marker without dynamic table setup; the problematic distance symbols are only useful when paired with a length code that reaches the back-reference copy path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

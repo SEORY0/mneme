@@ -29,3 +29,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- BMP starts with a file header, a DIB info header, optional color table for palette-bearing depths, and bitmap data at the declared bitmap-data position. In this bug class, the color table length is inferred from the declared bitmap-data position; a far declaration with a short file can make the palette reader walk past the real input.
+
+### Harness Links
+- [[libfuzzer-mupdf-document-renderer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

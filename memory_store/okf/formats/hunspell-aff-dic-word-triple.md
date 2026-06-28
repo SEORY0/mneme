@@ -64,3 +64,14 @@ The input represents three logical files: the word to check, an affix file, and 
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The input is a three-part carrier: a front word length byte and word bytes, followed by an affix file and a dictionary file split evenly from the remaining bytes. The dictionary begins with an entry count; the affix half can enable UTF-8, TRY tables, replacement/map tables, and compound rules.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

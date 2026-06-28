@@ -271,3 +271,16 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- PDF inputs need a loadable catalog, pages tree, and page content or other renderable object before the fuzzer exercises stream construction during page rendering. Stream objects use dictionary-declared lengths followed by stream data and terminators; xref consistency helps keep seed mutations loadable.
+- A minimal PDF only needs catalog, pages, one page, a content stream, and resource dictionaries. Function-based shadings load a shading dictionary with a color space and a Function object, then sample the function into an internal table before page rendering. Type-2 exponential functions accept Domain, Range, C0, C1, and N arrays/scalars.
+- A compact PDF can trigger page rendering with only catalog, pages, one page, a content stream, and a page resources dictionary. PDF path operators can define a rectangle, mark it as the current clipping path, and end the path; repeating that sequence accumulates clip nesting during page interpretation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

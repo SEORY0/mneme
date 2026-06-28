@@ -29,3 +29,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- A PE image needs an MZ header, an e_lfanew pointer to the PE signature, a COFF header, an optional header, data directories, and a section table. YARA's PE module maps RVAs through section virtual addresses, raw data offsets, raw sizes, and file alignment.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- DXF is a line-oriented group-code/value format. The relevant GDAL path parses entities such as LEADER and computes BSpline control points from data points, degree, and tangent information; an environment/config limit bounds the maximum generated control points.
+
+### Harness Links
+- [[libfuzzer-vsimem-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

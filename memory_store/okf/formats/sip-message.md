@@ -42,3 +42,14 @@ line. This parser path scans those leading separators before normal message-line
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- SIP messages are text records with a request/status line followed by CRLF-delimited headers. A request needs a method, URI, version, and enough conventional headers to pass early message parsing before optional or malformed trailing headers are examined.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

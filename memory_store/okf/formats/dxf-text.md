@@ -33,3 +33,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- DXF is a line-oriented group-code/value format. For SPATIAL_FILTER, group codes can set a clip vertex count and 2D clip vertex coordinates; matrix-like fields also use repeated scalar group codes. LibreDWG's DXF reader dispatches object fields through dynapi metadata.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-wrapper]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

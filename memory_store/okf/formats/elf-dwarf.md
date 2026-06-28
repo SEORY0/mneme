@@ -29,3 +29,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The input must be a complete object/debug file with ELF section metadata, debug_info, debug_abbrev, and related DWARF sections. DWARF DIE attributes are interpreted according to abbreviation-table form descriptors; changing a reference form without keeping the DIE stream coherent may simply make traversal skip or reject the entry.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

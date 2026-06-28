@@ -42,3 +42,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The target transform fuzzer expects a valid JPEG stream, reads image dimensions and subsampling from the header, and performs several lossless transform operations including progressive/copy-none, transpose/crop/gray, rotation with arithmetic coding, and an optimized variant.
+
+### Harness Links
+- [[libfuzzer-libjpeg-turbo-transform]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

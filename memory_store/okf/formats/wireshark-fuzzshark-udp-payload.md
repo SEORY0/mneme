@@ -28,3 +28,14 @@ okf_support: 0
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The described packet-gsm_rlp bug concerns a frame whose declared or derived length causes FCS computation to read beyond the captured tvbuff length. A valid trigger would need the dissector-specific framing that selects GSM RLP and then a length/FCS relation that exceeds captured bytes.
+
+### Harness Links
+- [[honggfuzz-fuzzshark]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

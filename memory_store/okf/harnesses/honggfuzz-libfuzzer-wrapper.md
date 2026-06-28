@@ -18,3 +18,14 @@ train_only: true
 
 ## Round 12 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 23 Input Contract
+- The raw input is format-dispatched by prefix: DWG starts with an AC signature, JSON starts with an opening brace, and other inputs are copied with null termination and parsed as DXF text. After reading, the harness may serialize the drawing to one of several output formats.
+- The harness consumes raw bytes front-to-back with fixed-size memcpy operations. It chooses a locale from the first field, calls createDateTimeInstance with the two style fields and formats immediately, then treats the remaining bytes as a skeleton for two createInstanceForSkeleton calls.
+
+## Round 23 Format Links
+- [[dxf-text]]
+- [[icu-date-format-fuzzer-bytes]]
+
+## Round 23 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

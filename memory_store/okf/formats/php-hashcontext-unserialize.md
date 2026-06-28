@@ -21,3 +21,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input is split at a separator. Bytes before the separator become the data passed to hash_update, and bytes after the separator are a PHP serialized value. HashContext unserialization expects an array-like payload with algorithm, options, internal hash state, magic value, and object members.
+
+### Harness Links
+- [[libfuzzer-directory-wrapper]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

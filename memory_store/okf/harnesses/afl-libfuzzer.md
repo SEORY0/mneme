@@ -21,3 +21,12 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 23 Input Contract
+- The libxml2 XML fuzzer reads the option word, builds the entity map, parses the main entity through pull parsing, push parsing, and reader parsing, and runs XInclude processing after pull/push parses when the XInclude option is enabled. The reader path may also invoke XInclude processing on nodes. There is no raw XML-only input; missing the entity envelope prevents the main document from being parsed.
+
+## Round 23 Format Links
+- [[libxml2-entity-stream]]
+
+## Round 23 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

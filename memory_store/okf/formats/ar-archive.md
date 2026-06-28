@@ -32,3 +32,14 @@ signed decimal text and immediately allocates and writes a terminator based on i
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- An ar archive has a global magic followed by fixed-width text member headers. Member sizes are decimal text fields and archive members are copied according to the declared size even when the member is not recognized as a normal object by BFD.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

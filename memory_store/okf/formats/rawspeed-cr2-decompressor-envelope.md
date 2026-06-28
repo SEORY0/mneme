@@ -29,3 +29,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- This fuzzer does not consume a camera CR2 file. It expects a little-endian synthetic envelope containing raw-image width, height, image type, component count, CFA flag, slice count, regular slice width, last-slice width, then a lossless-JPEG-like compressed stream.
+
+### Harness Links
+- [[libfuzzer-rawspeed-cr2-decompressor]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

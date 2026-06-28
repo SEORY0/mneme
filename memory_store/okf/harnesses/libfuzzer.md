@@ -1577,3 +1577,61 @@ Splash font path code is reached.
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 23 Input Contract
+- The libFuzzer harness feeds raw PDF bytes to Poppler's raw-data loader, then walks and renders pages. There is no leading mode byte or FuzzedDataProvider split.
+- The MuPDF fuzzer consumes raw PDF bytes from memory, opens them as a PDF stream, renders every page to an RGB pixmap, and treats sanitizer findings during load or rendering as crashes. There is no outer byte carving or length prefix.
+- The harness consumes three little-endian signed 16-bit fields from the front for angle and rotation center values, then passes the remaining bytes to Leptonica pixReadMem before applying pixRotateShear.
+- The harness feeds raw bytes directly to pixReadMemSpix. If that succeeds it runs connected-component border extraction and display helpers; no mode selector or back-loaded fields are used.
+- The json_fuzzer passes the entire input buffer directly to the JSON parser; no prefix, mode byte, checksum, or external container is required.
+- The pix4 fuzzer passes raw input bytes directly to the SPIX reader. After a successful parse, it runs a fixed sequence of Leptonica pix operations and calls the color-map histogram-in-rectangle helper; there is no mode byte or secondary container.
+- The libFuzzer harness exposes the raw file through libsndfile virtual IO, opens it for reading, allocates a float frame buffer based on reported channels, and repeatedly reads one frame. There is no extra byte carving.
+- The uncompress_fuzzer passes the raw input to miniz uncompress with the same bytes serving as zlib header and compressed payload. The output capacity is derived from the first input bytes, so choosing a normal zlib header also gives a nonzero destination buffer.
+- The secilc libFuzzer harness treats the input as raw CIL source bytes, adds it as a policy file, compiles and builds the policy database, then exercises optimization/write paths. There is no byte carving or FuzzedDataProvider layout.
+- The selected fuzzer is ip6-send. The first input byte selects whether otIp6NewMessage creates a secure message; the remaining bytes are appended as an IPv6 packet and submitted through otIp6Send on an initialized leader-mode instance.
+- The RawSpeed decoder fuzzer consumes raw file bytes as an in-memory TIFF-like file. It constructs the NEF decoder, calls raw decoding, and catches normal parser exceptions; sanitizer crashes and assertions during decompressor setup or execution still terminate the vulnerable build.
+- The harness compiles a fixed YARA rule importing the PE module and scans the raw input buffer with no selector byte, file wrapper, or FuzzedDataProvider carving. The rule compares rva_to_offset of the first section's virtual address with that section's raw-data offset.
+- The fuzzer writes raw input bytes to a memfd used as the database file, then runs a fixed gdbmtool command script. The fuzz bytes are not shell commands; the script opens the memfd-backed database and executes operations including sequential first/next traversal.
+- The binary is curl_fuzzer_http and consumes the PoC as raw fuzzer input. It is not the curl command-line tool, and simple CLI strings are treated as fuzzer bytes rather than process arguments.
+- The objcopy fuzzer writes raw bytes to a temporary input file, initializes BFD, and invokes objcopy's copy routine with a temporary output file. There is no input carving; BFD and objcopy parse the raw archive/file directly.
+- The harness consumes the first byte as the spell-check word length, writes that many bytes as the word, splits all remaining bytes equally into temporary aff and dic files, constructs a Hunspell dictionary, calls spell, and calls suggest only when the word is not accepted.
+- The parser fuzzer passes the raw SIP message bytes directly to parse_msg; there is no file envelope, selector byte, or checksum. The final line need not be terminated by an extra delimiter for the parser to inspect it.
+- The selected target is fuzz_nm. It feeds raw bytes as a temporary file to BFD/nm-style symbol listing. Archive members may be inspected, but the fuzz bytes are otherwise a raw object or archive file with no leading harness selector.
+- The assimp_fuzzer passes the entire input buffer directly to Importer::ReadFileFromMemory. The model importer is selected from the raw content; no additional fuzzer prefix is needed.
+- The harness writes raw bytes to a temporary file, calls dwarf_init_b on the file descriptor, and then queries macro details only if initialization succeeds. No input bytes are carved by the harness.
+- This is not the raw ExoPlayer FLAC parser despite a similarly named source file in the tree. The harness embeds flac main(), parses fuzzer-provided arguments from the front of the buffer, writes the rest to a temporary file, appends that file name to argv, and runs the tool.
+- The harness passes the raw bytes directly to SkReadBuffer, calls readPath, returns if the buffer becomes invalid, then draws the resulting path on a small raster surface.
+- The harness writes raw bytes to a temporary file and invokes upx with decompression and an output path inside a catch-all wrapper. There is no mode selector; all parsing is driven by UPX's file-format detection.
+- The actual binary is fuzz_findfuncbypc. It writes the raw bytes to a temporary file, opens them with dwarf_init_path, and walks compile units and DIEs looking for a target program-counter range. It is not the die-cu-attrs harness.
+- The fuzzer uses FuzzedDataProvider: it consumes an output-format selector from the front, then passes all remaining bytes as the compressed JPEG-R buffer. A later floating-point value is requested after the remaining bytes are consumed, so the main carrier must be in the remaining byte segment.
+- The fuzz_json target parses the raw input as a complete JSON configuration string and then runs configuration validation. There is no mode byte or external length field; inputs outside the harness size bounds are ignored before parsing.
+- The oss-fuzz MuPDF PDF fuzzer consumes raw PDF bytes, opens the input as a PDF document stream, counts pages, and renders each page to an RGB pixmap. There is no outer file wrapper beyond the PDF itself.
+
+## Round 23 Format Links
+- [[ar-archive]]
+- [[bfd-object-or-archive]]
+- [[cil]]
+- [[elf-dwarf]]
+- [[fbx-ascii]]
+- [[flac-tool-input]]
+- [[gdbm-database]]
+- [[http-response-stream]]
+- [[hunspell-aff-dic-word-triple]]
+- [[ipv6-udp-coap-meshcop-tlv]]
+- [[jpeg-r-ultrahdr]]
+- [[json]]
+- [[macho-fat64]]
+- [[nef-tiff]]
+- [[pdf]]
+- [[pe]]
+- [[sip-message]]
+- [[skia-serialized-path]]
+- [[spix]]
+- [[tiff-ojpeg-image]]
+- [[unit-json-config]]
+- [[upx-packed-macho]]
+- [[wav-ms-adpcm]]
+- [[zlib-deflate]]
+
+## Round 23 Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

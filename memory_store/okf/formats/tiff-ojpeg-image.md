@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 23 Factual Contract
+
+### Schema / Invariants
+- The target image family is TIFF with JPEG or old-JPEG compression metadata. Reaching the old-JPEG path requires more than changing the compression scheme; strip or JPEG offset and byte-count metadata must remain coherent with the embedded compressed data.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
