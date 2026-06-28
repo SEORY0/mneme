@@ -35,3 +35,16 @@ okf_support: 8
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `use-after-free-read`
+- observed: 8 traces; solved: 8 (illustrative — not for ranking)
+- top input_formats: mosquitto-config-text (2), data-url (1), openpgp-signed-message (1), pdf (1), php-script (1), shell-script (1), wkt-plus-wkb-split-stream (1)
+- top harnesses: libfuzzer (6), libfuzzer-execute (1), libfuzzer-url-parser (1)
+- observed strategies: construct (6), seed-mutate (2)
+- collapsed aliases: heap-use-after-free-read, stack-use-after-scope-read
+<!-- END observed-census -->

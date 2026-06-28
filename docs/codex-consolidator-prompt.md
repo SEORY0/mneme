@@ -21,6 +21,10 @@ Execute IN ORDER, then stop and report:
    memory_store/memory_stats.jsonl.
 3. PERSISTENT failures → negative-memory policies keyed by final_failure_class ×
    verifier_signal.
+3b. TAXONOMY CENSUS (deterministic, descriptive): run
+   `.venv/bin/python scripts/learning/build_taxonomy.py --through-round $ROUND` to refresh
+   `okf/vuln-classes/` & `okf/strategies/` + index links from all traces so far. NOT
+   verifier-gated, NOT fed into memory_stats. (Output is covered by the step-8 git add.)
 4. Run `.venv/bin/python scripts/audit_leak.py memory_store/okf` — must print nothing.
 5. RETARGET CHECK: re-solve 3-5 of THIS round's FAILED tasks with the updated memory via
    gen/verify/submit into runs/cons_<safe_task>; keep edits that flip failed→solved.
@@ -128,6 +132,13 @@ Process traces in a single coherent pass (no concurrency here — that's the poi
      if absent; add a `## harnesses` section to `okf/index.md`.
    - Merge into existing files (don't duplicate); keep abstract (no task ids/bytes/offsets); do
      NOT append success rows for these (they carry no success/failure — they are facts, not policies).
+4b. **TAXONOMY CENSUS (deterministic, descriptive — like the range report).** Run
+   `.venv/bin/python scripts/learning/build_taxonomy.py --through-round $ROUND`. It normalizes
+   every trace's `vuln_class` / `candidate_family` (via `mneme.vocab`) onto canonical keys and
+   refreshes a marker-delimited `## Observed census` block in `okf/vuln-classes/<class>.md` and
+   `okf/strategies/<strategy>.md` (hand-authored prose OUTSIDE the markers is preserved), plus the
+   index links. It is NOT verifier-gated and is NEVER written into `memory_stats.jsonl` ranking —
+   same grade as the formats/harnesses breadth channel; runs are idempotent.
 5. `redact_for_promotion` on EVERY edited text. Verify no leakage:
    `.venv/bin/python scripts/audit_leak.py memory_store/okf` (must print nothing).
 

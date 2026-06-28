@@ -36,3 +36,16 @@ okf_support: 7
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `heap-buffer-overflow-write`
+- observed: 52 traces; solved: 28 (illustrative — not for ranking)
+- top input_formats: ar-archive (3), pdf (2), aac-usac (1), arrow-ipc-stream (1), bootp-dhcp-dns-name (1), caf-alac (1), dng (1), dwg (1)
+- top harnesses: libfuzzer (31), afl (2), afl-fuzzshark (1), afl-libfuzzer (1), afl-libfuzzer-compatible (1), afl-libfuzzer-file (1), afl-libfuzzer-file-wrapper (1), afl-style-libfuzzer-wrapper (1)
+- observed strategies: construct (41), seed-mutate (11), seed-replay (1), seed-sweep (1)
+- collapsed aliases: stack-or-heap-buffer-overflow-write
+<!-- END observed-census -->

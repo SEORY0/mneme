@@ -31,3 +31,15 @@ okf_support: 1
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `use-after-poison-read`
+- observed: 1 traces; solved: 1 (illustrative — not for ranking)
+- top input_formats: tiff-srw (1)
+- top harnesses: libfuzzer (1)
+- observed strategies: construct (1)
+<!-- END observed-census -->

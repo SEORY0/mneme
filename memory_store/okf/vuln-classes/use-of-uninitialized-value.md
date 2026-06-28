@@ -40,3 +40,16 @@ okf_support: 32
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `use-of-uninitialized-value`
+- observed: 164 traces; solved: 35 (illustrative — not for ranking)
+- top input_formats: pdf (12), hevc-elementary-stream (4), ffmpeg-target-decoder-frame (3), spix (3), capstone-disasm-selector-plus-bytes (2), ipv4-tcp-tls (2), opentype-font (2), opentype-truetype-font (2)
+- top harnesses: libfuzzer (107), libfuzzer-ffmpeg-target-decoder (8), file-parser (2), libfuzzer-ffmpeg-demuxer (2), libfuzzer-msan (2), libfuzzer-raw-pdf-renderer (2), oss-fuzz-run-poc-ffmpeg-target-decoder (2), afl-libfuzzer-compatible (1)
+- observed strategies: construct (119), seed-mutate (45), seed-replay (5), analysis-only (2), seed-sweep (2), tiny-probe (2), other (1)
+- collapsed aliases: assertion-failure-or-uninitialized-read, memory-uninitialized-use, miniz-distance-copy-uninitialized-value, null-or-uninitialized-font-state, out-of-bounds-read-or-uninitialized-read, progressive-jpeg-uninitialized-read, tls-certificate-printable-string-uninitialized-memory, undefined-behavior-uninitialized-value, uninitialized-bigint-copy, uninitialized-buffer-read, uninitialized-field-use, uninitialized-hook-pointer-dereference, uninitialized-memory, uninitialized-memory-fuzzer-only-canvas-flag-misuse, uninitialized-memory-read, uninitialized-null-device-after-allocation-failure, uninitialized-opacity-channel, uninitialized-or-invalid-alpha-handling, uninitialized-or-out-of-bounds-read, uninitialized-or-wrong-class-pixel-use, uninitialized-pixel-read-or-oob-rect, uninitialized-pointer-free, uninitialized-pointer-use, uninitialized-read, uninitialized-size-or-state, uninitialized-stack, uninitialized-stack-object-use, uninitialized-stack-read, uninitialized-stack-struct-use, uninitialized-state-after-serialization-failure, uninitialized-value, uninitialized-value-use, uninitialized-video-buffer, use-of-uninitialized-configuration, use-of-uninitialized-memory, use-of-uninitialized-or-invalid-memory
+<!-- END observed-census -->

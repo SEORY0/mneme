@@ -31,3 +31,15 @@ okf_support: 1
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `global-buffer-overflow-read`
+- observed: 13 traces; solved: 7 (illustrative — not for ranking)
+- top input_formats: gif (2), aac-sbr-fuzzer-buffer (1), aac-xaac-decoder-stream (1), binutils-disassemble-buffer-with-selector-suffix (1), elf-crx-object (1), elf-gnu-debuglink (1), gsmtap-udp (1), libxaac-encoder-fuzzed-provider (1)
+- top harnesses: libfuzzer (7), afl-style-fuzzshark-ip (1), file-cli (1), honggfuzz-file (1), libfuzzer-binutils-disassembler (1), libfuzzer-fuzzed-data-provider (1), libfuzzer-xaac-decoder (1)
+- observed strategies: construct (10), seed-mutate (2), analysis-only (1)
+<!-- END observed-census -->

@@ -1,0 +1,18 @@
+---
+type: strategy
+title: seed replay
+tags: [seed-replay]
+generated: taxonomy-census
+---
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `seed-replay`
+- observed: 16 traces; solved: 1 (illustrative — not for ranking)
+- top vuln_classes: other (5), use-of-uninitialized-value (5), heap-buffer-overflow-read (1), heap-buffer-overflow-write (1), invalid-free (1), out-of-bounds-read (1), undefined-behavior (1), use-after-free (1)
+- top input_formats: opentype-font-subset-input (2), aac-usac (1), arrow-ipc-stream (1), elf-dwarf-object (1), ffmpeg-wtv (1), heif (1), icc-profile (1), imagemagick-wpg-or-image-encoder-input (1)
+- collapsed aliases: seed-replay-and-construct, seed-replay-and-trailer-mutation, seed-replay-pkcs15-reader-corpus, seed-replay-raw-samples-with-config-tail
+<!-- END observed-census -->

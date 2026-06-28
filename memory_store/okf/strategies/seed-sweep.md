@@ -29,3 +29,15 @@ binary inputs. Highest yield on complex container formats.
 - Winning strategies (observed): {'seed-sweep': 23}
 - Format families (observed): {'pcap': 3, 'xml': 6, 'pdf': 2, 'tiff': 1, 'chunked-image': 1, 'isobmff': 2}
 - Abstract sink shapes (observed): double-free:?, heap-buffer-overflow:READ, heap-buffer-overflow:WRITE, use-of-uninitialized-value:?
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `seed-sweep`
+- observed: 29 traces; solved: 1 (illustrative — not for ranking)
+- top vuln_classes: other (11), out-of-bounds-read (6), use-after-free (3), use-of-uninitialized-value (2), buffer-overflow-write (1), heap-buffer-overflow (1), heap-buffer-overflow-read (1), heap-buffer-overflow-write (1)
+- top input_formats: opentype-font (3), opensc-virtual-reader-chunk-stream (2), postscript-pdf (2), aac-usac-mps (1), arrow-ipc (1), av1-ivf (1), dwg (1), elf-dwarf (1)
+- collapsed aliases: construct-and-seed-sweep, construct-then-seed-sweep, seed-sweep-and-construct
+<!-- END observed-census -->

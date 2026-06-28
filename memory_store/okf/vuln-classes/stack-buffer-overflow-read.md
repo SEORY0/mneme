@@ -34,3 +34,15 @@ okf_support: 2
 
 # Citations
 - Distilled from train-set solves of this crash class + the atomic vulnerability library (task-agnostic).
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `stack-buffer-overflow-read`
+- observed: 14 traces; solved: 10 (illustrative — not for ranking)
+- top input_formats: ovs-odp-action-text (2), rollei-raw-text-header (2), ipv4-gre-ieee80211 (1), ipv4-tcp-http (1), ipv4-tcp-http-response (1), javascript-source (1), libredwg-json (1), mvg (1)
+- top harnesses: libfuzzer (10), afl-file (1), fuzzshark-ip (1), libfuzzer-ndpi-process-packet (1), libfuzzer-whole-buffer-libraw (1)
+- observed strategies: construct (14)
+<!-- END observed-census -->

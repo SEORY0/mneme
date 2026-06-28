@@ -31,3 +31,15 @@ where hand-counting offsets is error-prone.
 - Winning strategies (observed): {'construct': 11}
 - Format families (observed): {'chunked-image': 1, 'json': 1, 'cff2-font': 1, 'yara-rules': 1, 'sip-text': 1, 'text-expr': 1, 'media-container': 3, 'md3-model': 1, 'pdf': 1}
 - Abstract sink shapes (observed): heap-buffer-overflow:READ, heap-buffer-overflow:WRITE, heap-use-after-free:READ, stack-overflow:?, undefined-behavior:?, use-after-poison:READ, use-of-uninitialized-value:?
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `construct`
+- observed: 927 traces; solved: 256 (illustrative — not for ranking)
+- top vuln_classes: other (242), heap-buffer-overflow-read (147), use-of-uninitialized-value (119), out-of-bounds-read (84), use-after-free (46), heap-buffer-overflow-write (41), out-of-bounds (37), null-pointer-dereference (25)
+- top input_formats: pdf (47), mruby-script (16), json (11), elf (9), mruby-source (9), mvg (8), opensc-virtual-reader-chunk-stream (8), php-script (8)
+- collapsed aliases: construct-and-seed-from-geos-cases, construct-and-seed-informed, construct-and-seed-mutate, construct-and-seed-probe, construct-and-seed-sweep, construct-archive-carrier, construct-asn1-and-chunked-reader, construct-asn1-and-reader-chunks, construct-carrier-wrap, construct-cil-policy-text, construct-cli-commands, construct-config, construct-disassembler-frame, construct-elf-debug-addr-section, construct-elf-stub, construct-from-assembler-instruction-bytes, construct-from-description, construct-from-repo-examples, construct-geometry-radius, construct-html-allocator-limit, construct-icc-desc-tag, construct-ieee1905-message, construct-ini, construct-json-token-shapes, construct-l2cap-and-udp-encapsulation-probes, construct-long-line, construct-mach-o-headers-and-load-commands, construct-minimal-elf-marker, construct-minimal-shared-string-script, construct-mips-elf-relocation, construct-mruby-block-argument-programs, construct-negative-control, construct-patch-ipc-metadata, construct-pcap-rsh-candidate, construct-pdf-and-postscript-probes, construct-pdf-object-stream, construct-pdf-page-annotation, construct-pdf-render-features, construct-pdf-repair-graph, construct-postscript (+31 more)
+<!-- END observed-census -->
