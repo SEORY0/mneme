@@ -68,3 +68,14 @@ blocks; recovery code may scan around a slid b_info location when metadata is in
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The target UPX path requires an ELF file that is accepted as a UPX-packed Linux ELF. The described invariant is in unpacking: the ELF program header count must be sufficient for code that assumes multiple program headers.
+
+### Harness Links
+- [[libfuzzer-file-command-wrapper]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

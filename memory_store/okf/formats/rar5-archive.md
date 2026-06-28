@@ -17,3 +17,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- RAR5 archives start with a signature and then CRC-protected variable-length block headers. File blocks carry flags, optional extra/data size fields, host and compression metadata, and a variable-length filename field.
+
+### Harness Links
+- [[libfuzzer-libarchive-reader]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

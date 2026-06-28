@@ -49,3 +49,14 @@ ZIP carriers require consistent local headers and central-directory entries. For
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- ZIP readers locate the EOCD by scanning backward, then read central-directory size, central-directory offset, entry count, and per-file central-directory headers. Central-directory entries include file metadata and a local-header offset; local headers are validated before extraction.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

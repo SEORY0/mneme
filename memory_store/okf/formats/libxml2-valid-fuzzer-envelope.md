@@ -31,3 +31,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The libxml2 valid fuzzer envelope starts with parser options and an allocation-failure limit, then escaped URL/content string pairs terminated by a backslash-newline sentinel. The first pair is the main document and later pairs can satisfy external entity or DTD requests.
+
+### Harness Links
+- [[libfuzzer-or-wrapper-selected-libxml2-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

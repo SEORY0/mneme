@@ -91,3 +91,14 @@ recursive descent reaches the unbounded depth.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The JSON gate is raw JSON text. The relevant parser state is inside quoted strings after a backslash-u escape, especially when input ends during a Unicode escape or after a high-surrogate transition.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

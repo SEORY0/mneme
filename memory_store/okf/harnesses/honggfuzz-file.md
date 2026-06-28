@@ -45,3 +45,14 @@ okf_support: 5
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 25 Input Contract
+- The active target accepts a whole file as UART bytes for cli-uart-received-fuzzer under a honggfuzz-style wrapper. It initializes an OpenThread instance, passes copied bytes to the UART receive hook, then processes tasklets. There is no FuzzedDataProvider layout.
+- The honggfuzz-style wrapper passes the entire file as bytes to fuzz-read-print-write. The harness copies data into an Exiv2 DataBuf and opens it as an image; no selector byte, or provider-carved layout is present.
+
+## Round 25 Format Links
+- [[openthread-cli-uart-or-ip6-message]]
+- [[exiv2-image-metadata-container]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

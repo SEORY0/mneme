@@ -20,3 +20,14 @@ signal-name parser that recognizes ordinary signal names and realtime signal for
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- LXC config input is line-oriented key/value text. Time namespace offset keys parse a signed integer prefix and a residual unit suffix; accepted unit names include short time units that are later trimmed and compared as strings.
+
+### Harness Links
+- [[libfuzzer-tempfile]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -21,3 +21,14 @@ device internally.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The relevant structure is a PDF font ToUnicode CMap or equivalent PostScript CMap with codespace and bfchar/bfrange entries. Malformed range arrays can be syntactically accepted while leaving the conversion logic with inconsistent range cardinality.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

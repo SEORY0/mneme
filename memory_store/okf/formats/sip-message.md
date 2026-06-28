@@ -53,3 +53,14 @@ line. This parser path scans those leading separators before normal message-line
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- SIP input starts with a request/status line, required routing headers such as Via, then header fields terminated by an empty line and optional body bytes. Content-Length parsing accepts horizontal whitespace and continuation-line whitespace around numeric text.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -31,3 +31,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- DXF is parsed as group-code/value records. Header variables live in a HEADER section; summary metadata can include custom property tags and values, where a tag allocates a property slot and a later value initializes the paired value field.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

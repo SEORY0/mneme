@@ -1680,3 +1680,77 @@ Splash font path code is reached.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 25 Input Contract
+- The libFuzzer target wraps the raw input with an in-memory file, requires the container header read to succeed, initializes the AV1 decoder, then repeatedly reads IVF frames and drains decoded images. There is no FuzzedDataProvider carving or mode selector.
+- The fuzzer passes the whole input as a C string only if it has at least one payload byte, a final NUL terminator, and no newline. The same string is tried as key text and action text; there is no binary netlink envelope, or provider-carved layout.
+- The harness is the FFmpeg targeted decoder fuzzer for the Tiertex codec. It is not a container demuxer: raw input bytes before a delimiter become an AVPacket, while trailing context bytes initialize AVCodecContext fields before avcodec_open2.
+- libFuzzer passes raw bytes directly. The harness requires a minimum size, assigns the data prefix to disassemble_info.buffer, derives target selectors from a suffix, and calls one decoded instruction printer if the selected architecture is known.
+- The libFuzzer target passes the entire input byte string directly to the JSON decoder as a Variant. There is no file wrapper, checksum, or external mode byte; all reachability is controlled by JSON token structure and the Variant/ExtensionObject fields.
+- The libFuzzer harness feeds the whole file bytes into BFD by way of a temporary file. There is no stdin protocol or FuzzedDataProvider carving; the bytes must form whatever BFD top-level format is needed to reach the inner object parser.
+- The harness copies the raw libFuzzer input into a nul-terminated request body and runs the PHP parser/execute fuzzer on it. There is no byte carving or FuzzedDataProvider layout; normal PHP opening and closing tag state transitions determine lexer mode.
+- The source harness casts raw libFuzzer bytes to a char buffer and calls json_tokener_parse_ex with the exact byte length. In this generated run, local verify did not actually exercise that parser because the wrapper treated the supplied path as an invalid corpus argument.
+- The libFuzzer target rejects very small inputs, extracts the architecture controls from the end of the buffer, looks up a BFD architecture/machine pair, then repeatedly invokes the selected disassembler over the leading byte buffer.
+- libFuzzer passes the PoC file bytes directly to LLVMFuzzerTestOneInput. The harness rejects only empty input, creates a default UCL parser, calls ucl_parser_add_string with the raw data and size, then checks the parser error before freeing the parser.
+- libFuzzer raw bytes are passed directly to coap_pdu_parse as a UDP PDU. The harness then queries URI/path helpers, prints the PDU, re-encodes the header, and frees derived strings.
+- The libFuzzer target ignores tiny inputs, opens the raw bytes with an in-memory FILE, initializes the sudoers parser, parses once, then reinitializes parser state and closes the memory stream. It does not load sudo plugins from sudo.conf.
+- The harness feeds raw bytes into a p11_buffer, initializes the mock module, and calls the RPC server handler directly. There is no outer transport framing beyond the RPC message itself; repository seeds under the fuzz corpus are valid starting points.
+- The libredwg LLVM fuzzer autodetects raw bytes as DWG, JSON, or DXF. Non-DWG/non-JSON data is passed to the DXF reader, then the harness may encode/write/free the parsed Dwg_Data object.
+- The libFuzzer target passes the entire input directly to Assimp's ReadFileFromMemory with standard post-processing enabled. There is no harness-level carving; importer selection and secondary file opening are controlled entirely by model syntax.
+- The harness copies the entire input to a newly NUL-terminated string, opens an mruby VM, loads and executes the source, then closes the VM. There is no file header, selector byte, or provider carving.
+- The decoder fuzzer consumes the last option word from the end of the input and decodes the preceding bytes as JPEG XL. The callback path calls the image-output callback setter with the selected JxlPixelFormat; the buffer path performs size validation first.
+- libFuzzer raw bytes are copied into a NUL-terminated buffer, split on the first two newlines, parsed as two projections, then transformed using either textual or binary coordinates if both projections initialize.
+- The Kamailio fuzzer feeds raw bytes directly to parse_msg, then exercises SDP, Contact, Refer-To, To, PAI, Diversion, and Privacy header parsing before freeing the sip_msg structure.
+- The gstoraster fuzzer feeds the raw input to Ghostscript as a document stream. Reaching the target requires not just a standalone CMap, but document processing that asks the PDF font machinery to consume ToUnicode data.
+- The libFuzzer harness initializes nDPI once, allocates a flow, calls ndpi_detection_process_packet with the whole byte buffer and its size, then gives up detection and frees the flow. No outer pcap header or provider-carved fields are used by this target.
+- The effective target is the PHP execute fuzzer, which runs a source file as a PHP request. There is no byte carving; the raw file contents are the script.
+- The libFuzzer target consumes the whole file as image data for a selected ImageMagick encoder fuzzer. There is no leading selector in the PoC file itself; the wrapper chooses the target binary outside the input bytes.
+- The harness writes the raw input to a temporary file, initializes libdwarf from that file, loads rnglists contexts, then iterates offset entries and range-list entries. Bare rnglists bytes are not sufficient; a valid ELF/DWARF carrier reaches the target parser.
+- The LibreDWG fuzzer detects DWG by an AC prefix, JSON by an object prefix, and otherwise treats raw NUL-terminated input as DXF text. After reading, it writes the decoded drawing to one of several output formats.
+- The harness consumes control scalars through FuzzedDataProvider and then uses remaining bytes as short strings or binary payloads. Reaching the target likely requires aligning terminal scalar consumption with serializer buffer-length changes.
+- The available source shows fuzzshark's FUZZ_EPAN mode feeds the raw input as a packet buffer with an unknown encapsulation rather than reading a pcap file. The run directory for this task lacks verifier configuration because generation fails during repository extraction.
+- The libFuzzer target passes the raw text into GPAC's probe/analyze filter session. Unsupported schemes are handled as ordinary file names; supported RTSP schemes cause filter graph construction and RTSP session initialization.
+- The harness creates a RawImage from the prefix, reads the signed slice-width vector, constructs Cr2Decompressor over the remaining ByteStream, allocates image data, decodes, and checks initialization. It catches RawSpeed exceptions, so only sanitizer faults or uncaught crashes count.
+- The fuzz target feeds raw bytes as a string when the input length is within the configured bounds, calls evalPluralCase with a fixed numeric value, catches parser/operation exceptions, and returns normally unless sanitizer instrumentation detects the helper falling through.
+- The FFmpeg demuxer fuzzer feeds the raw bytes to the MLV demuxer through libavformat. The target first validates the main MLV header, creates streams based on header class and frame counts, then scans primary and possible secondary block streams.
+- The active libFuzzer binary is ffmpeg_dem_WTV_fuzzer. It feeds the whole file through a custom AVIO context to the WTV demuxer; there is no trailing filename/options envelope for this demuxer-specific build.
+- The miniz zip fuzzer treats the raw input as an in-memory ZIP archive, initializes the ZIP reader, iterates non-directory files, validates headers, reads filenames and file stats, and attempts extraction for stored or deflated entries. There is no extra harness carving.
+- The MVC decoder fuzzer takes raw bytes, derives architecture/core/color controls from fixed positions when present, decodes headers, allocates output buffers, then repeatedly calls frame decode until data is consumed or decode fails.
+
+## Round 25 Format Links
+- [[ivf-av1]]
+- [[ovs-odp-action-text]]
+- [[ffmpeg-target-dec-fuzzer-stream]]
+- [[binutils-disassembler-buffer]]
+- [[opcua-json-variant]]
+- [[bfd-archive-or-tekhex]]
+- [[php-source]]
+- [[json]]
+- [[raw-disassembler-buffer]]
+- [[ucl-config-text]]
+- [[coap-udp-pdu]]
+- [[sudoers-policy-text]]
+- [[p11-kit-rpc-message]]
+- [[dxf]]
+- [[assimp-model]]
+- [[mruby-source]]
+- [[jpeg-xl-codestream-with-fuzzer-footer]]
+- [[proj-parameter-lines]]
+- [[sip-message]]
+- [[pdf-or-postscript]]
+- [[raw-packet-payload]]
+- [[imagemagick-wpg-or-image-encoder-input]]
+- [[elf-with-dwarf-rnglists]]
+- [[dxf-text]]
+- [[ndpi-serialization-fdp]]
+- [[wireshark-fuzzshark-raw-frame]]
+- [[gpac-filelist-url]]
+- [[rawspeed-cr2-decompressor-fuzzer-stream]]
+- [[plural-expression]]
+- [[mlv]]
+- [[ffmpeg-wtv]]
+- [[zip]]
+- [[h264-annex-b-mvc]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

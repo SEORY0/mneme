@@ -20,3 +20,14 @@ Exiv2 opens raw bytes through ImageFactory and then reads, prints, structures, a
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The Exiv2 read-print-write target opens the whole byte buffer through ImageFactory, reads metadata, prints Exif/IPTC/XMP entries, prints several structure views, and writes metadata. Supported carriers include image metadata containers such as JPEG/EXIF, TIFF-like formats, PNG chunks, and BMFF/QuickTime structures.
+
+### Harness Links
+- [[honggfuzz-file]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

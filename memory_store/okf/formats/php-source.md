@@ -30,3 +30,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The input is PHP source text. Ordinary reserved words in identifier-capable grammar positions carry identifier metadata; the short echo opener can produce the same token kind without that metadata. Namespace import aliases, function names, class/member names, and trait alias constructs are candidate identifier contexts.
+- The input is PHP source text. Recursive arrays can be created by assigning references into arrays and then passing the array by reference to the sort function. Regular PHP opening tags and statement syntax are required for the execute fuzzer.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

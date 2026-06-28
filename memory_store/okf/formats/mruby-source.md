@@ -81,3 +81,16 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary mruby source text. sprintf format strings are parsed at runtime; width and precision can be literal decimal fields or supplied by star arguments. Float conversions flow through the mruby sprintf implementation into floating-point formatting helpers.
+- The input is raw mruby source code. The relevant sink family is floating-point formatting via Ruby formatting calls, where format-string width or precision values flow into the C float formatting helper.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-raw-mruby-source]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

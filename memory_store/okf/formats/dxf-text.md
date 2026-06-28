@@ -44,3 +44,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- DXF is a line-oriented group-code/value format with SECTION and ENDSEC delimiters. OBJECTS sections can contain dictionaries and index-like objects referenced by handle-valued group pairs.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

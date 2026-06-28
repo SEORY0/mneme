@@ -18,3 +18,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The target expects an IVF-style AV1 decode stream: a container header is read first, then frame records are iterated and each frame payload is passed to the AV1 decoder. Historical decoder seeds in the corpus are useful for reaching the parser, but they do not necessarily enable loop filtering or the target frame geometry.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

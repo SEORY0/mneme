@@ -28,3 +28,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- Arrow IPC stream inputs use the Arrow streaming/file container with schema messages followed by record batch metadata and buffers. Parser reachability depends on preserving FlatBuffer metadata consistency with the message body and buffer layout.
+
+### Harness Links
+- [[afl-file]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

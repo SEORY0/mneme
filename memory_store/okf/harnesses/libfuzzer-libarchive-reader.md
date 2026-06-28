@@ -22,3 +22,12 @@ train_only: true
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 25 Input Contract
+- The libarchive fuzzer treats raw bytes as an archive stream, enables broad filter and format support, opens memory input, iterates archive headers, queries entry metadata, reads entry data, and then frees the archive reader.
+
+## Round 25 Format Links
+- [[rar5-archive]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

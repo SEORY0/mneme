@@ -23,3 +23,12 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 25 Input Contract
+- The fuzzer copies raw bytes into a NUL-terminated string, opens an mruby interpreter, loads the string as source code, closes the interpreter, and frees the copied source.
+
+## Round 25 Format Links
+- [[mruby-source]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

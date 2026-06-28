@@ -20,3 +20,14 @@ The PROJ standard fuzzer input is source projection text, destination projection
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The standard PROJ fuzz input is three newline-separated fields: source projection definition, destination projection definition, and coordinates. Projection definitions are plus-prefixed parameter strings parsed by pj_init_plus.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

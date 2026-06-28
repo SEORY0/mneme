@@ -27,3 +27,14 @@ Inputs follow the `ovs-odp-action-text` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- OVS ODP action text is comma-delimited C-string action syntax. The push_nsh action accepts named fields including metadata type and an md2 hexadecimal metadata field. The md2 text is decoded to bytes, padded to word alignment, and serialized into a nested action attribute.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

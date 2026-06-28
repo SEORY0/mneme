@@ -25,3 +25,16 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 25 Input Contract
+- The binutils wrapper writes raw bytes to a temporary file and opens them through BFD. BFD recognizes the PE container and reaches debug-directory handling from the file bytes.
+- The binutils objdump-style wrapper writes raw input to a temporary file and lets BFD identify the object format. Ambiguous SH COFF recognition can stop before the target relocation handler is applied.
+- The UPX fuzzers write raw bytes to a temporary file and invoke UPX test/list/decompress command paths. Plain ELF-like carriers without a valid packed UPX structure are typically rejected before the unpacking code.
+
+## Round 25 Format Links
+- [[pe-codeview]]
+- [[coff-sh-object]]
+- [[upx-packed-elf]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

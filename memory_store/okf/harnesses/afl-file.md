@@ -88,3 +88,12 @@ options once, then parses the buffer in parse-only mode.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 25 Input Contract
+- The active target is an AFL-style file/stdin harness for arrow-ipc-stream-fuzz. It consumes the whole file as an IPC stream; there is no leading selector or FuzzedDataProvider carving.
+
+## Round 25 Format Links
+- [[arrow-ipc-stream]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

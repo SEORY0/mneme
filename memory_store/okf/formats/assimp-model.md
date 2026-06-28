@@ -42,3 +42,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The harness accepts raw model bytes without an extension and relies on signature or content-based importer detection. Collada XML and Wavefront OBJ both reach import code; external resource references are the relevant path because the cleanup filter only runs when importers try to open secondary files.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

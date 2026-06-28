@@ -49,3 +49,14 @@ Preserve the selector that reaches the target disassembler, then use an instruct
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 25 Factual Contract
+
+### Schema / Invariants
+- The input is not an object file. It is a raw instruction byte buffer followed by a fixed-size control trailer. The trailer selects disassembler flavour, machine, and architecture; the remaining leading bytes are read as instruction memory.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

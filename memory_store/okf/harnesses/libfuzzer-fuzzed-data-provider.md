@@ -23,3 +23,12 @@ train_only: true
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 25 Input Contract
+- The libFuzzer target uses FuzzedDataProvider-style consumption for scalar controls and generated buffers. The effective image data is constructed in memory by the harness, so successful inputs must satisfy the harness control contract rather than file magic or container checks.
+
+## Round 25 Format Links
+- [[ultrahdr-encoder-frame]]
+
+## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

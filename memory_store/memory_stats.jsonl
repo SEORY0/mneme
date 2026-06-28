@@ -497,3 +497,11 @@
 {"policy": "mng-construct-parser-reached-target-chunk-reader-heap-buffer-overflow-read-verified-recovery", "round": 24, "success": true}
 {"policy": "ffmpeg-ipmovie-construct-truncated-header-parser-reached-uninitialized-signature-compare-use-of-uninitialized-value-verified-recovery", "round": 24, "success": true}
 {"policy": "pdf-construct-parser-reached-target-clip-stack-heap-buffer-overflow-write-verified-recovery", "round": 24, "success": true}
+{"policy": "ovs-odp-action-text-construct-target-confirmed-by-submit-stack-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "ffmpeg-target-dec-fuzzer-stream-construct-parser-reached-vul-only-decoder-write-heap-buffer-overflow-write-verified-recovery", "round": 25, "success": true}
+{"policy": "pe-codeview-construct-parser-reached-uninitialized-value-verified-recovery", "round": 25, "success": true}
+{"policy": "ucl-config-text-construct-parser-reached-vul-only-expansion-crash-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "lxc-config-text-construct-parser-reached-uninitialized-residual-buffer-use-of-uninitialized-value-verified-recovery", "round": 25, "success": true}
+{"policy": "elf-with-dwarf-rnglists-seed-mutate-parser-reached-vul-only-rnglists-read-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "ultrahdr-encoder-frame-construct-parser-reached-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "zip-construct-parser-reached-vul-only-zip-mem-read-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
