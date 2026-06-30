@@ -22,3 +22,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is not a raw AAC stream. It is a FuzzedDataProvider-driven encoder input: scalar configuration chooses bitrate, MPS/ADTS/ES switches, TNS/noise flags, PCM word size, channel count, sample rate, frame length, AOT, USAC/SBR-related flags, DRC enablement, codec mode, loudness fields, and stream id. The remaining front bytes are then consumed as encoder input buffers or as fill values for process iterations.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

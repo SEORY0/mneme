@@ -53,3 +53,15 @@ The input is a raw HEVC byte stream, not a container. The decoder recognizes Ann
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The useful input is a raw HEVC elementary stream, not a container. Start-code-delimited VPS, SPS, PPS, and VCL NAL units must remain coherent enough to open the HEVC decoder and reach frame reconstruction. Streams that exercise SAO edge filtering and picture-size relationships are stronger carriers than generic valid samples or arbitrary truncation.
+
+### Harness Links
+- [[libfuzzer-ffmpeg-target-dec-fuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

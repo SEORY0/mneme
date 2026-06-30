@@ -297,3 +297,15 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- Classic PDF xref tables consist of a header, subsections, fixed-width numeric entry fields with an in-use/free marker, a trailer dictionary, and a startxref pointer back to the xref section. Early xref processing can be reached with a very small document when those structural gates are coherent.
+
+### Harness Links
+- [[libfuzzer-qpdf]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

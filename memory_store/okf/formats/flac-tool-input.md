@@ -19,3 +19,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The useful carrier is a valid native FLAC stream: stream marker, STREAMINFO, optional SEEKTABLE and other metadata, then decodable audio frames. The trigger depends on a fixed or LPC-coded frame where predictor order and residual metadata remain coherent for the original frame but become inconsistent after the post-seek blocksize adjustment.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

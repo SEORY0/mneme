@@ -23,3 +23,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The direct PKCS#15 decoder accepts a top-level constructed private-key choice. The object body contains common object attributes, common key attributes with an identifier and usage bit field, an optional private-key subclass section carrying a subject-name sequence, and a required type-specific key-attribute section such as RSA path and size data. Definite-length DER-like constructed fields are enough; a full smart-card transcript is not required for this harness.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -16,3 +16,15 @@ okf_support: 1
 
 ## Round 21 Notes (upx-packed-elf)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The GPAC fuzz harness writes the raw input bytes to a temporary file and opens it with the ISO media reader in dump/read mode. There is no leading mode selector and no FuzzedDataProvider splitting; the payload must be a file-like MP4/BMFF object that reaches gf_isom_open_file.
+
+### Format Links
+- [[isobmff-mp4]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

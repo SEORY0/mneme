@@ -23,3 +23,15 @@ train_only: true
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The fuzz target installs a virtual OpenSC reader, binds a PKCS#15 card, then consumes two additional chunks as operation input and parameter buffers before iterating all PKCS#15 objects through decrypt, derive, unwrap/wrap, signature, and PIN operations. Coolkey is reached through APDU-speaking card-driver matching; normal PKCS#15 file probes occur before synthetic Coolkey emulation and consume APDU response chunks. The combined-object route stores object data during card initialization, avoiding later direct object-data reads.
+
+### Format Links
+- [[opensc-coolkey-reader-chunks]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

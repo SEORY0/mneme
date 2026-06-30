@@ -67,3 +67,15 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The XML parser accepts an internal DTD subset before the document element. Element declarations and attribute-list declarations are processed during parsing, and default attributes are stored as grouped name/type/value metadata before being applied to the element.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

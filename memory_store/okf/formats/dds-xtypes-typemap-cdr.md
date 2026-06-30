@@ -18,3 +18,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is an XCDR2-serialized DDS XTypes TypeMapping. It contains delimited sequences for minimal identifier-object pairs, complete identifier-object pairs, and complete-to-minimal identifier mappings. Hash TypeIdentifiers must stay consistent with their serialized TypeObject bytes for the add-type-object path to accept the pair. Complete and minimal identifiers are paired by value comparison before the harness builds proxy type information.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

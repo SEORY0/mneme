@@ -19,3 +19,15 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- SSH server inputs are raw client-side socket byte streams: a text identification line followed by binary SSH transport packets. Each cleartext packet carries a network-order packet length, a padding-length byte, payload bytes beginning with an SSH message type, and padding chosen so the packet aligns to the pre-key block size. KEXINIT payloads contain a cookie, ten SSH name-list strings, a first-packet-follows flag, and a reserved word; many later fields are SSH strings with network-order lengths.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

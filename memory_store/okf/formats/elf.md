@@ -64,3 +64,15 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- A minimal ELF carrier for this path needs a valid ELF header, section-header table, section-name string table, ordinary string table, executable/content section, and a SHT_SYMTAB entry whose sh_link points at the string table and whose entry size matches the ELF class. The crucial invariant is that the symbol table can be present and sized plausibly for upper-bound computation while its bytes are not actually readable when BFD canonicalizes symbols.
+
+### Harness Links
+- [[libfuzzer-afl-objdump-file-wrapper]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

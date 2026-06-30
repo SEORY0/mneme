@@ -94,3 +94,15 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is plain mruby source text. Parser reachability depends on valid Ruby syntax; integer literals outside the compact immediate ranges are emitted through wider integer opcodes during code generation. Method bodies and local assignments are useful carriers because they create temporary registers and later local moves that can trigger peephole rewrites.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

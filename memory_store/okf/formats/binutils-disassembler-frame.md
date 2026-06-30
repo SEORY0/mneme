@@ -20,3 +20,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- This harness input is a disassembler-control frame: leading bytes form the disassembler option string, another leading region is copied as target-private data, the middle region is the instruction stream, and trailing control bytes select flavour, chunking, and machine mode. It does not parse ELF, PE, or any other binary container.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

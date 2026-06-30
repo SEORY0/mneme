@@ -38,3 +38,15 @@ train_only: true
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The active runner used the decompression fuzzer: it writes raw input bytes to a temporary file and invokes the UPX decompression command path with an output file argument, then deletes both temporary files. The input must be accepted as UPX-packed before the unpacker runs; ordinary ELF files are reported as not packed. There is no FuzzedDataProvider carving or mode selector in the bytes.
+
+### Format Links
+- [[upx-packed-elf]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

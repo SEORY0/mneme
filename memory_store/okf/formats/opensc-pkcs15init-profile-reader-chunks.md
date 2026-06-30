@@ -19,3 +19,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is split at the first NUL byte. The prefix is OpenSC profile configuration text. The suffix is a virtual smart-card reader stream made of little-endian two-byte chunk lengths followed by chunk bodies. The first chunk is the card ATR used for driver selection. Later chunks are APDU responses; status words are stored at the end of each response chunk and response bodies precede them. The AuthentIC profile defines a PKCS#15 application DF, PKCS#15 metadata EFs, and private-key/public-key/certificate templates. The private-key template ACL methods directly affect both SDO ACL serialization and later PKCS#15 access-rule synthesis.
+
+### Harness Links
+- [[libfuzzer-opensc-pkcs15init]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

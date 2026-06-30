@@ -71,3 +71,15 @@ from the in-memory frame.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- A c-blosc2 frame has a msgpack header with magic, frame length, total uncompressed/compressed sizes, type size, chunk size, codec flags, filter pipeline, and metalayer index, followed by sequential Blosc chunks, an offsets/index chunk, and a msgpack trailer. Embedded Blosc chunks may use the extended chunk header when both shuffle flags are present; in that form, the block-start table follows the filter metadata. Each block then contains one or more compressed streams, each introduced by a signed cbytes token; negative token values encode run-filled streams.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

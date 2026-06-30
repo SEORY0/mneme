@@ -20,3 +20,15 @@ The decoder input family is H.264 Annex-B style SVC bitstream data. Relevant inp
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is a raw H.264/SVC Annex-B byte stream. NAL units are delimited by start codes; the NAL header selects non-VCL types such as filler/AUD/SEI and VCL slice types. The SVC parser removes the NAL header, byte-swaps/removes emulation bytes into an internal non-VCL arena, and stores a small aligned header before each saved RBSP. SEI RBSP begins with payload type and payload size fields; content-color-volume SEI can make the decoder's bitreader consume fields beyond the declared payload size when the surrounding RBSP remains long enough.
+
+### Harness Links
+- [[honggfuzz-wrapper]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

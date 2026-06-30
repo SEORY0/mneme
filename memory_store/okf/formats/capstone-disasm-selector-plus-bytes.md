@@ -30,3 +30,15 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is a Capstone disassembler fuzz stream, not an object file. It consists of a platform selector followed by raw instruction bytes for the selected architecture and mode. For the PPC path, the instruction bytes are interpreted as big-endian PowerPC code and only need to decode as at least one valid instruction to reach the post-printer.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

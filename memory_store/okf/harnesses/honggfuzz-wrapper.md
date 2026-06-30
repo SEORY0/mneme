@@ -39,3 +39,15 @@ okf_support: 3
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The target is a honggfuzz-style standalone wrapper that reads one raw file and calls the SVC decoder fuzzer. The same raw bytes are also used for early harness selectors for color format, core count, architecture, and target layer; there is no FuzzedDataProvider carving. The fuzzer first decodes headers, allocates output buffers, then repeatedly calls decode on the same byte stream shape. A clean run still prints the honggfuzz usage banner, so sanitizer output and submit results are the reliable signal.
+
+### Format Links
+- [[h264-annexb-svc]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

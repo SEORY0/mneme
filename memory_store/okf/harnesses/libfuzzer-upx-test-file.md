@@ -17,3 +17,15 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The libFuzzer target writes the raw input bytes to a temporary file and invokes UPX test mode on that file through the normal command path. There is no fuzzer-side prefix, selector, length trailer, or FuzzedDataProvider layout; parser reachability requires a complete packed executable recognized by UPX.
+
+### Format Links
+- [[upx-packed-elf]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

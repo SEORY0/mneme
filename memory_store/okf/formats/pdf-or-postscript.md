@@ -32,3 +32,15 @@ device internally.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- Ghostscript accepts raw PostScript jobs and complete PDF documents. Useful PDF carriers need a catalog, pages tree, page, resources, content stream, and renderable operators. Spot-color state can be introduced through PDF Separation color spaces in page resources, through PostScript setpagedevice SeparationColorNames, PageSpotColors, MaxSeparations, and SeparationOrder, or through PDF page scanning that writes SeparationColorNames and PageSpotColors to the device. Transfer functions can be supplied by PostScript settransfer or setcolortransfer, or by PDF ExtGState transfer entries.
+
+### Harness Links
+- [[libfuzzer-ghostscript-psdcmyk]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

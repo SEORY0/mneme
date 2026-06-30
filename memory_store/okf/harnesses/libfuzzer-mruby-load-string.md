@@ -42,3 +42,15 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The libFuzzer harness copies the entire raw input into a newly NUL-terminated buffer, opens a fresh mruby state, calls mrb_load_string on that source, closes the state, and frees the copy. There is no leading selector byte, length prefix, bytecode container, or FuzzedDataProvider split.
+
+### Format Links
+- [[mruby-source]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

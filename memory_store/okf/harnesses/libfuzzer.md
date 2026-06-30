@@ -1754,3 +1754,67 @@ Splash font path code is reached.
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The FLAC libFuzzer tool harness uses a leading control byte to choose the maximum number of command-line arguments and whether stdin is used. It then parses NUL-delimited argv strings from the front of the input; the remaining bytes become the FLAC file payload or stdin data according to the control bit. There is no checksum or length wrapper outside the CLI-argument carving.
+- The active GDAL shape fuzzer stores the raw PoC as a virtual tar-like input and opens a fixed member named as a shapefile through GDAL's virtual tar path, then iterates every layer and feature. The accepted archive form starts with GDAL's fuzzer-friendly archive marker and contains a member for the fixed opened filename. There is no FuzzedDataProvider carving; the whole file is the virtual archive.
+- The active fuzz target passes the raw input bytes to Ghostscript as stdin for a fax-oriented device wrapper. There is no leading mode selector, no corpus envelope, and no FuzzedDataProvider front/back carving. The wrapper runs Ghostscript in safer, batch, no-pause mode with stdout and stderr mostly discarded by the harness, so verifier output mainly distinguishes sanitizer crashes from clean execution or ordinary Ghostscript interpreter errors.
+- The exercised libFuzzer target copies the raw input into a NUL-terminated string, interprets it as a config define assignment, loads it through the container config setter, and then reads the configured item back. There is no FuzzedDataProvider layout or binary prefix; the first text key controls the parser route.
+- The flac tool fuzzer starts with a control byte that enables NUL-delimited command-line arguments. After the argument section is exhausted, the remaining bytes are written as a temporary input file for the real flac command-line path. To preserve binary FLAC bytes, the argument list must be filled so parsing stops before the FLAC stream marker; there is no FuzzedDataProvider front/back layout.
+- The fuzz input begins with a little-endian length prefix for the ASN.1 decode buffer, followed by that buffer. The remaining bytes are consumed as a virtual smart-card reader transcript made of little-endian length-prefixed chunks, with the first chunk acting as ATR data and later chunks as APDU responses. There is no additional mode selector.
+- The fuzz target passes the raw input bytes directly to rnp_input_from_memory and loads them as a GPG keyring with both public and secret load flags. There is no leading mode selector, no argv/stdin wrapper, and no FuzzedDataProvider front/back carving.
+- The fuzzer writes the whole PoC to a temporary file, opens a libblkid probe on that file, enables partition and superblock probing, and calls safe probing. There is no FuzzedDataProvider layout, mode byte, external checksum repair, or stdin protocol; the PoC must be a coherent disk-image-like byte stream.
+- The harness feeds libFuzzer bytes directly to the Skia path-measure fuzzer. It consumes fields front-to-back through Skia's fuzz helper, with no file wrapper, checksum, mode selector outside the stream, or FuzzedDataProvider back-consumed fields.
+- The harness feeds the file bytes directly to the skcms parser and then queries parsed profile information that reads transfer-curve extents. There is no fuzzer-side carving or FuzzedDataProvider layout; parser reachability depends entirely on a self-consistent ICC envelope.
+- The harness is a libFuzzer raw-byte file harness with no leading mode byte and no FuzzedDataProvider carving. It constructs a FiffParser from the whole input, calls getDecoder, disables crop and unknown-camera hard failures, then calls decodeRaw and decodeMetaData. RawSpeed parser and decoder exceptions are caught, so successful triggering needs a sanitizer-visible failure after parser and decoder reachability.
+- The harness is a libFuzzer raw-byte harness. It caps the input size, maps the first byte through the platform table, opens the corresponding Capstone architecture and mode, enables detailed disassembly, optionally toggles alternate syntax from a selector bit, and calls cs_disasm on the remaining bytes from a fixed base address.
+- The harness is libFuzzer over raw bytes. It wraps the input in a ByteStream, constructs a RawImage from leading scalar fields, reads all remaining strip records from the same front-to-back byte stream, allocates image data, runs PhaseOneDecompressor, then checks image memory initialization. There is no file magic, filename layer, mode selector, or FuzzedDataProvider back-consumption.
+- The harness is the FFmpeg H.264 decoder libFuzzer target and consumes the raw file bytes directly as an elementary H.264 packet stream. There is no FuzzedDataProvider prefix or mode byte; keeping the input compact avoids unrelated harness behavior.
+- The libFuzzer entrypoint passes the raw input bytes directly to Botan::PKCS8::load_key through a memory data source with no FuzzedDataProvider carving. The task wrapper runs the pkcs8 fuzzer on one file path. Parser exceptions are caught by the fuzzer, so malformed ASN.1 and rejected key parameters usually appear as clean no-crash executions rather than bad_format.
+- The libFuzzer entrypoint passes the whole PoC as the data buffer to magic_buffer after only a non-empty size gate. There is no leading mode selector, section carving, checksum, or FuzzedDataProvider back-to-front layout.
+- The libFuzzer harness consumes raw bytes. It routes drawing-marker inputs to the DWG decoder, object-prefix text to JSON import, and all other inputs to DXF import. It appends a terminator for text-oriented paths when needed, writes one randomly selected output format to a null sink after a successful import, then frees the drawing object.
+- The libFuzzer harness passes raw bytes directly to the TypeMapping deserializer. For each complete identifier-object pair, it searches the mapping sequence for the matching minimal identifier, constructs complete and minimal type-info records, calls the proxy type reference path, conditionally adds the complete TypeObject, then releases the referenced type. There is no leading mode byte or FuzzedDataProvider carving.
+- The libFuzzer harness passes the raw input buffer to the XML memory reader. The harness also derives parser options deterministically from the input, but it does not carve the byte stream with a FuzzedDataProvider-style contract.
+- The libFuzzer harness requires a fixed-size native struct-shaped input rather than a plain vertex blob. Integral fields are read directly from the front of the buffer using native little-endian layout. The remaining buffer is parsed front-to-back as the outer loop and then optional hole loops. For each input, the harness runs every valid containment mode once with the original hole count and once with holes disabled.
+- The libFuzzer harness writes the entire PoC to one end of a socketpair, shuts down writes, installs a server RSA key, accepts the other socket as a libssh server session, runs server key exchange, and then drains queued ssh_message objects only if key exchange succeeds. There is no FuzzedDataProvider carving; the whole file is the client byte stream.
+- The libFuzzer input is consumed front-to-back by fuzzing::datasource, not as raw MQTT. The harness constructs MqttClient and MqttConnect objects, allocates fixed transmit and receive buffers, reads datasource fields for buffer setup, clean-session, client-id, LWT selection, and optional LWT values, but it does not populate username or password. It then calls MqttClient_NetConnect and MqttClient_Connect; mocked write and read callbacks consume later datasource fields only if encoding completes.
+- The libFuzzer target passes the same raw input buffer directly to several PKCS#15 directory-entry decoders in a loop, then to public-key, tokeninfo, and unused-space parsers. There is no leading selector byte, no length-prefixed reader chunk stream, and no FuzzedDataProvider back/front split.
+- The libFuzzer target reads the raw file bytes as one cryptofuzz datasource. The build is constrained to wolfCrypt and selected bignum/DH/ECC operations. For BignumCalc, the parent datasource supplies the modifier stream and module selector after the nested operation payload; modifier booleans are also length-prefixed datasource fields.
+- The selected OSS-Fuzz target is the libxaac encoder fuzzer. FuzzedDataProvider consumes byte-buffer payloads from the front, while integral and boolean scalar fields are consumed from the back in little-endian order. For AOT_USAC, a loudness pass uses a separate provider over the full input before encoder creation. During processing, the per-frame read-versus-memset selector is also consumed from the back of the remaining data, so control bytes for process-loop behavior must be placed at the back of the front payload region, before the configuration tail.
+- The specialized i386 disassembly fuzzer copies the option and private-data regions first, then invokes the i386 disassembler twice over the remaining instruction buffer with both endian settings. Integral control fields are read from the back of the frame in little-endian form; no FuzzedDataProvider is used.
+- The task image's wrapper invokes a libFuzzer frame target over a corpus directory. The fuzzer target receives raw frame bytes, opens an in-memory super-chunk from the frame, allocates an output buffer from the frame metadata, and decompresses chunks in order. The repository's model-free local verify wrapper copies the candidate to a file path where this image expects a directory, so direct single-input libFuzzer execution was used for local differential evidence and runner submit was used for the official verdict.
+
+### Format Links
+- [[binutils-disassembler-frame]]
+- [[c-blosc2-frame]]
+- [[capstone-disasm-selector-plus-bytes]]
+- [[cryptofuzz-binary-operation-stream]]
+- [[dds-xtypes-typemap-cdr]]
+- [[dwg-dxf-json]]
+- [[fiff-wrapped-mef-tiff-raw]]
+- [[flac-cli-fuzzer-input]]
+- [[flac-tool-input]]
+- [[h264-annex-b]]
+- [[h3-geopolygon-struct]]
+- [[icc]]
+- [[iso9660]]
+- [[libmagic-classified-raw-buffer]]
+- [[libxaac-encoder-fuzzed-provider]]
+- [[lxc-config-text]]
+- [[openpgp-secret-keyring]]
+- [[opensc-pkcs15-asn1]]
+- [[opensc-pkcs15-asn1-with-reader-transcript]]
+- [[pkcs8-private-key]]
+- [[postscript]]
+- [[rawspeed-phaseone-decompressor-envelope]]
+- [[skia-pathmeasure-fuzz-stream]]
+- [[ssh-server-byte-stream]]
+- [[uk-ntf-in-gdal-fuzzer-friendly-archive]]
+- [[wolfmqtt-datasource-stream]]
+- [[xml]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -12,3 +12,15 @@ train_only: true
 ## Round 13 Facts
 - The fuzzshark binary reads a raw input file as an IP-protocol UDP payload and invokes the UDP dissector. Port fields inside the UDP header can influence downstream payload dispatch, but decode-as-only dissectors may not be selected by raw payload bytes alone.
 - The fuzzshark target invokes the BOOTP dissector from the UDP port table on raw UDP payload bytes. A valid BOOTP fixed header, DHCP magic cookie, and option list are needed before DNS-name option payloads are interpreted.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The fuzzshark target is configured for the UDP dissector through the IP-protocol table. The input is a raw UDP datagram, not a full IP packet and not a direct CDMA2000 buffer. There is no FuzzedDataProvider; all structure is consumed by nested dissectors from the front of the byte stream.
+
+### Format Links
+- [[udp-a21-gcsna-cdma2k]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

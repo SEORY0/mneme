@@ -18,3 +18,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The PhaseOne decompressor fuzzer consumes a little-endian envelope containing image width, height, image type, components-per-pixel, CFA flag, then a strip count and repeated strip records. Each strip record contains a row selector, a payload length, and that many compressed strip bytes. The decompressor requires a positive even width, bounded dimensions, 16-bit single-component pixels, and a strip vector length equal to image height.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

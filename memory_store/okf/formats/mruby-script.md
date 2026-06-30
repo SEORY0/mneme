@@ -116,3 +116,15 @@ Inputs are syntactically valid mruby scripts. Runtime bugs require the script to
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- mruby script input is parsed by mrb_load_string. Kernel#sprintf and String formatting accept flags, optional field width, optional precision, and a conversion specifier. Width and precision are parsed as decimal integers; the floating-point conversion branch reconstructs a native printf-style format string in a fixed stack buffer from those parsed components.
+
+### Harness Links
+- [[libfuzzer-raw-mruby-source]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

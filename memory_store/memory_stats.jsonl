@@ -505,3 +505,51 @@
 {"policy": "elf-with-dwarf-rnglists-seed-mutate-parser-reached-vul-only-rnglists-read-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
 {"policy": "ultrahdr-encoder-frame-construct-parser-reached-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
 {"policy": "zip-construct-parser-reached-vul-only-zip-mem-read-heap-buffer-overflow-read-verified-recovery", "round": 25, "success": true}
+{"policy": "html-attribute-malloc-injection-parser-eof-unchecked-use-of-uninitialized-value-verified-recovery", "success": true}
+{"policy": "xml-conditional-section-malloc-injection-skip-uninit-use-of-uninitialized-value-verified-recovery", "success": true}
+{"policy": "xml-buf-reset-malloc-injection-dangling-input-use-after-free-verified-recovery", "success": true}
+{"policy": "xpath-value-frame-malloc-injection-null-pop-null-pointer-dereference-verified-recovery", "success": true}
+{"policy": "html-doctype-literal-malloc-injection-overread-nondetecting-out-of-bounds-read-negative-memory", "success": false}
+{"policy": "libxml2-valid-nspush-malloc-injection-null-nstab-null-pointer-dereference-verified-recovery", "success": true}
+{"policy": "vcf-n-allele-16bit-wrap-negative-info-key-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "yara-dotnet-customattribute-type-index-unbounded-memberref-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "opensc-starcos-check-sw-ignores-sw2-null-pubkey-null-pointer-dereference-verified-recovery", "success": true}
+{"policy": "libssh-unpack-va-rollback-vaarg-mismatch-stack-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "ffmpeg-h264-cavlc-total-zeros-negative-vlc-index-out-of-bounds-verified-recovery", "success": true}
+{"policy": "php-unserialize-gc-recursive-remover-shared-getgc-buffer-use-after-free-verified-recovery", "success": true}
+{"policy": "rawspeed-phaseone-decompressor-envelope-construct-local-generic-segv-official-target-match-use-of-uninitialized-value-verified-recovery", "round": 26, "success": true}
+{"policy": "udp-a21-gcsna-cdma2k-construct-parser-reached-sink-match-stack-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "ipv4-gre-ieee80211-amsdu-construct-target-confirmed-by-submit-stack-use-after-return-read-verified-recovery", "round": 26, "success": true}
+{"policy": "xml-construct-parser-reached-undefined-behavior-array-bounds-verified-recovery", "round": 26, "success": true}
+{"policy": "h264-annex-b-construct-parser-reached-target-ubsan-site-undefined-behavior-out-of-bounds-verified-recovery", "round": 26, "success": true}
+{"policy": "opensc-pkcs15-asn1-construct-parser-reached-target-cleanup-crash-invalid-free-on-decode-failure-verified-recovery", "round": 26, "success": true}
+{"policy": "uk-ntf-in-gdal-fuzzer-friendly-archive-construct-parser-reached-target-stack-fixed-clean-heap-buffer-overflow-read-via-negative-size-strncpy-verified-recovery", "round": 26, "success": true}
+{"policy": "websocket-permessage-deflate-over-mocked-tcp-construct-parser-reached-target-match-semantic-size-limit-bypass-verified-recovery", "round": 26, "success": true}
+{"policy": "mruby-script-construct-parser-reached-target-fmt-setup-stack-overflow-stack-buffer-overflow-write-verified-recovery", "round": 26, "success": true}
+{"policy": "libmagic-classified-raw-buffer-construct-parser-reached-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "openpgp-secret-keyring-seed-mutate-parser-reached-stack-overflow-in-key-writer-stack-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "c-blosc2-frame-seed-mutate-official-target-match-heap-use-after-free-verified-recovery", "round": 26, "success": true}
+{"policy": "wolfmqtt-datasource-stream-construct-parser-reached-mqtt-connect-null-username-length-path-heap-buffer-overflow-write-verified-recovery", "round": 26, "success": true}
+{"policy": "lxc-config-text-construct-parser-reached-idmap-option-copy-heap-buffer-overflow-write-verified-recovery", "round": 26, "success": true}
+{"policy": "fiff-wrapped-mef-tiff-raw-construct-parser-reached-uninitialized-image-data-after-truncated-uncompressed-raw-use-of-uninitialized-value-verified-recovery", "round": 26, "success": true}
+{"policy": "gtpv2-udp-datagram-construct-parser-reached-sink-mismatch-but-official-target-match-global-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "mruby-source-construct-sink-mismatch-vm-exec-after-codegen-corruption-heap-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "dlltool-def-file-construct-parser-reached-deflex-heap-buffer-overflow-official-target-match-heap-buffer-overflow-write-verified-recovery", "round": 26, "success": true}
+{"policy": "binutils-disassembler-frame-construct-parser-reached-sink-match-use-of-uninitialized-value-verified-recovery", "round": 26, "success": true}
+{"policy": "pdf-opentype-cff-font-construct-then-targeted-mutate-target-confirmed-by-submit-out-of-bounds-read-negative-cff-offset-verified-recovery", "round": 26, "success": true}
+{"policy": "isobmff-mp4-seed-mutate-parser-reached-heap-use-after-free-in-sample-entry-teardown-heap-use-after-free-verified-recovery", "round": 26, "success": true}
+{"policy": "subtitle-text-construct-parser-reached-target-function-local-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "opensc-pkcs15-asn1-with-reader-transcript-seed-mutate-parser-reached-target-stack-zero-length-buffer-dereference-verified-recovery", "round": 26, "success": true}
+{"policy": "zlib-example-dict-raw-buffer-construct-parser-reached-slide-hash-msan-fixed-clean-use-of-uninitialized-value-verified-recovery", "round": 26, "success": true}
+{"policy": "elf-with-stabs-debug-sections-construct-parser-reached-stabs-nearest-line-underflow-segmentation-fault-stabs-string-table-underflow-verified-recovery", "round": 26, "success": true}
+{"policy": "iso9660-seed-mutate-parser-reached-target-sink-stack-buffer-overflow-write-verified-recovery", "round": 26, "success": true}
+{"policy": "h264-annexb-svc-construct-target-match-heap-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "elf-construct-bfd-symbol-table-canonicalization-failed-negative-count-used-negative-symbol-count-memory-operation-verified-recovery", "round": 26, "success": true}
+{"policy": "flac-tool-input-seed-mutate-analysis-partial-frame-after-seek-stack-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "capstone-disasm-selector-plus-bytes-construct-ppc-post-printer-reads-uninitialized-mnemonic-use-of-uninitialized-value-verified-recovery", "round": 26, "success": true}
+{"policy": "upx-packed-elf-seed-mutate-sink-mismatch-heap-buffer-overflow-read-in-overlay-scan-heap-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "icc-seed-replay-parser-reached-target-sink-null-pointer-dereference-read-verified-recovery", "round": 26, "success": true}
+{"policy": "skia-pathmeasure-fuzz-stream-construct-target-confirmed-by-submit-unchecked-conic-segment-evaluation-verified-recovery", "round": 26, "success": true}
+{"policy": "pdf-construct-parser-reached-target-stack-local-mismatch-stack-buffer-overflow-read-verified-recovery", "round": 26, "success": true}
+{"policy": "flac-cli-fuzzer-input-construct-target-stack-observed-but-local-classifier-missed-fixed-clean-assertion-abort-verified-recovery", "round": 26, "success": true}
+{"policy": "hevc-elementary-stream-seed-sweep-parser-reached-sao-edge-msan-fixed-clean-use-of-uninitialized-value-verified-recovery", "round": 26, "success": true}

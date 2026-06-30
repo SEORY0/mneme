@@ -22,3 +22,15 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- Cryptofuzz inputs use a binary datasource rather than JSON. Each consumed scalar or blob is length-prefixed in stream order. The top-level stream selects an operation, then carries an operation payload, a modifier blob, a module selector, and a continuation flag. BignumCalc payloads contain a calc operation followed by four length-prefixed decimal digit buffers; non-digit bytes are normalized to digits before module execution.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

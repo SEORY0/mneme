@@ -15,3 +15,15 @@ okf_support: 0
 
 ## Round 10 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The Wireshark fuzzshark target is configured for the IP dissector. It treats the input as one raw IPv4 packet and relies on protocol fields for nested dispatch; there is no pcap header, external capture wrapper, checksum repair requirement, or FuzzedDataProvider byte carving.
+
+### Format Links
+- [[ipv4-gre-ieee80211-amsdu]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

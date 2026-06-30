@@ -16,3 +16,15 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The selected target is fuzz_pkcs15init. It installs a fuzz reader, connects a card using the first reader chunk, parses the profile prefix, binds pkcs15init state, initializes the app, attempts PKCS#15 bind, then exercises PIN storage, data-object storage, key generation, secret-key operations, finalization, sanity check, and erase. All reader chunks are consumed front-to-back; this harness is not a raw APDU-only parser and not the separate card fuzzer.
+
+### Format Links
+- [[opensc-pkcs15init-profile-reader-chunks]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

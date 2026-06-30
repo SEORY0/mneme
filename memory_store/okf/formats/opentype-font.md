@@ -136,3 +136,15 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font. The sfnt directory maps table tags to checksummed table records with offsets and lengths. GSUB/GPOS layout tables contain ScriptList, FeatureList, and LookupList offsets; a lookup record has a lookup type, lookup flags, a subtable-count field, and an array of relative subtable offsets. Extension lookup types are used in GSUB and GPOS to wrap an extension subtable whose own body names the underlying lookup type and an offset to the target subtable.
+
+### Harness Links
+- [[honggfuzz-compatible-one-input-harfbuzz-shape-fuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
