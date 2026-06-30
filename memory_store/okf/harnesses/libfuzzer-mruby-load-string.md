@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Mruby Load String harness"
 description: "Input contract facts for libfuzzer-mruby-load-string."
 tags: ["libfuzzer-mruby-load-string", "round-11"]
-okf_support: 3
+okf_support: 4
 train_only: true
 ---
 # Libfuzzer Mruby Load String Harness
@@ -54,3 +54,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 31 Input Contract
+
+### Input Contract
+- The libFuzzer harness treats the whole PoC as raw source bytes. It requires nonempty input, copies all bytes into a newly NUL-terminated buffer, opens a fresh mruby state, calls mrb_load_string on the copied source, closes the state, and frees the copy. There is no selector byte, length prefix, bytecode wrapper, external filename contract, or FuzzedDataProvider split.
+
+### Format Links
+- [[mruby-source]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

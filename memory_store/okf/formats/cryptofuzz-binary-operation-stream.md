@@ -4,7 +4,7 @@ title: "cryptofuzz-binary-operation-stream format"
 description: "Structure and reachability facts for cryptofuzz-binary-operation-stream."
 resource: cybergym://format/cryptofuzz-binary-operation-stream
 tags: ["cryptofuzz-binary-operation-stream"]
-okf_support: 1
+okf_support: 2
 ---
 # Cryptofuzz Binary Operation Stream Format
 
@@ -34,3 +34,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 31 Factual Contract
+
+### Schema / Invariants
+- Cryptofuzz inputs are a front-consumed binary operation stream, not a conventional file. The outer stream records an operation selector, a length-prefixed nested payload, a length-prefixed modifier blob, a module selector that is still consumed even when the binary forces wolfCrypt, and a continuation flag. BignumCalc payloads contain a calc-operation selector followed by decimal bignum buffers. The modifier blob is consumed later by wolfCrypt helpers for decimal-vs-hex parsing, optional pointer clamping, optional base-conversion round trips, and bignum rewiring.
+
+### Harness Links
+- [[libfuzzer-cryptofuzz-binary-operation-stream]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

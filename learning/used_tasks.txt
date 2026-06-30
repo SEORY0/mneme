@@ -1498,3 +1498,10 @@ oss-fuzz:42537576
 oss-fuzz:42537594
 oss-fuzz:42537669
 oss-fuzz:42537828
+arvo:19902
+arvo:29185
+arvo:38815
+arvo:46957
+arvo:57209
+arvo:65383
+oss-fuzz:42537670

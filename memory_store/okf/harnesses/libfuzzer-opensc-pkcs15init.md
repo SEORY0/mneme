@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Opensc Pkcs15init harness"
 description: "Round 23 input contract facts for libfuzzer-opensc-pkcs15init."
 tags: ["libfuzzer-opensc-pkcs15init", "round-23"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Libfuzzer Opensc Pkcs15init Harness
@@ -38,3 +38,14 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 31 Input Contract
+
+### Input Contract
+- The libFuzzer target feeds raw bytes to fuzz_pkcs15init. The harness splits at the first NUL: bytes before it are profile text, bytes after it are the fake reader transcript. It connects a card, binds a pkcs15-init profile based on the selected card driver, then only proceeds to data-object and key-generation operations if PKCS#15 binding succeeds. Default card-driver probing consumes APDU responses before OpenPGP, so the transcript must include enough failing responses to keep those probes from accepting the card.
+
+### Format Links
+- [[opensc-pkcs15init-profile-plus-virtual-reader-stream]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

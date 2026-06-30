@@ -47,9 +47,9 @@ okf_support: 48
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `heap-buffer-overflow-read`
-- observed: 250 traces; solved: 151 (illustrative — not for ranking)
+- observed: 251 traces; solved: 152 (illustrative — not for ranking)
 - top input_formats: c-blosc2-frame (7), json (7), bmp (5), hunspell-aff-dic-word-triple (4), sip-message (4), elf (3), git-raw-object (3), mruby-source (3)
 - top harnesses: libfuzzer (154), honggfuzz-file (4), afl-file (3), honggfuzz-wrapper (3), libfuzzer-tempfile-bfd (3), afl (2), afl-libfuzzer (2), afl-libfuzzer-compatible (2)
-- observed strategies: construct (191), seed-mutate (61), other (1), seed-replay (1), seed-sweep (1)
+- observed strategies: construct (192), seed-mutate (61), other (1), seed-replay (1), seed-sweep (1)
 - collapsed aliases: heap-buffer-overflow-read-via-negative-size-strncpy, integer-overflow-to-heap-buffer-overflow-read
 <!-- END observed-census -->

@@ -705,3 +705,9 @@
 {"policy": "mpeg-ps-construct-wrong-sink-parser-reached-target-stack-fix-clean-use-of-uninitialized-value-verified-recovery", "round": 30, "success": true}
 {"policy": "ffmpeg-aic-target-decoder-packet-construct-wrong-sink-aic-decode-slice-reaches-msan-uninitialized-idct-read-use-of-uninitialized-value-verified-recovery", "round": 30, "success": true}
 {"policy": "mxf-seed-mutate-wrong-sink-parser-reached-msan-uninitialized-stack-key-use-of-uninitialized-value-verified-recovery", "round": 30, "success": true}
+{"policy": "mruby-source-construct-parser-reached-target-string-to-float-stack-buffer-overflow-write-verified-recovery", "round": 31, "success": true}
+{"policy": "cryptofuzz-binary-operation-stream-construct-sink-mismatch-wolfcrypt-montgomery-normalization-hex-serialization-heap-buffer-overflow-write-verified-recovery", "round": 31, "success": true}
+{"policy": "datasource-wrapped-flac-construct-parser-reached-sink-mismatch-but-official-target-match-partitioned-rice-tail-use-of-uninitialized-value-verified-recovery", "round": 31, "success": true}
+{"policy": "arrow-ipc-file-construct-seed-mutate-metadata-parser-reached-ree-parent-bitmap-oob-read-verified-recovery", "round": 31, "success": true}
+{"policy": "bam-construct-parser-reached-target-cram-encode-aux-b-array-overread-heap-buffer-overflow-read-verified-recovery", "round": 31, "success": true}
+{"policy": "opensc-pkcs15init-profile-plus-virtual-reader-stream-construct-parser-reached-target-openpgp-fingerprint-heap-buffer-overflow-write-verified-recovery", "round": 31, "success": true}

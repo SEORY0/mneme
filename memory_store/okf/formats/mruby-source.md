@@ -4,7 +4,7 @@ title: mruby-source format
 description: Format contract for mruby-source.
 resource: cybergym://format/mruby-source
 tags: [mruby-source, "round-16"]
-okf_support: 6
+okf_support: 7
 train_only: true
 ---
 # Schema
@@ -117,3 +117,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 31 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Parser reachability depends on valid Ruby syntax; string literals can be evaluated by the VM, and String#to_f or equivalent Float conversion routes numeric string contents through the shared string-length-to-double helper. Numeric text, optional whitespace, underscores between digits, hexadecimal prefixes, and embedded NULs are handled by that helper before native float parsing.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
