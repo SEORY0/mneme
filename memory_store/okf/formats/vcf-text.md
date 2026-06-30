@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- VCF text input starts with metadata lines and a tab-separated column header, followed by tab-separated records. ALT alleles are comma-separated in text, but the parser stores alleles in an internal BCF shared block while the record allele count is narrower than the shared payload. On writeback, the internal BCF representation is unpacked and INFO keys are resolved through the header dictionary.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

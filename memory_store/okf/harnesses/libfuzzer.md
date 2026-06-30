@@ -1925,3 +1925,63 @@ Splash font path code is reached.
 
 ## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 28 Input Contract
+
+- The libFuzzer harness consumes the raw file bytes as a C string. The input must contain at least one character, must be NUL-terminated, and must not contain newlines. It creates fixed symbol tables plus nonempty and empty address sets and port groups, then drives expression parsing, action parsing, lexing, and microflow parsing with the same string. There is no FuzzedDataProvider split or mode-selector byte.
+- The GraphicsMagick MIFF coder fuzzer passes the raw libFuzzer bytes directly as a Magick blob, forces the MIFF coder name, reads the image, catches Magick exceptions, and then writes the decoded image back to a MIFF blob when reading succeeds. There is no leading mode byte, no file carving, and no FuzzedDataProvider split; read-side corruption that still returns an image can surface later in the write-back path.
+- The libFuzzer target consumes raw bytes as a font blob. Its shape path copies a fixed-size trailer from the end of the input into a UTF-32 text buffer and then runs face API checks using that trailer-selected codepoint; there is no FuzzedDataProvider layout.
+- The htslib fuzz harness passes raw input bytes to an in-memory hts_open source. For variant input, it reads the VCF header, writes a header to a null sink, then repeatedly reads records and writes them back through bcf_write/vcf_format. Text VCF records are parsed before writeback, so the raw BCF record checker is not the relevant gate for this construction.
+- The libFuzzer harness feeds raw file bytes to libarchive from memory, enables all filters and formats, then repeatedly reads headers and drains entry data. There is no mode byte or FuzzedDataProvider framing. The RAR5 varint reader requires sufficient forward lookahead even when the encoded value itself is short.
+- The libFuzzer target copies the raw input bytes, NUL-terminates them, calls php_var_unserialize on the entire buffer, destroys the top-level result, then forces PHP GC twice before request shutdown. There is no leading mode byte, no filename, and no FuzzedDataProvider split; the payload is exactly one serialized PHP value.
+- The libFuzzer harness passes the PoC file's raw bytes as the JavaScript source buffer, rejects only empty input and Hermes bytecode-looking input, appends a NUL terminator internally, creates a Hermes runtime, and evaluates the source while swallowing JavaScript exceptions.
+- The local wrapper invokes the PHP parser libFuzzer binary on a fixed path. In local Docker verification, a directory at that path is treated as a corpus and its entries are processed; a regular file at that path is rejected before the fuzzer callback runs. The official submit endpoint uploads one regular file, not a directory.
+- The libFuzzer harness passes the raw input buffer directly to the LibGfx BMP memory loader. There is no prefix, mode selector, argv path wrapper, checksum layer, or FuzzedDataProvider back/front carving; reachability depends on the BMP bytes themselves.
+- The libFuzzer harness consumes the entire file as raw bytes. It does not use FuzzedDataProvider, does not carve a mode byte, and does not prepend metadata; the only transformation is making a temporary NUL-terminated copy before calling the date parsing API.
+- The libFuzzer target passes the raw input buffer directly to the C-Blosc2 in-memory frame loader. If frame reconstruction succeeds and the declared uncompressed byte count is below the harness limit, it allocates an output buffer and iterates chunk decompression. There is no prefix selector and no FuzzedDataProvider front/back carving.
+- The libFuzzer entrypoint receives raw bytes, copies the full buffer into a UA_ByteString, and calls the binary message processor once. The connection layer walks all complete chunks in the buffer according to each chunk's embedded length. After message processing, the harness deletes the message, runs server shutdown, then deletes the server and connection; shutdown drains delayed callbacks in this single-threaded build.
+- The fuzz target feeds the input bytes directly as a temporary object file to objdump. There is no leading mode byte and no FuzzedDataProvider carving. The harness enables broad objdump views including section headers and relocation dumping, so a BFD-recognized SOM object with a relocatable subspace reaches som_get_reloc_upper_bound and som_canonicalize_reloc.
+- The libvips thumbnail fuzzer feeds the raw input bytes directly to vips_image_new_from_buffer with no leading mode byte or FuzzedDataProvider split. If loading succeeds, it rejects only very large dimensions or too many bands, then calls vips_thumbnail_image and computes an average over the output.
+- The libFuzzer target consumes the raw input as a file buffer. Inputs beginning like AutoCAD text are routed through the DXF reader, then the harness may exercise output conversion before final object cleanup; there is no mode byte or FuzzedDataProvider carving.
+- The libFuzzer harness passes the raw file bytes unchanged to LLDP, CDP, SONMP, and EDP decoders. There is no FuzzedDataProvider, no leading mode selector, and no checksum repair layer. Inputs shorter than the harness minimum or longer than the harness maximum are ignored before decoding. For CDP, the destination/protocol gates select the CDP decoder; unrelated trailing bytes after the CDP payload can remain physically present in the raw input without being part of the CDP length.
+- The libFuzzer harness accepts raw PoC bytes within a bounded size range, writes them unchanged to a temporary file with a mapfile extension, calls msLoadMap on that file, then immediately calls msFreeMap on the returned pointer and clears the MapServer error list.
+- The harness feeds the raw input bytes directly to the OpenSIPS message parser through the sip_msg buffer and length fields. There is no leading mode byte, checksum, size table, or FuzzedDataProvider carving; after parse, the harness frees the parsed sip_msg structure.
+- The libFuzzer harness passes raw input bytes directly to LibGfx's JPEG image decoder plugin, initializes it, and requests the first frame. There is no filename wrapper, leading mode byte, sidecar metadata, checksum layer, or FuzzedDataProvider front/back split.
+- The selected arvo wrapper runs the Ghostscript pdfwrite libFuzzer target and provides the file bytes as the single raw input consumed from stdin. There is no FuzzedDataProvider layout, mode selector, or prefix carving for this target. Earlier XPS and direct PostScript CFF attempts did not reach the selected pdfwrite CFF sink; the successful path is a raw PDF that causes the page interpreter to load the embedded Type1C font.
+- The libFuzzer entrypoint passes the raw input bytes directly into a SkReadBuffer and calls SkTextBlob::MakeFromBuffer. There is no mode selector and no FuzzedDataProvider. After deserialization the harness checks only the buffer validity, creates a small raster surface, and draws the blob at a fixed positive translation; ordinary positive bounds can be quick-rejected before glyph replay, so reachable drawing-oriented tests need bounds that intersect after that translation. The allocation bug triggers during deserialization, before the draw step.
+- The libFuzzer harness passes the input bytes directly to poppler::document::load_from_raw_data. There is no prefix, selector byte, or FuzzedDataProvider carving. If the document loads and is not locked, the harness creates a page renderer and renders every page, so page content that selects an embedded font and draws text reaches SplashOutputDev and SplashFTFont::makeGlyph.
+- The FFmpeg demuxer fuzzer feeds the file bytes to the MPEG-TS demuxer through an AVIO-backed libFuzzer harness. For this demuxer target, the payload can be a raw transport stream with no leading mode byte or FuzzedDataProvider split; once the demuxer opens the PAT and PMT sections, parsing happens during input opening and stream-info discovery.
+- The libFuzzer target writes the raw input bytes to a temporary file and calls the GPAC MPEG-TS probe routine. The probe reads raw file bytes, synchronizes on transport packets, processes PAT and PMT sections through the demuxer, then destroys the demuxer; there is no leading mode selector and no FuzzedDataProvider split.
+- The libFuzzer target writes the raw input bytes to a temporary object file, initializes libdwarf with group-any section selection, calls the DWARF CU-header API with the type-section flag, then requests the root DIE and its child. There is no fuzzer-specific prefix or length carving; all structure is supplied by the ELF and DWARF sections themselves.
+- The active target is the libxml2 xmllint libFuzzer harness. It reads integers from the front in big-endian order, consumes option bits least-significant-bit first within each word, then selects a parser mode from the remaining bits. The XML document is loaded through the fuzzer's in-memory entity loader; enabling the compression option routes output through gzip rather than requiring a compressed input file.
+
+## Round 28 Format Links
+- [[bmp]]
+- [[c-blosc2-frame]]
+- [[cdp-ethernet-frame]]
+- [[dxf]]
+- [[elf-dwarf-dwp]]
+- [[javascript]]
+- [[jpeg]]
+- [[libxml2-lint-entity-envelope]]
+- [[mapserver-mapfile]]
+- [[miff]]
+- [[mpeg-ts]]
+- [[mpegts]]
+- [[opcua-binary-message]]
+- [[opentype-font]]
+- [[openvswitch-expression]]
+- [[pdf]]
+- [[pdf-with-embedded-truetype-font]]
+- [[pdf-with-embedded-type1c-cff-font]]
+- [[php-serialize]]
+- [[php-source]]
+- [[rar5]]
+- [[raw-date-string]]
+- [[sip-message]]
+- [[skia-textblob-serialized]]
+- [[som]]
+- [[vcf-text]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

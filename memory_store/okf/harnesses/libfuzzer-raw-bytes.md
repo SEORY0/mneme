@@ -33,3 +33,13 @@ mismatch.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The FuzzURL libFuzzer target passes the entire raw input buffer as StringView(data, size) into URL(StringView). There is no mode selector, no FuzzedDataProvider carving, and no back-consumed fields; all bytes are the candidate URL.
+
+## Round 28 Format Links
+- [[url-string]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

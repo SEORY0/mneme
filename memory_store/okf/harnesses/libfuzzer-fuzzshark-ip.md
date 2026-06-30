@@ -27,3 +27,13 @@ okf_support: 0
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The image is configured as fuzzshark_ip. libFuzzer supplies the raw file bytes directly to Wireshark's frame dissector, and the selected IP dissector is run as a postdissector. The input is therefore a raw IPv4 packet; there is no pcap global header, no pcap record header, and no FuzzedDataProvider carving.
+
+## Round 28 Format Links
+- [[raw-ipv4-tcp-rtitcp-rtps]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

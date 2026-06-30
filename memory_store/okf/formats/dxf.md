@@ -42,3 +42,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- DXF is parsed as code/value line pairs. TABLEGEOMETRY uses scalar groups for row count, column count, and cell count, followed by repeated cell groups with a cell-start marker, dimensions, handles, geometry count, and optional geometry subrecords. Duplicate scalar groups can update object fields later in the same object.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

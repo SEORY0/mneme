@@ -53,3 +53,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- JPEG inputs require SOI marker framing, length-delimited metadata/table segments, a start-of-frame marker with precision, dimensions, and component descriptors, a start-of-scan marker with a scan component count, per-scan component selectors and table ids, spectral-selection bytes, and entropy-coded data ending at a marker. Multi-component baseline scans must use scan component descriptors consistent with the frame header order.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

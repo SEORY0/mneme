@@ -33,3 +33,15 @@ okf_support: 1
 
 ## Round 21 Notes (rawspeed-panasonic-fuzzer-record)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 28 Input Contract
+
+- The harness copies raw input bytes, appends a terminator, splits on the first two newlines, initializes both PROJ definitions, and calls the transform routine on one coordinate. Inputs that fail either initializer exit cleanly before the vulnerable path. No FuzzedDataProvider carving is used.
+- The harness writes the raw bytes to a temporary file, initializes libdwarf from the file descriptor, requests the next type-unit header, obtains the root DIE, and calls the DWARF5 macro-context API. Macro-context setup loads the macro section, reads the CU macro attribute, and calls source-file lookup, which loads and parses the line table. No FuzzedDataProvider carving is used.
+
+## Round 28 Format Links
+- [[elf-dwarf-object]]
+- [[proj-parameter-lines]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

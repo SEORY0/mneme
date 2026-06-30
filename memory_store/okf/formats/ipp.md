@@ -27,3 +27,14 @@ Inputs follow the `ipp` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- An IPP message starts with a fixed-size request header, followed by group tags and value-tagged attributes, ending with an end tag. Attribute records encode a value tag, a big-endian name length, the attribute name, a big-endian value length, and the typed value bytes. A zero name length on a subsequent value means the value belongs to the current attribute. Language-qualified text/name values are composite values containing a language length and language string followed by a text length and text string.
+
+### Harness Links
+- [[libfuzzer-file-fuzzipp]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

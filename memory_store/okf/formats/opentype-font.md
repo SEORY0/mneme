@@ -148,3 +148,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The input is an SFNT/OpenType font with a table directory and a post table capable of mapping glyph IDs to names. The parser accepts extra trailing bytes after the font data, which can be used by the harness as text/control material without invalidating the font.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

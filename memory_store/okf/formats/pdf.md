@@ -309,3 +309,16 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- PDF reachability required a complete object graph rather than a header stub: catalog, pages node, page object, content stream, xref table, trailer, and startxref. PDFium accepted sub-unit page-box dimensions; at the default scale libvips rounded those dimensions to zero before downstream thumbnail processing.
+- A minimal PDF that renders through this harness needs a catalog, pages tree, page dictionary with media box/resources, a contents stream with a self-consistent length, and a valid xref/trailer. Page content graphics operators can create a rectangle path, apply it as the clipping path, and clear the path; repeated clipping intersects the current clipping region and pushes nested draw-device state.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-raw-memory]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

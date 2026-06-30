@@ -20,3 +20,14 @@ The target consumes a PDF document, not a standalone font file. To reach font pa
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- A compact PDF can reach this path with ordinary raw PDF objects: Catalog to Pages to Page, a Resources font dictionary, a TrueType font dictionary with widths and WinAnsi encoding, a FontDescriptor with a FontFile2 stream, and a page content stream containing BT/Tf/Td/Tj text drawing operators. The embedded TrueType stream uses the standard sfnt table directory; its head table carries the units-per-em value that Poppler later observes through FreeType. Keeping the font stream unfiltered avoids compressed length repair when mutating font-internal fields.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

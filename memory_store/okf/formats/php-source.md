@@ -42,3 +42,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The parser fuzzer consumes PHP source text and compiles it without executing normal application logic. The fuzzer SAPI starts a request with a hardcoded disabled-functions list, then shuts the request down, so source that redeclares names from that disabled set can affect the function table observed by shutdown cleanup.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

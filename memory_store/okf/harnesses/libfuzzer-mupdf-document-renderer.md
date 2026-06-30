@@ -16,3 +16,13 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The MuPDF libFuzzer target passes the raw bytes to fz_open_document_with_stream with PDF magic, but document handling first performs content sniffing on seekable streams. A BMP signature is enough for the image document handler to load the raw BMP as a page, and rendering that page calls the BMP subimage loader. There is no fuzzer prefix selector and no FuzzedDataProvider byte split.
+
+## Round 28 Format Links
+- [[bmp]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

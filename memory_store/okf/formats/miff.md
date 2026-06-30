@@ -32,3 +32,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- MIFF uses an ASCII key-value header with id, class, dimensions, depth, optional colors, optional colorspace, and compression attributes, followed by a header terminator and then binary payload. PseudoClass images carry a colormap before pixel data; DirectClass RGB derives row bytes from width, depth, matte state, and colorspace. In the Zip reader, version-zero inputs are handled as a continuous zlib stream with a computed per-row read budget, while later Zip form uses length-prefixed compressed chunks. The reader imports a row after inflate reports stream end even when the output row is underfilled, which can leave the import buffer partly or wholly uninitialized.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

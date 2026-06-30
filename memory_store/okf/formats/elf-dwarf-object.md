@@ -54,3 +54,14 @@ okf_support: 3
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The input must be a complete ELF/DWARF object, not a raw DWARF section. The relevant object needs section headers naming debug types, abbreviations, line data, and macro data. A DWARF4 type unit has the common unit header plus a type signature and type-offset field before the first DIE. The experimental two-level line table has the usual line-table prefix, a standard-opcode operand table, empty legacy directory and file lists, an experimental marker, logical and actual table offsets, DWARF5-style directory and file tables, and then an experimental subprogram table.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

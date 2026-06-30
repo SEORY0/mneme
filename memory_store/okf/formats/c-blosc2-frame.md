@@ -83,3 +83,16 @@ from the in-memory frame.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- A contiguous C-Blosc2 frame has a msgpack-like header with magic, declared header length, declared total frame length, uncompressed and compressed byte counts, frame type, codec/filter metadata, frame-level type size, block size, chunk size, optional metalayers, compressed chunk payloads, a compressed offsets/index chunk, and a trailer. The frame-level type size is distinct from ordinary chunk header metadata and matters when a frame offset denotes a special synthesized chunk.
+- A C-Blosc2 frame uses a msgpack-like header with frame magic, declared header size, declared frame size, byte counts, chunk sizing metadata, compressed chunk payloads, a compressed offset-table chunk, and a msgpack-like trailer. The trailer can contain variable-length metalayer metadata: an index maps a metalayer name to a trailer-relative content record, and the content record carries a binary marker plus a declared content length. The trailer footer stores the trailer extent and a fingerprint marker.
+
+### Harness Links
+- [[afl-libfuzzer-compatible-whole-buffer-frame-decompressor]]
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -34,3 +34,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The input is an encoder configuration stream rather than an AAC bitstream. Back-consumed scalar fields choose bitrate, transport flags, tool flags, PCM width, channel count, sample-rate selection, frame length, USAC/AOT controls, SBR-related controls, DRC enablement, codec mode, and then a DRC config. A DRC config contains instruction records, coefficient records, gain-set records, per-band gain points, optional loudness records, channel-layout fields, downmix records, and extension flags. Multi-band gain sets select the STFT DRC gain-calculation path; equal x coordinates are accepted by the monotonicity check because it only rejects strictly decreasing x.
+
+### Harness Links
+- [[libfuzzer-fuzzed-data-provider]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

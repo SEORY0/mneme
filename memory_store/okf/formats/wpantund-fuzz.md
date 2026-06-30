@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- wpantund fuzz inputs begin with a one-byte mode selector. Config mode consumes raw configuration text after the selector. NCP mode consumes an HDLC-framed Spinel byte stream; frames are flag-delimited, escaped for flag/control bytes, and in this fuzz build carry trailing FCS bytes that are stripped without normal CRC validation. Spinel VALUE_IS, VALUE_INSERTED, and VALUE_REMOVED frames carry packed command and property identifiers followed by property-specific typed payloads.
+
+### Harness Links
+- [[afl-libfuzzer-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

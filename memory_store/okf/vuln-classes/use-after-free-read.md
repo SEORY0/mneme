@@ -42,9 +42,9 @@ okf_support: 8
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `use-after-free-read`
-- observed: 9 traces; solved: 9 (illustrative — not for ranking)
-- top input_formats: mosquitto-config-text (2), data-url (1), ipv4-gre-ieee80211-amsdu (1), openpgp-signed-message (1), pdf (1), php-script (1), shell-script (1), wkt-plus-wkb-split-stream (1)
-- top harnesses: libfuzzer (6), libfuzzer-execute (1), libfuzzer-fuzzshark-ip (1), libfuzzer-url-parser (1)
-- observed strategies: construct (7), seed-mutate (2)
+- observed: 11 traces; solved: 10 (illustrative — not for ranking)
+- top input_formats: mosquitto-config-text (2), pdf (2), data-url (1), ipv4-gre-ieee80211-amsdu (1), openpgp-signed-message (1), php-script (1), php-source (1), shell-script (1)
+- top harnesses: libfuzzer (7), libfuzzer-execute (1), libfuzzer-fuzzshark-ip (1), libfuzzer-raw-memory (1), libfuzzer-url-parser (1)
+- observed strategies: construct (9), seed-mutate (2)
 - collapsed aliases: heap-use-after-free-read, stack-use-after-return-read, stack-use-after-scope-read
 <!-- END observed-census -->

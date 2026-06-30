@@ -41,8 +41,8 @@ okf_support: 2
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `stack-buffer-overflow-read`
-- observed: 20 traces; solved: 15 (illustrative — not for ranking)
+- observed: 21 traces; solved: 16 (illustrative — not for ranking)
 - top input_formats: ovs-odp-action-text (2), rollei-raw-text-header (2), flac-tool-input (1), ipv4-gre-ieee80211 (1), ipv4-tcp-http (1), ipv4-tcp-http-response (1), javascript-source (1), libredwg-json (1)
-- top harnesses: libfuzzer (13), afl-file (1), afl-fuzzshark (1), fuzzshark-ip (1), libfuzzer-ndpi-process-packet (1), libfuzzer-pkcs15-reader (1), libfuzzer-qpdf (1), libfuzzer-whole-buffer-libraw (1)
-- observed strategies: construct (18), seed-mutate (2)
+- top harnesses: libfuzzer (14), afl-file (1), afl-fuzzshark (1), fuzzshark-ip (1), libfuzzer-ndpi-process-packet (1), libfuzzer-pkcs15-reader (1), libfuzzer-qpdf (1), libfuzzer-whole-buffer-libraw (1)
+- observed strategies: construct (18), seed-mutate (3)
 <!-- END observed-census -->

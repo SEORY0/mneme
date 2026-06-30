@@ -73,3 +73,14 @@ terminators.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The input is JavaScript source text, not a container format. The lexer handles string literal backslash escapes directly; a braced Unicode codepoint escape consumes hexadecimal codepoint characters until a closing brace or EOF. Invalid non-hex characters inside the braced form report a lexer error while scanning the same string token. There are no magic, length, or checksum gates.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

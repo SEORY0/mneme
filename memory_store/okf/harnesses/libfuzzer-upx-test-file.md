@@ -29,3 +29,13 @@ okf_support: 1
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The libFuzzer harness writes the input bytes verbatim to a temporary file and invokes UPX test mode on that path. There is no mode byte, FuzzedDataProvider split, checksum wrapper, or length prefix outside the file itself; the bytes must be a complete UPX-packed file that passes packed-file recognition before unpack-time ELF logic is reached.
+
+## Round 28 Format Links
+- [[upx-packed-elf]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

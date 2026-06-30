@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- OVN expression inputs are textual logical-match expressions. Address sets are referenced by name with the address-set sigil and port groups with the port-group sigil; referenced sets can be empty even though a literal empty value set is not accepted syntax. Equality and inequality with empty referenced sets normalize to boolean expressions, while ordered comparisons enter scalar comparison validation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

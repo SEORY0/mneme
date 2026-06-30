@@ -77,3 +77,13 @@ okf_support: 4
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 28 Input Contract
+
+- The active target is an AFL-wrapped libFuzzer xmlReader-for-file binary. It reads the PoC as raw fuzzer bytes, parses them with libxml2's ByteStream helper, writes the carved file-content string to a temporary file, calls xmlReaderForFile with the carved encoding and options, then repeatedly calls xmlTextReaderRead and simple node accessors. There is no FuzzedDataProvider tail layout.
+
+## Round 28 Format Links
+- [[libxml2-xml-reader-byte-stream]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

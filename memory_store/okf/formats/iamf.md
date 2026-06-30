@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- IAMF streams are made of OBU records. Each OBU begins with a bit-packed type/flag byte and a LEB128 size, followed by optional trimming or extension fields before the payload. A sequence-header OBU identifies the stream, descriptor OBUs define codec configuration, audio elements, and mix presentation, and later parameter/audio-frame OBUs are read by the packet path.
+
+### Harness Links
+- [[libfuzzer-ffmpeg-demuxer-iamf]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

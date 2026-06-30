@@ -93,3 +93,16 @@ blocks; recovery code may scan around a slid b_info location when metadata is in
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- A useful UPX-packed ELF carrier for this bug is a packed Linux shared object, not a plain executable. The carrier needs normal ELF headers, load segments, a PT_DYNAMIC table, a SHT_DYNSYM section, a dynamic string table, an initializer entry, and the UPX pack metadata/trailer so test mode recognizes it as packed. Android-style shared-library packing forwards section headers into the packed file; an old-style ASLR marker plus a forwarded section-header cut point controls whether the unpacker enters the ASLR shared-library dynsym adjustment path. Absolute dynamic symbols named like common end-of-image symbols are specially adjusted in that path.
+- A useful UPX-packed Linux ELF input is a complete packed shared object with normal ELF and program headers, l_info and p_info records, b_info records carrying per-block uncompressed size, compressed size, method, and filter metadata, compressed payloads, a terminator record, and the final PackHeader plus overlay pointer. Packed shared-object carriers can preserve a PT_DYNAMIC table in the packed file. Initializer-array dynamic entries can drive the hard un_DT_INIT restore path; that path may use a dynamic null entry as a pointer to saved relocation storage and dynsym[0]-sized storage as replacement relocation fields. Dynamic values are virtual addresses that UPX maps through PT_LOAD headers before treating them as file-image pointers.
+
+### Harness Links
+- [[libfuzzer-file-command-wrapper]]
+- [[libfuzzer-upx-test-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

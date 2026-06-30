@@ -40,3 +40,15 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The harness reads the raw file bytes as one ByteStream. There is no prefix selector or FuzzedDataProvider split. It creates a RawImage from the front scalar fields, reads tile offset and flag fields, allocates image data, constructs LJpegDecompressor over the remaining bytes, and catches RawSpeed exceptions, so clean exits usually mean a parser gate or slice-write relation was not reached.
+- The NCP-input harness creates a socketpair, configures wpantund to use one descriptor as the NCP socket, then writes remaining fuzz bytes one at a time through the other descriptor while pumping MainLoop. A special command byte in the byte stream can wait for outbound frames or fast-forward simulated time. The selector for NCP mode is required before any HDLC data; the control-interface selector is a stub.
+
+## Round 28 Format Links
+- [[rawspeed-ljpeg-fuzzer-struct]]
+- [[wpantund-fuzz]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

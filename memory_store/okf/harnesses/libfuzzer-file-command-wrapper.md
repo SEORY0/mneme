@@ -50,3 +50,13 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The libFuzzer harness writes the raw input bytes verbatim to a temporary file and invokes the UPX decompression command with an output-file argument. There is no mode byte, length prefix, checksum wrapper, or FuzzedDataProvider carving outside the file itself; reachability depends on UPX recognizing a complete packed executable and entering normal unpacking. The harness catches ordinary C++ exceptions, so sanitizer aborts are the useful crash signal.
+
+## Round 28 Format Links
+- [[upx-packed-elf]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

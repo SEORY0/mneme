@@ -43,9 +43,9 @@ okf_support: 7
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `heap-buffer-overflow-write`
-- observed: 60 traces; solved: 34 (illustrative — not for ranking)
-- top input_formats: ar-archive (3), elf (2), pdf (2), aac-usac (1), arrow-ipc-stream (1), bootp-dhcp-dns-name (1), caf-alac (1), dlltool-def-file (1)
-- top harnesses: libfuzzer (36), afl (2), afl-fuzzshark (1), afl-libfuzzer (1), afl-libfuzzer-compatible (1), afl-libfuzzer-file (1), afl-libfuzzer-file-wrapper (1), afl-style-libfuzzer-wrapper (1)
-- observed strategies: construct (49), seed-mutate (12), seed-replay (1), seed-sweep (1)
+- observed: 63 traces; solved: 36 (illustrative — not for ranking)
+- top input_formats: ar-archive (3), elf (2), pdf (2), aac-usac (1), arrow-ipc-stream (1), bfd-object (1), bootp-dhcp-dns-name (1), caf-alac (1)
+- top harnesses: libfuzzer (36), afl (2), afl-libfuzzer-file (2), afl-fuzzshark (1), afl-libfuzzer (1), afl-libfuzzer-compatible (1), afl-libfuzzer-file-wrapper (1), afl-style-libfuzzer-wrapper (1)
+- observed strategies: construct (51), seed-mutate (14), seed-replay (1), seed-sweep (1)
 - collapsed aliases: stack-or-heap-buffer-overflow-write
 <!-- END observed-census -->

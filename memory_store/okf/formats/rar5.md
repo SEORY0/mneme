@@ -33,3 +33,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- RAR5 archives begin with a fixed marker followed by CRC-protected base blocks. A base block carries a variable-length header-size field, then a header type and flags; file/service blocks may additionally carry extra-data and data-size varints before file metadata. The vulnerable path computes the checksum over only the declared header-size span, so a too-small declared span can leave later header fields outside the checksum-covered area.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
