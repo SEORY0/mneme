@@ -9,7 +9,7 @@ input_format: "dng"
 harness_convention: "libfuzzer"
 vuln_class: "heap-buffer-overflow-read"
 access_scope: generate
-success_count: 1
+success_count: 2
 confidence: high
 tags: ["wrong-sink", "parser-reached-sink-mismatch-but-official-target-match", "dng", "libfuzzer", "construct", "heap-buffer-overflow-read", "verified-recovery", "round-27"]
 match_keys: ["wrong_sink", "parser_reached_sink_mismatch_but_official_target_match", "dng", "libfuzzer", "heap-buffer-overflow-read", "verified_recovery"]
@@ -47,3 +47,8 @@ For `wrong_sink x parser_reached_sink_mismatch_but_official_target_match`, prese
 ## Evidence Shape
 - Support: one round-27 worker trace with official target match.
 - Scope: generator repair for the same failure-keyed basin; pair with [[dng]] and [[libfuzzer]].
+
+## Round 29 Evidence Update
+- Additional official target match strengthened this policy for `wrong_sink x parser_reached_sink_mismatch_but_official_target_match`.
+- Format: [[dng]]; harness: [[libfuzzer]].
+- Retain the existing procedure unless the verifier key changes.

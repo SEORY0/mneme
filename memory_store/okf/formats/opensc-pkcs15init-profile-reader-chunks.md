@@ -31,3 +31,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The pkcs15init fuzzer input is split at the first NUL byte. The prefix is OpenSC profile configuration text; the suffix is a virtual-reader stream of little-endian two-byte length-prefixed chunks. The first reader chunk is the ATR used for card-driver selection. Later chunks are APDU responses whose status words are the final two bytes of each chunk and whose response bodies precede those status words. The OpenSC profile language can define an MF, a PKCS15-AppDF, PIN metadata, ACLs, and key/PIN/data templates; file paths are normally inherited from parent DFs and extended by file IDs, while an AppDF without an explicit path or file-id can exist as a zero-length profile path if no child definition requires inherited path construction.
+
+### Harness Links
+- [[libfuzzer-opensc-pkcs15init]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -28,3 +28,13 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Input Contract
+
+- The pkcs15init harness parses the profile prefix, installs a fake smart-card reader from the chunk stream, connects a card from the ATR, binds a pkcs15init profile to the selected card driver, initializes an application, attempts a PKCS#15 bind, then only continues to object operations, finalization, sanity checking, and erase if the PKCS#15 bind succeeds. The related pkcs15-reader harness uses the same virtual-reader chunk contract without the leading profile prefix and binds PKCS#15 directly from APDU responses.
+
+## Round 29 Format Links
+- [[opensc-pkcs15init-profile-reader-chunks]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

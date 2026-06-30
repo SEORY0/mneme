@@ -34,3 +34,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- SDP is line-oriented text with session fields such as version, origin, session name, timing, connection, media, and attributes. GPAC's SDP probe recognizes text by line breaks plus version, origin, and connection markers. The SDP parser processes only terminated logical lines, tokenizes fields into fixed-size temporary buffers, and can represent generic or FMTP attributes with absent values.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

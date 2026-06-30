@@ -86,3 +86,14 @@ okf_support: 16
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The input is plain PHP source text. This PHP tree uses the older double-angle attribute syntax before declarations. Attribute arguments are parsed as constant expressions and are stored on class, function, method, property, class-constant, or parameter metadata during compilation. The built-in marker for declaring attribute classes is an internal class named PhpAttribute.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-php-parser-raw-source]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

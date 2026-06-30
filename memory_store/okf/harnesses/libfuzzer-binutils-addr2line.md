@@ -18,3 +18,13 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Input Contract
+
+- libFuzzer writes the raw input bytes to a temporary file and invokes the addr2line processing path after a precondition check. The harness supplies fixed command-line address strings; addr2line parses these as hexadecimal PCs, maps them over allocated sections, and calls BFD nearest-line lookup with a section-relative offset. There is no FuzzedDataProvider or prefix mode byte.
+
+## Round 29 Format Links
+- [[mips-elf-with-ecoff-mdebug]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

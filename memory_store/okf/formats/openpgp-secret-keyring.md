@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- OpenPGP secret-key packets carry public-key material followed by secret protection metadata. The GnuPG smartcard S2K variant is encoded as an experimental S2K specifier, a GnuPG marker, a smartcard extension selector, a declared serial length, and serial bytes. In this implementation the parser copies at most the fixed serial-buffer capacity but stores the declared serial length separately for later consumers.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

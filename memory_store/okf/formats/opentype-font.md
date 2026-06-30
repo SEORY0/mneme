@@ -159,3 +159,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font blob. HarfBuzz needs a coherent table directory and enough cmap/layout/outline structure for subset planning and output face construction; isolated table bytes or non-font instruction streams do not satisfy this harness.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

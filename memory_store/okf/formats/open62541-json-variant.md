@@ -22,3 +22,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- open62541 JSON Variant values are JSON objects with a numeric type selector and a body field. A body encoded as a JSON array makes the Variant an array value, and optional dimensions are represented by a separate dimension field. Builtin types are decoded directly; non-builtin values are wrapped through ExtensionObject handling. Variant arrays may contain Variant elements, which creates a valid recursive carrier while preserving the top-level Variant schema.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -9,7 +9,7 @@ input_format: "pdf-with-embedded-type1c-cff-font"
 harness_convention: "libfuzzer"
 vuln_class: "stack-buffer-overflow-write"
 access_scope: generate
-success_count: 1
+success_count: 2
 confidence: high
 tags: ["generic-crash", "parser-reached", "pdf-with-embedded-type1c-cff-font", "libfuzzer", "construct", "stack-buffer-overflow-write", "verified-recovery", "round-28"]
 match_keys: ["generic_crash", "parser_reached", "pdf-with-embedded-type1c-cff-font", "libfuzzer", "stack-buffer-overflow-write", "verified_recovery", "construct", "stack-buffer-overflow-write"]
@@ -41,3 +41,8 @@ For `generic_crash x parser_reached`, preserve the format and harness gates that
 ## Evidence Shape
 - Support: one round-28 worker trace with official target match.
 - Scope: generator repair for the same failure-keyed basin; pair with [[pdf-with-embedded-type1c-cff-font]] and [[libfuzzer]].
+
+## Round 29 Evidence Update
+- Additional official target match strengthened this policy for `generic_crash x parser_reached`.
+- Format: [[pdf-with-embedded-type1c-cff-font]]; harness: [[libfuzzer]].
+- Retain the existing procedure unless the verifier key changes.

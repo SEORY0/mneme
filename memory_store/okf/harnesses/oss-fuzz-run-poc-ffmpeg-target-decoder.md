@@ -37,3 +37,15 @@ train_only: true
 
 ## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 29 Input Contract
+
+- The OSS-Fuzz run_poc wrapper invokes the compiled FFmpeg AIC target-decoder fuzzer. The input is raw decoder packet data; for larger inputs the final fixed-size configuration block can set codec-context fields such as dimensions and parser flags. There is no demuxer container requirement, front selector byte, or FuzzedDataProvider split.
+- The generated run_poc wrapper invokes the FFmpeg VP7 target-decoder fuzzer on the PoC file. The fuzzer treats bytes as decoder packets, optionally split by its fixed packet separator, and for larger inputs reads a fixed-size control area for codec context, parser, keyframe, flush, and extradata settings. There is no FuzzedDataProvider front/back layout and no demuxer stage in the wrapper.
+
+## Round 29 Format Links
+- [[ffmpeg-aic-target-decoder-packet]]
+- [[ffmpeg-vp7-target-decoder-packets]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

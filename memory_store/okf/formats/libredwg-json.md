@@ -20,3 +20,14 @@ LibreDWG JSON accepts a top-level object with a HEADER member. Header keys map t
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- libredwg's JSON input is a top-level object with section objects. FILEHEADER metadata controls the DWG version used by later sections, and HEADER keys are looked up through dynapi metadata. For pre-R13 versions, selected header string variables are handled as fixed TFv strings even though the JSON token is ordinary text.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

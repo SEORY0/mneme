@@ -59,3 +59,14 @@ PostScript inputs are programs, not raw stream objects. A useful minimal carrier
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- Ghostscript stdin inputs are raw PostScript or PDF documents selected by their own syntax. A PostScript program can execute operators that raise interpreter errors while still passing the language-recognition gate. Safe-mode file access failures are sufficient to make initialization return an error without needing an external sidecar file.
+
+### Harness Links
+- [[libfuzzer-gstoraster-stdin]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

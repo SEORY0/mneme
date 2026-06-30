@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The input is not an object file. The prefix is passed directly as machine-code bytes to the selected BFD disassembler. A fixed-size trailer at the end supplies flavour, machine, and architecture selector fields; parser reach depends on those selectors rather than on a file magic. The ns32k decoder matches low-order opcode bits, then decodes operand descriptors from the basic instruction and any addressing extensions.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -67,3 +67,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- CIL policy text is an S-expression policy language. A minimal compile path needs class and classorder declarations, SID and sidorder declarations, user, role, type, role/type and user/role relations, category and sensitivity ordering, sensitivity-category mapping, user levels/ranges, a SID context, and at least one allow-style rule. A filename typetransition is represented as a typetransition form with source type, target type, object class, filename/name token, and result type. Macro parameters can be declared with flavors such as name/string, type, class, classpermission, level, levelrange, and ipaddr; anonymous classpermission and level-like arguments are accepted by the call-argument builder but are not valid filename-name datums.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

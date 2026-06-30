@@ -11,8 +11,8 @@ generated: taxonomy-census
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `seed-replay`
-- observed: 18 traces; solved: 2 (illustrative — not for ranking)
-- top vuln_classes: other (5), use-of-uninitialized-value (5), heap-buffer-overflow-read (1), heap-buffer-overflow-write (1), invalid-free (1), null-pointer-dereference (1), out-of-bounds (1), out-of-bounds-read (1)
-- top input_formats: opentype-font-subset-input (2), aac-usac (1), arrow-ipc-stream (1), elf-dwarf-object (1), ffmpeg-wtv (1), heif (1), icc (1), icc-profile (1)
+- observed: 20 traces; solved: 4 (illustrative — not for ranking)
+- top vuln_classes: use-of-uninitialized-value (6), other (5), out-of-bounds (2), heap-buffer-overflow-read (1), heap-buffer-overflow-write (1), invalid-free (1), null-pointer-dereference (1), out-of-bounds-read (1)
+- top input_formats: opentype-font-subset-input (2), aac-usac (1), aac-usac-mps (1), arrow-ipc-stream (1), elf-dwarf-object (1), ffmpeg-wtv (1), heif (1), icc (1)
 - collapsed aliases: seed-replay-and-construct, seed-replay-and-trailer-mutation, seed-replay-pkcs15-reader-corpus, seed-replay-raw-samples-with-config-tail
 <!-- END observed-census -->

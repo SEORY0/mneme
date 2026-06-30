@@ -21,3 +21,13 @@ train_only: true
 
 ## Round 28 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 29 Input Contract
+
+- The fuzz_process_packet harness initializes one nDPI flow and passes the whole file buffer directly to ndpi_detection_process_packet. It expects the input to start at the IP header; it does not read a pcap global header, packet record, selector byte, or FuzzedDataProvider fields.
+
+## Round 29 Format Links
+- [[raw-ipv4-udp-raknet-packet]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

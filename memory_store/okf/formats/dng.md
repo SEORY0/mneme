@@ -31,3 +31,14 @@ Build a minimal valid TIFF/DNG carrier and move the failure into a metadata tabl
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- A DNG input is a TIFF-family container with a byte-order marker, an image-file-directory table, typed tag values, and out-of-line storage for larger tag payloads. RawSpeed requires enough baseline image metadata to choose the DNG decoder and locate a raw strip. DNG opcode-list tags contain a counted sequence of records, and each opcode record stores its own big-endian identifier, version, flags, payload length, region fields, pitch fields, and opcode-specific payload.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

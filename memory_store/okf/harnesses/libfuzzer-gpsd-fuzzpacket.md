@@ -17,3 +17,13 @@ okf_support: 1
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Input Contract
+
+- The libFuzzer target requires a minimum input size and rejects overly large files. It treats the input as raw bytes with no mode selector and no FuzzedDataProvider splitting. The harness copies all bytes into the lexer input buffer, calls packet_parse once, then reinitializes the lexer and repeatedly calls packet_get on the same buffered bytes with a null file descriptor until packet_get returns no further packet.
+
+## Round 29 Format Links
+- [[gpsd-raw-packet-stream]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

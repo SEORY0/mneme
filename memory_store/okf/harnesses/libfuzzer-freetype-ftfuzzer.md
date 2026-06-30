@@ -16,3 +16,13 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 29 Input Contract
+
+- The FreeType ftfuzzer consumes raw font bytes unless the input is an uncompressed tar archive, in which case archive members become attached font files. There is no leading selector byte. The harness first opens the font to count faces, then opens selected faces and instances; SFNT face initialization loads optional CPAL/COLR data before the glyph-loading loop.
+
+## Round 29 Format Links
+- [[opentype-truetype-sfnt-cpal]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -322,3 +322,15 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The PDF parser accepts a normal document tree with catalog, pages, page, media box, optional crop box, resources, annotations, patterns, shadings, forms, and content streams. Empty MediaBox values are replaced by a default page rectangle, empty CropBox values are ignored, and non-overlapping CropBox intersections are sorted back into a non-empty page bound. Very small page bounds are normalized before page transform. The page unit value must be parsed as a real object; plain decimal real values were accepted more reliably than exponent-like spellings in page dictionaries.
+- A PDF render path needs a catalog, pages tree, page object, media box, content stream, and resources dictionary. Shading resources are referenced from page content with the shading operator. A type 4 mesh shading stream is controlled by flag, coordinate, and component bit-width entries plus a decode array; mesh samples are packed bit fields read most-significant-bit first.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

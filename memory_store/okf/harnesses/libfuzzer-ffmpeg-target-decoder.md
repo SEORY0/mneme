@@ -74,3 +74,13 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Input Contract
+
+- The FFmpeg target decoder fuzzer feeds the selected decoder with raw packet bytes. The input may contain an optional fixed delimiter that splits multiple packets, but no demux container is parsed. Very large inputs may also provide trailing codec-context fields; ordinary small inputs are treated as direct packet data.
+
+## Round 29 Format Links
+- [[ac3-eac3-audio-frame]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

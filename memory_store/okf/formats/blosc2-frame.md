@@ -39,3 +39,14 @@ Inputs follow the `blosc2-frame` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- A Blosc2 frame header is a msgpack-like fixed header containing a magic string, header length, total frame length, flags, data sizes, type size, chunk size, thread counts, optional usermeta flag, and filter pipeline. The metalayer section is appended to the header as a small array containing a size field, a map from short metalayer names to value-record locations, and an array of serialized value records. A frame with zero data sizes and zero chunk size can still reach metalayer parsing as long as the header, total length, and trailer are self-consistent.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

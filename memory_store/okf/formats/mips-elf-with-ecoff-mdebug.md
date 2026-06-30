@@ -18,3 +18,14 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- MIPS ELF .mdebug uses a MIPS-specific section type and an ECOFF symbolic header. The header stores absolute file positions and counts for line bytes, PDR records, FDR records, local strings, and optional symbol tables. ECOFF-32 external FDR records contain compact 16-bit procedure index/count fields, while PDR records carry full procedure VMAs used by nearest-line lookup. FDR filename fields are offsets into the local string table and can be selected without requiring local symbols when only a filename is needed.
+
+### Harness Links
+- [[libfuzzer-binutils-addr2line]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

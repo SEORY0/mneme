@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The input is raw Ruby source text, not bytecode or a serialized mruby irep. String interpolation is the source-level construct that emits the OP_STRCAT bytecode path. Interpolating an object that is not already a string, symbol, integer, class, or module causes mrb_str_concat to coerce it through to_s, which can execute arbitrary Ruby before concatenation finishes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

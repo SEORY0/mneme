@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- Ghostscript accepts complete PostScript programs and PDF files as raw stdin for this harness. Pdfwrite transparency setup in PostScript uses a page-device dictionary with transparency-related compatibility settings and transparency group begin/end operations; when the privileged transparency operators are not enabled by startup flags, the shipped example can replace them with no-op fallbacks. PDF transparency can also be expressed with Form XObjects that carry transparency group dictionaries and nested drawing resources. Text clipping can be represented through text rendering modes in PDF or charpath/clip operations in PostScript.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The XML fuzzer input is not plain XML. It starts with big-endian parser options and a big-endian allocation-failure control, followed by escaped URL/content string pairs. The first pair is the main XML resource and later pairs can provide external resources. String fields end with the fuzzer's backslash-newline sentinel, and entity contents are ordinary XML text inside that envelope.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

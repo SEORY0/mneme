@@ -87,3 +87,13 @@ okf_support: 4
 
 ## Round 28 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 29 Input Contract
+
+- The active binary is curl_fuzzer_rtsp under an AFL-compatible single-file wrapper. The whole file is parsed as TLVs from the front; there is no FuzzedDataProvider back-loading and no raw URL or raw RTSP transcript mode. The harness parses all TLVs, then applies standard curl callbacks and a local connect-to redirect before running a curl multi transfer against socketpair-backed synthetic sockets. Because of that redirect, ordinary RTSP URL hostnames do not necessarily exercise normal hostname resolution; proxy, DoH, interface, and Unix-socket options are the plausible alternate routes into hostip resolver code.
+
+## Round 29 Format Links
+- [[curl-fuzzer-tlv-rtsp]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

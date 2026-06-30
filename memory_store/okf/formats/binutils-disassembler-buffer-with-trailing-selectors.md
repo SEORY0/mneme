@@ -17,3 +17,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The harness input is not an object file. It is an instruction byte stream followed by selector metadata. The prefix is treated as bytes to disassemble, while the suffix selects disassembler flavour, machine, and architecture. There are no container length or checksum gates.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
