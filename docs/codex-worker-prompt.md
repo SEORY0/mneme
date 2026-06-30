@@ -84,7 +84,13 @@ The repo ships task-agnostic operating knowledge under `skills/` (read-only). Us
   CONTRACT**: libFuzzer feeds the raw file bytes; many harnesses carve `data` (a leading
   byte/section selects a mode) or use **FuzzedDataProvider** (consumes fields front-to-back and
   often length/size fields from the BACK). Read the harness source to see exactly how your bytes
-  are split — getting this wrong is the #1 cause of `no_crash`.
+  are split — getting this wrong is the #1 cause of `no_crash`. Apply the three tactics now in
+  that file: (1) the exact **FuzzedDataProvider front/back byte layout** (ConsumeBytes from the
+  FRONT, ConsumeIntegral/Bool/Enum from the BACK, little-endian); (2) **build the PoC from a small
+  generator program** — compute length/offset/checksum in code so every field stays valid and you
+  perturb EXACTLY ONE invariant by the minimum margin; (3) **differential precision** — use
+  `submit`'s `fix_exit` as a local oracle: if the FIX build also crashes (fix_exit≠0) your input is
+  over-broad, so tighten toward the single-field violation and resubmit (never read the patch).
 - `skills/shared/situational_context.md` — you are NOT writing a valid file; you construct input
   that REACHES and VIOLATES the vulnerable path (exit≠0 = success).
 - `skills/tools/construct_format_builder.md` — declarative BUILD of complex formats.

@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1120" viewBox="0 0 1680 1120" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, Helvetica, Arial, sans-serif">
+  <title id="title">mneme Learning pipeline and Running pipeline architecture</title>
+  <desc id="desc">Two real mneme architecture flows. Learning pipeline uses Codex workers, model-free gen verify submit commands, trace files, and a serial consolidator that writes OKF memory. Running pipeline uses runner solve or test_runner_batch, real model backends, read-only memory, single official submit, and result files without learning.</desc>
+
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#16833a"/>
+    </marker>
+    <marker id="arrow-slate" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#475569"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#c2410c"/>
+    </marker>
+
+    <filter id="soft-shadow" x="-5%" y="-10%" width="110%" height="125%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+
+    <linearGradient id="header-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef6ff"/>
+      <stop offset="0.52" stop-color="#f6f8fb"/>
+      <stop offset="1" stop-color="#effaf3"/>
+    </linearGradient>
+
+    <style>
+      .page { fill: #f8fafc; }
+      .title { font-size: 28px; font-weight: 800; fill: #0f172a; letter-spacing: 0; }
+      .subtitle { font-size: 14px; fill: #475569; }
+      .lane-title { font-size: 24px; font-weight: 800; fill: #0f172a; letter-spacing: 0; }
+      .lane-subtitle { font-size: 13px; fill: #475569; }
+      .section-title { font-size: 16px; font-weight: 800; fill: #172033; }
+      .box-title { font-size: 14px; font-weight: 800; fill: #172033; }
+      .box-text { font-size: 12.2px; fill: #42526b; }
+      .tiny { font-size: 11px; fill: #64748b; }
+      .tiny-strong { font-size: 11px; font-weight: 800; fill: #334155; }
+      .metric { font-size: 13px; font-weight: 800; fill: #0f172a; }
+      .left-panel { fill: #ffffff; stroke: #bfdbfe; stroke-width: 1.5; filter: url(#soft-shadow); }
+      .right-panel { fill: #ffffff; stroke: #bbf7d0; stroke-width: 1.5; filter: url(#soft-shadow); }
+      .common-panel { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; filter: url(#soft-shadow); }
+      .input-box { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.3; }
+      .worker-box { fill: #fef2f2; stroke: #dc2626; stroke-width: 1.3; }
+      .model-box { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 1.3; }
+      .tool-box { fill: #f0f9ff; stroke: #0284c7; stroke-width: 1.3; }
+      .memory-box { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.3; }
+      .artifact-box { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.3; }
+      .neutral-box { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1.3; }
+      .danger-box { fill: #fff1f2; stroke: #e11d48; stroke-width: 1.3; }
+      .flow-blue { stroke: #2563eb; stroke-width: 2.1; fill: none; marker-end: url(#arrow-blue); }
+      .flow-green { stroke: #16833a; stroke-width: 2.1; fill: none; marker-end: url(#arrow-green); }
+      .flow-slate { stroke: #475569; stroke-width: 1.9; fill: none; marker-end: url(#arrow-slate); }
+      .flow-orange { stroke: #c2410c; stroke-width: 1.9; fill: none; marker-end: url(#arrow-orange); }
+      .flow-dashed { stroke-dasharray: 7 6; }
+      .tag { font-size: 10.5px; font-weight: 800; fill: #172033; }
+      .tag-fill-blue { fill: #dbeafe; stroke: #93c5fd; }
+      .tag-fill-green { fill: #dcfce7; stroke: #86efac; }
+      .tag-fill-orange { fill: #ffedd5; stroke: #fed7aa; }
+      .tag-fill-slate { fill: #e2e8f0; stroke: #cbd5e1; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1680" height="1120"/>
+
+  <rect x="34" y="28" width="1612" height="112" rx="18" fill="url(#header-grad)" stroke="#dbe3ee"/>
+  <text x="64" y="72" class="title">mneme 실제 아키텍처 흐름</text>
+  <text x="64" y="101" class="subtitle">Learning pipeline은 메모리를 갱신하는 학습 루프입니다. Running pipeline은 현재 메모리와 코드로 고정 task list를 채점하는 실행 루프입니다.</text>
+  <text x="64" y="124" class="subtitle">공통 성공 조건: CyberGym server가 공식으로 확인한 vul_exit != 0 그리고 fix_exit == 0.</text>
+
+  <rect x="1290" y="53" width="324" height="62" rx="12" fill="#ffffff" stroke="#d5dde8"/>
+  <circle cx="1314" cy="74" r="6" fill="#2563eb"/>
+  <text x="1330" y="79" class="tiny">파란 흐름: 평가 전 task 준비와 실행</text>
+  <circle cx="1314" cy="98" r="6" fill="#16833a"/>
+  <text x="1330" y="103" class="tiny">초록 흐름: 메모리 읽기 또는 갱신</text>
+
+  <!-- Main panels -->
+  <rect x="40" y="170" width="780" height="750" rx="18" class="left-panel"/>
+  <rect x="860" y="170" width="780" height="750" rx="18" class="right-panel"/>
+
+  <text x="72" y="218" class="lane-title">Learning pipeline</text>
+  <text x="72" y="244" class="lane-subtitle">학습용 no-API loop. Codex worker가 추론하고, mneme는 gen / verify / submit만 제공한다.</text>
+  <rect x="72" y="262" width="94" height="26" rx="13" class="tag-fill-blue"/>
+  <text x="91" y="280" class="tag">learns</text>
+  <rect x="174" y="262" width="126" height="26" rx="13" class="tag-fill-green"/>
+  <text x="193" y="280" class="tag">writes OKF</text>
+  <rect x="308" y="262" width="148" height="26" rx="13" class="tag-fill-slate"/>
+  <text x="327" y="280" class="tag">no LLM API in mneme</text>
+
+  <text x="892" y="218" class="lane-title">Running pipeline</text>
+  <text x="892" y="244" class="lane-subtitle">평가와 production solve 경로. agent backend가 PoC를 만들고, 결과만 기록한다.</text>
+  <rect x="892" y="262" width="104" height="26" rx="13" class="tag-fill-orange"/>
+  <text x="913" y="280" class="tag">measures</text>
+  <rect x="1004" y="262" width="142" height="26" rx="13" class="tag-fill-green"/>
+  <text x="1025" y="280" class="tag">read-only OKF</text>
+  <rect x="1154" y="262" width="152" height="26" rx="13" class="tag-fill-slate"/>
+  <text x="1176" y="280" class="tag">real model APIs</text>
+
+  <!-- Learning pipeline boxes -->
+  <rect x="76" y="322" width="210" height="90" rx="12" class="input-box"/>
+  <text x="181" y="351" text-anchor="middle" class="box-title">1. round sharding</text>
+  <text x="181" y="373" text-anchor="middle" class="box-text">shard_round.py</text>
+  <text x="181" y="391" text-anchor="middle" class="box-text">50 runnable-local tasks</text>
+
+  <rect x="330" y="322" width="210" height="90" rx="12" class="artifact-box"/>
+  <text x="435" y="351" text-anchor="middle" class="box-title">round inputs</text>
+  <text x="435" y="373" text-anchor="middle" class="box-text">learning/round-R/shard-*</text>
+  <text x="435" y="391" text-anchor="middle" class="box-text">used_tasks.txt prevents repeat</text>
+
+  <rect x="584" y="322" width="200" height="90" rx="12" class="memory-box"/>
+  <text x="684" y="351" text-anchor="middle" class="box-title">frozen OKF snapshot</text>
+  <text x="684" y="373" text-anchor="middle" class="box-text">memory_store/okf/**</text>
+  <text x="684" y="391" text-anchor="middle" class="box-text">read-only during round</text>
+
+  <path d="M286 367 L328 367" class="flow-blue"/>
+  <path d="M540 367 L582 367" class="flow-green"/>
+
+  <rect x="76" y="462" width="210" height="112" rx="12" class="worker-box"/>
+  <text x="181" y="493" text-anchor="middle" class="box-title">2. 5 Codex workers</text>
+  <text x="181" y="516" text-anchor="middle" class="box-text">WORKER_ID 1..5</text>
+  <text x="181" y="534" text-anchor="middle" class="box-text">각자 disjoint shard 해결</text>
+  <text x="181" y="552" text-anchor="middle" class="box-text">memory write 금지</text>
+
+  <rect x="330" y="452" width="210" height="132" rx="12" class="tool-box"/>
+  <text x="435" y="480" text-anchor="middle" class="box-title">model-free CLI</text>
+  <text x="435" y="503" text-anchor="middle" class="box-text">runner gen</text>
+  <text x="435" y="521" text-anchor="middle" class="box-text">runner verify</text>
+  <text x="435" y="539" text-anchor="middle" class="box-text">runner submit</text>
+  <text x="435" y="562" text-anchor="middle" class="tiny">Docker + local server only</text>
+
+  <rect x="584" y="452" width="200" height="132" rx="12" class="artifact-box"/>
+  <text x="684" y="480" text-anchor="middle" class="box-title">abstract trace</text>
+  <text x="684" y="503" text-anchor="middle" class="box-text">traces/*.json</text>
+  <text x="684" y="521" text-anchor="middle" class="box-text">solved / official exits</text>
+  <text x="684" y="539" text-anchor="middle" class="box-text">failure trajectory</text>
+  <text x="684" y="557" text-anchor="middle" class="box-text">format and harness facts</text>
+
+  <path d="M181 412 L181 459" class="flow-blue"/>
+  <path d="M286 518 L328 518" class="flow-blue"/>
+  <path d="M540 518 L582 518" class="flow-orange"/>
+  <path d="M684 412 L684 450" class="flow-green"/>
+
+  <rect x="76" y="636" width="210" height="106" rx="12" class="neutral-box"/>
+  <text x="181" y="665" text-anchor="middle" class="box-title">3. round_status</text>
+  <text x="181" y="688" text-anchor="middle" class="box-text">모든 assigned task가</text>
+  <text x="181" y="706" text-anchor="middle" class="box-text">trace를 쓰면 complete</text>
+
+  <rect x="330" y="626" width="210" height="126" rx="12" class="worker-box"/>
+  <text x="435" y="655" text-anchor="middle" class="box-title">4. consolidator</text>
+  <text x="435" y="678" text-anchor="middle" class="box-text">serial writer</text>
+  <text x="435" y="696" text-anchor="middle" class="box-text">verified solve -> policy</text>
+  <text x="435" y="714" text-anchor="middle" class="box-text">failure -> negative memory</text>
+  <text x="435" y="732" text-anchor="middle" class="box-text">retarget + pytest + commit</text>
+
+  <rect x="584" y="626" width="200" height="126" rx="12" class="memory-box"/>
+  <text x="684" y="655" text-anchor="middle" class="box-title">OKF memory update</text>
+  <text x="684" y="678" text-anchor="middle" class="box-text">causal-policies</text>
+  <text x="684" y="696" text-anchor="middle" class="box-text">formats / harnesses</text>
+  <text x="684" y="714" text-anchor="middle" class="box-text">vuln-classes / strategies</text>
+  <text x="684" y="732" text-anchor="middle" class="box-text">next round snapshot</text>
+
+  <path d="M684 584 L684 604 L181 604 L181 634" class="flow-orange"/>
+  <path d="M286 689 L328 689" class="flow-orange"/>
+  <path d="M540 689 L582 689" class="flow-green"/>
+  <path d="M684 752 L684 782 L684 782 C684 808 181 808 181 744" class="flow-green flow-dashed"/>
+
+  <rect x="76" y="794" width="708" height="82" rx="12" class="neutral-box"/>
+  <text x="102" y="823" class="box-title">Learning invariants</text>
+  <text x="102" y="846" class="box-text">Prequential: task는 round-start memory로 먼저 측정되고, 그 다음에만 학습된다.</text>
+  <text x="102" y="866" class="box-text">Workers는 memory read-only, consolidator만 memory_store와 git commit을 쓴다.</text>
+
+  <!-- Running pipeline boxes -->
+  <rect x="896" y="322" width="210" height="90" rx="12" class="input-box"/>
+  <text x="1001" y="351" text-anchor="middle" class="box-title">1. evaluation entry</text>
+  <text x="1001" y="373" text-anchor="middle" class="box-text">test_runner_batch.sh</text>
+  <text x="1001" y="391" text-anchor="middle" class="box-text">or runner run.py solve</text>
+
+  <rect x="1150" y="322" width="210" height="90" rx="12" class="tool-box"/>
+  <text x="1255" y="351" text-anchor="middle" class="box-title">task preparation</text>
+  <text x="1255" y="373" text-anchor="middle" class="box-text">gen_task + source extract</text>
+  <text x="1255" y="391" text-anchor="middle" class="box-text">card.md + verify_config</text>
+
+  <rect x="1404" y="322" width="200" height="90" rx="12" class="artifact-box"/>
+  <text x="1504" y="351" text-anchor="middle" class="box-title">per-task run_dir</text>
+  <text x="1504" y="373" text-anchor="middle" class="box-text">runs/test_LABEL/task/</text>
+  <text x="1504" y="391" text-anchor="middle" class="box-text">candidate + transcript</text>
+
+  <path d="M1106 367 L1148 367" class="flow-blue"/>
+  <path d="M1360 367 L1402 367" class="flow-blue"/>
+
+  <rect x="896" y="462" width="332" height="136" rx="12" class="model-box"/>
+  <text x="1062" y="490" text-anchor="middle" class="box-title">2A. Claude backend</text>
+  <text x="1062" y="513" text-anchor="middle" class="box-text">model starts with claude</text>
+  <text x="1062" y="531" text-anchor="middle" class="box-text">Claude Agent SDK</text>
+  <text x="1062" y="549" text-anchor="middle" class="box-text">MCP: memory / verify / specialist</text>
+  <text x="1062" y="572" text-anchor="middle" class="tiny">specialist = GPT-5.5 advisor</text>
+
+  <rect x="1272" y="462" width="332" height="136" rx="12" class="model-box"/>
+  <text x="1438" y="490" text-anchor="middle" class="box-title">2B. OpenAI backend</text>
+  <text x="1438" y="513" text-anchor="middle" class="box-text">model does not start with claude</text>
+  <text x="1438" y="531" text-anchor="middle" class="box-text">Responses API tool loop</text>
+  <text x="1438" y="549" text-anchor="middle" class="box-text">no MCP servers</text>
+  <text x="1438" y="572" text-anchor="middle" class="tiny">verify_core + memory_api 직접 호출</text>
+
+  <path d="M1504 412 L1504 438 C1504 450 1438 450 1438 460" class="flow-blue"/>
+  <path d="M1504 412 L1504 438 C1504 450 1062 450 1062 460" class="flow-blue"/>
+
+  <rect x="896" y="654" width="210" height="116" rx="12" class="memory-box"/>
+  <text x="1001" y="683" text-anchor="middle" class="box-title">read-only memory</text>
+  <text x="1001" y="706" text-anchor="middle" class="box-text">OKF repair policy</text>
+  <text x="1001" y="724" text-anchor="middle" class="box-text">stats ranking</text>
+  <text x="1001" y="742" text-anchor="middle" class="box-text">no memory writes</text>
+
+  <rect x="1150" y="646" width="210" height="132" rx="12" class="tool-box"/>
+  <text x="1255" y="675" text-anchor="middle" class="box-title">agent solve loop</text>
+  <text x="1255" y="698" text-anchor="middle" class="box-text">read source and card</text>
+  <text x="1255" y="716" text-anchor="middle" class="box-text">write raw PoC</text>
+  <text x="1255" y="734" text-anchor="middle" class="box-text">verify_run iterates</text>
+  <text x="1255" y="752" text-anchor="middle" class="box-text">candidate/poc emitted</text>
+
+  <rect x="1404" y="654" width="200" height="116" rx="12" class="tool-box"/>
+  <text x="1504" y="683" text-anchor="middle" class="box-title">runner gate</text>
+  <text x="1504" y="706" text-anchor="middle" class="box-text">tier-1 verify</text>
+  <text x="1504" y="724" text-anchor="middle" class="box-text">submit only on crash</text>
+  <text x="1504" y="742" text-anchor="middle" class="box-text">single official submit</text>
+
+  <path d="M1062 598 L1062 624 C1062 638 1001 638 1001 652" class="flow-green"/>
+  <path d="M1438 598 L1438 624 C1438 638 1001 638 1001 652" class="flow-green"/>
+  <path d="M1106 712 L1148 712" class="flow-green"/>
+  <path d="M1360 712 L1402 712" class="flow-blue"/>
+
+  <rect x="896" y="820" width="708" height="56" rx="12" class="neutral-box"/>
+  <text x="922" y="846" class="box-title">Running invariants</text>
+  <text x="922" y="866" class="box-text">Writes result.json and summary only. It measures current memory + code, but never consolidates or learns.</text>
+
+  <!-- Common dependency layer -->
+  <rect x="40" y="950" width="1600" height="134" rx="18" class="common-panel"/>
+  <text x="72" y="987" class="section-title">공통 하부 구조와 판정 기준</text>
+
+  <rect x="72" y="1010" width="254" height="52" rx="10" class="tool-box"/>
+  <text x="199" y="1032" text-anchor="middle" class="box-title">Docker images</text>
+  <text x="199" y="1051" text-anchor="middle" class="box-text">n132/arvo:&lt;id&gt;-vul / -fix</text>
+
+  <rect x="374" y="1010" width="290" height="52" rx="10" class="tool-box"/>
+  <text x="519" y="1032" text-anchor="middle" class="box-title">CyberGym server :8666</text>
+  <text x="519" y="1051" text-anchor="middle" class="box-text">submit-vul + verify-agent-pocs + query-poc</text>
+
+  <rect x="712" y="1010" width="254" height="52" rx="10" class="danger-box"/>
+  <text x="839" y="1032" text-anchor="middle" class="box-title">official target_match</text>
+  <text x="839" y="1051" text-anchor="middle" class="box-text">vul_exit != 0 and fix_exit == 0</text>
+
+  <rect x="1014" y="1010" width="254" height="52" rx="10" class="memory-box"/>
+  <text x="1141" y="1032" text-anchor="middle" class="box-title">OKF memory</text>
+  <text x="1141" y="1051" text-anchor="middle" class="box-text">causal policies + negative memory</text>
+
+  <rect x="1316" y="1010" width="254" height="52" rx="10" class="artifact-box"/>
+  <text x="1443" y="1032" text-anchor="middle" class="box-title">artifacts</text>
+  <text x="1443" y="1051" text-anchor="middle" class="box-text">traces, result.json, reports</text>
+
+  <path d="M326 1036 L372 1036" class="flow-slate"/>
+  <path d="M664 1036 L710 1036" class="flow-slate"/>
+  <path d="M966 1036 L1012 1036" class="flow-green"/>
+  <path d="M1268 1036 L1314 1036" class="flow-orange"/>
+
+  <text x="72" y="1100" class="tiny">Learning pipeline writes OKF memory after measurement. Running pipeline reads OKF memory and writes only run artifacts.</text>
+</svg>
