@@ -55,3 +55,8 @@ libFuzzer raw bytes are passed directly to coap_pdu_parse as a UDP PDU. The harn
 ## Evidence Shape
 - Support: 1 diagnosed persistent failure from round 25 after 3 attempts.
 - Scope: generator repair and basin avoidance only.
+
+## Round 27 Reinforcement
+- key: `no_crash x parser_reached_clean_rejection`
+- Malformed CoAP packets reached the UDP parser and often forced coap_pdu_parse to return failure, but the subsequent query, path, display, and header-encode helpers stayed bounded.
+- Distinct attempts covered oversized or inconsistent token lengths, empty-message body violations, trailing payload-marker cases, semantic option-length violations, option-number overflow, and an overlarge Proxy-Uri interpreted by helper code; all exited cleanly.

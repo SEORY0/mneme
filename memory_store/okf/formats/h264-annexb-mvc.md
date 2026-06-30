@@ -3,7 +3,7 @@ type: format-family
 title: "h264-annexb-mvc format"
 description: "Structure and invariants for the h264-annexb-mvc input format."
 tags: ["h264-annexb-mvc", "round-14"]
-okf_support: 2
+okf_support: 12
 ---
 # Schema
 ## Identification
@@ -30,3 +30,15 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- The input is a raw H.264 Annex-B elementary stream.
+- NAL units are start-code delimited; SPS and PPS establish decoder state before frame decode.
+- SEI NAL payloads are a sequence of payload-type and payload-size fields followed by payload bytes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

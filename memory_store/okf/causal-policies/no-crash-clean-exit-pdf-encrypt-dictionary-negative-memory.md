@@ -63,3 +63,9 @@ through its normal interpreter.
 ## Evidence Shape
 - Support: 1 diagnosed persistent failure from round 7.
 - Scope: generator repair and basin avoidance only.
+
+## Round 27 Reinforcement
+- key: `no_crash x pdf_parsed_clean_or_password_rejected`
+- Seed mutations reached qpdf's PDF parsing and encrypted-file handling but did not produce an invalid AES key length.
+- V4 AES inputs normalize the encryption key to a valid AES width before object decryption, and crypt-filter length fields did not affect the key bytes passed to Pl_AES_PDF.
+- V5 encrypted-file paths recovered a full-width file key or rejected the file before stream decryption.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6", "round-16"]
-okf_support: 147
+okf_support: 252
 ---
 # Libfuzzer Harness
 
@@ -1818,3 +1818,110 @@ Splash font path code is reached.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Input Contract
+- The libFuzzer harness feeds the whole byte stream as an hb_face font blob.
+- It also copies up to the final 64 input bytes into a fixed UTF-32 array; the last word of that array is passed as the glyph id to miscellaneous face/font APIs including glyph extents.
+- There is no leading mode selector or FuzzedDataProvider carving.
+- The libFuzzer harness consumes the first raw input byte as the patch prefix length option and passes all remaining bytes directly to git_patch_from_buffer.
+- There is no checksum, file container, or FuzzedDataProvider layout.
+- The active target is the DRSUAPI TYPE_OUT libFuzzer binary.
+- It rejects inputs whose selector type is not output, then pulls any output pipes, decodes the selected function's OUT stub, re-pushes the decoded structure, and walks the NDR print tree.
+- There is no FuzzedDataProvider and no mode byte beyond the NDR selector header.
+- The target consumes raw file bytes as the tested binary input; there is no fuzzer-side prefix, selector byte, or FuzzedDataProvider layout.
+- The radare2 analysis harness opens the file and drives the ELF loader and analysis path.
+- The stb_image libFuzzer harness feeds raw file bytes directly to the memory parser.
+- It first calls the info parser as a reachability gate, rejects very large decoded dimensions, and then decodes the same raw bytes requesting RGBA output.
+- There is no leading mode selector, datasource wrapper, filename, or FuzzedDataProvider layout.
+- The PHP execute fuzzer feeds the raw input bytes as a PHP script buffer and executes them directly.
+- There is no FuzzedDataProvider split or length-prefixed envelope.
+- The harness suppresses normal error reporting through configuration, so the PoC must establish its own error-reporting and exception-conversion behavior in the script.
+- The wrapper runs the wolfSSL randomized client fuzzer on the raw file.
+- The final byte selects one of the client method contexts.
+- Before TLS bytes are consumed, allocation randomization reads bytes from the front; odd choices allow an allocation and even choices fail it.
+- The libFuzzer target passes the input buffer directly to a default UCL parser through the add-string API.
+- Empty input is ignored.
+- There is no selector byte, file envelope, integrity field, or FuzzedDataProvider front/back split.
+- The libFuzzer harness feeds the entire raw input as an in-memory serialized frame to the frame opener.
+- If opening succeeds, it allocates an output buffer from the declared uncompressed size and lazily decompresses each data chunk except the final frame-index chunk.
+- The libFuzzer input is raw text with a leading mode selector.
+- After the selector is consumed, the remaining bytes are split into line records on IRC line separators and emitted to Irssi's server incoming path.
+- In one mode the harness prepends a source prefix to each line, which prevents the message-tag parser from seeing tags at the beginning.
+- The container wrapper runs the libFuzzer-built fuzzshark IP target on the file copied to the fixed input path.
+- The harness initializes Wireshark, registers the configured IP dissector as a postdissector, wraps the raw file bytes as one synthetic packet record, and calls epan dissection.
+- There is no pcap envelope, mode byte, checksum repair, stdin contract, or FuzzedDataProvider front/back carving.
+- The libFuzzer target passes raw input bytes to a libxml2 fuzzer data reader.
+- The harness consumes a leading parser-option word before the resource strings; no separate FuzzedDataProvider back-of-buffer fields or mode byte were observed.
+- The libFuzzer target passes the entire input as a raw camera-file byte stream to RawSpeed.
+- There is no front selector, chunk framing, checksum wrapper, or FuzzedDataProvider layout.
+- Parser exceptions are caught, so the input must remain a coherent TIFF/IFD container before the decoder-specific truncation invariant is exercised.
+- The libFuzzer harness passes the raw input buffer directly to cmsIT8LoadFromMem and frees the returned handle if parsing succeeds.
+- There is no FuzzedDataProvider split, no filename argument, and no outer container; all reachability depends on the CGATS text classifier and parser state machine.
+- The Ghostscript gstoraster fuzzer feeds the raw input bytes as a document on stdin.
+- There is no carved selector or FuzzedDataProvider layout; parser reachability depends on PDF syntax, startxref, and xref-stream consistency.
+- libFuzzer passes the raw input bytes directly to coap_pdu_parse as a UDP PDU.
+- The harness ignores the parse return value, then calls URI query/path helpers, prints the PDU, re-encodes the header, frees derived strings, and deletes the PDU.
+- There is no mode selector or FuzzedDataProvider layout.
+- The selected target consumes raw TIFF/DNG file bytes through RawSpeed's TIFF decoder fuzzer; there is no prefix byte or FuzzedDataProvider layout.
+- The standalone DNG-opcode fuzzer has a little-endian RawImage prefix followed by a big-endian opcode stream, but that envelope does not reach this packaged target.
+- The libxml2 HTML fuzzer consumes a big-endian parser-options field, then a big-endian allocation-limit field whose effective limit is reduced modulo input size, then treats the remaining bytes as the HTML document.
+- The document is parsed once through htmlReadMemory and then through a push parser that feeds bounded chunks under the same allocation-failure limit.
+- The allocation limit is armed immediately before each parser mode.
+- The MVC decoder fuzzer consumes the raw input bytes as the elementary stream.
+- A few fixed early bytes are also sampled as decoder configuration selectors such as architecture and core count, but the stream is otherwise decoded directly through a header pass followed by repeated frame decode calls.
+- The local runner's generic file-copy verifier mismatches this image's libFuzzer corpus-directory wrapper, so official submit results were used as the decisive oracle for these candidates.
+- The Assimp libFuzzer harness passes the entire input byte array directly to Importer::ReadFileFromMemory with no selector byte and no FuzzedDataProvider carving.
+- Importer detection is signature based, and successful imports continue into the normal Assimp post-processing pipeline.
+- The secilc libFuzzer target treats the input buffer as CIL source, adds it as an in-memory policy file, compiles it, builds and optimizes a policy database, writes to a null output when compilation succeeds, then destroys the CIL database.
+- There is no file wrapper, selector byte, integrity field, or FuzzedDataProvider layout.
+- The libFuzzer harness passes the whole file to LLVMFuzzerTestOneInput.
+- The first byte selects one PKCS#11 operation; operation-specific parsers consume fields from the front, and the leftover tail becomes virtual-reader data.
+- The verify path uses direct C_Verify for small verify data and an update/final loop for larger verify data.
+- The libFuzzer input is opened with libpcap through an in-memory file and must contain a valid pcap stream.
+- The harness sets the interface datalink from the pcap global header, iterates packets with pcap_next_ex, and passes each captured packet plus its pcap header directly to NetworkInterface::dissectPacket.
+- The LibreDWG libFuzzer target consumes raw file bytes.
+- Inputs with the DWG release prefix go to the binary DWG decoder, JSON-looking inputs go to JSON import, and other inputs fall back to DXF text import.
+- No fuzzer-side carving or FuzzedDataProvider layout is used; this crash occurs during DWG decode before output-format selection matters.
+- The libFuzzer target installs a virtual reader over the chunk stream, binds a PKCS#15 card, then consumes two additional chunks as operation input and parameter buffers before iterating bound objects.
+- During iteration it tries decipher, derive, wrap, unwrap, signature, and PIN operations depending on object type.
+- Chunk boundaries and APDU status words must remain coherent or the bind path exits before PKCS#15 object parsing.
+- The harness writes the raw input bytes to a temporary file and invokes UPX test mode on that file.
+- The input is not carved, prefixed, checksummed by the harness, or consumed through FuzzedDataProvider; all structure must be valid enough for UPX packed-file recognition.
+- The GPAC fuzz target treats the raw input bytes as a media asset and lets probe/analyze select the image reframer from file content.
+- There is no front selector and no FuzzedDataProvider contract; satisfying the BMP header gates is enough to reach the BMP branch in the image reframing filter.
+- The selected oss-fuzz target is the Ghostscript psdcmyk device fuzzer.
+- It feeds raw input bytes as stdin to Ghostscript with the psdcmyk output device and banding/clist-oriented options; there is no leading selector byte, prefix carving, or FuzzedDataProvider layout.
+- PDF versus PostScript parsing is selected by the document syntax.
+
+## Round 27 Format Links
+- [[blosc2-frame]]
+- [[bmp]]
+- [[cgats-it8-text]]
+- [[cil-policy-text]]
+- [[coap-udp-pdu]]
+- [[dng]]
+- [[dwg-r11]]
+- [[elf]]
+- [[git-patch]]
+- [[h264-annexb-mvc]]
+- [[html-doctype]]
+- [[ircv3-message-tags]]
+- [[libxml2-xml-fuzzer-entity-envelope]]
+- [[nef-tiff]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+- [[opentype-cff]]
+- [[pcap-mdns]]
+- [[pdf-or-postscript]]
+- [[pdf-xref-stream]]
+- [[php-script]]
+- [[png]]
+- [[quake1-mdl]]
+- [[raw-pkcs11-fuzzer-record]]
+- [[samba-ndr-drsuapi-output]]
+- [[ucl-config-text]]
+- [[upx-packed-unix]]
+- [[wireshark-fuzzshark-ip-packet]]
+- [[wolfssl-randomized-tls-client-stream]]
+
+## Round 27 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

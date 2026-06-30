@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Mupdf Pdf Renderer harness"
 description: "Input contract facts for libfuzzer-mupdf-pdf-renderer."
 tags: ["libfuzzer-mupdf-pdf-renderer", "round-11", "round-16"]
-okf_support: 2
+okf_support: 10
 train_only: true
 ---
 # Libfuzzer Mupdf Pdf Renderer Harness
@@ -50,3 +50,13 @@ train_only: true
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 27 Input Contract
+- The MuPDF libFuzzer target opens the input bytes directly as an in-memory PDF and then exercises page counting/rendering under the fuzzer allocator.
+- There is no outer archive, no mode selector, and no FuzzedDataProvider layout; parser exceptions are caught unless a sanitizer-visible memory error occurs.
+
+## Round 27 Format Links
+- [[pdf-xref-stream]]
+
+## Round 27 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

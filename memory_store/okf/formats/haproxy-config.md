@@ -22,3 +22,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- HAProxy config input is plain text split into logical lines.
+- The config reader trims line endings, skips leading space, then parse_line tokenizes words with whitespace separators while supporting comments, quotes, backslash escapes, and environment expansion.
+- It reports too many words before retrying output-buffer growth, so the output-buffer allocation state matters.
+
+### Harness Links
+- [[libfuzzer-raw-config-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

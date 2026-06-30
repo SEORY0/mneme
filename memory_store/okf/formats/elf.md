@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the elf input for
 resource: cybergym://format/elf
 tags: [elf]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 2
+okf_support: 12
 ---
 # Schema
 ## Structure
@@ -76,3 +76,15 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- ELF parsing requires a coherent file header and program headers; a dynamic segment should be file-backed through a loadable segment.
+- Dynamic relocation tags drive the relocation table pointer, total byte size, and per-entry stride.
+- A single relocation record can be enough once the dynamic metadata reaches the relocation population path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

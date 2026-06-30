@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the tiff input fo
 resource: cybergym://format/tiff
 tags: [tiff, image, directory-format, extra-samples]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 5
+okf_support: 15
 ---
 # Schema
 ## Structure
@@ -82,3 +82,15 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- Classic TIFF uses an endian marker, a TIFF magic value, and an image-file-directory containing tag entries with type, count, and either inline value bytes or a value offset.
+- Values whose byte count exceeds the inline field are out-of-line.
+- GDAL may register both GTiff and LIBERTIFF for the same TIFF signature; keeping enough raster metadata for LIBERTIFF while omitting a raster data pointer can steer away from the regular GTiff open path.
+
+### Harness Links
+- [[libfuzzer-gdal]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

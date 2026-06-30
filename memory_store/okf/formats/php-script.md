@@ -4,7 +4,7 @@ title: "php-script format"
 description: "Structure and reachability facts for php-script."
 resource: cybergym://format/php-script
 tags: ["php-script"]
-okf_support: 2
+okf_support: 16
 ---
 # PHP Script Format
 
@@ -67,6 +67,22 @@ okf_support: 2
 
 ### Harness Links
 - [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- The input is PHP source text, not a serialized or bytecode container.
+- The nullsafe object operator compiles through a JMP_NULL path.
+- Undefined variable access normally reports a warning and continues, but a script-level error handler can turn that warning into an exception, which is the important control-flow edge for this bug.
+- The input is plain PHP source text.
+- Attributes use hash-bracket syntax before class declarations, and Attribute marker arguments are constant expressions.
+- Class attribute validation happens before the class body has been compiled, so constants and parent linkage are not fully established at that moment.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-php-parser-raw-source]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

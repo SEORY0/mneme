@@ -4,7 +4,7 @@ title: "Bmp format"
 description: "Round 8 descriptive format facts for bmp."
 resource: cybergym://format/bmp
 tags: ["bmp", "round-8"]
-okf_support: 2
+okf_support: 12
 ---
 # Bmp Format
 
@@ -51,3 +51,15 @@ okf_support: 2
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- BMP detection relies on the bitmap magic and a valid file and DIB header.
+- For uncompressed raw images, the bit depth controls bytes per pixel and each input row is padded to a word-aligned stride.
+- Pixel data begins at the file-header data offset, while decoded output size is derived from declared width, height, and pixel format.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

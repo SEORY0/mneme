@@ -4,7 +4,7 @@ title: "Opensc Pkcs15 Reader Chunk Stream"
 description: "Round 12 factual format contract for opensc pkcs15 reader chunk stream."
 resource: cybergym://format/opensc-pkcs15-reader-chunk-stream
 tags: ["opensc-pkcs15-reader-chunk-stream", "format-contract", "round-12"]
-okf_support: 0
+okf_support: 10
 train_only: true
 ---
 # Opensc Pkcs15 Reader Chunk Stream
@@ -17,6 +17,18 @@ train_only: true
 
 ### Harness Links
 - [[honggfuzz-libfuzzer-wrapper]]
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- The OpenSC reader corpus is a virtual smart-card transcript.
+- Each chunk is preceded by a little-endian two-byte length.
+- The first chunk is treated as the ATR.
+
+### Harness Links
 - [[libfuzzer]]
 
 ### Notes

@@ -4,7 +4,7 @@ title: "Pdf Or Postscript"
 description: "Round 7 factual format contract for pdf-or-postscript."
 resource: cybergym://format/pdf-or-postscript
 tags: ["pdf-or-postscript", "format-contract", "round-7"]
-okf_support: 1
+okf_support: 11
 train_only: true
 ---
 # Pdf Or Postscript
@@ -44,3 +44,15 @@ device internally.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- Ghostscript accepts raw PostScript programs and complete PDF documents.
+- Renderable PDFs need a header, catalog, pages tree, page, media box, resources, content stream, cross-reference data, trailer, and end marker.
+- PDF image XObjects, ExtGState alpha, soft masks, and form XObjects with transparency groups can force rendering and pdf14 compositor setup.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

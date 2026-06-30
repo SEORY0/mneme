@@ -47,9 +47,9 @@ okf_support: 32
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `use-of-uninitialized-value`
-- observed: 170 traces; solved: 41 (illustrative — not for ranking)
+- observed: 175 traces; solved: 46 (illustrative — not for ranking)
 - top input_formats: pdf (12), hevc-elementary-stream (5), capstone-disasm-selector-plus-bytes (3), ffmpeg-target-decoder-frame (3), spix (3), ipv4-tcp-tls (2), opentype-font (2), opentype-truetype-font (2)
-- top harnesses: libfuzzer (111), libfuzzer-ffmpeg-target-decoder (8), file-parser (2), libfuzzer-ffmpeg-demuxer (2), libfuzzer-msan (2), libfuzzer-raw-pdf-renderer (2), oss-fuzz-run-poc-ffmpeg-target-decoder (2), afl-libfuzzer-compatible (1)
-- observed strategies: construct (124), seed-mutate (45), seed-replay (5), seed-sweep (3), analysis-only (2), tiny-probe (2), other (1)
+- top harnesses: libfuzzer (113), libfuzzer-ffmpeg-target-decoder (8), oss-fuzz-run-poc-ffmpeg-target-decoder (3), file-parser (2), libfuzzer-ffmpeg-demuxer (2), libfuzzer-msan (2), libfuzzer-raw-pdf-renderer (2), afl-libfuzzer-compatible (1)
+- observed strategies: construct (127), seed-mutate (46), seed-replay (5), seed-sweep (3), analysis-only (2), other (2), tiny-probe (2)
 - collapsed aliases: assertion-failure-or-uninitialized-read, memory-uninitialized-use, miniz-distance-copy-uninitialized-value, null-or-uninitialized-font-state, out-of-bounds-read-or-uninitialized-read, progressive-jpeg-uninitialized-read, tls-certificate-printable-string-uninitialized-memory, undefined-behavior-uninitialized-value, uninitialized-bigint-copy, uninitialized-buffer-read, uninitialized-field-use, uninitialized-hook-pointer-dereference, uninitialized-memory, uninitialized-memory-fuzzer-only-canvas-flag-misuse, uninitialized-memory-read, uninitialized-null-device-after-allocation-failure, uninitialized-opacity-channel, uninitialized-or-invalid-alpha-handling, uninitialized-or-out-of-bounds-read, uninitialized-or-wrong-class-pixel-use, uninitialized-pixel-read-or-oob-rect, uninitialized-pointer-free, uninitialized-pointer-use, uninitialized-read, uninitialized-size-or-state, uninitialized-stack, uninitialized-stack-object-use, uninitialized-stack-read, uninitialized-stack-struct-use, uninitialized-state-after-serialization-failure, uninitialized-value, uninitialized-value-use, uninitialized-video-buffer, use-of-uninitialized-configuration, use-of-uninitialized-memory, use-of-uninitialized-or-invalid-memory
 <!-- END observed-census -->

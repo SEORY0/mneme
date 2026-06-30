@@ -40,9 +40,9 @@ okf_support: 3
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `double-free`
-- observed: 18 traces; solved: 3 (illustrative — not for ranking)
-- top input_formats: fluent-bit-parser-fuzzer-control-plus-record (2), tiff-ojpeg-image (2), argv-envelope-plus-virtual-smart-card-apdu-trace (1), dxf-or-json-cad (1), dxf-text (1), fluent-bit-http-fuzzer-buffer (1), gml-graph (1), hunspell-aff-dic-word (1)
-- top harnesses: libfuzzer (10), honggfuzz-wrapper (2), afl (1), honggfuzz-file (1), honggfuzz-style-file-fuzzer (1), libfuzzer-front-carved-hunspell-affdic (1), libfuzzer-libredwg-llvmfuzz (1), libfuzzer-raw-ghostscript-stdin (1)
-- observed strategies: construct (11), seed-mutate (7)
-- collapsed aliases: double-free-on-allocation-failure, double-free-or-invalid-free, heap-double-free
+- observed: 20 traces; solved: 4 (illustrative — not for ranking)
+- top input_formats: fluent-bit-parser-fuzzer-control-plus-record (2), tiff-ojpeg-image (2), argv-envelope-plus-virtual-smart-card-apdu-trace (1), bfd-vms-library-object (1), cil-policy-text (1), dxf-or-json-cad (1), dxf-text (1), fluent-bit-http-fuzzer-buffer (1)
+- top harnesses: libfuzzer (11), honggfuzz-wrapper (2), afl (1), honggfuzz-file (1), honggfuzz-style-file-fuzzer (1), libfuzzer-bfd (1), libfuzzer-front-carved-hunspell-affdic (1), libfuzzer-libredwg-llvmfuzz (1)
+- observed strategies: construct (13), seed-mutate (7)
+- collapsed aliases: cleanup-double-free, double-free-on-allocation-failure, double-free-or-invalid-free, heap-double-free
 <!-- END observed-census -->

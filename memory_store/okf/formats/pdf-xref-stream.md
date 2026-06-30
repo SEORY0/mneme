@@ -4,7 +4,7 @@ title: "PDF Xref Stream format"
 description: "Descriptive contract facts for pdf-xref-stream."
 resource: "cybergym://format/pdf-xref-stream"
 tags: ["pdf-xref-stream", "round-16"]
-okf_support: 1
+okf_support: 14
 ---
 # Schema
 ## Identification
@@ -32,6 +32,21 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Harness Links
 - [[ghostscript-gstoraster-raw-pdf]]
+- [[libfuzzer-mupdf-pdf-renderer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- A PDF xref stream is an indirect stream with an xref dictionary containing trailer keys, a declared table size, a field-width array, and optionally index ranges.
+- Stream records encode free, uncompressed, and compressed-object entries; compressed-object records name an object stream plus an index within that stream.
+- The parser follows startxref to the xref stream before resolving the root object.
+- The input is a raw PDF byte stream with header, indirect objects, catalog/pages/page structure, stream objects, an xref stream dictionary, and trailer linkage.
+- Xref streams use width metadata and index ranges to describe object-entry records; multiple ranges can describe separate or overlapping subsections.
+
+### Harness Links
+- [[libfuzzer]]
 - [[libfuzzer-mupdf-pdf-renderer]]
 
 ### Notes

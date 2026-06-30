@@ -4,7 +4,7 @@ title: "CIL Policy Text format"
 description: "Descriptive contract facts for CIL Policy Text."
 resource: "cybergym://format/cil-policy-text"
 tags: ["cil-policy-text", "round-6", "round-16"]
-okf_support: 3
+okf_support: 13
 ---
 # Schema
 ## Identification
@@ -55,3 +55,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- CIL policy text is parenthesized S-expression syntax.
+- A minimal compile path needs class and classorder declarations plus SID, user, role, type, sensitivity, category, role/type, user/role, userlevel, userrange, and SID context scaffolding.
+- Classpermission macro parameters can be supplied either by a named classpermission or by an inline anonymous class/permission tuple; classpermissionset rules populate a classpermission from class/permission pairs.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

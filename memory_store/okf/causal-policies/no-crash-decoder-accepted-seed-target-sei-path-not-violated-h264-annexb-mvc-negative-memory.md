@@ -62,3 +62,9 @@ Use [[honggfuzz-libavc-mvc-decoder]] for the input-carving contract.
 - Verifier key: `no_crash x decoder_accepted_seed_target_sei_path_not_violated`.
 - Candidate family: `seed_mutate`.
 - Basin summary: Three bundled H.264 corpus seeds plus single-SEI and double-large-SEI prefix mutations ran cleanly.
+
+## Round 27 Reinforcement
+- key: `no_crash x decoder_accepted_seed_target_sei_path_not_violated`
+- A real H.264 seed corpus reached the MVC decoder cleanly, but the target condition stayed untriggered.
+- Distinct failed hypotheses included an unmodified accepted seed, a large skipped SEI payload followed by malformed Film Grain Characteristics syntax near the default bitstream-buffer boundary, repeated maximum-size Film Grain Characteristics payloads inside one SEI NAL, alternate placements before and after the seed's existing SEI/parameter-set sequence, and a larger carrier seed to cover access-unit-size interactions.
+- The remaining missing gate is likely a stricter MVC-compatible state relation or a more exact FGC payload relation than plain AVC corpus seeds provide.

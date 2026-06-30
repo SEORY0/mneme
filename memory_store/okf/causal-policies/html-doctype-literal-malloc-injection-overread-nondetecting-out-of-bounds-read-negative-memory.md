@@ -62,3 +62,9 @@ A solve needs a configuration where the post-halt read lands in a **poisoned/unm
 ## Evidence Shape
 - Support: one diagnosed persistent failure; mechanism confirmed, detectability disproven on this image.
 - Pair with [[malloc-failure-injection]] and [[libxml2-fuzzer-malloc-injection]].
+
+## Round 27 Reinforcement
+- key: `no_crash x doctype_literal_overread_nondetecting`
+- The harness envelope and doctype parser path were exercised with unlimited parsing, allocation-failure limits, system and public literals, long literals, UTF-16 conversion-buffer inputs, ASCII pull-parser inputs, push-parser chunk-boundary placements, and a high-byte encoding-switch probe.
+- All sampled candidates exited cleanly.
+- The likely reason is the known doctype-literal failure shape: after allocation failure during closing-literal advancement, the vulnerable copy can read from mapped static or otherwise unpoisoned storage, so this build may not emit a sanitizer-visible overread even when the source-level bug is reachable.
