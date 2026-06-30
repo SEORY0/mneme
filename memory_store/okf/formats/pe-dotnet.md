@@ -31,3 +31,16 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- A useful .NET target must be a valid PE container with DOS/PE headers, section mapping, a CLR directory entry, a CLI metadata root, stream headers for metadata tables and heaps, and coherent #~ table row counts. The dotnet parser walks TypeRef, MemberRef, CustomAttribute, strings, GUID, and blob heaps using coded indexes whose byte width depends on table row counts. Custom-attribute values are blob-heap entries with a compressed length prefix, prolog, fixed arguments, and optional trailing data.
+- The input is raw PE bytes for a managed .NET assembly. Useful seeds must preserve the DOS and PE headers, section mapping, CLR data-directory entry, metadata root, stream headers for the tables/string/blob heaps, and coherent metadata table layout. The dotnet module walks the metadata table stream in table-id order, derives coded-index widths from related table row counts, follows CustomAttribute Parent and Type coded indices through MemberRef and TypeRef, and then uses a Blob heap value as a custom-attribute payload containing a prolog and serialized short string.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-yara-dotnet-scan-mem]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

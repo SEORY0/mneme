@@ -76,3 +76,14 @@ okf_support: 12
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- BMP reachability for this path requires the bitmap magic, a file header with a bitmap-data start, and a DIB information header declaring dimensions, planes, bit depth, compression, and related image metadata. For uncompressed 24-bit BMP, the row byte count is derived from width times three and then padded to a word-aligned input stride; decoded output size is derived from row byte count times height.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -84,3 +84,14 @@ terminators.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The input is raw JavaScript source text. No magic, length field, checksum, or outer container is required. Syntax must parse successfully before runtime execution; JavaScript exceptions alone are not a scoring signal because this fuzz harness swallows them.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

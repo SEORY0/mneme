@@ -75,3 +75,14 @@ line. This parser path scans those leading separators before normal message-line
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- A SIP request has a request or status line followed by newline-separated headers. A Via header contains protocol and transport, host and optional port, then semicolon-separated parameters. Recognized Via parameters can require or optionally accept values, and generic message parsing can reach Via header parsing before the full message is otherwise complete.
+
+### Harness Links
+- [[libfuzzer-opensips-message-parser]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

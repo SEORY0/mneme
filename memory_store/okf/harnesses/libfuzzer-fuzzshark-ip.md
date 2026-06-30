@@ -37,3 +37,14 @@ okf_support: 0
 
 ## Round 28 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The fuzzshark IP target registers the IP dissector and feeds libFuzzer bytes as one synthetic packet. There is no pcap envelope, mode byte, checksum repair requirement, or FuzzedDataProvider split; nested dispatch is controlled by the IP protocol, UDP service, GSMTAP metadata, and RLC/MAC control bits.
+
+### Format Links
+- [[wireshark-fuzzshark-ip-gsmtap-rlcmac]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

@@ -13,16 +13,16 @@ Adobe PDF. Starts with `%PDF-1.x`; ends with `startxref`/`%%EOF`. mupdf/pdfium/p
 and RECONSTRUCT a broken xref, so a minimal hand-built PDF usually parses.
 
 ## Structure
-- Objects: `N 0 obj … endobj`. Body dicts `<< /Key val >>`, arrays `[ … ]`, streams `<<…>>stream\n…endstream`.
-- Document: Catalog → Pages → Page(s); a Page has `/Contents` (a content-stream) + `/MediaBox` + `/Resources`.
+- Objects: `N 0 obj  endobj`. Body dicts `<< /Key val >>`, arrays `[  ]`, streams `<<>>stream\nendstream`.
+- Document: Catalog  Pages  Page(s); a Page has `/Contents` (a content-stream) + `/MediaBox` + `/Resources`.
 - xref table + `trailer << /Root N 0 R /Size M >>` + `startxref <offset>`.
 - **Content streams** are a postfix operator language: `q`/`Q` (save/restore gstate), `re` (rect path),
-  `W`/`W*` (clip), `n`/`f`/`S` (paint), `BT…ET` (text), `BDC`/`BMC`/`EMC` (marked content).
+  `W`/`W*` (clip), `n`/`f`/`S` (paint), `BTET` (text), `BDC`/`BMC`/`EMC` (marked content).
 
 ## Where bugs hide (observed)
 - Content-stream operators with unbounded nesting/state. (Real pattern: each `W` clip pushed a
   CLIP_MARK into a fixed `int nest_mark[256]` field WITHOUT the bounds check that guarded the
-  marked-content push; >256 clip ops overran the heap-allocated processor struct → heap-overflow WRITE.)
+  marked-content push; >256 clip ops overran the heap-allocated processor struct  heap-overflow WRITE.)
 
 ## How to build (raw bytes; xref optional thanks to reconstruction)
 ```python
@@ -37,7 +37,7 @@ poc = pdf(b"0 0 50 50 re W n "*400)   # >256 clip marks -> clip-stack overflow
 ```
 
 ## Reachability
-The page must be renderable for the content stream to execute (`fz_run_page`). Keep Catalog→Pages→Page
+The page must be renderable for the content stream to execute (`fz_run_page`). Keep CatalogPagesPage
 intact and a non-empty `/Contents`.
 
 # Examples
@@ -334,3 +334,16 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- A MuPDF-renderable PDF needs a recognizable header, catalog, pages tree, page dictionary, media box, page resource dictionary, content stream, xref table or repairable object layout, and trailer root. Page resources are named dictionaries for fonts, XObjects, shadings, patterns, ExtGState, and color spaces; content operators must reference those names to force resolution during rasterization. ToUnicode CMaps must be attached through a font resource, image and form XObject streams need stream dictionaries with dimensions or form bounds, and malformed xrefs may be repaired without reaching a sanitizer-visible sink.
+- A PDF object stream is a stream object whose dictionary names an object count and the byte position where object bodies begin; the stream header lists object numbers and relative offsets. Cross-reference streams use compressed-object entries to point an object number at an object stream and index. Incremental updates can preserve a previous xref section through a previous-xref pointer, override an object, and introduce a newer generation for the same object number.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-pdf-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

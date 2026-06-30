@@ -25,3 +25,14 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The libFuzzer target receives raw file bytes, requires enough data for a selector trailer, assigns the leading bytes to disassemble_info.buffer, and derives target selection from the final trailer fields. The machine selector is read as a native unsigned-long from the back-adjacent trailer bytes, while the architecture selector is the final byte.
+
+### Format Links
+- [[binutils-disassembler-buffer-with-trailer-selector]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

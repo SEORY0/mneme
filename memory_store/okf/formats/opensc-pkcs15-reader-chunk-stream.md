@@ -33,3 +33,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The PKCS#15 reader harness consumes a stream of native little-endian length-prefixed chunks. The first chunk is used as the ATR. Later chunks act as APDU responses; when a response chunk has status bytes at the end, the preceding response body is copied into the APDU response buffer only up to the requested response length. SetCOS file selection expects FCI-like APDU bodies whose security attributes are parsed after a successful select-file response.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

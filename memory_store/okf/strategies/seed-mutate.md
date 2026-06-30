@@ -22,8 +22,8 @@ Strategy `seed-mutate`.
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `seed-mutate`
-- observed: 332 traces; solved: 78 (illustrative — not for ranking)
-- top vuln_classes: other (71), heap-buffer-overflow-read (59), use-of-uninitialized-value (51), out-of-bounds-read (37), use-after-free (18), heap-buffer-overflow-write (15), out-of-bounds (11), integer-overflow (9)
-- top input_formats: opentype-font (15), c-blosc2-frame (11), pdf (9), rar5 (6), tiff (5), jpeg (4), pe-dotnet (4), upx-packed-elf (4)
-- collapsed aliases: construct-and-seed-mutate, construct-seed-mutate, construct-then-seed-mutate, regression-seed-mutate, seed-mutate-and-construct, seed-mutate-and-construct-postscript, seed-mutate-construct, seed-mutate-dxf-leader, seed-mutate-h264-then-mpegvideo-elementary-streams, seed-mutate-image-corpus, seed-mutate-ncp-state-and-truncated-spinel, seed-mutate-rar5-fixtures, seed-mutate-tail-flags, seed-mutate-then-construct, seed-mutate-then-construct-encrypted-xpath, seed-mutate-truncated-obu-header, seed-sweep-seed-mutate-construct
+- observed: 349 traces; solved: 88 (illustrative — not for ranking)
+- top vuln_classes: other (77), heap-buffer-overflow-read (61), use-of-uninitialized-value (54), out-of-bounds-read (38), use-after-free (18), heap-buffer-overflow-write (15), out-of-bounds (13), buffer-overflow (10)
+- top input_formats: opentype-font (15), c-blosc2-frame (11), pdf (10), rar5 (7), pe-dotnet (6), jpeg (5), tiff (5), opensc-pkcs15-reader-chunk-stream (4)
+- collapsed aliases: construct-and-seed-mutate, construct-seed-mutate, construct-then-seed-mutate, regression-seed-mutate, seed-mutate-and-construct, seed-mutate-and-construct-postscript, seed-mutate-construct, seed-mutate-dxf-leader, seed-mutate-h264-then-mpegvideo-elementary-streams, seed-mutate-image-corpus, seed-mutate-nal-boundary-truncate-selector-mutate, seed-mutate-ncp-state-and-truncated-spinel, seed-mutate-rar5-fixtures, seed-mutate-tail-flags, seed-mutate-then-construct, seed-mutate-then-construct-encrypted-xpath, seed-mutate-truncated-obu-header, seed-sweep-seed-mutate-construct
 <!-- END observed-census -->

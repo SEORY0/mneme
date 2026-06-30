@@ -30,3 +30,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- This input is not an object file. The prefix is raw VAX instruction bytes interpreted by the selected binutils disassembler. A fixed trailer at the end supplies disassembler flavour, machine selector, and architecture selector. There are no magic, length, integrity, or container gates beyond preserving enough bytes for the selected instruction stream and selector trailer.
+
+### Harness Links
+- [[libfuzzer-binutils-disassembler]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

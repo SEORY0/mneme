@@ -28,3 +28,14 @@ train_only: true
 
 ## Round 21 Notes (ffmpeg-ivr-realmedia-demuxer)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The OSS-Fuzz FFmpeg demuxer target feeds the raw input bytes through an AVIOContext into the compiled MPEG-PS demuxer. No FuzzedDataProvider fields are consumed for this compact input. Larger inputs can carry optional tail controls for filename, IO buffer size, seekability, and interrupt behavior, but those controls are not needed for this reachability path.
+
+### Format Links
+- [[mpeg-ps]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The input is plain assembler text. GAS recognizes .file directives with a numeric file slot and a quoted filename; this path initializes DWARF line-file bookkeeping and allocates/extends an internal file table. The important structure is a valid directive, not an object-file container.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

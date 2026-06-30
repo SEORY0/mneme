@@ -28,3 +28,14 @@ Inputs follow the `vc1-elementary-stream` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- VC1 advanced-profile elementary streams use start-code-prefixed sequence, entrypoint, frame, field, and slice units. Slice units divide a frame into macroblock-row intervals, and their payload begins with a row-start field consumed by the decoder. For this harness, VC1 seeds that include sequence and entrypoint headers reach decoding more reliably when those prefix units are supplied as decoder extradata and the remaining frame or slice units are supplied as packet bytes.
+
+### Harness Links
+- [[libfuzzer-ffmpeg-target-decoder]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

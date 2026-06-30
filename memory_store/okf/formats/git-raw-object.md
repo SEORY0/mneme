@@ -38,3 +38,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- A raw Git commit object begins with a tree header, optional parent headers, author and committer signature lines, then optional additional headers and message content. Signature lines contain a name, email, timestamp, and optional timezone, and the object parser feeds each line to a bounded signature parser without requiring an outer Git object envelope in this harness.
+
+### Harness Links
+- [[afl-libfuzzer-raw-bytes]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -28,3 +28,15 @@ literally (e.g. an assembler `.file <huge-int> "x.c"` directive).
 - Winning strategies (observed): {'hint-literal': 2}
 - Format families (observed): {'text-expr': 1}
 - Abstract sink shapes (observed): double-free:?, heap-buffer-overflow:WRITE
+
+<!-- BEGIN observed-census (auto) -->
+## Observed census (auto)
+
+_Descriptive trace census — NOT a causal policy; not used for memory ranking._
+
+- canonical: `hint-literal`
+- observed: 1 traces; solved: 0 (illustrative — not for ranking)
+- top vuln_classes: other (1)
+- top input_formats: mruby-source (1)
+- collapsed aliases: hint-literal-runtime-reflection-cli-reentry-probe
+<!-- END observed-census -->

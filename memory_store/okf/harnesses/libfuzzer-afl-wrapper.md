@@ -25,3 +25,14 @@ okf_support: 1
 
 ## Round 21 Notes (mvg)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The selected wrapper runs the OpenThread NCP UART fuzzer. The harness initializes a single OpenThread instance, initializes NCP, sets PAN ID, enables IPv6 and Thread, makes the instance a leader, copies the raw PoC bytes into a UART receive buffer, calls the platform UART receive hook once, and then drains pending tasklets. There is no FuzzedDataProvider layout, mode byte, or external file format wrapper.
+
+### Format Links
+- [[openthread-ncp-uart]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

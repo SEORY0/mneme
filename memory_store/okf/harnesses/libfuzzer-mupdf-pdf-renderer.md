@@ -60,3 +60,14 @@ train_only: true
 
 ## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The libFuzzer target passes the raw bytes directly to MuPDF as an in-memory PDF, opens the PDF handler, counts pages, and renders each page to an RGB pixmap. There is no leading selector, archive wrapper, checksum, or FuzzedDataProvider layout; MuPDF exceptions are caught, so a sanitizer-visible native memory error is required for a counted crash.
+
+### Format Links
+- [[pdf-xref-stream-with-object-stream]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

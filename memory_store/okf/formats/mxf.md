@@ -17,3 +17,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- MXF is parsed as KLV records: a universal key, a BER-encoded payload length, then the payload. The demuxer first syncs on a header partition pack before parsing metadata KLVs. Some metadata KLVs are local sets made of tag-and-size entries; a TaggedValue local set can contain an indirect value whose payload begins with a fixed-width type key.
+
+### Harness Links
+- [[libfuzzer-ffmpeg-dem-mxf]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -34,3 +34,14 @@ must satisfy range and granularity constraints.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- MuPDF reaches PDF encryption setup from the trailer /Encrypt entry. A Standard security handler dictionary needs filter, version, revision, permissions, owner and user password strings, and a trailer ID array. For crypt-filter-capable versions, key length and revision are parsed separately; inconsistent combinations can route a full-width key length into an older MD5-derived authentication path before page rendering.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

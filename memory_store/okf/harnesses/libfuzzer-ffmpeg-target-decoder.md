@@ -84,3 +84,16 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The FFmpeg target decoder libFuzzer harness feeds the input as raw HEVC decoder packet bytes for a fixed HEVC decoder. For small inputs, the whole file is decoded directly; larger inputs may reserve a trailing codec-context block and packet separators may be recognized, but this carrier does not need a media container, filename wrapper, or FuzzedDataProvider layout.
+- OSS-Fuzz run_poc invokes the compiled FFmpeg target decoder fuzzer. Raw prefix bytes are packet data and may be split into packets by a fixed fuzzer tag. For inputs over the trailer threshold, the final fixed-size control tail configures parser flags, error-recognition behavior, keyframe and flush patterns, skip-frame behavior, and an extradata size. Extradata is copied from immediately before that tail and removed from the packet prefix. There is no FuzzedDataProvider front/back stream.
+
+### Format Links
+- [[hevc-annex-b-elementary-stream]]
+- [[vc1-elementary-stream]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

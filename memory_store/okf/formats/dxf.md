@@ -53,3 +53,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- DXF inputs are line-oriented group-code/value pairs. A parser-reaching sample keeps the normal HEADER, CLASSES, OBJECTS, and section terminator structure, with object records introduced by a type group and carrying handle and owner fields plus object-specific flags. Object-context-data records can include optional scale-related fields whose concrete storage type varies by object class.
+
+### Harness Links
+- [[libfuzzer-libredwg-llvmfuzz]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

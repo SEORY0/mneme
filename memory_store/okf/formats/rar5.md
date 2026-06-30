@@ -44,3 +44,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- RAR5 inputs begin with the RAR5 signature followed by CRC-protected base blocks such as MAIN, FILE, SERVICE, and ENDARC. The base-block CRC covers the variable-size header field and the remaining header fields, so any header metadata mutation must update that CRC. FILE headers can carry optional extra-data and data-size fields, then file flags, unpacked size, attributes, optional stored content CRC, compression info, host OS, name, and extra records. Compressed member data is split into RAR5 compressed blocks with their own compact header checksum; Huffman-coded commands can emit literals/copies or define filters. Filter descriptors are bitstream fields containing a relative block start, block length, and filter type, and the parser requires filter ranges to stay ordered and non-overlapping.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

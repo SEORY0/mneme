@@ -49,3 +49,14 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The OSS-Fuzz FFmpeg target-decoder wrapper passes raw packet bytes to the compiled AIC decoder. When the input is large enough, a final fixed-size trailer is consumed as codec-context configuration, including dimensions and parser flags, and is removed from the packet data. There is no demuxer container, no leading selector byte, and no FuzzedDataProvider field carving.
+
+### Format Links
+- [[ffmpeg-aic-target-decoder-packet]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

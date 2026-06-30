@@ -31,3 +31,14 @@ train_only: true
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The libFuzzer harness initializes one nDPI detection module and flow, clears the flow for each input, and passes the raw file bytes directly to ndpi_detection_process_packet. There is no selector byte, pcap wrapper, stdin path, or FuzzedDataProvider front/back carving.
+
+### Format Links
+- [[raw-ipv4-tcp-imap]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

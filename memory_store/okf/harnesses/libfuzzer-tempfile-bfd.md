@@ -60,3 +60,14 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The libFuzzer input bytes are written unchanged to a temporary file. The wrapper opens that file with BFD automatic target selection and calls the archive format checker only. There is no FuzzedDataProvider, mode byte, filename-controlled target, or checksum layer; reaching ELF member parsing depends on archive metadata and BFD target recognition side effects.
+
+### Format Links
+- [[ar-archive-elf]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

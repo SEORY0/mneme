@@ -64,3 +64,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- JPEG reachability required SOI marker framing, length-delimited quantization and Huffman table segments, a baseline start-of-frame segment with precision, dimensions, and component descriptors, a start-of-scan segment listing the same components with table selectors, baseline spectral-selection bytes, and entropy-coded data terminated by an image marker. The decoder accepts one or three components; for color JPEGs the frame component order and scan component order are expected to agree.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

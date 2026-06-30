@@ -22,3 +22,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- A WebAssembly binary starts with the standard module header and ordered LEB128-length-prefixed sections. The function section supplies type indexes, and the code section contains a vector of function bodies. Each body is length-prefixed and then contains a locals declaration vector followed by an expression that should terminate with end; function and code counts must agree before body parsing is reached.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

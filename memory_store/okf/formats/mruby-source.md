@@ -106,3 +106,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Destructured block or method parameters can create unnamed local-variable slots in compiled instruction records. The vulnerable conversion is in the symbol-name rendering path used by verbose instruction/local-variable dumps; ordinary source execution and most runtime reflection methods do not dump every local slot.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

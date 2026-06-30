@@ -18,3 +18,14 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- HEVC Annex-B inputs are start-code-delimited NAL units. For this path, VPS, SPS, PPS, and a VCL slice must remain coherent; the PPS must be from an RExt-compatible stream so range-extension PPS fields are parsed. PPS RBSP edits must be converted back to escaped NAL payload bytes. The relevant PPS relation is the chroma-QP offset-list enable flag, list length, and per-CU slice/CABAC signalling; corrupting parameter-set recognition or shifting CABAC too early produces clean exits.
+
+### Harness Links
+- [[libfuzzer-ffmpeg-target-decoder]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

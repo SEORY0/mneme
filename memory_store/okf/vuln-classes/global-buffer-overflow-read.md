@@ -38,8 +38,8 @@ okf_support: 1
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `global-buffer-overflow-read`
-- observed: 15 traces; solved: 9 (illustrative — not for ranking)
+- observed: 16 traces; solved: 10 (illustrative — not for ranking)
 - top input_formats: gif (2), aac-sbr-fuzzer-buffer (1), aac-xaac-decoder-stream (1), binutils-disassemble-buffer-with-selector-suffix (1), elf-crx-object (1), elf-gnu-debuglink (1), gsmtap-udp (1), gtpv2-udp-datagram (1)
-- top harnesses: libfuzzer (8), afl-style-fuzzshark-ip (1), file-cli (1), honggfuzz-file (1), libfuzzer-binutils-disassembler (1), libfuzzer-fuzzed-data-provider (1), libfuzzer-fuzzshark-udp-dissector (1), libfuzzer-xaac-decoder (1)
-- observed strategies: construct (12), seed-mutate (2), analysis-only (1)
+- top harnesses: libfuzzer (8), afl-style-fuzzshark-ip (1), file-cli (1), honggfuzz-file (1), libfuzzer-binutils-disassembler (1), libfuzzer-fuzzed-data-provider (1), libfuzzer-fuzzshark-ip (1), libfuzzer-fuzzshark-udp-dissector (1)
+- observed strategies: construct (13), seed-mutate (2), analysis-only (1)
 <!-- END observed-census -->

@@ -78,3 +78,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- CIL policy text is an S-expression language. A small valid carrier needs class/classorder, SID/sidorder, user, role, type, category/categoryorder, sensitivity/sensitivityorder, sensitivity-category mapping, allow, role-type, user-role, user level/range, and SID context declarations before semantic rules such as optional blocks and validatetrans are processed. Constraint expressions accept operands such as transition type operands and either a single symbol or a list on the right side; nested non-string members in that right-side list violate the list-string invariant.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

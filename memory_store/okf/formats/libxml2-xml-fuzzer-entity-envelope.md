@@ -30,3 +30,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The XML target does not consume plain XML directly. The harness input starts with parser options and an allocation-failure control word, then a sequence of escaped URL/content string pairs. The first pair supplies the main XML document and later pairs can supply external subsets or external entities by matching the referenced system identifier. Options such as DTD loading, entity substitution, and SAX1 mode control which parser paths are active. Encoded XML content inside the main entity can create an encoder/raw-buffer path where input growth is meaningful, while ordinary memory buffers often do not grow.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
