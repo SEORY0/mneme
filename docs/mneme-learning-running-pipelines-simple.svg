@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans KR, Apple SD Gothic Neo, Helvetica, Arial, sans-serif">
+  <title id="title">mneme simplified Learning and Running pipeline</title>
+  <desc id="desc">Simplified mneme architecture. Learning pipeline measures tasks with Codex workers and then writes OKF memory through a consolidator. Running pipeline reads OKF memory, runs the agent, submits once, and records results without writing memory.</desc>
+
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#16a34a"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3.5 L0,7 Z" fill="#ea580c"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-10%" width="110%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="11" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font-size: 30px; font-weight: 850; fill: #0f172a; }
+      .subtitle { font-size: 15px; fill: #475569; }
+      .lane-title { font-size: 24px; font-weight: 850; fill: #0f172a; }
+      .lane-note { font-size: 13px; fill: #475569; }
+      .box-title { font-size: 16px; font-weight: 800; fill: #172033; }
+      .box-text { font-size: 13px; fill: #475569; }
+      .tiny { font-size: 11.5px; fill: #64748b; }
+      .panel-blue { fill: #ffffff; stroke: #bfdbfe; stroke-width: 1.6; filter: url(#shadow); }
+      .panel-green { fill: #ffffff; stroke: #bbf7d0; stroke-width: 1.6; filter: url(#shadow); }
+      .task { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.5; }
+      .actor { fill: #fff1f2; stroke: #e11d48; stroke-width: 1.5; }
+      .tool { fill: #f0f9ff; stroke: #0284c7; stroke-width: 1.5; }
+      .memory { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.5; }
+      .result { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.5; }
+      .judge { fill: #fff1f2; stroke: #e11d48; stroke-width: 1.5; }
+      .flow-blue { stroke: #2563eb; stroke-width: 2.4; fill: none; marker-end: url(#arrow-blue); }
+      .flow-green { stroke: #16a34a; stroke-width: 2.4; fill: none; marker-end: url(#arrow-green); }
+      .flow-orange { stroke: #ea580c; stroke-width: 2.4; fill: none; marker-end: url(#arrow-orange); }
+      .flow-soft { stroke-dasharray: 7 6; }
+      .tag { font-size: 12px; font-weight: 800; fill: #0f172a; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="780"/>
+
+  <rect x="42" y="32" width="1316" height="94" rx="20" fill="#ffffff" stroke="#dbe3ee" filter="url(#shadow)"/>
+  <text x="72" y="74" class="title">mneme 파이프라인 핵심 구조</text>
+  <text x="72" y="104" class="subtitle">Learning은 측정 후 OKF를 갱신합니다. Running은 OKF를 읽고 결과만 기록합니다. 성공 조건: vul_exit != 0 and fix_exit == 0.</text>
+
+  <rect x="42" y="158" width="638" height="500" rx="20" class="panel-blue"/>
+  <rect x="720" y="158" width="638" height="500" rx="20" class="panel-green"/>
+
+  <text x="72" y="206" class="lane-title">Learning pipeline</text>
+  <text x="72" y="232" class="lane-note">Codex worker + model-free mneme CLI. 목적은 OKF memory를 개선하는 것.</text>
+  <rect x="72" y="252" width="112" height="28" rx="14" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="98" y="271" class="tag">learns</text>
+  <rect x="196" y="252" width="128" height="28" rx="14" fill="#dcfce7" stroke="#86efac"/>
+  <text x="221" y="271" class="tag">writes OKF</text>
+
+  <rect x="84" y="326" width="152" height="88" rx="14" class="task"/>
+  <text x="160" y="356" text-anchor="middle" class="box-title">Tasks</text>
+  <text x="160" y="379" text-anchor="middle" class="box-text">round shards</text>
+  <text x="160" y="398" text-anchor="middle" class="box-text">measured once</text>
+
+  <rect x="278" y="326" width="152" height="88" rx="14" class="actor"/>
+  <text x="354" y="356" text-anchor="middle" class="box-title">Codex workers</text>
+  <text x="354" y="379" text-anchor="middle" class="box-text">solve + trace</text>
+  <text x="354" y="398" text-anchor="middle" class="box-text">no memory write</text>
+
+  <rect x="472" y="326" width="152" height="88" rx="14" class="tool"/>
+  <text x="548" y="356" text-anchor="middle" class="box-title">gen / verify</text>
+  <text x="548" y="379" text-anchor="middle" class="box-text">Docker + server</text>
+  <text x="548" y="398" text-anchor="middle" class="box-text">model-free</text>
+
+  <path d="M236 370 L276 370" class="flow-blue"/>
+  <path d="M430 370 L470 370" class="flow-blue"/>
+
+  <rect x="178" y="474" width="168" height="92" rx="14" class="result"/>
+  <text x="262" y="505" text-anchor="middle" class="box-title">Trace</text>
+  <text x="262" y="528" text-anchor="middle" class="box-text">win / loss</text>
+  <text x="262" y="547" text-anchor="middle" class="box-text">abstract facts</text>
+
+  <rect x="388" y="474" width="168" height="92" rx="14" class="memory"/>
+  <text x="472" y="505" text-anchor="middle" class="box-title">Consolidator</text>
+  <text x="472" y="528" text-anchor="middle" class="box-text">promotes memory</text>
+  <text x="472" y="547" text-anchor="middle" class="box-text">commits round</text>
+
+  <path d="M548 414 C548 448 262 448 262 472" class="flow-orange"/>
+  <path d="M346 520 L386 520" class="flow-green"/>
+
+  <rect x="176" y="598" width="368" height="34" rx="17" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="360" y="620" text-anchor="middle" class="box-text">next round reads updated OKF memory</text>
+
+  <text x="742" y="206" class="lane-title">Running pipeline</text>
+  <text x="742" y="232" class="lane-note">Agent backend + official submit. 목적은 현재 능력을 채점하는 것.</text>
+  <rect x="742" y="252" width="128" height="28" rx="14" fill="#ffedd5" stroke="#fed7aa"/>
+  <text x="767" y="271" class="tag">measures</text>
+  <rect x="884" y="252" width="148" height="28" rx="14" fill="#dcfce7" stroke="#86efac"/>
+  <text x="910" y="271" class="tag">read-only OKF</text>
+
+  <rect x="762" y="326" width="152" height="88" rx="14" class="task"/>
+  <text x="838" y="356" text-anchor="middle" class="box-title">Task list</text>
+  <text x="838" y="379" text-anchor="middle" class="box-text">test runner</text>
+  <text x="838" y="398" text-anchor="middle" class="box-text">fixed batch</text>
+
+  <rect x="956" y="326" width="152" height="88" rx="14" class="memory"/>
+  <text x="1032" y="356" text-anchor="middle" class="box-title">OKF memory</text>
+  <text x="1032" y="379" text-anchor="middle" class="box-text">repair policy</text>
+  <text x="1032" y="398" text-anchor="middle" class="box-text">read-only</text>
+
+  <rect x="1150" y="326" width="152" height="88" rx="14" class="actor"/>
+  <text x="1226" y="356" text-anchor="middle" class="box-title">Agent</text>
+  <text x="1226" y="379" text-anchor="middle" class="box-text">Claude+MCP</text>
+  <text x="1226" y="398" text-anchor="middle" class="box-text">or GPT backend</text>
+
+  <path d="M914 370 L954 370" class="flow-green"/>
+  <path d="M1108 370 L1148 370" class="flow-green"/>
+
+  <rect x="860" y="474" width="168" height="92" rx="14" class="tool"/>
+  <text x="944" y="505" text-anchor="middle" class="box-title">Verify + submit</text>
+  <text x="944" y="528" text-anchor="middle" class="box-text">single official</text>
+  <text x="944" y="547" text-anchor="middle" class="box-text">server check</text>
+
+  <rect x="1070" y="474" width="168" height="92" rx="14" class="result"/>
+  <text x="1154" y="505" text-anchor="middle" class="box-title">Result</text>
+  <text x="1154" y="528" text-anchor="middle" class="box-text">result.json</text>
+  <text x="1154" y="547" text-anchor="middle" class="box-text">summary only</text>
+
+  <path d="M1226 414 C1226 448 944 448 944 472" class="flow-blue"/>
+  <path d="M1028 520 L1068 520" class="flow-orange"/>
+
+  <rect x="858" y="598" width="364" height="34" rx="17" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="1040" y="620" text-anchor="middle" class="box-text">records score only, no OKF write</text>
+</svg>
