@@ -22,3 +22,15 @@ train_only: true
 
 ### Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The libFuzzer target consumes the file as raw bytes with no FuzzedDataProvider carving. It dispatches by leading content, copies and appends a terminator for text-like inputs only when the original input does not already end in an accepted terminator, imports the drawing, may export to a null sink, and then frees the drawing state.
+- The llvmfuzz harness consumes the raw file bytes directly with no mode byte and no FuzzedDataProvider carving. Buffers beginning with a DWG signature take the binary DWG decoder, buffers beginning with a JSON object take the JSON reader, and other text is routed to the DXF reader. After import, the harness may write one derived output format to a null sink and then frees the drawing, so parser, writer, and cleanup paths can all be relevant.
+
+### Format Links
+- [[dxf-text]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

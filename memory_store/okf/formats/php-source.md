@@ -64,3 +64,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The execute fuzzer compiles the uploaded bytes as a normal PHP file buffer, so executable source needs the PHP opening tag. The fuzzer limits the source size and replaces zend_execute_ex with a step counter that calls zend_bailout after the budget is exhausted. Fiber objects can be created from userland callbacks, started, suspended, and destroyed during request shutdown. User-defined destructors run at shutdown unless disabled by fatal-error handling.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

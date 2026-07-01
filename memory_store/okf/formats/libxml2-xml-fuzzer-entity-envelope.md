@@ -52,3 +52,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The libxml2 XML fuzz target consumes a native parser-options word followed by escaped URL/content string pairs. A string ends at the harness backslash-newline sentinel and literal backslashes are doubled. The first pair is the main XML document; later pairs are optional external resources resolved by the fuzzer entity loader. XInclude reachability requires a normal XML namespace declaration and parser options that allow XInclude post-processing.
+
+### Harness Links
+- [[honggfuzz-compatible-libxml2-xml-fuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

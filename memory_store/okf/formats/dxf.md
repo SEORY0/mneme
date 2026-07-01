@@ -64,3 +64,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- DXF is a line-oriented group-code/value format. The relevant carrier uses HEADER and TABLES sections, TABLE/ENDTAB delimiters, symbol-table control records, and table-entry records such as LTYPE, LAYER, VIEW, APPID, and BLOCK_RECORD. Group code 70 declares table counts or flags depending on context; group code 5 supplies handles; group code 2 supplies table names or entry names.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

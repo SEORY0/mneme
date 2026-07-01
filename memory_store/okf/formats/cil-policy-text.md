@@ -89,3 +89,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- CIL policy input is S-expression text. A compact policy still needs coherent declarations and ordering for classes, security identifiers, users, roles, types, levels, categories, ranges, and at least one permission use so compile and policydb construction run. Class maps declare map permissions; class mappings bind those map permissions to concrete class-permission sets. Optional blocks can be disabled when later resolution fails.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

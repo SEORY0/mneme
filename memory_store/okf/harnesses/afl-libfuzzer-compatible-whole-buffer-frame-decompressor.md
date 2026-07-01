@@ -16,3 +16,14 @@ okf_support: 0
 
 ## Round 28 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The harness reads the whole PoC file and passes those raw bytes directly to the C-Blosc2 in-memory frame decompressor through a libFuzzer-compatible entrypoint. There is no selector prefix, no stdin text protocol, no FuzzedDataProvider front/back carving, and no checksum recomputation requirement. If the frame parses and the declared uncompressed byte count stays below the harness allocation cap, the harness allocates an output buffer and iterates decompression over frame chunks.
+
+### Format Links
+- [[c-blosc2-frame]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

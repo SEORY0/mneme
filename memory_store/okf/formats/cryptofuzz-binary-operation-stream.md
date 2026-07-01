@@ -66,3 +66,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- Cryptofuzz inputs are front-consumed datasource records, not DER, TLS, JSON, or a normal wolfSSL file. Each scalar or byte buffer is stored as a length-prefixed datasource item. The outer stream carries an operation selector, a nested operation payload buffer, a modifier buffer, a module selector consumed even when the binary forces a module, and a continuation boolean. DH_Derive payloads contain four bignum buffers: group modulus, generator, peer public value, and private value. Bignum buffers are normalized as decimal-like strings before wolfCrypt converts them to binary integers.
+
+### Harness Links
+- [[libfuzzer-cryptofuzz-sp-math]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The ip6-send libFuzzer target consumes the first byte as a link-security selector and appends all remaining bytes as one raw IPv6 datagram to an OpenThread message before calling the IPv6 send path. There is no FuzzedDataProvider layout. Reaching MeshCoP handlers requires satisfying IPv6 destination, UDP checksum, Thread-management source/destination, CoAP port, and URI resource gates.
+
+### Format Links
+- [[ipv6-udp-coap-meshcop-tlv]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

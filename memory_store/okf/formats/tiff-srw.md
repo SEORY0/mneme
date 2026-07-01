@@ -27,3 +27,14 @@ Inputs follow the `tiff-srw` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- RawSpeed reaches the SRW decoder through ordinary TIFF parsing. The file needs byte order and TIFF magic, camera make/model metadata selecting Samsung, image dimensions, bits-per-sample, Samsung V0 compression, a single strip offset/count, and the Samsung row-offset table. The row-offset table is little-endian and must be strictly increasing, with compressed strip bytes large enough for every declared row.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

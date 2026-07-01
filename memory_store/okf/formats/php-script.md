@@ -120,3 +120,14 @@ okf_support: 16
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary PHP source with PHP tags. The source itself can remain very small because builtin calls allocate large runtime arrays or strings. Runtime ini changes are honored enough to make allocation-failure boundaries reachable inside Zend operations.
+
+### Harness Links
+- [[libfuzzer-execute]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

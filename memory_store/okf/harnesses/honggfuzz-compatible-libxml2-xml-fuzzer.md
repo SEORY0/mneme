@@ -16,3 +16,14 @@ train_only: true
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The packaged binary is the libxml2 XML fuzz target behind a honggfuzz-compatible single-input wrapper. It parses the main entity with the tree parser, optionally runs XInclude processing, serializes the document, repeats parsing through the push parser with fixed-size chunks and optional XInclude processing, then exercises the XML reader path over the same main entity.
+
+### Format Links
+- [[libxml2-xml-fuzzer-entity-envelope]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

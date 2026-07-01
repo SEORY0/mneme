@@ -33,3 +33,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- SPIX is a native-endian serialized PIX carrier with an identifier, image dimensions, depth, words-per-line, optional colormap data, a declared raster byte count, and raw word-aligned raster rows. For 1-bpp images, pixels are packed MSB-first within each raster word and each scanline is padded to whole words; the reader enforces the raster byte count implied by dimensions and words-per-line.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

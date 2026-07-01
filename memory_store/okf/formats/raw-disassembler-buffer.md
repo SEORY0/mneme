@@ -82,3 +82,14 @@ Preserve the selector that reaches the target disassembler, then use an instruct
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The input is raw instruction bytes followed by a fixed trailing selector block. The leading instruction buffer is interpreted directly as machine code; the trailing selector fields choose disassembler flavour, machine, and architecture. For the i386 family, the relevant two-byte opcode range dispatches through prefix, mod, reg, and rm tables; ModRM selects memory versus register forms and subtable entries for the reserved/NOP space.
+
+### Harness Links
+- [[libfuzzer-binutils-disassembler]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

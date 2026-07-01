@@ -47,3 +47,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The libFuzzer harness rejects very small or oversized inputs, treats all leading bytes before the selector trailer as the instruction buffer, sets little-endian disassembly, and loops the selected disassembler until an instruction fails or the buffer is consumed. The final selector trailer is read front-to-back from the end of the input; there is no object-file wrapper, checksum, FuzzedDataProvider layout, or mode byte outside that trailer.
+
+### Format Links
+- [[raw-disassembler-buffer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

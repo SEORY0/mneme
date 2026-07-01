@@ -809,6 +809,15 @@
 {"policy": "cram-seed-mutate-generic-crash-parser-reached-md5-heap-oob-read-heap-buffer-overflow-read-verified-recovery", "round": 34, "success": true}
 {"policy": "ipv6-udp-coap-meshcop-tlv-construct-wrong-sink-parser-reached-truncated-extended-tlv-stack-read-stack-buffer-overflow-read-verified-recovery", "round": 34, "success": true}
 {"policy": "javascript-source-construct-wrong-sink-parser-reached-vulnerable-only-lexer-oob-read-heap-buffer-overflow-read-verified-recovery", "round": 34, "success": true}
+{"policy": "libxml2-xmladdidsafe-streaming-reader-cross-ref-use-after-free-verified-recovery", "success": true}
+{"policy": "libxml2-xmladdidsafe-streaming-reader-cross-ref-use-after-free-verified-recovery", "success": true}
+{"policy": "libxml2-xmladdidsafe-streaming-reader-cross-ref-use-after-free-verified-recovery", "success": true}
+{"policy": "libxml2-cdata-encoding-error-bytes-context-overread-out-of-bounds-read-verified-recovery", "success": true}
+{"policy": "libxml2-html-currentchar-encoding-guess-freed-then-used-use-after-free-verified-recovery", "success": true}
+{"policy": "openthread-meshforwarder-evict-in-flight-message-pool-exhaustion-use-after-free-verified-recovery", "success": true}
+{"policy": "libarchive-rar5-arm-filter-window-boundary-unwrapped-read-heap-buffer-overflow-read-verified-recovery", "success": true}
+{"policy": "binutils-vax-disassembler-index-mode-unbounded-recursion-stack-buffer-overflow-verified-recovery", "success": true}
+{"policy": "samba-ndr-pull-advance-offset-size-integer-wrap-heap-buffer-overflow-verified-recovery", "success": true}
 {"policy": "opentype-font-seed-mutate-wrong-sink-parser-reached-gvar-glyph-var-data-overread-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 35, "success": true}
 {"policy": "truetype-font-seed-mutate-generic-crash-target-match-heap-buffer-overflow-read-verified-recovery", "round": 35, "success": true}
 {"policy": "opentype-variable-font-seed-mutate-wrong-sink-parser-reached-gvar-tuple-scalar-read-heap-buffer-overflow-read-verified-recovery", "round": 35, "success": true}
@@ -922,3 +931,31 @@
 {"policy": "pdf-construct-generic-crash-official-target-match-local-crash-flaky-integer-underflow-invalid-memory-access-verified-recovery", "round": 37, "success": true}
 {"policy": "opensc-pkcs15-reader-chunk-stream-construct-generic-crash-parser-reached-target-sink-stack-buffer-overflow-read-verified-recovery", "round": 37, "success": true}
 {"policy": "openthread-cli-uart-construct-wrong-sink-parser-reached-stack-buffer-overflow-read-in-append-uint-option-stack-buffer-overflow-read-verified-recovery", "round": 37, "success": true}
+{"policy": "cryptofuzz-binary-operation-stream-construct-wrong-sink-parser-reached-dh-derive-uninitialized-agreement-length-use-of-uninitialized-value-from-missing-key-size-error-verified-recovery", "round": 38, "success": true}
+{"policy": "mruby-source-construct-wrong-sink-parser-reached-memcpy-in-heredoc-dedent-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "php-script-construct-wrong-sink-parser-reached-refcount-shutdown-crash-refcount-lifetime-corruption-after-oom-verified-recovery", "round": 38, "success": true}
+{"policy": "sudoers-policy-fuzzer-lines-construct-generic-crash-policy-check-cleanup-crash-official-target-match-invalid-free-verified-recovery", "round": 38, "success": true}
+{"policy": "c-blosc2-frame-construct-generic-crash-parser-reached-target-heap-overread-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "wireshark-fuzzshark-ip-gre-ppp-vjc-construct-generic-crash-parser-reached-target-path-asan-abort-null-deref-read-verified-recovery", "round": 38, "success": true}
+{"policy": "cil-policy-text-construct-wrong-sink-parser-reached-sink-mismatch-heap-use-after-free-read-verified-recovery", "round": 38, "success": true}
+{"policy": "p11-kit-rpc-construct-generic-crash-parser-reached-recursive-attribute-array-segmentation-fault-read-verified-recovery", "round": 38, "success": true}
+{"policy": "asn1-der-rsa-key-construct-wrong-sink-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "c-blosc2-frame-construct-from-seed-layout-wrong-sink-parser-reached-bad-free-in-lazy-chunk-cleanup-bad-free-verified-recovery", "round": 38, "success": true}
+{"policy": "dxf-text-construct-generic-crash-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "libredwg-json-construct-wrong-sink-parser-reached-target-sink-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "opensc-pkcs15-reader-chunk-stream-construct-generic-crash-parser-reached-heap-buffer-overflow-read-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "opentype-font-seed-mutate-generic-crash-official-target-match-after-subset-seed-mutation-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "tiff-srw-construct-wrong-sink-parser-reached-samsung-v0-prediction-crash-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "dxf-text-seed-mutate-wrong-sink-parser-reached-differential-null-store-null-pointer-dereference-verified-recovery", "round": 38, "success": true}
+{"policy": "opensc-pkcs15-reader-chunk-stream-construct-wrong-sink-parser-reached-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "dxf-text-construct-generic-crash-parser-reached-summaryinfo-cleanup-invalid-free-uninitialized-pointer-verified-recovery", "round": 38, "success": true}
+{"policy": "c-blosc2-frame-construct-from-seed-layout-no-crash-local-wrapper-mismatch-official-target-match-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "selinux-cil-policy-text-construct-generic-crash-parser-reached-disabled-optional-call-resolution-crash-heap-use-after-free-verified-recovery", "round": 38, "success": true}
+{"policy": "tiff-pef-raw-image-construct-wrong-sink-parser-reached-uninitialized-image-row-official-target-match-use-of-uninitialized-value-verified-recovery", "round": 38, "success": true}
+{"policy": "ipv6-udp-coap-meshcop-tlv-construct-wrong-sink-parser-reached-target-sink-official-match-stack-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "vms-ia64-library-archive-construct-wrong-sink-parser-reached-target-sink-stack-buffer-overflow-read-verified-recovery", "round": 38, "success": true}
+{"policy": "spss-sav-seed-mutate-generic-crash-parser-reached-sav-process-row-heap-overflow-unsigned-counter-underflow-to-heap-buffer-overflow-write-verified-recovery", "round": 38, "success": true}
+{"policy": "javascript-source-construct-wrong-sink-parser-reached-vulnerable-only-parser-state-confusion-undefined-behavior-null-pointer-load-verified-recovery", "round": 38, "success": true}
+{"policy": "gltf-json-construct-generic-crash-parser-reached-wordexp-path-unsafe-wordexp-command-expansion-verified-recovery", "round": 38, "success": true}
+{"policy": "libxml2-xml-fuzzer-entity-envelope-construct-wrong-sink-parser-reached-heap-use-after-free-in-xinclude-fallback-replacement-local-sink-mismatch-official-target-match-heap-use-after-free-read-verified-recovery", "round": 38, "success": true}
+{"policy": "dng-construct-wrong-sink-parser-reached-sink-mismatch-heap-buffer-overflow-read-verified-recovery", "round": 38, "success": true}

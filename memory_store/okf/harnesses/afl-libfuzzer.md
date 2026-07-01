@@ -84,3 +84,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The kimgio HEIF AFL-compatible harness feeds the entire PoC as raw bytes into a QBuffer. There is no FuzzedDataProvider, length prefix, integrity field, or mode byte. The harness calls the handler's canRead method but ignores the returned value, then calls read; the vulnerable read path consumes all remaining QBuffer data and passes the memory buffer to libheif.
+
+### Format Links
+- [[heif-avif-isobmff]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

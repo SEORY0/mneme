@@ -17,3 +17,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- SAV files contain an SPSS header, dictionary variable records, optional machine and string metadata records, a dictionary terminator, and fixed-width row data. Long strings are stored across multiple row segments while metadata records describe the logical string length. The UTF-8 string path skips NUL characters while filling the raw string buffer, so a segment with only skipped characters can leave the raw-string-used counter at zero before the parser advances to the next segment.
+
+### Harness Links
+- [[libfuzzer-raw-sav]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

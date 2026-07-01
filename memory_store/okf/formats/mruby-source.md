@@ -150,3 +150,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The input is parsed as mruby source text. Squiggly heredocs are collected by the compiler and then dedented; escaped newline continuations inside the heredoc affect the split positions used during dedent. The syntax gate is the heredoc opener, body, continuation, and matching terminator rather than a binary container gate.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

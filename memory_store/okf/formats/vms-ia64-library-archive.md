@@ -30,3 +30,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- VMS IA-64 libraries are fixed-block archives. The library header carries a sanity value, IA-64 library type/version, total and module index counts, and index descriptors. Each descriptor points to an index block with a used-byte count and IA-64 index records. IA-64 records contain an RFA, a key length, flags, and key bytes; the extended-key flag makes the key bytes hold a vms_kbn descriptor that points to one or more key-name chunks in later blocks.
+
+### Harness Links
+- [[libfuzzer-bfd-tempfile]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

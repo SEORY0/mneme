@@ -40,9 +40,9 @@ okf_support: 3
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `double-free`
-- observed: 35 traces; solved: 16 (illustrative — not for ranking)
-- top input_formats: tiff-ojpeg-image (3), fluent-bit-parser-fuzzer-control-plus-record (2), pcap-filter-expression (2), xslt-stylesheet (2), argv-envelope-plus-virtual-smart-card-apdu-trace (1), art (1), bfd-vms-alpha-archive-or-object (1), bfd-vms-library-object (1)
-- top harnesses: libfuzzer (19), honggfuzz-wrapper (3), afl (1), afl-file-xslt (1), afl-libfuzzer (1), honggfuzz-file (1), honggfuzz-style-file-fuzzer (1), libfuzzer-afl-file-wrapper (1)
-- observed strategies: construct (23), seed-mutate (11), other (1)
+- observed: 37 traces; solved: 16 (illustrative — not for ranking)
+- top input_formats: fluent-bit-parser-fuzzer-control-plus-record (3), tiff-ojpeg-image (3), pcap-filter-expression (2), xslt-stylesheet (2), argv-envelope-plus-virtual-smart-card-apdu-trace (1), art (1), bfd-vms-alpha-archive-or-object (1), bfd-vms-library-object (1)
+- top harnesses: libfuzzer (20), honggfuzz-wrapper (3), honggfuzz-style-file-fuzzer (2), afl (1), afl-file-xslt (1), afl-libfuzzer (1), honggfuzz-file (1), libfuzzer-afl-file-wrapper (1)
+- observed strategies: construct (25), seed-mutate (11), other (1)
 - collapsed aliases: cleanup-double-free, double-free-on-allocation-failure, double-free-or-cleanup-crash, double-free-or-invalid-free, heap-double-free, invalid-free-or-double-free
 <!-- END observed-census -->

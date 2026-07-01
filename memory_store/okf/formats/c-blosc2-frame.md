@@ -114,3 +114,19 @@ from the in-memory frame.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- A C-Blosc2 contiguous frame is a raw binary frame with a msgpack-like outer header, frame magic, declared header size, declared total frame size, byte counts, frame type and codec/filter metadata, chunk sizing metadata, one or more compressed chunk payloads, a compressed offsets/index chunk, and a trailer. The frame loader requires the declared total frame size to equal the actual input length and accepts nonnegative compressed-data lengths before lazy chunk decompression consults the offsets chunk. Chunk offsets are stored in a Blosc-compressed index area after the payload section.
+- A c-blosc2 contiguous frame has a msgpack-style frame header containing the frame length, uncompressed size, compressed data span, type size, chunk size, and filter pipeline. The data chunks are followed by a Blosc-compressed offset/index chunk and a trailer with variable-length metalayer metadata and a trailer length marker. Logical chunk offsets are not top-level raw fields; they are items returned by decompressing or otherwise interpreting the offset chunk. Special run-length offset chunks can represent repeated offset values while preserving the offset lookup gate. For lazy chunk decompression, a chunk header can be internally valid while its declared extent is outside the enclosing frame.
+- A C-Blosc2 frame has a msgpack-like outer header, declared total length, frame byte counts, type and chunk sizing fields, optional header metalayers, a chunk-offset/index chunk, and a trailer with its own extent marker. For this source variant, older seed frames can preserve the visual magic/trailer layout while still placing parsed fields under different fixed offsets; constructing a frame with the parser's expected field layout gives direct control of the parsed chunk count and offsets area. The offsets chunk can be a simple memcpyed Blosc buffer whose logical items are little-endian frame-relative chunk offsets.
+- A C-Blosc2 contiguous frame has a msgpack-like fixed header with magic, declared header size, declared total frame size, byte counts, frame type, codec/filter metadata, and an optional header metalayer region. Header metalayers use a small name-to-content-location map and binary content records; the key invariant is that the content location and declared content span must fit inside the header, not merely inside the index cursor's progress. A zero-data frame can still reach the header metalayer reader if the frame/header lengths and trailer footer are coherent.
+
+### Harness Links
+- [[afl-libfuzzer-compatible-libfuzzer-whole-buffer-frame-decompressor]]
+- [[afl-libfuzzer-compatible-whole-buffer-frame-decompressor]]
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

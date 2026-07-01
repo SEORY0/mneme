@@ -42,3 +42,14 @@ Build a minimal valid TIFF/DNG carrier and move the failure into a metadata tabl
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- DNG is a TIFF container selected by the DNG version tag. A minimal raw image IFD for this path can use uncompressed strip data with coherent width, height, bits per sample, compression, photometric interpretation, samples per pixel, rows per strip, strip offset, strip byte count, planar configuration, sample format, and OpcodeList1. DNG opcode lists are stored big-endian inside the TIFF entry and contain an opcode count followed by per-opcode code, version, flags, payload length, and payload bytes. FixBadPixelsList payloads contain a phase, point count, rectangle count, then point and rectangle coordinates.
+
+### Harness Links
+- [[libfuzzer-afl-driver]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

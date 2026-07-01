@@ -95,3 +95,14 @@ terminators.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- Inputs are JavaScript source programs parsed as raw text. Syntax errors prevent execution, while valid programs run in the LibJS interpreter. Built-in globals include the ordinary typed arrays and ArrayBuffer/DataView support, but this vulnerable runtime does not make Uint8ClampedArray available as a normal global constructor.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -98,3 +98,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- JPEG carriers need marker framing, length-delimited quantization and Huffman table segments, a start-of-frame segment with dimensions and component descriptors, a start-of-scan segment mapping components to entropy tables, and entropy-coded data. For Huffman scans, marker-like data bytes are represented by byte stuffing, while unstuffed marker prefixes enter marker handling instead of ordinary entropy decoding.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

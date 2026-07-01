@@ -27,3 +27,14 @@ okf_support: 1
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The execute fuzzer feeds the file bytes directly as a PHP request body, compiles and executes them, and does not carve selector bytes or a FuzzedDataProvider layout. It caps source size and uses an opcode step budget, so builtin allocation calls are better than long PHP loops for memory-pressure candidates.
+
+### Format Links
+- [[php-script]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

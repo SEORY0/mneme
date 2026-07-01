@@ -68,3 +68,14 @@ okf_support: 4
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The subset fuzzer treats the whole input as a font blob with no leading selector and no FuzzedDataProvider split. If the input is large enough, the final bytes are also interpreted as a one-byte subset flag field followed by a fixed array of native-endian codepoints; keeping the drop-layout flag clear is important when targeting GSUB or GPOS closure.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

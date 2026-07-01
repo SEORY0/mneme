@@ -26,3 +26,14 @@ okf_support: 1
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The libFuzzer BFD harness writes the raw PoC bytes unchanged to a temporary file, opens it with BFD automatic target selection, and calls archive-format checking. There is no selector byte, no filename extension dependence, no checksum layer, and no FuzzedDataProvider front/back split. The input must be a complete enough archive file for BFD to select the VMS IA-64 library backend.
+
+### Format Links
+- [[vms-ia64-library-archive]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

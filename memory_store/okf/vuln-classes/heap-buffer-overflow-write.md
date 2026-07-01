@@ -43,9 +43,9 @@ okf_support: 7
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `heap-buffer-overflow-write`
-- observed: 88 traces; solved: 61 (illustrative — not for ranking)
-- top input_formats: ar-archive (3), pdf (3), caf-alac (2), dwg (2), elf (2), mvg (2), rar5 (2), tiff-ojpeg (2)
+- observed: 90 traces; solved: 62 (illustrative — not for ranking)
+- top input_formats: ar-archive (3), pdf (3), caf-alac (2), dwg (2), dxf-text (2), elf (2), mvg (2), rar5 (2)
 - top harnesses: libfuzzer (50), afl-libfuzzer (3), afl (2), afl-libfuzzer-file (2), afl-fuzzshark (1), afl-libfuzzer-compatible (1), afl-libfuzzer-compatible-fuzzshark (1), afl-libfuzzer-compatible-parquet-arrow-raw-file (1)
-- observed strategies: construct (72), seed-mutate (17), seed-sweep (2), seed-replay (1)
-- collapsed aliases: integer-overflow-to-heap-buffer-overflow-write, stack-or-heap-buffer-overflow-write
+- observed strategies: construct (72), seed-mutate (19), seed-sweep (2), seed-replay (1)
+- collapsed aliases: integer-overflow-to-heap-buffer-overflow-write, stack-or-heap-buffer-overflow-write, unsigned-counter-underflow-to-heap-buffer-overflow-write
 <!-- END observed-census -->

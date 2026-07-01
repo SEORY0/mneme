@@ -47,9 +47,9 @@ okf_support: 48
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `heap-buffer-overflow-read`
-- observed: 332 traces; solved: 216 (illustrative — not for ranking)
-- top input_formats: c-blosc2-frame (10), json (8), opentype-font (7), bmp (5), opensc-pkcs15-reader-chunk-stream (5), hunspell-aff-dic-word-triple (4), pdf (4), pe-dotnet (4)
-- top harnesses: libfuzzer (199), honggfuzz-file (4), libfuzzer-tempfile-bfd (4), afl (3), afl-file (3), afl-libfuzzer (3), honggfuzz-wrapper (3), libfuzzer-fuzzshark-ip-proto-udp (3)
-- observed strategies: construct (244), seed-mutate (95), seed-replay (4), other (1), seed-sweep (1)
-- collapsed aliases: heap-buffer-overflow-read-via-negative-size-strncpy, integer-overflow-to-heap-buffer-overflow-read, unsigned-integer-underflow-to-heap-buffer-overflow-read
+- observed: 345 traces; solved: 227 (illustrative — not for ranking)
+- top input_formats: c-blosc2-frame (12), json (8), opentype-font (8), opensc-pkcs15-reader-chunk-stream (7), bmp (5), hunspell-aff-dic-word-triple (4), mruby-source (4), pdf (4)
+- top harnesses: libfuzzer (208), honggfuzz-file (4), libfuzzer-tempfile-bfd (4), afl (3), afl-file (3), afl-libfuzzer (3), honggfuzz-wrapper (3), libfuzzer-fuzzshark-ip-proto-udp (3)
+- observed strategies: construct (256), seed-mutate (97), seed-replay (5), other (1), seed-sweep (1)
+- collapsed aliases: heap-buffer-overflow-read-via-negative-size-strncpy, huffman-decoder-regression-or-heap-buffer-overflow-read, integer-overflow-to-heap-buffer-overflow-read, unsigned-integer-underflow-to-heap-buffer-overflow-read
 <!-- END observed-census -->

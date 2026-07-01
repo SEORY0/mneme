@@ -55,3 +55,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The carrier is an IPv6 packet with UDP and CoAP framing before MeshCoP TLVs. CoAP resource routing is driven by URI-path options and a payload marker separates options from the TLV body. MeshCoP TLVs use a type/length/value layout; valid Joiner UDP Port or Steering Data TLVs can satisfy the handler's accepted-data gate, while Commissioner Session ID has a fixed-width value that must match its declared TLV length.
+
+### Harness Links
+- [[libfuzzer-ip6-send]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

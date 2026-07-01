@@ -2527,3 +2527,69 @@ Splash font path code is reached.
 
 ### Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The libFuzzer harness treats the entire input as raw source bytes, copies it into a NUL-terminated buffer, opens an mruby state, calls mrb_load_string, and closes the state. There is no leading selector byte and no FuzzedDataProvider layout.
+- The OTS libFuzzer harness passes the entire input byte buffer directly to OTSContext::Process as a font file. There is no mode byte, FuzzedDataProvider split, external filename contract, or checksum outside the SFNT format itself.
+- The libFuzzer harness reads raw bytes with a line reader, opens the sudoers policy plugin, calls only check_policy on success, then closes the policy and runs sudoers cleanup. It does not call the validate, list, or invalidate plugin entry points directly.
+- The libFuzzer harness passes the raw input bytes directly to blosc2_schunk_from_buffer as an in-memory contiguous frame with copy disabled. If the frame opens and total uncompressed size is bounded, the harness allocates an output buffer and decompresses every logical chunk except the last one through blosc2_schunk_decompress_chunk. There is no mode byte and no FuzzedDataProvider layout.
+- The libFuzzer harness feeds raw bytes directly as a CIL source file. There is no length prefix, selector byte, checksum, or FuzzedDataProvider carving. The target path compiles the policy, builds a policydb, optimizes it, writes it, and then releases parser state.
+- The libFuzzer harness passes raw input bytes directly to the SPIX memory reader with no carving or FuzzedDataProvider. If a PIX is parsed, it calls the find-italic word detector with debug output enabled, then destroys the returned box list and PIX.
+- The libFuzzer entrypoint receives the PoC as raw bytes, appends them unchanged to a p11_buffer, initializes the mock PKCS#11 module, and calls the RPC server handler directly. There is no leading mode byte, no FuzzedDataProvider split, and no checksum; parser reachability depends on a valid RPC call selector/signature and argument order.
+- The libFuzzer harness feeds raw file bytes directly. Inputs beginning with the AutoCAD signature route to DWG decoding; JSON-like inputs route to JSON; all other inputs route to DXF. After import, the harness may encode or export the drawing to a null sink and then frees the decoded drawing.
+- The fuzzer passes the raw file bytes directly into the harness with no mode selector and no FuzzedDataProvider. On parser errors at or above the critical threshold, the harness returns immediately instead of writing output and calling the normal DWG cleanup path. Local verification runs the libFuzzer executable on one fixed input, so leak-only behavior may be invisible unless the runtime enables leak reporting.
+- The libFuzzer entry passes the whole PoC byte slice directly to luaL_loadbufferx in text mode, then executes it in a fresh lua_State and closes the state. The harness does not open base, debug, coroutine, table, string, or other standard libraries, and ordinary Lua load/runtime errors are reported without making the fuzzer process fail.
+- The libFuzzer target consumes raw bytes. Inputs beginning with the DWG version signature route to native DWG decode; JSON-looking inputs route to JSON import; other inputs route to DXF import. After a successful parse, the harness sets the output chain version, opens a null output file, chooses one compiled output path through the C library PRNG, then frees the decoded drawing. There is no FuzzedDataProvider, mode byte, checksum recomputation helper, or length carving outside the file format itself.
+- The libFuzzer harness receives the PoC as raw bytes. Inputs beginning with a JSON object marker are copied to add a terminator and passed directly to dwg_read_json; there is no FuzzedDataProvider, mode trailer, checksum, or length field to place at the end. Other prefixes select DWG or DXF paths, so JSON candidates must start as an object-shaped text stream.
+- The libFuzzer harness consumes raw bytes. Inputs beginning with a DWG signature take the DWG decoder, inputs beginning with a JSON object opener take dwg_read_json after being copied into a NUL-terminated buffer, and all other inputs take the DXF path. After import it randomly selects an output writer and frees the drawing. There is no FuzzedDataProvider splitting or mode byte beyond the leading format dispatch.
+- The harness is raw libFuzzer input, not FuzzedDataProvider. `fuzz_reader_connect` consumes the first chunk as ATR. `fuzz_reader_transmit` consumes one chunk per APDU response from front to back, using the final two bytes as status words. After `sc_pkcs15_bind` succeeds, the harness consumes two additional raw chunks as operation input and parameter data before iterating PKCS#15 objects.
+- The libFuzzer harness passes raw file bytes to RawParser, calls getDecoder, disables crop and unknown-camera failure, then calls decodeRaw and metadata decoding. There is no FuzzedDataProvider layout or leading mode byte; malformed parser exceptions are caught and treated as clean exits.
+- The libFuzzer harness consumes raw file bytes. Inputs beginning with a DWG signature go to the DWG reader, inputs beginning with a JSON object marker go to the JSON reader, and all other bytes are treated as DXF text after null-terminating a copy. After import, the harness may attempt an output conversion and then frees the drawing. There is no FuzzedDataProvider layout and no separate mode byte beyond the raw prefix dispatch.
+- The harness consumes chunks front to back. It connects a fake reader, binds PKCS#15, then optionally consumes two more chunks for object operations. No FuzzedDataProvider back consumption is used. Clean not-found status responses are useful gates because they force synthetic Oberthur emulation instead of the generic PKCS#15 path.
+- The libFuzzer harness consumes raw bytes. It selects J2K when the input starts as a codestream and JP2 when the wrapper signature is present near the start, reads the header from an in-memory stream, rejects very large images or tiles, sets a bounded decode area, and then calls the OpenJPEG decode path.
+- The LibreDWG libFuzzer target consumes the PoC as raw file bytes. Inputs beginning with a DWG release marker go to DWG decode, inputs beginning with a JSON object marker go to JSON import, and other inputs are treated as DXF text after NUL termination is enforced. The DXF reader rejects tiny inputs before parsing, and on a critical read failure the harness frees the partially populated Dwg_Data object immediately.
+- The libFuzzer harness consumes raw bytes with no prefix carving. Inputs that do not start with the DWG or JSON dispatch markers are treated as DXF text; this harness copy/null-terminates text-like inputs before calling the DXF importer. After import, it selects an output path and frees the drawing.
+- The fuzzer passes raw bytes directly to Assimp Importer::ReadFileFromMemory with no FuzzedDataProvider and no task-controlled extension string. Assimp wraps importer IO in FileSystemFilter; Cleanup runs only when an importer opens or checks a secondary filename different from the main in-memory filename. The vulnerable Cleanup logic first strips leading whitespace by iterating over the string and later scans the path for URI, network-path, separator, and percent-escape patterns.
+- The intended libFuzzer target consumes the whole raw input as one C-Blosc2 frame via blosc2_schunk_from_buffer and then attempts chunk decompression from the reconstructed super-chunk. There is no FuzzedDataProvider split, selector byte, integrity side channel, or outer archive. The local arvo wrapper may report a corpus-directory expectation for this target, so official submit is the reliable oracle for single-file frame candidates.
+- The active wrapper invokes the libjpeg-turbo decompression fuzzer on the PoC file. The fuzzer treats the entire file as a JPEG byte buffer, parses dimensions with TurboJPEG, skips zero-sized or over-large images, then attempts decompression into several pixel formats. There is no FuzzedDataProvider split, mode selector, sidecar file, or checksum wrapper.
+- The libFuzzer target feeds the raw input bytes as a CIL policy file. The harness parses the bytes, compiles the AST, builds a policy database, optionally optimizes, writes the policy to a null sink, and destroys the database and AST. There is no byte carving, front/back consumption, mode selector, or FuzzedDataProvider contract.
+- The fuzzer rejects short files, then consumes bytes from the front: a parser-family selector, optional fixed-width time format, optional fixed-width time key, optional fixed-width time offset, time-keep, type-coercion selector, and decoder selector/rule bytes. For optional fixed-width strings, the same byte that enables the option is also the first byte copied into that string; a following byte is consumed after each optional field. Decoder mode uses front-consumed bytes for rule type, backend, and action before the remaining bytes are passed to the parser.
+- The intended libFuzzer contract is raw PHP source bytes passed to php-fuzz-execute. In this generated wrapper, local verify and official submit mount the PoC at a fixed path but invoke the fuzzer as though that path were a corpus argument; without the single-input run mode the file is not executed. There is no FuzzedDataProvider layout or leading selector byte.
+- The libFuzzer harness passes the raw byte slice directly as njs script text. Empty inputs are ignored. Non-empty inputs create an njs VM, call the script processing path, and destroy the VM; there is no FuzzedDataProvider layout, no selector byte, and no length-prefixed envelope.
+- The active RawSpeed libFuzzer target passes the complete input buffer directly to TiffParser::parse and then constructs TiffDecoderFuzzer-ThreefrDecoder. It does not use RawParser fallback, does not invoke CiffParser for raw CIFF bytes, and does not carve a mode selector or FuzzedDataProvider fields.
+- The libFuzzer harness passes raw bytes to LibreDWG. Inputs beginning with a DWG-style header are decoded as DWG, inputs beginning with a JSON object opener are decoded as JSON, and all other inputs are treated as DXF text. Text inputs are copied to ensure NUL termination. After import, the harness chooses an output path such as DWG, DXF, or JSON and writes to a null sink, so crashes can occur during import or writeback.
+- The libFuzzer harness passes the raw input bytes directly as an ASCII glTF string to TinyGLTF LoadASCIIFromString with an empty base directory. There is no carved prefix and no FuzzedDataProvider layout. External asset resolution proceeds through TinyGLTF filesystem callbacks when a buffer URI is non-data.
+- The libFuzzer harness wraps the raw input bytes in a StringView, lexes and parses a full JS program, and only creates a VM plus LibJS GlobalObject interpreter when parsing succeeds. There is no FuzzedDataProvider, no input carving, and no LibWeb DOM or ImageData entry point; JavaScript exceptions are handled as normal interpreter outcomes rather than process crashes.
+
+### Format Links
+- [[assimp-model]]
+- [[c-blosc2-frame]]
+- [[cil-policy-text]]
+- [[dwg]]
+- [[dwg-drawing]]
+- [[dxf]]
+- [[dxf-text]]
+- [[fluent-bit-parser-fuzzer-control-plus-json]]
+- [[gltf-json]]
+- [[javascript]]
+- [[javascript-source]]
+- [[jpeg]]
+- [[jpeg2000-j2k]]
+- [[leptonica-spix]]
+- [[libredwg-dwg-dxf-json]]
+- [[libredwg-json]]
+- [[lua-source]]
+- [[mruby-source]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+- [[opentype-font-graphite]]
+- [[p11-kit-rpc]]
+- [[php-source]]
+- [[rawspeed-ciff-vs-threefr-tiff]]
+- [[selinux-cil-policy-text]]
+- [[sudoers-policy-fuzzer-lines]]
+- [[tiff-srw]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

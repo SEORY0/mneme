@@ -32,3 +32,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- This harness input is a control prefix followed by a JSON record, not raw JSON from byte zero. In JSON mode the record is converted to MsgPack and must unpack as a map before time lookup. Strict JSON syntax means object keys that survive JSON conversion are string keys; primitive values can be booleans, numbers, null, arrays, or objects. The decoder machinery can target a fixed string key and, with the JSON backend, decode a string value into an additional MsgPack object that is merged back into the record before time lookup.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

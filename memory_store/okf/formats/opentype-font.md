@@ -229,3 +229,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- OpenType/sfnt fonts have a scalar header, table directory, and layout tables such as GSUB or GPOS. Contextual and chained-context layout subtables carry coverage arrays plus lookup records whose sequence indexes refer to positions in the input glyph sequence. A valid seed font is much more reliable than a hand-built sfnt envelope for reaching closure and subset planning.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

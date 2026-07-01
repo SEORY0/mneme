@@ -33,3 +33,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- CIL policy text is S-expression based. A minimal policy scaffold needs class and permission declarations, class ordering, SID ordering and context, user/role/type/category/sensitivity declarations and ordering, sensitivity/category linkage, user level/range, role/type membership, and user-role linkage before optional policy constructs are accepted. Optional blocks, tunable conditionals, macro declarations, and macro calls are nested S-expression forms whose bodies are resolved by staged compiler passes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

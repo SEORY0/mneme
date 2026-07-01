@@ -115,3 +115,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The fuzz input is a stream of little-endian length-prefixed reader chunks. The first chunk is the ATR. Each later APDU response chunk ends with status bytes; the preceding body is copied into the APDU response buffer. Oberthur select responses need an accepted FCI template carrying file type, file id, size or directory attributes, and security attributes. The Oberthur emulator reads token info, container metadata, public object list, and private object list in order; public object list records dispatch to data, certificate, and key metadata readers.
+- The fuzz input is a stream of little-endian length-prefixed reader chunks. The first chunk is the ATR. Later chunks are APDU responses whose final status bytes are separated from response data by the harness. Oberthur file selection accepts ISO FCI/FCP wrappers with inner file-type, file-id, size or record metadata, and ACL fields. Oberthur public-object list records are fixed-size entries that dispatch by file-id class; public data objects are described by a separate info blob containing flags, length-prefixed label, length-prefixed application label, and length-prefixed DER OID.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

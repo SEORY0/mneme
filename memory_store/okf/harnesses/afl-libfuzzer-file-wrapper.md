@@ -16,3 +16,14 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The GPAC fuzz target writes the raw input bytes to a temporary file and opens that file with gf_isom_open_file in read-dump mode, then closes the movie if opening succeeds. The input is a complete MP4/BMFF file image; there is no selector byte or FuzzedDataProvider carving.
+
+### Format Links
+- [[isobmff-mp4]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

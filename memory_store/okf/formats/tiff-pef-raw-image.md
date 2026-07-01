@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The PEF path consumes a raw TIFF byte stream: endian marker, TIFF magic, IFD entries, and strip payload bytes. Relevant reachability tags include image dimensions, BitsPerSample, Compression selecting uncompressed decode, Make/Model identification accepted by the PEF wrapper, StripOffsets, StripByteCounts, RowsPerStrip, and SamplesPerPixel. Multi-value strip tables are stored out-of-line when they do not fit in the TIFF value slot. For this decoder, the uncompressed path derives decoded slice height from ImageLength and RowsPerStrip, validates strip byte ranges against the whole file buffer, allocates the RawImage after accumulating strip row counts, and then checks initialized output rows after decode.
+
+### Harness Links
+- [[libfuzzer-rawspeed-pef-decoder]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -65,3 +65,14 @@ fields become the record text parsed by Fluent Bit.
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The useful input is a parser-fuzzer envelope followed by a record, not standalone JSON from byte zero. The first selector chooses JSON, regex, LTSV, or logfmt. Optional fixed-width time format, time key, and time offset strings are consumed from the front when enabled. A type table can attach fixed casts to keys named AAA, BBB, CCC, DDD, and EEE; decoder rules target a fixed key before the remaining record is parsed.
+
+### Harness Links
+- [[honggfuzz-style-file-fuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

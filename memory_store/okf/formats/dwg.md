@@ -48,3 +48,14 @@ legacy table records. Modern DWG headers route to different decoders and miss th
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- R13/R2000 DWG inputs start with an AutoCAD version marker and contain section locator records for header variables, classes, and handles/object map. The classes section stores bit-coded class records with number, proxy flags, application name, C++ name, DXF name, zombie flag, and an entity/object class marker. The object map then points to bit-coded object streams whose type may reference a dynamic class by subtracting the dynamic-class base.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

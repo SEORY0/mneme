@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- OpenType/SFNT table records need coherent lengths, checksums, and head checksum adjustment. Graphite Glat v3 uses a version field followed by a compression header; the compression header selects uncompressed or LZ4 and carries the decompressed table size. Glat parsing depends on Gloc locations, and converting a v1 Glat seed into v3 requires shifting the paired Gloc locations to account for the additional v3 compression header before wrapping the table.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

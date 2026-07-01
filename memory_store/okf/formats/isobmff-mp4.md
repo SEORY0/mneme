@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- ISOBMFF boxes use a big-endian size and four-character type header. Container sizes must stay coherent through the moov, trak, mdia, minf, stbl, and stsd hierarchy. Audio sample entries contain fixed sample-entry fields followed by child boxes; an MP4 audio entry may carry an esds descriptor directly or inside a QuickTime-style wave child, and malformed siblings can affect GPAC's sample-entry child registration and teardown.
+
+### Harness Links
+- [[afl-libfuzzer-file-wrapper]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.
