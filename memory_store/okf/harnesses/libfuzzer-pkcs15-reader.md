@@ -48,3 +48,18 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+## Round 37 Input Contract
+
+### Input Contract
+- The libFuzzer wrapper feeds the raw file as a smart-card transcript.
+- There is no FuzzedDataProvider or leading mode byte; reachability depends on the exact order in which the OpenSC reader consumes ATR and APDU-response chunks.
+- The fuzz target consumes the raw input as fake smart-card reader data, not as a file format with checksums and not through FuzzedDataProvider.
+- Chunk boundaries determine the ATR and each APDU response.
+- Each response must carry a successful status word to keep initialization moving into the CardOS-specific parser.
+
+### Format Links
+- [[opensc-cardos-fake-reader-apdu]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

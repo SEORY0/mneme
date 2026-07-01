@@ -32,3 +32,16 @@ node ids with optional importance.
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The input is a top-level Perfetto Trace protobuf containing repeated trace packets.
+- A memory tracker snapshot packet can describe process memory dumps, allocator dump nodes with stable identifiers and absolute names, and ownership edges between allocator dumps.
+- The processor treats an empty absolute allocator name as the process root.
+- Root-like nodes participate in name and edge bookkeeping but are not always represented as ordinary graph rows.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -18,3 +18,14 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- Native VIPS files use an endian-marked fixed header containing image geometry, band count, band format, coding, interpretation, resolution metadata, and image data after the header.
+- The jpegsave path accepts tiny native images and can route color-managed interpretations through conversion before JPEG encoding; TIFF and JPEG corpus seeds are also accepted by the same libvips file-loader surface.
+
+### Harness Links
+- [[libfuzzer-jpegsave-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

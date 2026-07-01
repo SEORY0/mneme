@@ -42,3 +42,16 @@ okf_support: 1
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- Honggfuzz invokes the OpenSC PKCS#15 reader harness on raw file bytes.
+- The harness does not use FuzzedDataProvider; it consumes chunks front-to-back.
+- After binding succeeds it may consume extra chunks as operation input and parameters, but this task triggers during binding before object-operation fuzzing.
+- Early generic PKCS#15 probes share the same virtual APDU stream, so their response chunks must be budgeted before the synthetic Oberthur emulator's chunks.
+
+### Format Links
+- [[opensc-pkcs15-reader-chunk-stream]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -96,3 +96,21 @@ from the in-memory frame.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- A C-Blosc2 frame has a msgpack-like header with frame magic, declared header length, declared total frame length, byte counts, type size, chunk size, codec/filter metadata, compressed chunk payloads, a compressed offsets/index chunk, and a msgpack-like trailer.
+- The trailer footer carries a trailer extent and marker; frame_get_usermeta derives the trailer start from the accepted frame length and this trailer extent, then reads a usermeta length and copies usermeta content from trailer-relative positions.
+- A c-blosc2 frame is a serialized container with an outer frame header, compressed chunk payloads, an offsets/index area, and a trailer.
+- The trailer can contain user metadata plus a footer that declares the trailer extent and carries a marker used during reverse parsing.
+- Parser reach depends on preserving the valid frame envelope, chunk metadata, offset index, and trailer marker while changing the relation between trailer extent and the metadata fields it contains.
+- A C-Blosc2 frame has a msgpack-like header, declared total frame length, byte counts, type size, chunk size, codec/filter metadata, a metalayer index area, optional chunk/offset data, and a msgpack-like trailer.
+- The trailer stores a usermeta length near its start and a trailer extent marker near the end.
+- This source variant interprets the frame's multibyte numeric fields according to the buggy helper used by the parser, so seed bytes from a different endian convention can be useful for layout but still fail the parser gates.
+- A zero-data frame can reach frame_get_usermeta when the header, empty metalayer index, total frame length, and trailer extent are internally consistent.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -29,3 +29,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- Alpha VMS object files are record streams: module-header records establish the object context, EGSD records carry variable-size entries, and PSC/SYM/SYMG-style entries have a common type-and-size prefix followed by subtype-specific fields including flags.
+- Alpha VMS libraries are block-oriented archives with a library header, sanity/version/type fields, module and symbol index descriptors, variable-length ASCII index entries, and module references into later data blocks.
+
+### Harness Links
+- [[libfuzzer-bfd-archive-only]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

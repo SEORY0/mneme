@@ -29,3 +29,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- LOAS/LATM inputs begin with a LOAS sync and length envelope around a LATM mux configuration.
+- The mux configuration selects stream framing, audio object type, sample-rate and channel fields, then carries payload length information and raw AAC frame data.
+- ER AAC profiles are relevant for HCR escape-word state, but valid envelope recognition alone is not sufficient to reach the vulnerable escape sequence.
+
+### Harness Links
+- [[afl-standalone-loas-decoder]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

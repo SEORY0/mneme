@@ -24,3 +24,15 @@ Round 25 introduced descriptive facts for this carrier.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- Sudoers policy text contains user specifications with host assignments, optional runas information, command tags/options, and a command list.
+- Path-valued command options are parsed before a command and can be repeated in a command specification.
+- Repeating an option in the same command spec exercises replacement semantics; placing options across comma-separated specs can follow a different propagation path and may not trigger the stale leak-list entry.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

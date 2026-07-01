@@ -20,3 +20,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The task card and extracted source describe progressive JPEG, but the actual runtime image executes qpdf.
+- JPEG-shaped inputs do not reach the runtime parser.
+- The successful input family is a compact PDF seed with recognizable PDF stream and trailer syntax plus an intentionally extreme length relation, not a normal renderable JPEG.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

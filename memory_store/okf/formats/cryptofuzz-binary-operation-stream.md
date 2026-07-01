@@ -45,3 +45,24 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The relevant format is a Cryptofuzz binary datasource rather than JSON or a normal wolfSSL input file.
+- The useful high-level envelope is an operation selector, nested operation payload, modifier data, module selector, and continuation control.
+- BignumCalc payloads carry an arithmetic selector plus multiple bignum buffers; modifier data can steer decimal versus hexadecimal parsing, base-conversion round trips, pointer clamping, and bignum rewiring.
+- Cryptofuzz binary inputs are a front-consumed operation stream.
+- Scalar values and byte blobs are encoded as little-endian length-prefixed datasource items.
+- The outer stream begins with an operation selector, then a length-prefixed operation payload, a length-prefixed modifier stream, a module selector consumed by the harness, and a continuation boolean.
+- HMAC payload fields are read in order as cleartext, digest type, symmetric IV, symmetric key, and cipher type.
+- Cryptofuzz inputs are a front-consumed binary datasource.
+- Each scalar or blob is length-prefixed before its value.
+- The outer stream selects an operation, then contains a nested operation payload, a modifier blob consumed by module helpers, a module selector field that is still structurally present even when the binary forces a module, and a continuation flag.
+- BignumCalc payloads contain a calculation selector followed by four length-prefixed decimal digit buffers; non-digit bytes are normalized to decimal digits before module execution.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-cryptofuzz-binary-operation-stream]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

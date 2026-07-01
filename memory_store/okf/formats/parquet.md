@@ -43,3 +43,15 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- Parquet inputs are raw file bytes with data pages and row-group column chunks followed by a Compact Thrift footer and terminal footer framing.
+- A byte-array decimal column stores variable-length unscaled integer bytes in the pages, while schema metadata supplies decimal scale and precision.
+- A high decimal precision maps the Arrow logical type to Decimal256 without requiring the physical page representation to change from byte array.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

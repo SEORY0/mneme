@@ -41,3 +41,16 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- A Blosc compressed chunk is raw bytes with a fixed-size header followed by a block-start table and one or more block streams.
+- The header carries version, codec/flag bits, element size, uncompressed size, block size, and total compressed size; the harness requires the total compressed size to match the input length.
+- With dont-split enabled, a block has one stream whose own size word precedes the codec payload.
+- Lizard payloads begin with a compression-level selector and then a block section containing length-prefixed substreams; raw substreams can carry flags, literals, and other decoder lanes directly.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -18,3 +18,15 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- PHP serialized values include custom Serializable objects, object values, arrays, and object-reference opcodes.
+- SplObjectStorage custom serialization uses a storage section with an object count and object entries, optional associated info values, followed by a members section containing serialized object properties.
+- Reference ids are resolved through the unserializer reference table and object references require the target to be an object.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

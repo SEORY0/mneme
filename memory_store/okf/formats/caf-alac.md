@@ -23,3 +23,16 @@ can hold.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- CAF is a big-endian chunked container.
+- The stream description chunk must appear first and names the codec, packet framing, channels, and bit depth.
+- ALAC-in-CAF also needs a magic-cookie chunk containing the ALAC specific config, a packet-table chunk whose header is followed by variable-length encoded packet sizes, and a data chunk whose body starts with an edit field before compressed packet bytes.
+- ALAC packet bits are read most-significant-bit first; single-channel escape elements have a zero unused header, an escape flag in the element header, and raw sample bits.
+
+### Harness Links
+- [[libfuzzer-sndfile-virtual-io]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

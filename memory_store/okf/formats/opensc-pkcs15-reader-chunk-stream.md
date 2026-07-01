@@ -88,3 +88,30 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The reader input is a sequence of native little-endian length-prefixed chunks.
+- The first chunk is the ATR, and later chunks are APDU response bodies followed by status words.
+- TCOS file selection expects FCP-style metadata, the GDO metadata controls how many binary-read chunks are consumed, and the IDKey path performs application selection plus certificate select/read pairs before key-record reads.
+- The input is a front-to-back stream of small length-prefixed chunks.
+- The first chunk supplies the ATR used for card-driver matching.
+- Later chunks emulate APDU responses: response body bytes come before trailing status bytes, and successful select responses can carry FCI/FCP metadata including a file-size field.
+- The IDPrime index response begins with an object count and fixed-layout object records; a token-info record names a DF and a token-info marker used by the synthetic emulator.
+- The harness input is a sequence of little-endian length-prefixed chunks.
+- The first chunk is the ATR.
+- Each later chunk is one virtual APDU response: the final two response bytes are interpreted as status words and preceding bytes are copied as APDU data when the caller-provided response buffer permits.
+- Oberthur SELECT responses must be FCI/FCP templates accepted by the Oberthur driver: DF entries use the driver type tag for directories; transparent EF entries use the driver transparent type and a size field; variable-record EF entries use the driver variable-record type, a small size attribute, and record length/count attributes.
+- Record reads return only record bytes plus status; a later record-not-found status terminates the synthesized record list.
+- OpenSC reader inputs are little-endian length-prefixed chunks.
+- Later chunks emulate APDU responses, with response data followed by status words.
+- IAS/ECC file-selection responses use FCI/FCP-style TLV data; ACL data can appear either directly as a contact ACL TLV or nested under an ACL container.
+- An empty ACL value is syntactically findable but invalid for the IAS/ECC ACL loop.
+
+### Harness Links
+- [[honggfuzz]]
+- [[libfuzzer]]
+- [[libfuzzer-pkcs15-reader]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

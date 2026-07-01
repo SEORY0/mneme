@@ -86,3 +86,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- JPEG DCT input needs the normal SOI marker, quantization and Huffman tables, a progressive frame header, scan headers, entropy-coded scan data, and an image end marker.
+- Marker segment lengths must remain internally consistent.
+- For this class, a progressive image with more output rows than the first completed scan can provide is useful because smoothing may run after only the first scan has been consumed.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -30,3 +30,15 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The OpenThread CLI UART format is plain command text with whitespace-separated tokens and a line terminator to dispatch each command.
+- The CoAP request command parses an operation, destination IPv6 address, URI path, optional mode or block-size selector, and optional payload/count token.
+- Block-wise request modes encode an initial block number and size into a compact unsigned CoAP option value.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

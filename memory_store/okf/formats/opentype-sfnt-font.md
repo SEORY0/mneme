@@ -18,3 +18,15 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- A raw SFNT font starts with a scaler value, table count, search metadata, and a sequence of big-endian table records containing tag, checksum, offset, and length.
+- The loader expects several core TrueType tables to exist before it reaches glyph-location parsing.
+- Table checksum enforcement was not the useful gate here; the useful gate was keeping the required records syntactically present and their table bodies minimally well-formed.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

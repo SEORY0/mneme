@@ -18,3 +18,16 @@ train_only: true
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+## Round 37 Input Contract
+
+### Input Contract
+- The libFuzzer wrapper passes the raw file bytes directly to Cryptofuzz.
+- The active binary is configured for wolfCrypt-focused operation families and permits BignumCalc.
+- For BignumCalc, the parent datasource supplies the modifier stream and module selector, while the nested payload supplies the calculation and four operands.
+- The wolfCrypt module consumes modifier booleans for decimal versus hexadecimal parsing, optional clamping, optional base-conversion round trips, and operand rewiring.
+
+### Format Links
+- [[cryptofuzz-binary-operation-stream]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

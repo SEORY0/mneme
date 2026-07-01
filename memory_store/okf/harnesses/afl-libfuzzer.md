@@ -71,3 +71,16 @@ okf_support: 2
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The task wrapper invokes the Blosc decompress-chunk fuzz target.
+- The fuzzer treats the entire raw input as one Blosc chunk; there is no frame parser, mode selector, or FuzzedDataProvider layout.
+- It rejects inputs shorter than the minimum chunk header, inputs whose compressed-size field differs from the file length, inputs with zero uncompressed size, and inputs that fail shallow chunk validation.
+- It then allocates an output buffer sized by the chunk's compressed size and calls the Blosc decompressor.
+
+### Format Links
+- [[blosc-chunk]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -403,3 +403,20 @@ the FreeType font wrapper.
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- PDF parsing for this harness needs a syntactically valid header, catalog, pages tree, page object, content stream with matching declared length, cross-reference table, and trailer.
+- Page content stream graphics operators can create paths, apply clipping, and then paint geometry, which is enough to reach MuPDF's draw-device rendering path without embedded images or fonts.
+- The PDF fuzzer needs a self-contained raw PDF with a recognizable header, catalog, pages tree, page object, coherent cross-reference table, trailer root, and startxref.
+- Ordinary references at the xref boundary are rejected by object-range checks before the vulnerable access.
+- Page annotations are loaded during rendering, and non-signature annotations with no appearance stream can cause MuPDF to synthesize an appearance object through local-xref machinery.
+- MuPDF accepts a compact PDF with a version header, catalog, pages node, page object with a nonempty MediaBox, resources dictionary, a content stream, and a small Image XObject stream.
+- Page content uses postfix graphics operators; clipping paths are set before painting, and XObject images are invoked by resource name.
+- Image XObjects need coherent width, height, color space, bits-per-component, stream length, and enough sample bytes for the declared image.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

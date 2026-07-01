@@ -51,3 +51,16 @@ okf_support: 3
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+## Round 37 Input Contract
+
+### Input Contract
+- The honggfuzz wrapper writes the raw input bytes to a temporary .gml file, opens it as a file stream, installs igraph's ignore error handler, and calls igraph_read_graph_gml.
+- The graph is destroyed only when parsing succeeds.
+- Local one-file replay prints a honggfuzz usage banner even for clean executions, so official submit is the reliable oracle for sanitizer/crash behavior.
+- There is no mode selector and no FuzzedDataProvider layout.
+
+### Format Links
+- [[gml]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

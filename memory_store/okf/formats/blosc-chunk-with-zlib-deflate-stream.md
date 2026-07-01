@@ -18,3 +18,15 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- A regular Blosc chunk begins with a compact header containing format version, codec version, flags, type size, uncompressed size, block size, and total compressed size.
+- Non-memcpy chunks then contain a block-start table; each compressed block payload starts with its own compressed-size word followed by the selected codec stream.
+- For zlib/miniz, the codec stream is a zlib wrapper around deflate data plus a trailer checksum, and the wrapper must be coherent enough for miniz to reach the checksum path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

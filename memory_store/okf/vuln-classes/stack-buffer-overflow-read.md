@@ -41,9 +41,9 @@ okf_support: 2
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `stack-buffer-overflow-read`
-- observed: 33 traces; solved: 27 (illustrative — not for ranking)
-- top input_formats: opensc-coolkey-reader-chunks (4), ovs-odp-action-text (3), ipv6-udp-coap-meshcop-tlv (2), mvg (2), openpgp-secret-keyring (2), rollei-raw-text-header (2), flac-tool-input (1), ipv4-gre-ieee80211 (1)
-- top harnesses: libfuzzer (19), libfuzzer-pkcs15-reader (3), afl-file (1), afl-fuzzshark (1), fuzzshark-ip (1), libfuzzer-afl-wrapper (1), libfuzzer-bfd-tempfile (1), libfuzzer-ip6-send-fuzzer (1)
-- observed strategies: construct (29), seed-mutate (4)
+- observed: 40 traces; solved: 34 (illustrative — not for ranking)
+- top input_formats: opensc-coolkey-reader-chunks (4), ovs-odp-action-text (3), ipv6-udp-coap-meshcop-tlv (2), mvg (2), openpgp-secret-keyring (2), opensc-pkcs15-reader-chunk-stream (2), perfetto-trace-protobuf (2), rollei-raw-text-header (2)
+- top harnesses: libfuzzer (23), libfuzzer-pkcs15-reader (5), afl-file (1), afl-fuzzshark (1), fuzzshark-ip (1), honggfuzz-file-cli-uart (1), libfuzzer-afl-wrapper (1), libfuzzer-bfd-tempfile (1)
+- observed strategies: construct (36), seed-mutate (4)
 - collapsed aliases: stack-buffer-overflow-read-gated-by-empty-response-logic
 <!-- END observed-census -->

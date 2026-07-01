@@ -41,3 +41,17 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The tested carrier is a complete IPv6 datagram containing UDP to the Thread Management Framework port and CoAP payloads.
+- CoAP Uri-Path options are split into path segments.
+- MeshCoP payloads are type-length-value records; active dataset messages require a timestamp TLV before dataset contents are accepted.
+- Channel-mask TLV values are sequences of entries, each with a page selector, a mask-length field, and mask bytes.
+- Pan ID query messages carry both a channel mask and a PAN ID field, while active dataset messages store dataset TLVs after validation.
+
+### Harness Links
+- [[libfuzzer-ip6-send]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

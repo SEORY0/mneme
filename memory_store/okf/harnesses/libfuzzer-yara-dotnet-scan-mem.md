@@ -29,3 +29,14 @@ train_only: true
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+## Round 37 Input Contract
+
+### Input Contract
+- The libFuzzer target compiles a fixed YARA rule importing dotnet and scans the PoC bytes directly with yr_rules_scan_mem.
+- There is no leading selector, filename contract, checksum layer, wrapper, or FuzzedDataProvider split; every byte is part of the in-memory PE image.
+
+### Format Links
+- [[pe-dotnet]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

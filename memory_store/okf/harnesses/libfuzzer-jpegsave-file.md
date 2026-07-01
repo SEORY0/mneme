@@ -16,3 +16,14 @@ okf_support: 0
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The libFuzzer entrypoint writes the raw input bytes to a temporary file, opens it with libvips sequential access, rejects images above small geometry or band-count limits, then serializes the loaded image with the JPEG-save buffer API.
+- There is no FuzzedDataProvider and no mode-selector byte; the entire PoC is the candidate image file.
+
+### Format Links
+- [[native-vips-image]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

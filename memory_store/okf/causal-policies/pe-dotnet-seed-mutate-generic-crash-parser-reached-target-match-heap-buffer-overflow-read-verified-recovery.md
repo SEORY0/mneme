@@ -1,7 +1,7 @@
 ---
 type: causal-policy
 title: "Pe Dotnet Seed Mutate Generic Crash Parser Reached Target Match Heap Buffer Overflow Read Verified Recovery"
-description: "Server-verified recovery for pe-dotnet when generic_crash pairs with parser_reached_target_match."
+description: "Round 37 verified recovery for generic_crash with verifier signal parser_reached_target_match."
 failure_class: "generic_crash"
 verifier_signal: "parser_reached_target_match"
 candidate_family: "seed_mutate"
@@ -9,46 +9,46 @@ input_format: "pe-dotnet"
 harness_convention: "libfuzzer-yara-dotnet-scan-mem"
 vuln_class: "heap-buffer-overflow-read"
 access_scope: generate
-success_count: 1
+success_count: 2
 confidence: high
-tags: ["generic-crash", "parser-reached-target-match", "pe-dotnet", "libfuzzer-yara-dotnet-scan-mem", "seed-mutate", "verified-recovery", "round-33"]
-match_keys: ["generic-crash", "parser-reached-target-match", "pe-dotnet", "libfuzzer-yara-dotnet-scan-mem", "seed-mutate", "heap-buffer-overflow-read", "verified-recovery"]
+tags: ["generic-crash", "parser-reached-target-match", "pe-dotnet", "libfuzzer-yara-dotnet-scan-mem", "seed-mutate", "heap-buffer-overflow-read", "verified-recovery", "round-37"]
+match_keys: ["generic_crash", "parser_reached_target_match", "pe-dotnet", "libfuzzer-yara-dotnet-scan-mem", "heap-buffer-overflow-read", "verified-recovery", "seed_mutate"]
 allowed_scopes: [generate]
 forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
 evidence_level: high
 train_only: true
-round: 33
+round: 37
 ---
 # Pe Dotnet Seed Mutate Generic Crash Parser Reached Target Match Heap Buffer Overflow Read Verified Recovery
 
 - key: `generic_crash x parser_reached_target_match`
-- outcome: server-verified vulnerable/fixed split
-- success_count: 1
+- outcome: server-verified target match
+- success_count: 2
 - related format facts: [[pe-dotnet]]
 - related harness facts: [[libfuzzer-yara-dotnet-scan-mem]]
 
+## Failure Shape
+Start from an in-repo managed PE seed that already reaches YARA's dotnet metadata parser and preserves the DOS, PE, section, CLR metadata, stream, table, string, and blob heap gates. Reuse an existing assembly CustomAttribute path that resolves through MemberRef and TypeRef to GuidAttribute, then retarget only that attribute's blob reference to a minimal appended custom-attribute blob with a valid prolog and a non-null short string placed close to the end of the mapped file. The vulnerable parser validates the declared string length but then copies a fixed maximum-sized typelib buffer from the string start, crossing the mapped-file boundary; the fixed image rejects or bounds the copy cleanly.
+
 ## Policy
-When `generic_crash x parser_reached_target_match` appears for `pe-dotnet`, preserve the parser and harness gates that were proven by the verifier before mutating the sink-specific relation. Treat official vulnerable-only target match as the success gate, not a local coarse crash label.
+When `generic_crash x parser_reached_target_match` appears for `pe-dotnet` under `libfuzzer-yara-dotnet-scan-mem`, preserve the parser, format, and harness gates that the verifier proved before mutating the sink-specific relation. Treat official vulnerable/fixed divergence as the success gate; local crash labels are supporting signals only.
 
 ## Procedure
-1. Use the `libfuzzer-yara-dotnet-scan-mem` harness contract and the `pe-dotnet` format contract before changing sink fields.
-2. Recreate the causal relation from the verified trace: Start from a valid managed PE seed so the YARA dotnet module accepts the PE and CLR metadata streams. Preserve the outer PE and metadata stream headers, widen the metadata coded-index width by increasing the relevant table row count, then make a CustomAttribute Type coded index select MemberRef with an out-of-range row. The vulnerable parser follows that unchecked relation during CustomAttribute parsing and reads past the metadata table area; the fixed build rejects the out-of-range relation.
-3. Keep lengths, dispatch selectors, structural checks, and state setup coherent until the target parser state is reached.
-4. Submit only after the fixed image exits cleanly or rejects the relation while the vulnerable image reaches the target sink.
+1. Start from the `[[pe-dotnet]]` format contract and `[[libfuzzer-yara-dotnet-scan-mem]]` harness contract; keep recognition, dispatch selectors, lengths, and state setup coherent until parser reachability is stable.
+2. Apply the causal relation from the failure shape before broad mutation or seed sweeping.
+3. Change one invariant at a time: selector-to-subparser, declared length-to-available data, container count-to-record body, lifetime/ownership state, allocation-size relation, or sanitizer-specific sink relation.
+4. Submit only candidates where the vulnerable image reaches the target relation and the fixed image exits cleanly, rejects the relation, or otherwise avoids the target crash.
 
-## Format Contract
-Use [[pe-dotnet]]. The input is a PE32 managed assembly. The PE data directory points to a CLI header, which points to CLR metadata beginning with the metadata magic and a padded version string. Metadata stream headers name streams such as the table stream, string heap, user-string heap, GUID heap, and blob heap. The dotnet parser walks the table stream in Valid-bit order, derives coded-index widths from table row counts, records TypeRef and MemberRef table bases, and parses CustomAttribute rows whose Parent and Type fields are coded indexes.
-
-## Harness Contract
-Use [[libfuzzer-yara-dotnet-scan-mem]]. The libFuzzer harness compiles a fixed YARA rule importing the dotnet module and scans the raw input bytes directly with yr_rules_scan_mem. There is no filename contract, mode byte, checksum wrapper, or FuzzedDataProvider split; every byte in the PoC is the scanned in-memory PE image.
-
-## Evidence Shape
-- Support: 1 server-verified round 33 solve.
-- Candidate family: seed_mutate.
-- Verifier key: `generic_crash x parser_reached_target_match`.
-- Vulnerability class: `heap-buffer-overflow-read`.
-- Recovery summary: Start from a valid managed PE seed so the YARA dotnet module accepts the PE and CLR metadata streams. Preserve the outer PE and metadata stream headers, widen the metadata coded-index width by increasing the relevant table row count, then make a CustomAttribute Type coded index select MemberRef with an out-of-range row. The vulnerable parser follows that unchecked relation during CustomAttribute parsing and reads past the metadata table area; the fixed build rejects the out-of-range relation.
+## Verifier Contract
+This policy is ranked by 2 official target matches. Re-rank or quarantine it if later use returns only clean exits, wrong sinks, wrapper-specific crashes, or fixed-image crashes.
 
 ## Negative Memory
-- Do not count parser reachability, both-image crashes, local-only wrapper crashes, clean exits, or fixed-image crashes as success for this key.
-- Do not store raw payload bytes, exact positions, task identifiers, checksums, or submit metadata.
+- Do not corrupt the outer `pe-dotnet` recognition gate while retargeting this signal.
+- Do not count parser reachability, both-image crashes, local wrapper crashes, clean exits, or fixed-image crashes as success.
+- Do not store payload bytes, exact positions, task identifiers, checksums, or submit metadata.
+
+## Evidence Shape
+- Support: server-verified round 37 solve after 1 attempts.
+- Candidate family: seed_mutate.
+- Official split: vulnerable exit 1, fixed exit 0, target_match True.
+- Scope: generator repair and retargeting only.

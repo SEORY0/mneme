@@ -2409,3 +2409,121 @@ Splash font path code is reached.
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The libFuzzer target feeds the entire PoC as raw bytes to pixReadMemSpix with no leading selector, no FuzzedDataProvider carving, and no checksum.
+- The same byte stream is later tried as a PixComp serialization, but the solved path is reached through the initial SPIX Pix and dewarpSinglePage with debug output enabled.
+- The libFuzzer target passes the raw input buffer directly to blosc2_schunk_open_sframe.
+- There is no leading selector byte, no FuzzedDataProvider carving, and no checksum field to recompute; the file bytes must be a complete in-memory C-Blosc2 frame whose declared frame length equals the input length.
+- The libFuzzer target passes the raw input bytes directly to the c-blosc2 in-memory frame opener and then attempts chunk decompression after a successful open.
+- There is no leading mode selector and no FuzzedDataProvider carving.
+- The fuzzer passes the raw file bytes as a Blosc compressed chunk.
+- There is no mode byte and no FuzzedDataProvider carving.
+- The harness rejects inputs below the minimum header length, requires nonzero uncompressed size and a matching compressed-size header field, validates the compressed buffer, allocates an output buffer based on the input size, and calls the normal Blosc decompressor.
+- The generated run metadata names a libFuzzer-style arvo wrapper.
+- The local image wrapper hardcodes /tmp/poc and, when the input is bind-mounted as that path, executes the decoder fuzzer once on the raw file bytes.
+- There is no FuzzedDataProvider prefix in the observed decoder path.
+- The runner's docker-copy based local verify can misreport a wrapper path error for this image, so bind-mounted local runs and official submit were used as the reliable signals.
+- The libFuzzer target consumes raw archive bytes directly with a fixed input size cap.
+- It opens the archive from memory, iterates the reported file count, calls file validation in header-only and full modes, checks encryption and method, then extracts by filename into a fixed static buffer.
+- There is no leading selector and no FuzzedDataProvider tail layout.
+- The fuzz harness feeds raw file bytes directly.
+- It rejects inputs below the Blosc minimum header length, requires the total compressed size reported by the chunk header to equal the input size, requires a nonzero uncompressed size, validates the chunk header, allocates an output buffer sized from the compressed buffer size, and calls Blosc decompression once.
+- The task wrapper runs QPDF's DCT fuzz target.
+- The fuzzer passes the entire raw input byte string to a DCT decoder; there is no leading mode byte, length prefix, or FuzzedDataProvider split.
+- QPDF buffers those bytes and feeds them to libjpeg through an in-memory JPEG source before reading scanlines.
+- The libFuzzer target feeds the entire PoC as raw bytes to MuPDF as an in-memory PDF stream.
+- There is no leading selector and no FuzzedDataProvider carving outside the PDF structure.
+- The harness opens the document, counts pages, and renders each page to a pixmap while catching ordinary MuPDF exceptions.
+- The actual harness is qpdf_fuzzer under libFuzzer.
+- It feeds raw bytes to QPDF::processInputSource, then exercises several writer modes with full stream decode and output encryption, page and content helpers, image helpers, page labels, outlines, and AcroForm annotation helpers.
+- There is no leading selector, sidecar file, or FuzzedDataProvider split.
+- The actual dispatcher runs the pageseg libFuzzer target.
+- It feeds the PoC file bytes directly to pixReadMemSpix, with no FuzzedDataProvider and no selector prefix.
+- Inputs that are valid PNG/JPEG/etc.
+- are not enough; the file itself must be a complete SPIX serialized PIX.
+- The libFuzzer target feeds the raw file bytes to a fake OpenSC reader.
+- Card connection and driver matching consume the ATR and APDU-response chunks first; PKCS#15 binding then consumes several normal application-probe responses before falling back to built-in synthetic emulators.
+- Extra operation-input chunks are consumed only after a PKCS#15 card has bound successfully.
+- The libFuzzer target consumes raw file bytes, pads them, and splits them with makeChunked: a front chunk-size byte selects either the rest of the file or a small following chunk, and the target reserves one byte of each chunk as post-padding before calling HttpParser::consumePostPadded.
+- The HttpWithProxy build passes a ProxyParser through the reserved pointer, then the request callback reads URL, method, query, proxy source address, routes the request, and iterates headers.
+- There is no FuzzedDataProvider back-loading or separate mode selector.
+- libFuzzer supplies raw bytes to LLVMFuzzerTestOneInput.
+- In the no-proxy path the harness consumes fixed-width fields from the front, copies a bounded NUL-terminated response slice into the client response buffer, sets a fixed response status/data length, and calls the HTTP data-processing path.
+- There is no FuzzedDataProvider back-loading.
+- The libFuzzer harness writes the raw PoC bytes to a virtual in-memory tar file and opens the SDTS catalog path through GDAL's vsitar layer.
+- There is no FuzzedDataProvider carving; the entire input must be the tar archive consumed by the GDAL/OGR SDTS fuzzer, which then enumerates layers and up to a bounded number of features.
+- The libFuzzer target installs a fuzz reader over the raw input and consumes chunks front-to-back.
+- sc_connect_card consumes the ATR chunk, sc_pkcs15_bind consumes APDU response chunks during card detection and PKCS#15 emulation, and only after a successful bind does the harness consume additional operation input chunks for object operations.
+- Exhausted or undersized response chunks become unsupported-instruction status responses.
+- The libFuzzer target passes the entire input buffer directly to the Parquet Arrow fuzz reader.
+- There is no leading selector and no FuzzedDataProvider split, so parser reach depends on keeping the terminal framing, footer length, schema, row group, column chunk, and page metadata coherent.
+- The fuzzer passes raw bytes directly to the Perfetto trace processor.
+- There is no leading mode selector and no FuzzedDataProvider layout.
+- The data must look like a Trace protobuf so trace-type guessing selects the protobuf trace path; the harness parses the bytes into trace processor storage and then calls EOF notification, which flushes derived graph tables.
+- The libFuzzer target reads the raw file bytes as a single Cryptofuzz datasource and reports a custom mutator.
+- The built binary is constrained to wolfCrypt SP math operations.
+- There is no file magic, no stdin line protocol, and no FuzzedDataProvider tail-consumption contract visible from the extracted source.
+- The fuzz harness passes the raw input bytes into a memory-backed font loader without carving or a FuzzedDataProvider layout.
+- The loader treats the input as either a direct SFNT font or a collection wrapper, then builds table slices from directory records before later table-specific parsing.
+- The libFuzzer target passes the raw file bytes directly to php_var_unserialize as one serialized value after NUL-terminating a copy.
+- There is no filename wrapper, leading selector, checksum, or FuzzedDataProvider front/back split.
+- The wrapper runs the cryptofuzz OpenSSL API fuzzer on raw libFuzzer file bytes, with no JSON parser and no FuzzedDataProvider back-consumption.
+- The build forces the wolfCrypt-OpenSSL module, so the module selector is still consumed but does not choose another backend.
+- The HMAC modifier stream first chooses EVP versus direct HMAC, then controls multipart splitting and context-copy behavior during direct HMAC execution.
+- The libFuzzer target passes the raw file bytes directly.
+- It searches for the separator, copies the suffix to a NUL-terminated buffer, initializes a PHP request, calls php_var_unserialize on the suffix, and only if the result is a HashContext object calls hash_update with the prefix bytes followed by hash_final.
+- There is no leading mode byte, no filename wrapper, and no FuzzedDataProvider split.
+- libFuzzer passes the entire input directly to fz_open_memory and opens it as a PDF document stream.
+- The harness then counts pages and renders each page to a pixmap, which loads page dictionaries, annotations, resources, and appearance streams.
+- There is no prefix carving or FuzzedDataProvider layout, and the memory stream is not progressive.
+- The libFuzzer harness copies the raw input into an htslib memory file and calls hts_hopen without carving a mode byte or using FuzzedDataProvider.
+- If the file is recognized as sequence data, the harness reads and writes the SAM header, then repeatedly calls sam_read1, which reaches CRAM container and compression-header parsing.
+- The libFuzzer-compatible target rejects short inputs, consumes the control prefix front-to-back, creates a Fluent Bit parser from those controls, then parses the leftover bytes as the selected record format.
+- Optional decoder configuration consumes extra control bytes before the record, so a minimal decoder-disabled prefix keeps the JSON record aligned.
+- The libFuzzer target feeds the raw input buffer directly to blosc2_schunk_open_sframe.
+- There is no leading selector, no FuzzedDataProvider split, no pcap/archive envelope, and no checksum gate; the input must be one complete in-memory C-Blosc2 frame whose declared total length matches the supplied buffer length.
+- The libFuzzer target passes the raw input bytes directly to TiffParser, checks OrfDecoder applicability, constructs OrfDecoder, and calls decodeRaw followed by metadata decoding.
+- Rawspeed exceptions are caught and treated as clean exits, so the input must satisfy ordinary TIFF and decoder gates rather than merely causing a parser exception.
+- There is no mode byte and no FuzzedDataProvider layout.
+- The active fuzzer feeds raw libFuzzer bytes as sudoers policy text through an in-memory file handle.
+- The harness ignores very small inputs, initializes sudoers defaults and parser state, parses the text as sudoers syntax, and then reinitializes or cleans parser state, which walks parser-owned allocation tracking.
+- The libFuzzer target consumes the entire file as a raw in-memory PDF stream, opens it with the PDF handler, counts pages, and rasterizes every page to an RGB pixmap with identity transform.
+- There is no mode byte, archive wrapper, integrity field, or FuzzedDataProvider layout.
+- MuPDF exceptions are caught, so only a native sanitizer fault or process crash counts.
+- The active target is fuzz_pkcs15_reader.
+- It installs a fake reader, consumes chunks front-to-back, copies each APDU response body up to the requested response buffer, separates the trailing status word, connects a card, binds PKCS#15, and then invokes operations on discovered objects.
+- There is no mode byte and no back-consumed FuzzedDataProvider layout.
+- The fuzz harness copies raw input bytes to a heap buffer and passes them directly to the CLI UART receive function.
+- It initializes a single OpenThread instance, CLI UART support, network state, and leader mode before receiving input, then processes pending tasklets and platform work for a bounded loop.
+
+### Format Links
+- [[blosc-chunk-with-zlib-deflate-stream]]
+- [[blosc-compressed-chunk]]
+- [[c-blosc2-frame]]
+- [[cram]]
+- [[cryptofuzz-binary-operation-stream]]
+- [[fluent-bit-http-fuzzer-envelope]]
+- [[fluent-bit-parser-fuzzer-control-plus-json]]
+- [[h264-annexb-or-libavc-encoder-control-prefix]]
+- [[http-request-with-proxy-v2-prefix]]
+- [[jpeg]]
+- [[jpeg-card-but-qpdf-runtime]]
+- [[opensc-pkcs15-reader-apdu-chunk-stream]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+- [[openthread-cli-uart]]
+- [[opentype-sfnt-font]]
+- [[orf-tiff]]
+- [[parquet]]
+- [[pdf]]
+- [[perfetto-trace-protobuf]]
+- [[php-hashcontext-unserialize]]
+- [[php-serialize]]
+- [[sdts-tar-iso8211]]
+- [[spix]]
+- [[sudoers-policy-text]]
+- [[zip]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

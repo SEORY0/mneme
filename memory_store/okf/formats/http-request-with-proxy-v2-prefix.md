@@ -30,3 +30,15 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The input is a uWebSockets HTTP parser fuzz stream.
+- HTTP data may be preceded by a PROXY protocol v2 prefix containing a fixed binary signature, a version/command selector, an address-family selector, a network-order payload length, and address bytes before normal HTTP request bytes.
+- HTTP request lines are parsed by the same header scanner as other headers; content-length can place the parser into a streaming-body state before later header parsing resumes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

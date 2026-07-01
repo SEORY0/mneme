@@ -19,3 +19,16 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The useful input is not raw JSON from byte zero.
+- The parser fuzzer consumes leading selector bytes for parser family and optional parser configuration, may consume fixed-width strings for time format and time key, and then passes the remaining bytes to flb_parser_do.
+- In JSON mode, the remaining record is converted to MsgPack before time lookup.
+- The JSON parser accepts object records and later walks MsgPack map entries, assuming the configured time field is represented as a string.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

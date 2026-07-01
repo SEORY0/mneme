@@ -16,3 +16,15 @@ train_only: true
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The sndfile fuzz target passes the entire input byte buffer through libsndfile virtual I/O.
+- There is no leading selector byte, no FuzzedDataProvider split, and no filename or stdin contract.
+- After opening the stream, the harness allocates a read buffer from the reported channel count and reads one frame at a time.
+
+### Format Links
+- [[caf-alac]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

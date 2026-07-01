@@ -18,3 +18,16 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The OpenSC PKCS#15 reader fuzz input is a stream of native little-endian length-prefixed chunks.
+- The first chunk is copied as the ATR.
+- Each later APDU response chunk places its status word in the final two bytes and any preceding body is copied into the APDU response buffer when the caller expects data.
+- TCOS synthetic binding needs ISO7816-style FCI responses for selected files, an ICCSN-bearing serial file read, and TCOS password/key metadata records shaped as record bodies with a record tag, declared length, and embedded short TLVs.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

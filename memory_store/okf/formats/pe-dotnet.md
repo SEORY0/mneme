@@ -69,3 +69,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- PE/.NET inputs must remain coherent PE32 managed assemblies: DOS and NT headers, section-to-file mapping, CLR COM descriptor, metadata root with padded version string, stream headers for table, strings, GUID, and blob heaps, and #~ table row counts must be accepted.
+- The dotnet parser walks tables in Valid-bit order, derives coded-index widths from row counts, resolves CustomAttribute rows through Parent and Type coded indexes, then reads attribute values from the blob heap.
+
+### Harness Links
+- [[libfuzzer-yara-dotnet-scan-mem]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

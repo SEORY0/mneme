@@ -26,3 +26,15 @@ train_only: true
 
 ## Round 36 Notes
 - These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The fuzzer writes the raw input bytes to a temporary file, opens it with BFD automatic target selection, calls only the archive-format check, and closes the BFD.
+- It does not explicitly iterate archive members, does not request object format, and has no leading selector byte or FuzzedDataProvider layout.
+- Local AFL-wrapper output gives weak parser/sink visibility, so clean exits mainly indicate that the archive or object parser relation was not reached.
+
+### Format Links
+- [[bfd-vms-alpha-archive-or-object]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

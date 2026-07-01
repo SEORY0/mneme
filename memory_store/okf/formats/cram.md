@@ -32,3 +32,18 @@ metadata rather than in the top-level file header alone.
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- CRAM starts with a fixed file definition, then a SAM header stored as a container containing a file-header block.
+- Later containers carry a compression-header block followed by slice blocks.
+- In CRAM v3 and later, container headers and blocks are CRC-protected, so generated or mutated inputs must recompute those checks.
+- CRAM v4 switches many container, block, and compression-header integers to variable-length encoding.
+- Compression headers contain a preservation map, a record-encoding map keyed by two-character data-series names, and a tag-encoding map.
+- XPACK descriptors store bit width, reverse-map cardinality, reverse-map symbols, and a nested subcodec descriptor.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
