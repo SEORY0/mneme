@@ -71,3 +71,14 @@ Preserve the selector that reaches the target disassembler, then use an instruct
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is a raw instruction buffer with a fixed trailing selector block. The prefix is interpreted directly as machine-code bytes; the suffix supplies disassembler flavour, machine, and architecture selectors. For ARC 32-bit instructions, the little-endian reader rearranges halfwords before matching opcode-table words, so the on-wire byte order is not the same as a plain little-endian integer.
+
+### Harness Links
+- [[libfuzzer-binutils-disassembler]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

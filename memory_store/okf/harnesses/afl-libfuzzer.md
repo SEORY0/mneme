@@ -51,3 +51,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The active AFL/libFuzzer-compatible harness reads the raw PoC bytes from a file. It treats the leading little-endian settings word as feature bits for CharReaderBuilder and passes the remaining bytes directly as the JSON document; there is no FuzzedDataProvider layout or checksum.
+
+### Format Links
+- [[json]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

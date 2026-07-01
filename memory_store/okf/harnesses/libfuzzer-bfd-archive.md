@@ -28,3 +28,14 @@ train_only: true
 
 ## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The libFuzzer harness writes the raw input bytes unchanged to a temporary file, opens that file with BFD automatic target detection, and calls the archive format checker. There is no mode byte, FuzzedDataProvider split, checksum wrapper, or filename-controlled target selection.
+
+### Format Links
+- [[alpha-ecoff-archive]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

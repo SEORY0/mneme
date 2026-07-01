@@ -102,3 +102,16 @@ recursive descent reaches the unbounded depth.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Jsoncpp CharReader consumes ordinary JSON text after the harness settings prefix. There is no JSON magic; parser reachability begins before token parsing because the reader first skips an optional BOM, then tokenizes objects, arrays, strings, numbers, comments, and primitive values according to builder feature flags.
+- The JSON parser accepts raw JSON values, including standalone strings and non-strict single-quoted strings. Backslash-u escapes are decoded as four hex digits; high surrogates put the tokener into a pending-pair state, low surrogates are only valid as the second half of a pair, and unmatched surrogate handling appends a replacement marker to the string print buffer.
+
+### Harness Links
+- [[afl-libfuzzer]]
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

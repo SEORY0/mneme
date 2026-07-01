@@ -33,3 +33,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The fuzz input is a stream of native little-endian length-prefixed chunks. The first chunk is the ATR. Later chunks model APDU responses with status words at the end. CoolKey initialization needs applet select, lifecycle/status, list-object, read-object, and end-of-list responses. The combined object can contain compressed V1 object records with fixed attributes plus attribute records encoded by attribute type, data kind, optional string length, and value bytes.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

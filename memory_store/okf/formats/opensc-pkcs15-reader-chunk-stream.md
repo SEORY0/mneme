@@ -60,3 +60,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is a synthetic smart-card transcript made from little-endian length-prefixed records. The first record supplies ATR data. Later records emulate APDU responses: response body bytes precede trailing status words. PIV discovery, CCC, CHUI, history, and certificate objects are BER-style wrappers returned through GET DATA. The CCC body is a sequence of SimpleTLV records; zero-length records are syntactically accepted and advance past their headers, while malformed declared lengths are rejected cleanly in the tested path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

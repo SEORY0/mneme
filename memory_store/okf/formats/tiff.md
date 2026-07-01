@@ -108,3 +108,14 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Classic TIFF uses an endian header, an image-file-directory table, and typed tag records for width, height, bits per sample, compression, photometric interpretation, strip offsets and byte counts, rows per strip, samples per pixel, planar configuration, and extra samples. For gray+alpha reachability in Leptonica, the key cross-field relation is 8-bit samples, two samples per pixel, alpha metadata present, non-tiled layout, and a strip/scanline organization accepted by libtiff.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-image-prefix]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

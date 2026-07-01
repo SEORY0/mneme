@@ -71,3 +71,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The libFuzzer callback writes the raw input bytes to a temporary file, opens it with BFD, and checks archive format. There is no FuzzedDataProvider split or leading mode byte. During archive-format recognition, a mapped archive causes BFD to open the first member and check it as an object, which reaches SOM object setup.
+
+### Format Links
+- [[som-library-or-som-object]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

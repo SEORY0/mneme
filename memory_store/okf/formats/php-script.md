@@ -97,3 +97,15 @@ okf_support: 16
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary PHP source text. A PHP opening tag puts the lexer into PHP mode. This source tree uses the older double-angle attribute syntax before declarations, with parenthesized attribute arguments parsed as expression ASTs. Attributes can be attached to declarations such as functions, classes, properties, constants, methods, and parameters; their argument ASTs are converted to zvals during compilation, not during script execution.
+- PHP parser-fuzzer inputs are plain PHP source text. Normal PHP opening tags enter scripting mode; PHP close tags in parser mode act as statement or declaration terminators and return to inline-HTML mode. The shorthand echo open tag re-enters scripting mode and yields an echo token directly. Trait adaptation blocks accept method-reference aliases and can continue parsing another adaptation after a close-tag-supplied terminator.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-php-parser-raw-source]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

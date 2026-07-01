@@ -39,3 +39,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Arrow IPC streams are framed messages containing FlatBuffer metadata and optional aligned body buffers. A stream begins with schema metadata and then record-batch metadata. RecordBatch metadata contains a pre-order field-node vector for logical array lengths and null counts, plus a buffer descriptor vector whose offsets and lengths refer to the message body. Nested arrays such as lists, fixed-size lists, and structs consume multiple field nodes and body buffers in schema order.
+
+### Harness Links
+- [[afl-libfuzzer-ipc-stream-reader]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

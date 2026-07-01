@@ -75,3 +75,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- JPEG decoding gates include SOI marker framing, length-delimited table segments, a baseline SOF segment with precision, dimensions, component ids, sampling nibbles, and quantization table selectors, then an SOS segment that maps the frame components to entropy tables. Component sampling factors are stored as horizontal and vertical nibbles; stb_image computes maximum sampling factors and integer resampling ratios from those descriptors before color conversion. Coherent entropy-coded scan data is still required for the load path to reach resampling.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

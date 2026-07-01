@@ -31,3 +31,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is raw Markdown text with no container, checksum, or length table. Fenced code is recognized at block level after optional indentation and uses repeated marker characters. Lists, blockquotes, footnotes, definitions, and tables can re-enter block parsing on subspans or copied work buffers; list markers and quote markers can change what leading characters the nested parser sees.
+
+### Harness Links
+- [[afl-compatible-raw-input]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

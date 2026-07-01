@@ -55,3 +55,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is not an object file. It is raw instruction bytes followed by a fixed selector trailer containing a flavour byte, a little-endian machine word, and a final BFD architecture selector byte. The leading bytes are used directly as the disassembler memory buffer.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

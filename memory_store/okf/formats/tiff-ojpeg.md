@@ -20,3 +20,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Classic TIFF uses an endian marker, image-directory records, and out-of-line values for larger tag payloads. The old JPEG-in-TIFF path needs coherent image dimensions, sample layout, strip information, photometric interpretation, and legacy JPEG interchange metadata that points to an embedded JPEG stream. A carrier that only flips the compression mode without matching the legacy JPEG metadata does not reach the target path.
+- Classic TIFF uses a byte-order header, an image-file-directory table, and typed tag records. Parser reachability depended on keeping image dimensions, bit depth, samples per pixel, rows per strip, strip offsets, strip byte counts, planar configuration, photometric interpretation, and JPEG payload metadata coherent. Old-JPEG TIFFs use legacy JPEG interchange metadata instead of the newer JPEG tables tag; changing only the compression field can create an off-target decoder crash.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

@@ -22,3 +22,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- SPix begins with a format marker followed by native-endian image metadata: width, height, bit depth, stored words-per-line, colormap entry count, raw color entries when present, raster byte count, and raster bytes. The reader recomputes allocation geometry from dimensions and depth, so the serialized raster length must agree with the decoded image shape.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

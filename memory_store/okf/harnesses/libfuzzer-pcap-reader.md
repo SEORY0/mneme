@@ -32,3 +32,14 @@ okf_support: 1
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The fuzz target writes the raw input bytes to a temporary PCAP file, opens it with pcap_open_offline, iterates packet records, copies each captured packet to a heap buffer, and passes the packet header plus copied bytes into ndpi_workflow_process_packet. There is no FuzzedDataProvider carving; malformed non-PCAP bytes do not reach the TLS parser.
+
+### Format Links
+- [[pcap-ethernet-ipv4-tcp-tls-clienthello]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

@@ -30,3 +30,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Text VCF parsing requires metadata lines, a tab-separated #CHROM header with sample names, and records with fixed columns followed by a colon-separated FORMAT column and one sample column per declared sample. FORMAT field sizes are inferred from declared header type and observed sample values; string FORMAT fields use the maximum observed text length, and omitted trailing fields in later samples are still represented in the per-sample FORMAT storage.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

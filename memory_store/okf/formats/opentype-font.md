@@ -206,3 +206,15 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- OpenType variable fonts are sfnt containers with a table directory and glyph-related tables. The gvar table maps glyph ids to variation-data spans, then stores tuple variation headers and optional shared point data used while applying deltas to glyph outlines. A valid carrier needs ordinary font tables and a drawn glyph that routes into gvar delta application; tiny synthetic envelopes tend to fail earlier font validation.
+- OpenType/SFNT fonts can carry GSUB and GPOS layout tables while tolerating unrelated trailing bytes after the table directory data. The subsetter estimates each output table from source table length scaled by retained-glyph population versus source glyph population. GSUB closure can enlarge the retained glyph set before GPOS is serialized. GPOS pair-position format 2 contains coverage, class definitions, class counts, and a class matrix; its class definitions are subset and may be reserialized as ClassDef format 1 when output glyph IDs become dense.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

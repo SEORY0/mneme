@@ -29,3 +29,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Classic TIFF inputs use an image-file directory with geometry, bits per sample, samples per pixel, photometric interpretation, compression, strip storage, and optional legacy OJPEG side tags. OJPEG files that reached deepest used old-JPEG compression together with JPEG interchange data, legacy quantization and Huffman table references, restart interval metadata, YCbCr subsampling, and strip offsets/counts. Leptonica rejects tiled TIFFs and also checks libtiff's scanline byte count against the declared bits, samples, and width before reading; unmodified subsampled OJPEG color samples can fail that gate even when libtiff recognizes the file.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

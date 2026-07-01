@@ -24,3 +24,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- SOM objects are big-endian and are accepted through fixed system id, magic, version, and table-location/count fields. A space dictionary names a parent section through a shared string table and points to subspace dictionary records. The space-name path checks the string-table bound; the subspace-name path uses the same table as a raw string pointer. For this harness, a Unix archive plus SOM library map can be required so the archive-format check opens the first SOM object member.
+
+### Harness Links
+- [[libfuzzer-tempfile-bfd]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

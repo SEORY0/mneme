@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is a complete classic pcap file: global header, packet record, and one captured Ethernet frame. The pcap link type and Ethernet ethertype gate the parser into IPv6. Packet record captured length controls the heap allocation used for the raw packet, so truncating the IPv6 payload in the record can create a short IPv6Layer buffer without breaking the pcap reader.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

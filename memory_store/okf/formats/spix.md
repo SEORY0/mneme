@@ -30,3 +30,15 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- Serialized PIX inputs carry a magic/header region, native integer image fields, optional serialized colormap entries, a raster byte count, and raster data. Low-bit-depth colormapped images can be accepted even when sample values are not bounded by the number of colormap entries; grayscale versus color palette classification changes which enhancement path is reached.
+- SPIX is Leptonica's uncompressed serialized PIX format. It begins with an ASCII file identifier stored in the word-oriented stream, followed by image width, height, depth, a serialized words-per-line field, a color-map count with optional color-map words, a raster byte-count field, and raw raster words. The deserializer recomputes the raster layout from width, height, and depth and requires the declared raster size and actual remaining raster size to match before constructing the PIX.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

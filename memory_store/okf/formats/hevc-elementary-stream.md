@@ -65,3 +65,14 @@ The input is a raw HEVC byte stream, not a container. The decoder recognizes Ann
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- HEVC elementary streams are start-code/NAL-unit streams with VPS/SPS/PPS parameter sets followed by VCL slices. Valid seeds are much better carriers than minimal construction because the decoder needs coherent profile information, picture dimensions, reference state, slice headers, and in-loop reconstruction metadata before SAO and neighboring prediction paths are exercised.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

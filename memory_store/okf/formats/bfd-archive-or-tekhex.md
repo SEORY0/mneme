@@ -24,3 +24,14 @@ Round 25 introduced descriptive facts for this carrier.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- BFD archive inputs start with a global archive marker, followed by fixed-width member headers and member payloads; an archive symbol table member can make generic archive recognition inspect the first real member as a BFD object. TekHex object recognition is text-record based: records are percent-led, carry a hex length, record type, checksum field, and type-specific body. Termination and data records can be structurally tiny and still be accepted by object-mode BFD tools.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

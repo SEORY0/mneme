@@ -2280,3 +2280,73 @@ Splash font path code is reached.
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The active HarfBuzz draw fuzzer receives the raw input as an in-memory font blob, creates a face and font, derives normalized variation coordinates from trailing input bytes when axes exist, then draws the first bounded set of glyphs. There is no external file wrapper, checksum, or FuzzedDataProvider layout beyond the raw buffer and the harness tail-coordinate convention.
+- The draw fuzzer consumes the file as raw font bytes. The final byte selects how many variation coordinate bytes are consumed from the tail, those coordinate bytes are interpreted before drawing, and the harness draws a bounded prefix of glyph IDs based on the face glyph count.
+- The HarfBuzz libFuzzer targets consume the raw input as one font blob with no leading selector and no FuzzedDataProvider split. Shape and draw paths derive normalized variation coordinates from trailing input bytes before applying glyf and gvar deltas to selected glyphs.
+- The libFuzzer harness consumes raw bytes. The first byte controls the OpenThread message link-security setting; the remaining bytes are appended as an IPv6 datagram and sent with the initialized node running as a Thread leader while tasklets and platform events are pumped.
+- The libFuzzer entrypoint receives the PoC as raw bytes, wraps those bytes in an in-memory FILE stream, creates a libspectre document, and calls the document-load path. There is no FuzzedDataProvider carving or selector byte; the full file content is the PostScript document presented to the scanner.
+- The libFuzzer target passes the entire input byte stream to a memory-backed FILE and calls spectre_document_load_from_stream. There is no mode byte, archive wrapper, sidecar file, or FuzzedDataProvider front/back split. If the loader accepts a document without structured pages or format metadata, libspectre may render it through Ghostscript during load validation.
+- The libFuzzer harness rejects inputs shorter than its selector trailer, then consumes the final bytes from the back for flavour, machine, and architecture. It initializes a BFD disassembler for the selected target and repeatedly disassembles the remaining prefix from an in-memory buffer. No FuzzedDataProvider or file-format envelope is used.
+- The libFuzzer harness consumes raw bytes, rejects only buffers too small for the selector trailer or above its size cap, then carves selector metadata from the end and passes the remaining prefix as disassemble_info.buffer. It uses little-endian display and repeatedly calls the selected print_insn function until the decoder stops or the buffer is exhausted. There is no FuzzedDataProvider split.
+- The libFuzzer harness writes the raw input bytes to a temporary file, opens that file with BFD automatic target selection, and calls bfd_check_format for archive format. There is no stdin protocol, argv-controlled target, or FuzzedDataProvider carving; any TekHex path must be reached through BFD archive/object detection from the raw file bytes.
+- The libFuzzer input is carved by a small fixed-width prefix: three little-endian signed fields are consumed as shear angle and center coordinates, and the remaining bytes are passed as the image buffer. The harness rejects tiny image buffers and PNM, probes the buffer format with Leptonica, reads it with pixReadMem, then calls pixRotateShear and destroys the Pix. There is no filename protocol, stdin protocol, checksum, or FuzzedDataProvider back/front split.
+- The libFuzzer harness consumes three little-endian signed control values from the front of the input, rejects one image family, and passes the remaining bytes unchanged to the Leptonica memory image reader. The PoC therefore needs the control prefix before the actual TIFF bytes.
+- The harness treats the input as raw font bytes and builds a HarfBuzz face directly from them. If the input is large enough, it reads a trailing control byte followed by a fixed-size list of native-endian codepoints from the end of the same byte buffer; the control byte toggles subset options such as dropping layout and retaining glyph IDs. There is no front mode selector or FuzzedDataProvider.
+- The libFuzzer entrypoint receives the complete PoC as raw bytes, wraps them with memory-backed FILE I/O, calls spectre_document_load_from_stream, checks document status, frees the document, and closes the stream. There is no mode selector, checksum side channel, argv contract, or FuzzedDataProvider front/back split.
+- The libFuzzer harness consumes three little-endian signed 16-bit values from the front as rotation/shear parameters, then passes the remaining bytes directly to Leptonica pixReadMem as the image container. PoCs for image formats must prepend those six control bytes before the TIFF bytes; there is no FuzzedDataProvider back-consumed field.
+- The wrapper feeds the entire PoC as a HEIF file to libheif's file fuzzer. It checks file type, reads a context from memory, gets the primary and top-level image handles, queries metadata and dimensions, then decodes primary, top-level, and thumbnail handles to a fixed YCbCr 4:2:0 target. There is no selector byte or raw color-conversion buffer contract for this task.
+- The colorquant libFuzzer target passes the raw input directly to pixReadMemSpix with no selector byte and no FuzzedDataProvider layout. After a successful decode it thresholds to a four-bit image, obtains the resulting colormap pointer, runs additional color and scale operations, destroys the owning images, and finally destroys the saved colormap pointer.
+- The harness passes the raw input directly to Leptonica image loading. If loading succeeds, it runs a fixed enhancement sequence; the unsharp-mask path reaches RGB component extraction when colormap removal classifies the source as color.
+- The libFuzzer bytes are written verbatim to a temporary pcap file. PcapPlusPlus opens that file with PcapFileReaderDevice, reads only the first packet into a RawPacket, constructs a Packet from it, and then does a non-crashing IPv4-only print path if the parsed packet is IPv4. There is no FuzzedDataProvider or mode byte.
+- The harness reads the whole fuzz file as bytes, rejects very small or very large inputs, treats the front portion as the instruction buffer, and consumes a fixed-size suffix as selector fields. The suffix contains a flavour byte, a little-endian machine integer, and an architecture byte; choosing the ns32k architecture is required to reach the vulnerable disassembler.
+- The fuzz_process_packet harness passes the whole input buffer directly to ndpi_detection_process_packet. There is no pcap wrapper, selector byte, or FuzzedDataProvider carving; the file must start at the IP header, and TCP payload extraction follows the IP header length and TCP data-offset fields encoded in the packet.
+- The libFuzzer harness passes the raw input bytes as a GraphicsMagick blob and forces the image type to WPG before calling image.read. There is no FuzzedDataProvider, no leading mode byte, and no outer container beyond the WPG file itself. The local runner verify wrapper for this target did not replay a single file correctly because the wrapper expected a corpus-style path, so direct libFuzzer file replay and official submit were used as the practical oracles.
+- The compiled fuzzer consumes the raw input bytes directly. It first queries image info from memory, applies a decoded-size guard, then decodes the same buffer through stb_image with requested RGBA output. The build creates an all-format fuzzer from the PNG fuzzer source by removing the PNG-only source define; there is no leading mode byte, file wrapper, stdin protocol, or FuzzedDataProvider layout.
+- libFuzzer passes the entire input buffer directly to the decoder harness. The harness also samples early bytes from that same buffer to choose output color format, thread count, and architecture, then decodes the full buffer first for header discovery and repeatedly for frame output. There is no container wrapper, stdin protocol, file path protocol, checksum, or FuzzedDataProvider layout.
+- The fuzz target installs a fake OpenSC reader, connects a card from the first chunk, binds PKCS#15 through APDU-response chunks, then consumes two more chunks as operation input and operation parameters. It subsequently iterates discovered PKCS#15 objects through decrypt, derive, wrap, signature, and PIN operations. Reader chunks are consumed front-to-back; APDU response bodies are copied only up to the active response buffer length, and GET RESPONSE chaining consumes additional chunks when a response status indicates more data.
+- The libFuzzer harness passes the raw input bytes directly to pixReadMemSpix. There is no leading selector, no FuzzedDataProvider carving, and no trailing option footer. After a successful SPIX parse, the harness runs connected-component border extraction, step-chain conversion, single-path global-location generation, and border-based image reconstruction.
+- The active libFuzzer harness writes the raw input bytes to a temporary file and scans it through the normal ClamAV scanfile path with archive parsing enabled. There is no byte carving, front selector, or FuzzedDataProvider layout; the archive parser consumes the file bytes directly.
+- The libFuzzer target passes the submitted raw bytes directly as the buffer and exact size to json_tokener_parse_ex, then releases the returned json_object and frees the tokener. There is no mode selector, prefix field, checksum, filename gate, or FuzzedDataProvider layout.
+- The c-blosc2 decompression fuzzer consumes the whole input as one raw chunk. It rejects inputs shorter than the minimum chunk header, requires the header total compressed size to equal the actual input length, requires nonzero uncompressed size, allocates the output buffer from the compressed length, and calls blosc decompression. There is no outer frame, filename wrapper, mode byte, checksum, or FuzzedDataProvider carving.
+- The URI parse libFuzzer target duplicates the raw bytes into a NUL-terminated string and then ignores the original size. It parses the same string with normal and strict flags and calls URI serialization on successful parses. There is no mode selector and no FuzzedDataProvider front/back consumption; embedded NUL bytes would truncate the string seen by the parser.
+- The harness installs a fuzz reader over the chunk stream, binds PKCS#15, then consumes separate input and parameter chunks before iterating all discovered objects. Wrap and unwrap setup consumes additional chunks before signature operations, and APDU calls during key selection also draw from the same remaining chunk stream.
+- The libFuzzer harness copies the raw input bytes into an in-memory hFILE, opens them through hts_open, dispatches variant data to the VCF view path, reads the VCF header, then repeatedly reads records and writes them to a null sink. There is no leading selector byte, footer, or FuzzedDataProvider carving; the whole file must be a recognizable HTS text stream.
+- The oss-fuzzshark build is configured for the IP dissector. The input file is raw packet bytes beginning at an IPv4 header; there is no pcap wrapper and no FuzzedDataProvider carving. TCP payload is reached through normal IP and TCP header lengths, after which TCP heuristics can invoke the XCSL dissector.
+
+### Format Links
+- [[bfd-archive-or-tekhex]]
+- [[binutils-disassembler-buffer]]
+- [[binutils-disassembler-buffer-with-trailer-selector]]
+- [[binutils-disassembler-buffer-with-trailing-selectors]]
+- [[blosc-chunk]]
+- [[egg]]
+- [[heif-isobmff]]
+- [[hevc-elementary-stream]]
+- [[jpeg]]
+- [[json]]
+- [[leptonica-spix]]
+- [[opensc-coolkey-reader-chunks]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+- [[opentype-font]]
+- [[opentype-variable-font]]
+- [[pcap-ipv6]]
+- [[postscript-dos-eps]]
+- [[postscript-dsc]]
+- [[postscript-eps]]
+- [[raw-ipv4-tcp-kerberos-packet]]
+- [[raw-ipv4-tcp-xcsl-packet]]
+- [[spix]]
+- [[thread-ipv6-coap-meshcop]]
+- [[tiff-ojpeg]]
+- [[tiff-ojpeg-image]]
+- [[truetype-font]]
+- [[uri]]
+- [[vcf-text]]
+- [[wpg]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

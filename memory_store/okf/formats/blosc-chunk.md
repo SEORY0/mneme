@@ -43,3 +43,14 @@ okf_support: 3
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- A raw Blosc chunk starts with a compact header carrying version, codec flags, element size, uncompressed size, block size, and total compressed size. The non-memcpy path uses a block-start table followed by per-block payloads. Split blocks contain one stream per type lane, each with a declared compressed length before codec data. Extended-header mode changes where filter metadata and block starts are read.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

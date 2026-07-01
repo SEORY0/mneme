@@ -39,3 +39,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is not an object file or assembler text. The front portion is passed directly as the disassembler memory buffer. A fixed trailer at the end selects disassembler flavour, machine/subarchitecture, and BFD architecture; the machine selector is little-endian in the trailer and the final architecture selector must resolve to ARC. ARC instruction length is derived from the high bits of the first decoded word and from the selected ARC subarchitecture. There are no file magic, section, checksum, or container-length gates.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

@@ -36,3 +36,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The libFuzzer target rejects too-small or oversized inputs, uses all but the final selector block as disassembler memory, sets little-endian display and decoding, and repeatedly invokes the selected BFD disassembler until an instruction fails or the buffer is consumed. There is no ELF wrapper, assembler, checksum, FuzzedDataProvider, or mode byte beyond the fixed trailer.
+
+### Format Links
+- [[raw-disassembler-buffer]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

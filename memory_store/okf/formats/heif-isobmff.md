@@ -45,3 +45,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- HEIF is an ISO BMFF box graph with file type, metadata, item-info, item-location, item-reference, and item-property boxes. Image items get dimensions from image-spatial-extent properties, item-property associations select hvcC/ispe/auxC properties, and auxl references attach auxiliary alpha images to a master image. Derived image item types can use item data as a small descriptor rather than coded HEVC picture data.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
