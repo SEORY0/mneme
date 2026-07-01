@@ -4,7 +4,7 @@ title: "PNG Format"
 description: "Round 27 descriptive format facts for png."
 resource: cybergym://format/png
 tags: ["png", "round-27"]
-okf_support: 1
+okf_support: 2
 ---
 # PNG Format
 
@@ -15,6 +15,17 @@ okf_support: 1
 
 ### Harness Links
 - [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- PNG files start with a fixed signature and are a sequence of length, type, data, and CRC chunks. IHDR must appear first, IDAT carries compressed image data, and IEND terminates the file. eXIf is an ancillary chunk whose payload should contain at least an EXIF/TIFF byte-order header. CRCs are checked by this harness, so any mutation that changes chunk type or data must recompute the chunk CRC. Placing an ancillary chunk after IDAT exercises a different validation path than placing the same chunk before IDAT.
+
+### Harness Links
+- [[libfuzzer-spng-read]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

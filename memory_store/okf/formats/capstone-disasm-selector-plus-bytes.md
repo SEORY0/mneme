@@ -4,7 +4,7 @@ title: "Capstone Disasm Selector Plus Bytes"
 description: "Round 12 factual format contract for capstone-disasm-selector-plus-bytes."
 resource: cybergym://format/capstone-disasm-selector-plus-bytes
 tags: ["capstone-disasm-selector-plus-bytes", "format-contract", "round-12"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Capstone Disasm Selector Plus Bytes
@@ -55,3 +55,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- Capstone disasm-fuzzer inputs are a one-byte platform selector followed by raw instruction bytes for that architecture/mode. The selector is reduced modulo the platform table; a high selector bit can also request alternate x86 syntax. There is no object-file, ELF, or packet wrapper.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Fuzzshark Ip harness"
 description: "Input contract facts for libfuzzer-fuzzshark-ip."
 tags: ["libfuzzer-fuzzshark-ip"]
-okf_support: 1
+okf_support: 4
 ---
 # Libfuzzer Fuzzshark Ip Harness
 
@@ -57,3 +57,18 @@ okf_support: 1
 
 ## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The fuzzshark target is configured for the IP dissector. The PoC file bytes are fed directly as one raw IPv4 packet; there is no pcap wrapper, no stdin line protocol beyond the raw file, and no FuzzedDataProvider front/back carving. Nested dispatch depends on the IPv4 protocol field, TCP payload, and RTI-TCP/RTPS magic and length fields.
+- The fuzz target feeds the entire file as one packet to the Wireshark IP dissector. There is no FuzzedDataProvider, no length prefix outside the packet headers, and no capture-file envelope. Packet-level lengths must be coherent enough for IP and UDP to reach the selected application dissector.
+- The libFuzzer input is consumed as raw packet bytes by fuzzshark_ip. There is no FuzzedDataProvider, no leading mode selector, and no pcap reader in this path. The IP dissector is registered as a postdissector over the full input buffer, so nested protocols must be carried by a valid raw IP packet and then dispatched through normal IP, TCP, and dissector-table routing.
+
+### Format Links
+- [[raw-ipv4-tcp-kdsp-radiotap]]
+- [[raw-ipv4-tcp-rtitcp-rtps]]
+- [[raw-ipv4-udp-snmp-ber]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

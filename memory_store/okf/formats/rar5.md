@@ -4,7 +4,7 @@ title: "Rar5 format"
 description: "Round 8 descriptive format facts for rar5."
 resource: cybergym://format/rar5
 tags: ["rar5", "round-8"]
-okf_support: 4
+okf_support: 7
 ---
 # Rar5 Format
 
@@ -68,3 +68,16 @@ okf_support: 4
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- RAR5 archives begin with a fixed marker followed by integrity-protected variable-length base blocks. File blocks with data carry optional extra-data size, data size, file flags, unpacked size, attributes, optional content integrity metadata, compression info, host OS, filename, and then compressed member data. The compression info contains method, version, solid flag, and a dictionary/window selector. Compressed data uses a compact block header with an integrity field and table-present flag, followed by Huffman table metadata and command bits that can emit literals, filters, or dictionary-copy operations.
+- RAR5 archives begin with a fixed marker followed by CRC-protected variable-length base blocks. Main blocks carry archive flags such as solid mode. File blocks can carry extra-data and packed-data sizes, then file flags such as directory and content checksum, unpacked size, attributes, compression information, host OS, filename, optional extras, and member data. Header metadata mutations must preserve varint widths or rebuild the block header CRC. Directory flags can force a zero decompression window, while host metadata controls how the archive entry mode is exposed.
+- RAR5 archives begin with a fixed marker followed by CRC-protected variable-length base headers. Main headers carry archive flags such as volume and solid state. File and service headers can carry extra-data and data-size fields, file flags, unpacked size, attributes, optional content CRC, compression info, host OS, filename, and extra records before compressed data. Compression info encodes method/version, a solid bit, and a dictionary/window selector. Base-header CRC must be recomputed after metadata mutations. Service blocks are parsed through the file path and their data is skipped through the decompressor.
+
+### Harness Links
+- [[libfuzzer-libarchive]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

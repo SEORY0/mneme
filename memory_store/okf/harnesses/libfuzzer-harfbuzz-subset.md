@@ -3,7 +3,7 @@ type: harness-contract
 title: "libfuzzer-harfbuzz-subset harness"
 description: "Input contract facts for libfuzzer-harfbuzz-subset."
 tags: ["libfuzzer-harfbuzz-subset", "round-14", "round-16"]
-okf_support: 3
+okf_support: 4
 ---
 # Libfuzzer Harfbuzz Subset Harness
 
@@ -37,3 +37,14 @@ okf_support: 3
 
 ## Round 20 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The HarfBuzz subset libFuzzer target treats the input as raw font bytes for the hb_blob. When enough bytes are present, a fixed-size tail trailer is also carved from the same input: a flags byte immediately before a small array of native-endian codepoints. There is no leading mode selector or FuzzedDataProvider split.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Ffmpeg Target Dec Fuzzer Harness"
 description: "Round 26 input contract facts for libfuzzer-ffmpeg-target_dec_fuzzer."
 tags: ["libfuzzer-ffmpeg-target-dec-fuzzer", "round-26"]
-okf_support: 10
+okf_support: 11
 train_only: true
 ---
 # Libfuzzer Ffmpeg Target Dec Fuzzer Harness
@@ -29,3 +29,14 @@ train_only: true
 
 ## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The FFmpeg target decoder libFuzzer harness feeds raw bytes directly to the compiled MLP decoder, with no demux container and no FuzzedDataProvider layout. It scans the input for a fixed packet separator; without an actual separator, a separator-sized trailing region is withheld from the packet, so a single full packet needs an inert tail of that size. The optional large-input codec-context trailer is not needed for this small audio packet.
+
+### Format Links
+- [[ffmpeg-mlp-access-unit]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

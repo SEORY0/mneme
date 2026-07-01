@@ -3,7 +3,7 @@ type: format-family
 title: "Aac Loas Latm Format"
 description: "Input contract facts for aac-loas-latm."
 tags: ["aac-loas-latm", "round-30"]
-okf_support: 0
+okf_support: 1
 train_only: true
 ---
 # Aac Loas Latm Format
@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- LOAS frames contain a sync and mux-length envelope around LATM AudioMuxElement data. A StreamMuxConfig can precede each raw payload and carries AudioSpecificConfig fields such as object type, sampling-frequency index, channel configuration, and SBR signaling. PayloadLengthInfo is followed by raw AAC/SBR bits without a byte-alignment boundary. SBR headers carry start and stop frequency bands, crossover band, optional frequency-scale and noise-band fields, and optional limiter fields; AAC-ELD uses a low-delay SBR header path while HE-AAC uses hierarchical SBR signaling.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

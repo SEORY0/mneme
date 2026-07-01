@@ -4,7 +4,7 @@ title: "wireshark-udp-dissector-payload format"
 description: "Structure and reachability facts for wireshark-udp-dissector-payload."
 resource: cybergym://format/wireshark-udp-dissector-payload
 tags: ["wireshark-udp-dissector-payload"]
-okf_support: 1
+okf_support: 2
 ---
 # Wireshark UDP Dissector Payload Format
 
@@ -56,3 +56,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- The relevant vulnerable code is in the NOE property TLV decoder. NOE method bodies carry a class byte and then property TLVs; each TLV has a property code, optional array index, a short or extended property length, and property bytes. The vulnerable classification helpers search static UTF-8-property and Boolean-property key tables using class/property pairs, but those helpers are only useful after the UDP and UA/NOE dispatch gates have selected the NOE dissector.
+
+### Harness Links
+- [[libfuzzer-fuzzshark-ip-proto-udp]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

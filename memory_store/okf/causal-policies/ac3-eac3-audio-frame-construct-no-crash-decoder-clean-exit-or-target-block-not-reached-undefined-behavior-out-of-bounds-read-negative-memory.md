@@ -1,0 +1,58 @@
+---
+type: negative-memory
+title: "Ac3 Eac3 Audio Frame Construct No Crash Decoder Clean Exit Or Target Block Not Reached Undefined Behavior Out Of Bounds Read Negative Memory"
+description: "Round 33 negative memory for no_crash with verifier signal decoder_clean_exit_or_target_block_not_reached."
+failure_class: "no_crash"
+verifier_signal: "decoder_clean_exit_or_target_block_not_reached"
+candidate_family: "construct"
+input_format: "ac3-eac3-audio-frame"
+harness_convention: "libfuzzer-ffmpeg-target-decoder"
+vuln_class: "undefined-behavior-out-of-bounds-read"
+access_scope: generate
+success_count: 0
+failure_count: 1
+confidence: medium
+tags: ["no-crash", "decoder-clean-exit-or-target-block-not-reached", "ac3-eac3-audio-frame", "libfuzzer-ffmpeg-target-decoder", "construct", "undefined-behavior-out-of-bounds-read", "negative-memory", "round-33"]
+match_keys: ["no_crash", "decoder_clean_exit_or_target_block_not_reached", "ac3-eac3-audio-frame", "libfuzzer-ffmpeg-target-decoder", "construct", "undefined-behavior-out-of-bounds-read", "negative_memory"]
+allowed_scopes: [generate]
+forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
+evidence_level: medium
+train_only: true
+round: 33
+---
+# Ac3 Eac3 Audio Frame Construct No Crash Decoder Clean Exit Or Target Block Not Reached Undefined Behavior Out Of Bounds Read Negative Memory
+
+- key: `no_crash x decoder_clean_exit_or_target_block_not_reached`
+- outcome: persistent failure / basin to avoid
+- success_count: 0
+- failure_count: 1
+- related format facts: [[ac3-eac3-audio-frame]]
+- related harness facts: [[libfuzzer-ffmpeg-target-decoder]]
+
+## Failure Shape
+Constructed AC3 and E-AC3 raw frame candidates set the dual-mono plus low-frequency-channel relation described by the task, but simple zero-filled frames stayed in the clean decoder basin. A more complete AC3 first-block candidate satisfied the obvious header, BSI, coupling-strategy, exponent, bit-allocation, and SNR gates intended to reach coefficient scaling, but local verify and official submit still reported no vulnerable crash. This matches prior negative memory for synthetic AC3 frames that do not carry fully consistent deep audio-block syntax.
+
+## Policy
+Treat `no_crash x decoder_clean_exit_or_target_block_not_reached` on `ac3-eac3-audio-frame` as a basin to avoid unless a new candidate changes the parser gate, state relation, sink relation, or official differential behavior described below. Do not repeat variants that only preserve the same clean-exit, off-target, post-patch-crash, both-image-crash, or target-handoff-missing signal.
+
+## Procedure
+1. Keep only the smallest parser or harness envelope that was actually reached.
+2. Identify the missing relation from the verifier signal: parser selection, container acceptance, length relation, stateful subobject, allocation state, or official target sink.
+3. Change one causal relation at a time and discard candidates that return to `decoder_clean_exit_or_target_block_not_reached`.
+4. If a local crash is not an official target match, shrink or discard it before mutating deeper fields.
+5. Promote a recovery from this basin only after a later verifier-confirmed vulnerable-only target match.
+
+## Negative Memory
+- Do not resubmit broad mutations that only reproduce `decoder_clean_exit_or_target_block_not_reached`.
+- Do not count parser reachability, both-image crashes, local wrapper crashes, usage banners, clean exits, timeouts, or fixed-image crashes as success.
+- Never store payload bytes, exact positions, task identifiers, checksums, or submit metadata.
+
+## Format Contract
+Use [[ac3-eac3-audio-frame]]. The active input is raw compressed AC3-family frame data, not a media container. A frame starts with the AC3 sync word and header fields for sample rate, frame size, bitstream id, service mode, channel mode, and the low-frequency-channel flag. For normal AC3, the BSI section includes dual-mono dialog-normalization records and optional metadata flags, followed by per-block syntax for block switching, dither, dynamic range, coupling strategy, exponent strategies, channel bandwidth, exponents, bit allocation, SNR offsets, delta-bit-allocation, skip data, and transform coefficients.
+
+## Harness Contract
+Use [[libfuzzer-ffmpeg-target-decoder]]. The FFmpeg target decoder fuzzer feeds raw packet bytes to a fixed AC3 decoder target. It may split packets on an internal delimiter and may reserve a large trailing context block for codec fields on large inputs, but ordinary small inputs are decoded directly as packet payloads. There is no demux container, filename wrapper, or FuzzedDataProvider front/back carving.
+
+## Evidence Shape
+- Support: 1 diagnosed persistent failure from round 33 after 4 attempts.
+- Scope: generator repair and basin avoidance only.

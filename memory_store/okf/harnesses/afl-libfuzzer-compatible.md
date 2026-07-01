@@ -3,7 +3,7 @@ type: harness-contract
 title: "Afl Libfuzzer Compatible harness"
 description: "Input contract facts for afl-libfuzzer-compatible."
 tags: ["afl-libfuzzer-compatible"]
-okf_support: 1
+okf_support: 2
 ---
 # Afl Libfuzzer Compatible Harness
 
@@ -45,3 +45,14 @@ okf_support: 1
 
 ## Round 28 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The AFL-compatible connect harness reads a file whose first byte selects a handshake stage when the build uses the multi-stage mode. The harness creates an SCTP client association, injects canned peer handshake packets according to that stage, synthesizes the SCTP common header with the captured verification tag, and treats the remaining file bytes as the chunks of one injected packet. Inputs that are too small or oversized are skipped before packet injection.
+
+### Format Links
+- [[sctp-packet]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

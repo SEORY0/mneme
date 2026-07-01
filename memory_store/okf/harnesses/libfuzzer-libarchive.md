@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Libarchive harness"
 description: "Input contract facts for libfuzzer-libarchive."
 tags: ["libfuzzer-libarchive"]
-okf_support: 1
+okf_support: 4
 ---
 # Libfuzzer Libarchive Harness
 
@@ -24,3 +24,16 @@ okf_support: 1
 
 ## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The libarchive libFuzzer harness feeds the PoC bytes directly as one in-memory archive stream, enables all filters and archive formats, iterates archive headers, and drains each entry with archive_read_data. There is no selector prefix and no FuzzedDataProvider front/back split; reaching the target requires a whole RAR5 archive whose header CRCs and compressed-data gates remain coherent.
+- The libarchive fuzz harness consumes the raw PoC bytes as one in-memory archive stream, enables all filters and formats, repeatedly reads archive headers, and drains entry data with archive_read_data. There is no leading selector byte, filename contract, stdin wrapper, checksum wrapper beyond the archive format itself, or FuzzedDataProvider front/back split.
+- The libarchive libFuzzer harness provides the whole PoC as one in-memory archive stream, enables all filters and formats, calls archive_read_next_header repeatedly, and drains each normal entry with archive_read_data. There is no leading selector byte and no FuzzedDataProvider split. A candidate must be a complete archive stream; concatenated RAR5 volumes can be presented in one PoC buffer if their signatures and volume headers remain valid.
+
+### Format Links
+- [[rar5]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

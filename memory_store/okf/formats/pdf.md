@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the pdf input for
 resource: cybergym://format/pdf
 tags: [pdf, "round-16"]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 18
+okf_support: 21
 ---
 # Schema
 ## Identification
@@ -363,3 +363,18 @@ the FreeType font wrapper.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- A PDF image XObject can be reached from page resources and painted with a short content stream. A color-key /Mask array creates an alpha-bearing destination pixmap even when the source colorspace has only color components. MuPDF accepts image component depths beyond the common PDF fast paths as long as they are within its supported range; the image stream length must match the derived stride and height so the image is not merely truncated.
+- PDF rendering needs a valid catalog, page tree, page, content stream, and resource dictionary. A shading resource can trigger Type 3 stitching functions during page painting. Function output arity is derived from Range entries, and subfunctions may have independent arity unless the parser enforces consistency.
+- PDF AcroForm widget annotations can be drawn during page rendering when no appearance stream is supplied. Choice fields read options from the Opt array; invalid option entries may yield null display text. Default appearance and default resources must name a usable font before the appearance builder reaches text layout. Quadding controls whether measured text width affects emitted drawing commands.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-mupdf-pdf-render]]
+- [[libfuzzer-poppler-pdf-render]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

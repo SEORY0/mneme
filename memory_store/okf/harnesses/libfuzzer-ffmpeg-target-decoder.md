@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Ffmpeg Target Decoder harness"
 description: "Input contract facts for libfuzzer-ffmpeg-target-decoder."
 tags: ["libfuzzer-ffmpeg-target-decoder", "round-11"]
-okf_support: 5
+okf_support: 8
 train_only: true
 ---
 # Libfuzzer Ffmpeg Target Decoder Harness
@@ -97,3 +97,18 @@ train_only: true
 
 ### Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The FFmpeg target decoder harness feeds the file bytes as raw packet data for the selected decoder. It may split tagged multi-packet inputs, but this task can be reached with a single raw packet and does not use FuzzedDataProvider front/back carving. The container wrapper consumes the mounted poc path implicitly.
+- The FFmpeg target decoder fuzzer feeds raw packet bytes to a fixed AC3 decoder target. It may split packets on an internal delimiter and may reserve a large trailing context block for codec fields on large inputs, but ordinary small inputs are decoded directly as packet payloads. There is no demux container, filename wrapper, or FuzzedDataProvider front/back carving.
+- The FFmpeg decoder libFuzzer harness passes the file bytes directly to the selected H.264 decoder as packet data. There is no FuzzedDataProvider prefix or mode byte. A fixed packet delimiter can split multiple packets, and inputs above the harness threshold reserve a trailing codec-context configuration block, so the successful family kept the candidate compact.
+
+### Format Links
+- [[ac3-eac3-audio-frame]]
+- [[ffmpeg-mimic-decoder-packet]]
+- [[h264-annex-b]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

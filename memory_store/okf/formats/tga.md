@@ -4,7 +4,7 @@ title: "TGA format"
 description: "Descriptive contract facts for tga."
 resource: "cybergym://format/tga"
 tags: ["tga", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # Schema
 ## Identification
@@ -42,3 +42,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- TGA inputs are raw files with a fixed little-endian header containing image type, palette descriptor, dimensions, pixel depth, descriptor flags, optional image ID, optional palette data, and then image data. RLE image data is a sequence of packet headers; each header selects raw-run versus repeated-pixel form and declares a pixel or index count. Indexed images require palette-mode header fields that pass support checks before the image buffer is converted through palette lookup.
+
+### Harness Links
+- [[libfuzzer-kimageformats-raw-qbuffer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

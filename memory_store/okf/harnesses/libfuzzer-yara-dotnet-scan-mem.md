@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Yara Dotnet Scan Mem Harness"
 description: "Input contract facts for libfuzzer-yara-dotnet-scan-mem."
 tags: ["libfuzzer-yara-dotnet-scan-mem", "round-30"]
-okf_support: 0
+okf_support: 1
 train_only: true
 ---
 # Libfuzzer Yara Dotnet Scan Mem Harness
@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The libFuzzer harness compiles a fixed YARA rule importing the dotnet module and scans the raw input bytes directly with yr_rules_scan_mem. There is no filename contract, mode byte, checksum wrapper, or FuzzedDataProvider split; every byte in the PoC is the scanned in-memory PE image.
+
+### Format Links
+- [[pe-dotnet]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

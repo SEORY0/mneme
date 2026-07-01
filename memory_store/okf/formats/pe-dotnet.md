@@ -4,7 +4,7 @@ title: "PE Dotnet format"
 description: "Descriptive contract facts for pe-dotnet."
 resource: "cybergym://format/pe-dotnet"
 tags: ["pe-dotnet", "round-16"]
-okf_support: 3
+okf_support: 6
 ---
 # Schema
 ## Identification
@@ -55,3 +55,17 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- The input is a PE32 managed assembly. The PE data directory points to a CLI header, which points to CLR metadata beginning with the metadata magic and a padded version string. Metadata stream headers name streams such as the table stream, string heap, user-string heap, GUID heap, and blob heap. The dotnet parser walks the table stream in Valid-bit order, derives coded-index widths from table row counts, records TypeRef and MemberRef table bases, and parses CustomAttribute rows whose Parent and Type fields are coded indexes.
+- PE/.NET inputs need a valid DOS header, PE signature, section mapping, CLR COM descriptor, CLI metadata root, padded stream headers, and accepted metadata stream names. The dotnet parser walks #~ tables plus #Strings/#Blob when present, and parses #US as a sequence with an initial reserved empty entry followed by compressed-length user-string blobs. The vulnerable relation is that a blob length is bounds-checked before adding the encoded-length prefix size, then copied after advancing past that prefix.
+- The input is a PE32 managed .NET assembly. Parser reachability requires coherent DOS and PE headers, section-to-file mapping, a CLR data-directory entry, a CLI metadata root, and stream headers for the table stream plus string, blob, GUID, and user-string heaps. The table stream declares a Valid bitmask, row counts in bit order, and compact table rows whose coded-index widths depend on related table row counts. CustomAttribute rows contain Parent, Type, and Value coded indexes; Type can reference MemberRef, whose row then references TypeRef and string/blob heaps.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-yara-dotnet-scan-mem]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

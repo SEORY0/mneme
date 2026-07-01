@@ -4,7 +4,7 @@ title: "Sctp Packet"
 description: "Round 7 factual format contract for sctp-packet."
 resource: cybergym://format/sctp-packet
 tags: ["sctp-packet", "format-contract", "round-7", "round-16"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Sctp Packet
@@ -43,3 +43,14 @@ specific handshake state before later chunks are interpreted deeply.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- SCTP packets use a common header followed by one or more typed chunks. Each chunk has a type, flags, a chunk-local length, body fields determined by the chunk type, and alignment padding. Later-stage chunks such as DATA/I-DATA, SACK, FORWARD-TSN, RE-CONFIG, ASCONF, HEARTBEAT, SHUTDOWN, ERROR, and ABORT are interpreted meaningfully only after the association state and verification tag are plausible.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

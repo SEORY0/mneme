@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6", "round-16"]
-okf_support: 276
+okf_support: 299
 ---
 # Libfuzzer Harness
 
@@ -2158,3 +2158,56 @@ Splash font path code is reached.
 
 ## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The GraphicsMagick coder fuzzer passes the raw PoC bytes as a Magick blob to the fixed MAT coder. There is no mode selector, argv field, stdin framing, checksum gate, or FuzzedDataProvider front/back split. The harness sets bounded image width and height limits before reading, and writable coders may be exercised through post-read writeback when the read succeeds.
+- The ip6-send libFuzzer harness consumes a leading byte as the OpenThread message link-security selector and appends all remaining bytes as one raw IPv6 packet passed to otIp6Send on an initialized leader-mode instance. There is no FuzzedDataProvider layout.
+- The MuPDF PDF fuzzer consumes the submitted file as raw PDF bytes from memory, opens it as a PDF document, and renders page contents to a pixmap. There is no mode byte, archive wrapper, checksum gate, or FuzzedDataProvider carving.
+- The libFuzzer target consumes the whole file as a Magick Blob for the fixed PDB coder. There is no in-band selector byte or FuzzedDataProvider split; the harness reads the blob as PDB and, if decoding succeeds, writes it back through the same PDB coder.
+- The harness passes raw libFuzzer bytes directly to the request parser. It copies the bytes into a fixed static request buffer, truncates inputs that exceed that buffer, requires the request finalizer to observe a complete header terminator, and then parses using the full copied length rather than a separately saved end-of-headers pointer.
+- The libFuzzer harness passes the entire raw file byte string directly to the Lwan HTTP request parser. There is no mode byte, no FuzzedDataProvider trailer, and no file wrapper. The harness copies input into an internal fixed request buffer, requires a complete CRLFCRLF-terminated request, then parses query, cookie, encoding, If-Modified-Since, and Range helper state.
+- The libFuzzer stream-decompression harness treats the input as raw bytes but first consumes a front seed before parsing. That seed drives pseudo-random input and output chunk sizes for the streaming API. If the first parser chunk is small, legacy streaming may copy data into an internal staging buffer; selecting a seed that feeds the frame as one direct chunk can make end-of-input overreads visible against the fuzzer allocation.
+- The libFuzzer harness passes raw bytes directly. It copies them into a fixed static request buffer, enables proxy-protocol parsing in the request flags, runs the request finalizer that scans for an HTTP header terminator, and then invokes the HTTP request parser. There is no FuzzedDataProvider layout or mode-selector byte.
+- The libFuzzer target passes the complete input buffer directly as the JSON byte string, with no file wrapper, mode byte, or FuzzedDataProvider layout. The active target decodes a top-level Variant, calculates the reversible JSON size, encodes it, decodes that generated JSON again, re-encodes it, and then compares the generated encodings. Malformed JSON or values that fail the first decode exit before the encode stage.
+- The libFuzzer harness feeds the PoC file bytes directly to YARA rule scanning with import dotnet. There is no leading mode byte, no argv/stdin wrapper, and no FuzzedDataProvider front/back carving; parser reachability is entirely through the raw PE/.NET file structure.
+- The selected OpenThread libFuzzer target is the CLI UART receive harness. It copies the raw PoC bytes into a UART buffer after initializing a single OpenThread instance, then processes CLI tasklets. There is no file header, mode byte, checksum, or FuzzedDataProvider carving.
+- The libFuzzer harness opens the selected Capstone platform, enables detailed decoding, optionally selects alternate syntax from the selector byte, then disassembles the remaining bytes from a fixed base address and prints instruction details to a sink. The byte stream is consumed directly; there is no FuzzedDataProvider split.
+- The libarchive libFuzzer harness treats the entire input as a raw archive stream from memory, enables all filters and formats, repeatedly reads headers, drains each entry with archive_read_data until a nonpositive return, breaks only on ARCHIVE_FATAL, and frees the archive reader. There is no mode byte or FuzzedDataProvider carving.
+- The FFmpeg target decoder harness feeds raw bytes to the selected AC3 decoder. If the input is large enough, a trailing context block is consumed as codec-context fields and removed from packet data. Otherwise the packet is passed directly. A fixed delimiter can split the remaining bytes into multiple packets for repeated decode calls under one decoder context.
+- The libFuzzer target is oss-fuzzshark configured for the UDP dissector in the IP protocol table. It feeds the file bytes as one synthetic frame to the UDP dissector; there is no pcap envelope, no FuzzedDataProvider split, and no required IP wrapper for this image. Nested parser reachability depends on the UDP ports, then GSMTAP metadata, then RLC/MAC control-message bits.
+- The libFuzzer target feeds raw bytes to the NCP UART receive path after initializing a single OpenThread instance, enabling IPv6 and Thread, and becoming leader. There is no FuzzedDataProvider or mode byte. The UART stream must be HDLC-framed Spinel; local network-data and server-data changes register with the leader on true-to-false allow-property transitions. STREAM_NET and STREAM_NET_INSECURE carry little-endian length-prefixed IPv6 datagrams followed by optional metadata.
+- The YARA dotnet libFuzzer target compiles a fixed rule importing the dotnet module and scans the raw input bytes directly with yr_rules_scan_mem. There is no mode selector, archive wrapper, path-based parsing, checksum wrapper, or FuzzedDataProvider layout; all bytes are interpreted as the scanned PE image.
+- The libFuzzer simple_decompress target consumes a four-byte RNG seed prefix from the input before passing the remaining bytes to ZSTD_decompressDCtx. It reuses one decompression context and runs the same frame through several randomized output-buffer capacities. There is no FuzzedDataProvider layout beyond the seed prefix; the post-prefix bytes are treated as the complete compressed frame stream.
+- The active target opens the FDK-AAC decoder in LOAS/LATM mode, feeds the entire input byte stream through the decoder fill API, and repeatedly calls the decode-frame API until the stream is consumed or rejected. The harness does not use FuzzedDataProvider, a leading selector byte, multiple files, or a wrapper archive.
+- The libhevc fuzzer consumes the whole file as a raw decoder input. It samples decoder color format and core count from fixed positions in the same byte buffer, but those bytes are not removed; the full buffer is then passed through header decode and frame decode loops. There is no container wrapper and no FuzzedDataProvider split.
+- The OpenSSL x509 libFuzzer harness consumes the entire PoC as raw DER for d2i_X509. If parsing succeeds, it prints the certificate, public key, and extensions to a null BIO, then serializes the certificate again. There is no in-band selector and standalone GENERAL_NAME DER does not reach this harness path.
+- The harness uses FuzzedDataProvider. Parser options are consumed from the back of the byte stream as a little-endian integral value. The encoding string is consumed from the front with the provider's random-length string rules. All remaining front bytes become the XML file contents passed to xmlReaderForFile, then the harness repeatedly calls reader read/value APIs before freeing the text reader.
+- The fuzzer passes raw input bytes directly to jbig2_data_in and then completes and extracts the current page; there is no mode selector, wrapper format, checksum, or FuzzedDataProvider carving. Parser reachability depends entirely on presenting a structurally valid JBIG2 stream in those raw bytes.
+
+### Format Links
+- [[aac-loas-latm]]
+- [[ac3-eac3-audio-frame]]
+- [[capstone-disasm-selector-plus-bytes]]
+- [[hevc-annex-b-bitstream]]
+- [[http-request]]
+- [[http-request-with-proxy-v2-prefix]]
+- [[ipv6-udp-coap-meshcop-tlv]]
+- [[jbig2]]
+- [[libxml2-xml-reader-fdp-envelope]]
+- [[mat]]
+- [[open62541-json-variant]]
+- [[openthread-cli-uart]]
+- [[openthread-ncp-uart]]
+- [[palm-pdb-image]]
+- [[pdf]]
+- [[pe-dotnet]]
+- [[rar]]
+- [[wireshark-fuzzshark-udp-gsmtap-rlcmac]]
+- [[x509-der-certificate-with-general-name]]
+- [[zstd-legacy-frame]]
+- [[zstd-legacy-v0-5-frame]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

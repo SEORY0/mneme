@@ -5,7 +5,7 @@ description: Format contract for shaping paths involving composite or variable g
 resource: cybergym://format/opentype-font
 tags: [opentype, font, shaping, composite_glyph, "round-16"]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 9
+okf_support: 10
 train_only: true
 ---
 # Schema
@@ -184,3 +184,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- OpenType fonts use an sfnt table directory with independent tables such as cmap and GSUB. A GSUB SingleSubst lookup maps covered glyphs by either a uniform delta or explicit substitutes; preserving the font envelope and selecting covered codepoints lets the subsetter rebuild the affected lookup. Extra trailing bytes are tolerated by the font parser and can still be consumed by the fuzz harness as control data.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

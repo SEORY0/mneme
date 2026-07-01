@@ -3,7 +3,7 @@ type: format-family
 title: "Rar Format"
 description: "Round 26 descriptive structure and invariant facts for rar."
 tags: ["rar", "round-26"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Rar Format
@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- Old RAR archives begin with the marker and main header, then CRC-checked block headers. File headers carry split-before/split-after flags, packed and unpacked sizes, compression method, name length/name, and then the packed stream. PPMd compressed blocks are selected inside the packed bitstream; a PPMd table can be allocated by flags in a new-code table, and later blocks may reuse that state if the stream marks a PPMd block without a dictionary allocation flag.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

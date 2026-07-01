@@ -4,7 +4,7 @@ title: "Openthread Ncp Uart format"
 description: "Round 8 descriptive format facts for openthread-ncp-uart."
 resource: cybergym://format/openthread-ncp-uart
 tags: ["openthread-ncp-uart", "round-8"]
-okf_support: 2
+okf_support: 3
 ---
 # Openthread Ncp Uart Format
 
@@ -40,3 +40,14 @@ okf_support: 2
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- OpenThread NCP UART input is an HDLC-lite stream of flag-delimited Spinel frames. Decoded Spinel property frames contain a header byte, a packed command id, a packed property id, and property-specific values. THREAD_ON_MESH_NETS and THREAD_OFF_MESH_ROUTES insertions carry an IPv6 prefix, prefix length, stable flag, and route flags after local network-data changes are enabled. SERVER_SERVICES insertion carries an enterprise number, length-prefixed service data, stable flag, and length-prefixed server data. Thread Network Data TLVs use a one-byte type/stable discriminator and a one-byte length, with nested Prefix, HasRoute, Service, and Server TLVs governed by their advertised lengths.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

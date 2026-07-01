@@ -6,7 +6,7 @@ confidence: medium
 tags: ["afl-libfuzzer", "harness", "round-13"]
 forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
 train_only: true
-okf_support: 1
+okf_support: 2
 ---
 # Afl Libfuzzer
 
@@ -40,3 +40,14 @@ okf_support: 1
 
 ## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The active fuzz target reads raw bytes, uses the final byte as the datalink type for pcap_open_dead with a fixed snap length, copies all bytes into the filter buffer, terminates the filter at the final byte, and invokes pcap_compile with optimization enabled. There is no pcap file envelope, no packet records, no mode prefix, and no FuzzedDataProvider layout.
+
+### Format Links
+- [[pcap-filter-expression]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.

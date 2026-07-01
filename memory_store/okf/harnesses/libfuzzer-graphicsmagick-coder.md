@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Graphicsmagick Coder harness"
 description: "Input contract facts for libfuzzer-graphicsmagick-coder."
 tags: ["libfuzzer-graphicsmagick-coder", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # Libfuzzer Graphicsmagick Coder Harness
 
@@ -26,3 +26,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The GraphicsMagick coder fuzzer fixes the coder to SFW and passes the whole file as a Magick blob through Magick++ Image.read. There is no leading selector byte, checksum, length prefix, or FuzzedDataProvider carving. Some successful-read variants caused the local wrapper to report a directory-style replay expectation rather than a sanitizer failure.
+
+### Format Links
+- [[sfw-jpeg-exif]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
