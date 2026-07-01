@@ -56,3 +56,14 @@ okf_support: 4
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The active wrapper is the fuzzshark UDP-protocol harness. It feeds the raw input as a UDP packet to Wireshark's IP-protocol UDP dissector; the source and destination ports influence subdissector selection, and no leading fuzzer selector or file container is present.
+
+### Format Links
+- [[wireshark-raw-udp-ieee1722-acf-lin]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

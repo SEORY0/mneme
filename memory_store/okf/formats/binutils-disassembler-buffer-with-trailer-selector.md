@@ -41,3 +41,17 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is raw instruction bytes followed by a fixed selector trailer. The trailer supplies a flavour byte, a native little-endian machine word, and a one-byte architecture selector. The instruction prefix is passed unchanged to the selected BFD disassembler as a little-endian in-memory buffer.
+- The input is raw disassembler bytes followed by a fixed trailer that supplies flavour, machine, and architecture selection. The prefix is interpreted directly as TIC30 instruction bytes; there is no object-file wrapper, magic, checksum, or length table beyond keeping the prefix large enough for the selected instruction.
+- The format is an instruction byte buffer followed by selector metadata. The leading region is used as the disassembler's memory buffer; the suffix supplies a flavour byte, a native-endian machine word, and a one-byte BFD architecture selector. The disassembler path is reached only when the suffix names a known architecture and machine combination.
+
+### Harness Links
+- [[afl-libfuzzer-wrapper]]
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

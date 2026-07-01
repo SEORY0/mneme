@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is a wget2 configuration file made of directive/value records. The parser accepts directive values after whitespace, equals, or comma separators. Include directives recurse through read_config_expand and call glob with tilde expansion and directory marking; several filename-valued options can also invoke shell-style tilde expansion, but broad filename-option variants were clean here.
+
+### Harness Links
+- [[honggfuzz-file]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

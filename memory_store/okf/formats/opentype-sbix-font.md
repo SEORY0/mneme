@@ -17,3 +17,14 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is an OpenType font with an SFNT table directory and an sbix table. The sbix table contains a version, flags, a strike count, a strike-offset array, and strike records. Each strike has PPEM/resolution fields followed by a glyph-offset array; glyph data ranges are derived from adjacent offsets and must pass monotonicity and available-length checks during subsetting.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

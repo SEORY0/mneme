@@ -11,9 +11,9 @@ generated: taxonomy-census
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `type-confusion`
-- observed: 13 traces; solved: 3 (illustrative — not for ranking)
-- top input_formats: dxf (1), fluent-bit-parser-fuzzer-control-plus-json (1), javascript (1), json (1), json-dwg (1), mruby-script (1), opensc-pkcs15-crypt-cli-bytes-plus-virtual-card-transcript (1), opensc-virtual-reader-chunk-stream (1)
-- top harnesses: libfuzzer (7), honggfuzz-libfuzzer-compatible (1), libfuzzer-cli-option-and-card-response-fuzzer (1), libfuzzer-fuzzshark-ip-proto-udp (1), libfuzzer-libredwg-llvmfuzz (1), libfuzzer-pkcs15-reader (1), llvmfuzz (1)
-- observed strategies: construct (12), seed-mutate (1)
+- observed: 14 traces; solved: 4 (illustrative — not for ranking)
+- top input_formats: xml (2), dxf (1), fluent-bit-parser-fuzzer-control-plus-json (1), javascript (1), json (1), json-dwg (1), mruby-script (1), opensc-pkcs15-crypt-cli-bytes-plus-virtual-card-transcript (1)
+- top harnesses: libfuzzer (8), honggfuzz-libfuzzer-compatible (1), libfuzzer-cli-option-and-card-response-fuzzer (1), libfuzzer-fuzzshark-ip-proto-udp (1), libfuzzer-libredwg-llvmfuzz (1), libfuzzer-pkcs15-reader (1), llvmfuzz (1)
+- observed strategies: construct (13), seed-mutate (1)
 - collapsed aliases: string-handling-type-confusion-in-card-metadata, type-confusion-invalid-memory-read, type-confusion-invalid-read, type-confusion-or-api-contract-violation, type-confusion-or-invalid-class-kind, type-confusion-or-invalid-pin-operation
 <!-- END observed-census -->

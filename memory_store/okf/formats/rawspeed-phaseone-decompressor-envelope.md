@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input is a little-endian RawSpeed decompressor envelope, not a camera raw file. It contains image width, height, image type, component count, a CFA flag, then a strip count followed by strip records. Each strip record carries a row selector, a payload length, and that many compressed strip bytes. PhaseOne construction requires positive bounded dimensions, an even width, a 16-bit single-component image, and a strip-vector length equal to image height.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

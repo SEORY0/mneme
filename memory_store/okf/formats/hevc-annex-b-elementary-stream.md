@@ -29,3 +29,14 @@ okf_support: 0
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is a raw HEVC elementary stream, not a container. Start-code-delimited parameter-set NAL units must precede the VCL slice. Streams with coherent intra prediction, chroma enabled, and small transform-unit structure reach the target CTB reconstruction path; arbitrary parameter-set stubs, late truncation, or unrelated multi-frame carriers either decode cleanly or crash in unrelated prediction/filtering code.
+
+### Harness Links
+- [[libfuzzer-raw-libhevc-decoder]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

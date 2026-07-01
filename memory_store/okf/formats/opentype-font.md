@@ -195,3 +195,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- OpenType fonts use an sfnt table directory with independent tagged tables. Variable fonts may carry HVAR, VVAR, or MVAR variation data; those tables reference a VarStore containing a VarRegionList and one or more VarData arrays. A variation item map chooses a VarData outer index and item inner index, while each VarData record has a list of region references that must refer to existing VarRegionList entries. If the item map remains valid but the region-reference list names a missing region, byte-range sanitization can pass and the serializer can later read beyond the available region records during memcpy.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

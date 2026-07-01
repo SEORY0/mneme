@@ -378,3 +378,14 @@ the FreeType font wrapper.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- A PDF can reach this path when it has a valid header, an initial linearization dictionary whose declared document length matches the actual input length, an xref/trailer with a Root and Encrypt entry, and enough catalog/page/content structure for rendering. The linearization H entry points to a byte range that is copied and parsed as a hint stream object.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

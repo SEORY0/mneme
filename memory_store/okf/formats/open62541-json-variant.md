@@ -44,3 +44,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is raw JSON decoded as an OPC UA Variant. A valid Variant is a JSON object with numeric Type and Body fields. Type values select OPC UA builtin datatypes; an ExtensionObject body is itself an object with TypeId, optional Encoding, and Body fields. Unknown structure-encoded ExtensionObject bodies can be represented as nested JSON objects that the decoder may preserve or skip rather than decode.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

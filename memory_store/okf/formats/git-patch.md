@@ -29,3 +29,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- Git patch input uses a diff header, optional mode/index metadata, old/new file path headers, and hunk headers with line bodies. The path parser trims header payloads and can represent an empty path as a NULL detached buffer. Filename validation compares diff-header paths with file-header paths and falls back to the diff-header path when a file-header path is absent.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

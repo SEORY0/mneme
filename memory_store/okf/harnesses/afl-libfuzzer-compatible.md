@@ -56,3 +56,14 @@ okf_support: 2
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The active binary is the multi-stage SCTP connect fuzzer. The first input byte selects a handshake stage; the harness creates an SCTP client, injects canned peer handshake packets according to that stage, prepends its own SCTP common header to the remaining input, and injects the result into usrsctp. Inputs below the minimum size or above the maximum are skipped before packet injection.
+
+### Format Links
+- [[sctp-packet]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

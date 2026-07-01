@@ -28,3 +28,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is not an object file or assembler source. The prefix is a raw instruction buffer passed directly to the selected BFD disassembler. A fixed trailing selector block supplies flavour, native unsigned-long machine value, and final architecture selector; there are no magic bytes, checksums, section headers, or container lengths. The TIC4x selector chooses the TMS320C3x/C4x disassembler, and the machine value controls C3x versus C4x opcode handling.
+
+### Harness Links
+- [[afl-libfuzzer-binutils-disassembler-wrapper]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

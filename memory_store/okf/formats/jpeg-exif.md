@@ -66,3 +66,14 @@ specific entry tables after Exif data is recognized.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- JPEG accepts metadata in APP segments, and EXIF metadata contains a TIFF-style byte-order header, a first-IFD pointer, and directory entries carrying tag, format, component count, and either inline value bytes or an offset into the profile. Orientation is queried automatically by the JPEG reader after image decode, so the EXIF envelope must be attached to a valid JPEG carrier.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

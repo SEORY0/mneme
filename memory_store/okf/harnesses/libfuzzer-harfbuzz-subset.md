@@ -48,3 +48,14 @@ okf_support: 4
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The HarfBuzz subset fuzzer treats the input as raw font bytes, creates an hb_face, collects unicodes, then subsets with a built-in text set and layout tables retained. For larger inputs it also reads an optional fixed-size trailer from the end as subset flags plus a replacement codepoint list; those trailer bytes are still part of the blob, so the font envelope must tolerate trailing data. There is no leading selector byte and no FuzzedDataProvider contract. The packaged local verify wrapper can misreport this task as no_crash because it invokes the fuzzer with a file path where its script expects a corpus directory; direct image execution and official submit are the reliable signals.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

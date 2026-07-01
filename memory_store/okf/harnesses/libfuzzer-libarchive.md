@@ -37,3 +37,15 @@ okf_support: 4
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The libarchive libFuzzer target feeds the entire PoC as one in-memory archive stream, enables all filters and formats, iterates archive headers, and drains entry data through archive_read_data. It has no mode byte, no filename side channel, no checksum wrapper beyond archive headers, and no FuzzedDataProvider split; concatenated RAR5 volumes are consumed from the same raw byte stream.
+- The libarchive libFuzzer target feeds the PoC as one raw in-memory archive stream, enables all filters and formats, repeatedly calls archive_read_next_header, and drains entry data with archive_read_data. There is no leading mode byte, chunk framing, filename wrapper, or FuzzedDataProvider split. Parser reachability depends on a complete archive stream whose RAR5 marker, base-header CRCs, and data-size framing are coherent enough for libarchive format detection and header iteration.
+
+### Format Links
+- [[rar5]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

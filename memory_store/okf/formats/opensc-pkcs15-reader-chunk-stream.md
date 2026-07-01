@@ -44,3 +44,19 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The stream is a virtual smart-card reader transcript. The first chunk supplies the ATR used for card-driver matching; subsequent chunks are APDU responses whose trailing status words are separated from response data. The target validation path requires a card emulator that creates an ASCII-numeric PIN object and then accepts an operation-input chunk containing non-PIN bytes of a valid policy length.
+- The input is a sequence of native little-endian length-prefixed reader chunks. APDU response chunks place the status word at the end, with preceding bytes used as response data. A SetCOS SELECT response can carry an ISO7816 FCI/FCP template containing ordinary file size/type/id tags plus a security-attribute tag; SetCOS 4.4/EID processing parses that security-attribute payload as one or more PTL-coded access-control subfields.
+- The OpenSC reader input is a sequence of native little-endian length-prefixed chunks. The first chunk becomes the ATR used for driver matching. Later chunks emulate APDU responses: response body bytes precede the final status words, and the harness only copies response data according to the APDU response buffer requested by the active driver.
+- The fuzz input is a sequence of records, each with a little-endian two-byte chunk length followed by that many bytes. The first chunk is consumed during reader connection as ATR data, but in this build it does not populate a usable ATR. Later chunks are APDU responses: the last two bytes are status words and any preceding bytes are copied as response data. OpenPGP feature data is BER-TLV encoded; the feature template can contain EC algorithm attributes made of an algorithm selector followed by OID component bytes.
+- OpenSC ATR matching compares the first reader chunk against static and configured ATR tables. Tables may include full ATR strings and optional masks; nonmatching ATRs normally walk entries until a null terminator. Some Gemalto/PIV/IAS-ECC paths also infer card type from historical bytes before falling back to known ATR tables.
+
+### Harness Links
+- [[honggfuzz-llvmfuzzer]]
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

@@ -97,3 +97,16 @@ okf_support: 4
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The AFL/libFuzzer wrapper reads the PoC file as raw bytes. The harness reserves trailing selector fields for disassembler flavour, native machine value, and architecture; all earlier bytes become disassemble_info.buffer for one selected print_insn implementation. There is no FuzzedDataProvider split.
+- The AFL-wrapped fuzzshark binary runs the IP dissector over the whole raw input file. There is no pcap envelope, no FuzzedDataProvider layout, and no mode selector. Nested protocol reachability depends on constructing a raw IP packet and then using normal IP subdissector handoff. IPv4 TSO-style total length allows the dissector to use the reported fuzzer buffer length rather than a small packet-length field.
+
+### Format Links
+- [[binutils-disassembler-buffer-with-trailer-selector]]
+- [[ip-carried-wcp]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

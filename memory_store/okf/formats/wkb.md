@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- WKB records are endian-tagged and type-tagged. A CurvePolygon record carries a contained-geometry count, then each ring is itself a nested WKB geometry. Valid ring members are lines, circular strings, or compound curves; counts and point arrays must stay coherent until the target nested child relation is reached.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

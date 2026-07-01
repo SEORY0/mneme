@@ -21,3 +21,14 @@ metadata rather than in the top-level file header alone.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- CRAM v3 uses a file definition followed by containers whose headers and blocks are CRC-protected. Mapped slice headers carry reference id/start/span, record count, content IDs, reference-base ID, and MD5. Raw slice-header blocks can be seed-mutated if size relationships and CRCs remain coherent.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

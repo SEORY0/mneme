@@ -11,9 +11,9 @@ generated: taxonomy-census
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `null-pointer-dereference`
-- observed: 44 traces; solved: 18 (illustrative — not for ranking)
-- top input_formats: dxf (2), c-blosc2-frame (1), cff2-opentype-variable-font (1), cil-policy-text (1), clamav-scanfile-archive (1), curl-protocol-fuzzer-input (1), dns-message (1), dwg (1)
-- top harnesses: libfuzzer (27), afl-libfuzzer (1), afl-style-fuzzer (1), honggfuzz-libfuzzer-wrapper (1), honggfuzz-wrapper-svc-dec (1), libfuzzer-fluent-bit-parser-fuzzer (1), libfuzzer-freetype-ftfuzzer (1), libfuzzer-fuzzshark-ip (1)
-- observed strategies: construct (35), seed-mutate (8), seed-replay (1), tiny-probe (1)
-- collapsed aliases: allocation-failure-null-deref, allocation-failure-null-dereference, dns-srv-owner-name-null-dereference, null-context-or-missing-stream-use, null-deref-or-invalid-access-after-allocation-failure, null-deref-or-invalid-token-metadata, null-deref-read, null-dereference, null-dereference-from-xref-off-by-one, null-dereference-or-invalid-buffer-state, null-dereference-or-invalid-enum-use, null-dereference-or-stale-list-read, null-dereference-read, null-dereference-under-oom, null-dereference-write, null-or-stale-pointer-dereference, null-pointer-dereference-or-invalid-pointer-read, null-pointer-dereference-or-tokenizer-crash, null-pointer-dereference-read, string-null-termination, unchecked-return-value-or-null-state
+- observed: 47 traces; solved: 19 (illustrative — not for ranking)
+- top input_formats: dxf (2), git-patch (2), c-blosc2-frame (1), cff2-opentype-variable-font (1), cil-policy-text (1), clamav-scanfile-archive (1), curl-protocol-fuzzer-input (1), dns-message (1)
+- top harnesses: libfuzzer (30), afl-libfuzzer (1), afl-style-fuzzer (1), honggfuzz-libfuzzer-wrapper (1), honggfuzz-wrapper-svc-dec (1), libfuzzer-fluent-bit-parser-fuzzer (1), libfuzzer-freetype-ftfuzzer (1), libfuzzer-fuzzshark-ip (1)
+- observed strategies: construct (36), seed-mutate (10), seed-replay (1), tiny-probe (1)
+- collapsed aliases: allocation-failure-null-deref, allocation-failure-null-dereference, dns-srv-owner-name-null-dereference, null-context-or-missing-stream-use, null-deref-or-invalid-access-after-allocation-failure, null-deref-or-invalid-token-metadata, null-deref-read, null-dereference, null-dereference-from-xref-off-by-one, null-dereference-or-invalid-buffer-state, null-dereference-or-invalid-enum-use, null-dereference-or-stale-list-read, null-dereference-read, null-dereference-under-oom, null-dereference-write, null-or-stale-pointer-dereference, null-pointer-dereference-or-invalid-pointer-read, null-pointer-dereference-or-tokenizer-crash, null-pointer-dereference-read, offset-null-check-missing, string-null-termination, unchecked-return-value-or-null-state
 <!-- END observed-census -->

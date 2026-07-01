@@ -128,3 +128,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. It must be syntactically valid Ruby that executes under mrb_load_string. Heap-backed strings are needed for shared-string behavior; substring or slice operations over a non-embedded string can create a shared string object that aliases the original backing storage.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

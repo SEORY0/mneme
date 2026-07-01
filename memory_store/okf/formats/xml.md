@@ -79,3 +79,14 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The XML input is raw XML text. An internal DTD subset can declare the document element and attribute-list entries. Namespace declarations can be default or prefixed attributes, and DTD attribute types such as ID, IDREF, fixed defaults, and required/implied defaults influence validation-time handling. For this sink, a namespace declaration must be tied to a DTD declaration for the same element/name relation rather than merely present as ordinary XML syntax.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

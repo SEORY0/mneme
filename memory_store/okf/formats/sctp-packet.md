@@ -54,3 +54,14 @@ specific handshake state before later chunks are interpreted deeply.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- SCTP packets consist of a common header followed by padded typed chunks. In the connect fuzzer, the fuzzed bytes after the selector are chunk records rather than a full SCTP packet because the harness synthesizes the common header and verification tag. Later chunk families such as DATA/I-DATA, SACK, FORWARD-TSN, STREAM-RESET, ASCONF, ASCONF-ACK, and packet-dropped reports require compatible association state and negotiated feature support before their nested fields are interpreted deeply.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

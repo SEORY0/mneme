@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input can be a raw JPEG 2000 codestream selected by the codestream marker or a JP2 container selected by the signature-box layout. Header parsing consumes SIZ image and component geometry, COD coding-style/progression/layer/resolution/precinct settings, QCD quantization data, optional POC progression-order changes, and SOT/SOD tile-part data. The SIZ component table has a parser cap below the theoretical marker-size maximum, and COD precinct-size bytes are present only when the coding-style precinct flag is set.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

@@ -2211,3 +2211,72 @@ Splash font path code is reached.
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The libFuzzer target feeds the raw input bytes directly to the GraphicsMagick JPEG coder through a memory blob. There is no selector byte, no FuzzedDataProvider split, and no filename extension gate beyond the compiled JPEG coder.
+- The libFuzzer target passes the raw file bytes directly to the PostGIS WKB importer with no selector byte, no FuzzedDataProvider carving, and no outer file container. Normal parser errors are caught by the harness, so a useful input must reach the specific parser state before violating the narrow child-geometry invariant.
+- The libFuzzer target rejects inputs shorter than the selector trailer, then treats all preceding bytes as the disassembly buffer. There is no leading mode byte and no FuzzedDataProvider consumption; selector fields are read from the end of the file.
+- libFuzzer passes the input as raw bytes with no mode byte and no FuzzedDataProvider. The harness opens a malloc-backed radare2 IO object sized to the input, writes the bytes at the start of that object, runs binary auto-analysis, then runs the ia command. No filename or extension is provided.
+- The libFuzzer target treats the leading input byte as the patch prefix-length option and passes all remaining bytes directly to the patch parser. The harness then frees the returned patch object; it does not print, apply, or otherwise traverse the parsed patch after parsing.
+- The libFuzzer harness passes the raw file bytes through several KArchive handlers with no selector byte and no FuzzedDataProvider layout. The same raw bytes must therefore be a complete archive-like buffer; K7Zip is reached by satisfying its signature and header gates.
+- The libFuzzer input is raw bytes consumed by a custom chunk reader. Each chunk size is effectively taken from one leading byte while two bytes are consumed as the chunk header, and the reader advances only by that header before returning the chunk body. This makes later chunks overlap earlier response bodies. After PKCS#15 binding, the harness consumes two more chunks as operation input and parameter buffers, then iterates PKCS#15 objects through crypto and PIN operations.
+- libFuzzer passes the entire raw byte slice as the font blob. The harness creates a blob, face, and font, shapes a fixed ASCII string, and for inputs larger than the UTF-32 text window copies the final bytes as native-endian UTF-32 codepoints for a second shape call before querying glyph extents. There is no mode selector, checksum wrapper, or FuzzedDataProvider.
+- The active libFuzzer target is the Lwan config fuzzer. It copies the raw input bytes into a fixed static buffer, clamps oversized inputs, opens the config parser over the copied bytes with one trailing byte excluded from the logical lexer range, recursively reads config lines, and uses no mode byte, checksum, or FuzzedDataProvider split.
+- The libFuzzer harness treats the entire nonempty file as raw mruby source bytes. It copies the bytes to a NUL-terminated buffer, opens a fresh mruby state, calls mrb_load_string, closes the state, and frees the copy. There is no selector byte, external filename, length prefix, bytecode container, or FuzzedDataProvider split.
+- The libFuzzer target feeds the raw file bytes to a virtual OpenSC reader. The reader consumes one length-prefixed chunk for connection/ATR handling, then consumes later chunks as APDU responses during card-driver matching, PKCS#15 binding, and file selection. In this build the ATR chunk does not provide a useful ATR gate, so reaching SetCOS depends on the APDU-based version probe rather than ATR matching.
+- The libFuzzer target consumes the raw file bytes directly through a little-endian ByteStream. It constructs a RawImage from leading scalar fields, reads strip records front-to-back from the same stream, creates image data, runs PhaseOneDecompressor, then checks the image buffer for initialized memory. There is no file magic, filename wrapper, mode byte, or FuzzedDataProvider tail consumption.
+- The libFuzzer harness passes the raw file bytes as a NUL-terminated template string capped to a fixed internal copy buffer, compiles it with a descriptor exposing path strings and a file-list sequence, then frees the compiled template. There is no mode byte, length prefix, checksum, or FuzzedDataProvider tail layout.
+- The fuzz harness consumes the whole file as raw bytes through OpenJPEG memory-stream callbacks. There is no leading mode byte or FuzzedDataProvider layout. It selects J2K versus JP2 from the initial signature, reads the image header, caps the requested decode area internally, then calls the normal decoder path.
+- The libFuzzer harness consumes raw file bytes with no mode byte and no FuzzedDataProvider splitting. It copies the input into a fixed global character buffer, appends a NUL terminator, then calls the template compiler with a fixed descriptor table.
+- The libFuzzer harness passes the complete file bytes directly as template text. It copies bytes into a fixed static buffer, clips oversized inputs, appends a NUL terminator, and calls the template compiler with a descriptor containing top-level string fields and one sequence field with nested string/integer fields. It compiles and frees the template; it does not require an outer file format, checksum, mode selector, FuzzedDataProvider layout, or template application step.
+- The libFuzzer target installs the synthetic OpenSC reader, connects a card from the first chunk, calls PKCS#15 bind, and only consumes the later operation-input chunks if a PKCS#15 card is successfully bound. There is no raw ASN.1 or standalone smart-card file envelope.
+- The target installs a virtual reader, connects a card, binds PKCS#15, then consumes two more chunks as operation input and parameter data before iterating PKCS#15 objects through crypto and PIN operations. CoolKey is reached through APDU-speaking driver matching; APDU chunks are consumed statefully, so operation-response chunks must appear after card initialization and object binding.
+- libFuzzer passes raw bytes. The harness consumes two little-endian 16-bit header fields from the front and sends the remaining bytes to Samba NDR pull logic. There is no FuzzedDataProvider and no trailing selector.
+- The selected harness is the generated libFuzzer TYPE_STRUCT target for drsblobs. It pulls the chosen structure with NDR scalar and buffer flags, then immediately pushes and prints the resulting structure, so inconsistencies between pull-time allocation and push-time count use become sanitizer-visible.
+- The libFuzzer input is raw bytes. The harness rejects invalid flag bits, maps the selected public-structure number through the interface table, allocates the destination structure on the stack, pulls the body with scalar and buffer flags, pushes it back out, and prints it. Local verification can report no crash for the same candidate that the official submit path confirms, so plausible NDR stack-state crashes should be submitted.
+- libFuzzer supplies raw bytes with a minimum-size gate. The harness assigns the data prefix to disassemble_info.buffer, derives target selectors from the final suffix bytes, initializes one disassembler for the selected target, and invokes a single decoded instruction printer. It does not use FuzzedDataProvider and does not construct a GDB TUI source window.
+- The BFD fuzz harness writes the raw input bytes to a temporary file and calls BFD archive-format detection on that file. There is no mode byte, checksum wrapper, FuzzedDataProvider layout, or length prefix outside the archive format itself.
+- The libFuzzer harness treats the front of the input as the instruction buffer and parses selector metadata from the tail. There is no FuzzedDataProvider; the important contract is preserving enough bytes for the tail selectors while making the prefix decode as CRX instructions.
+- The libFuzzer harness feeds the entire file as a string to xmlReadMemory. It parses once with zero options and once with an option value derived from std::hash of the whole input modulo a signed integer limit. There is no external file envelope or FuzzedDataProvider byte split, but the input content can be adjusted with an inert XML comment so the derived option mask enables DTD validation.
+- The libFuzzer harness consumes raw bytes with no mode byte and no FuzzedDataProvider splitting, copies them to an owned buffer, calls TraceProcessorStorage::Parse, and then flushes end-of-file parsing. This storage-only factory registers the proto tokenizer and TrackEvent path but not the full shell module set, so ftrace, heap graph, graphics, Android probes, and system probes were not active target paths in this harness.
+- The libFuzzer harness passes the complete file bytes directly as a UA_ByteString to UA_decodeJson with the destination type fixed to Variant. There is no prefix, checksum, mode selector, or FuzzedDataProvider layout; malformed JSON or schemas that fail the first Variant decode exit before the vulnerable path.
+- The libFuzzer target uses the same synthetic OpenSC reader chunk stream: the first chunk supplies ATR bytes, later chunks supply APDU response bodies plus trailing status words. ATR-only bugs should trigger during card-driver matching before PKCS#15 operation chunks are consumed.
+- The Poppler libFuzzer target consumes the raw file bytes with load_from_raw_data, skips unloadable or locked documents, then renders each page. There is no selector byte, no FuzzedDataProvider split, and no external file wrapper; the PDF itself must carry all linearization, encryption, page, and hint-stream state.
+- The libFuzzer target treats the entire input as a font blob. It always performs one subset with a fixed built-in text set, and if the file is long enough it performs a second subset using a trailing flags byte and a fixed-size native-endian codepoint array read from the end. There is no separate file-format wrapper or leading selector byte.
+- The harness opens the raw bytes through hts_open on a memory-backed file. If the data is recognized as sequence data, it reads the SAM/CRAM header and iterates records with sam_read1/write. There is no mode byte or FuzzedDataProvider.
+- The libFuzzer input is written verbatim to a temporary file, opened with the default BFD target, checked only as an archive with bfd_check_format, and then closed. There is no FuzzedDataProvider or byte carving; the trigger must arise from BFD target iteration, archive partial matches, and preserve/restore of BFD allocator state during format detection.
+- libFuzzer supplies the raw byte slice directly as the script source. Empty inputs are ignored; otherwise the harness creates an interpreter context, processes the script, and does not carve mode bytes or use FuzzedDataProvider.
+
+### Format Links
+- [[7z-archive]]
+- [[bfd-archive]]
+- [[binutils-disassembler-buffer-with-trailer-selector]]
+- [[cram]]
+- [[git-patch]]
+- [[javascript-source]]
+- [[jpeg-exif]]
+- [[jpeg2000-jp2-j2k]]
+- [[lwan-config]]
+- [[lwan-template]]
+- [[mruby-source]]
+- [[open62541-json-variant]]
+- [[opensc-coolkey-reader-chunks]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+- [[opentype-sbix-font]]
+- [[opentype-sfnt-font]]
+- [[pdf]]
+- [[perfetto-trace-protobuf]]
+- [[radare2-ia-raw-binary]]
+- [[raw-disassembler-buffer]]
+- [[rawspeed-phaseone-decompressor-envelope]]
+- [[samba-ndr-drsblobs]]
+- [[samba-ndr-nbt-public-struct-stream]]
+- [[samba-ndr-spoolss-fuzzer-blob]]
+- [[wkb]]
+- [[xcoff-archive]]
+- [[xml]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

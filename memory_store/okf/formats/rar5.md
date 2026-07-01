@@ -81,3 +81,15 @@ okf_support: 7
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- RAR5 archives begin with a fixed marker followed by CRC-protected variable-length base blocks. MAIN blocks carry archive flags such as volume state. FILE blocks can carry extra-data size, data size, split-before and split-after flags, file size metadata, compression information with method, solid bit, and dictionary/window selector, host OS, name, and compressed member data. Multivolume archives are represented by repeated RAR5 signatures and per-volume MAIN/FILE/ENDARC blocks.
+- RAR5 archives begin with a fixed marker followed by CRC-protected base blocks. A base block stores a little-endian header CRC, a variable-length declared header size, then variable-length header type and flags. The vulnerable reader computes the CRC only over the declared header-size span, so a declared zero-size block can make later header fields sit outside the checksum-covered area while still being read by the parser. FILE blocks may carry extra-data and packed-data size varints before file flags, unpacked size, attributes, compression info, host OS, filename, optional extra records, and member data. Compressed entries add compressed-block headers and Huffman/table data after the FILE header.
+
+### Harness Links
+- [[libfuzzer-libarchive]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

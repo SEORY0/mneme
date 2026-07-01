@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- WCP has command bits in the leading header. The uncompressed-data command stores payload bytes into a per-conversation sliding window and treats the final byte as a check byte. WCP is registered under Ethernet ethertype and Frame Relay NLPID tables, not directly as an IPv4 next protocol or generic GRE payload.
+
+### Harness Links
+- [[afl-libfuzzer-wrapper]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

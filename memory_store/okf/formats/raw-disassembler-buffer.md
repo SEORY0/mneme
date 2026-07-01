@@ -60,3 +60,14 @@ Preserve the selector that reaches the target disassembler, then use an instruct
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is raw instruction bytes followed by harness metadata that chooses disassembler flavor, machine, and architecture. CRX disassembly combines instruction words into opcode table lookups; some table entries carry a fixed-size operand descriptor array. Entries that fill the whole descriptor array rely on the loop bound rather than an earlier sentinel.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

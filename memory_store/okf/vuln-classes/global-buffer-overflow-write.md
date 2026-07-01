@@ -38,8 +38,8 @@ okf_support: 1
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `global-buffer-overflow-write`
-- observed: 3 traces; solved: 3 (illustrative — not for ranking)
-- top input_formats: cgats-it8-text (1), http-request (1), udp-framed-quakeworld (1)
-- top harnesses: libfuzzer (2), fuzzshark-ip-proto-udp (1)
-- observed strategies: construct (3)
+- observed: 4 traces; solved: 4 (illustrative — not for ranking)
+- top input_formats: cgats-it8-text (1), http-request (1), lwan-template (1), udp-framed-quakeworld (1)
+- top harnesses: libfuzzer (3), fuzzshark-ip-proto-udp (1)
+- observed strategies: construct (4)
 <!-- END observed-census -->

@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is plain JavaScript source text with no container header, length field, checksum, or trailing selector. Punctuation-style operator tokens are consumed directly by the lexer, and some operator prefixes are resolved by a helper that checks whether a continuation character follows.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

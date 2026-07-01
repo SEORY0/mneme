@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- OpenThread Thread-management traffic for this path is a raw IPv6 datagram carrying UDP to the Thread management CoAP port. The CoAP request must use POST, Uri-Path options for the commissioner-set resource, and a payload marker before MeshCoP TLVs. MeshCoP TLVs use a type byte, a one-byte base length, and, when the base length is the extended marker, an additional length field before the value. Commissioner-set parsing expects a commissioner session TLV and at least one valid commissioning TLV such as joiner UDP port or steering data; unknown TLVs are otherwise skipped by walking to the next TLV.
+
+### Harness Links
+- [[libfuzzer-ip6-send-fuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

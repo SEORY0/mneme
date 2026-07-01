@@ -15,3 +15,14 @@ okf_support: 1
 
 ## Round 16 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The GDAL raster libFuzzer wrapper treats the PoC as a raw file, stores it as a temporary or virtual dataset, calls GDALOpen, and then computes raster checksums. Parser reachability depends on the file being self-identifying enough for the GXF driver before checksum-driven band reads call the GXF scanline decoder.
+
+### Format Links
+- [[gxf]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
