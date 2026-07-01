@@ -59,3 +59,12 @@ okf_support: 4
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The HarfBuzz subset libFuzzer target consumes the whole file as raw font bytes and sets the failing allocator state from the total input length. It first subsets a fixed text set with layout retained; for sufficiently large inputs it also treats a fixed-size trailer as flags and native-endian codepoints, with no leading selector or FuzzedDataProvider split.
+
+## Round 36 Format Links
+- [[opentype-variable-font]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

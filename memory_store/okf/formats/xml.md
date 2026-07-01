@@ -90,3 +90,14 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is not plain XML bytes. It starts with parser option bits, followed by backslash-newline terminated string pairs. Each pair is a URL and its entity body; the first pair supplies the main XML document. XML content must be well-formed and use the XInclude namespace. Missing href targets can deliberately drive fallback processing because the harness entity loader only serves URLs present in the provided pairs.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

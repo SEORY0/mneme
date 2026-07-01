@@ -54,3 +54,14 @@ status words and the preceding bytes are copied as APDU response data.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input is a stream of little-endian chunk lengths followed by response chunks. The first chunk becomes the card ATR. Every later APDU response uses the final status word as status and the preceding bytes as response data when they fit the requested response buffer. Idprime binding requires an ATR that matches the idprime table, applet selection, an index file whose first byte is the object count and whose fixed-size records name PKI or token-info objects, then coherent select and read responses for those objects.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

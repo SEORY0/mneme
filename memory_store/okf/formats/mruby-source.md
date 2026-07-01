@@ -139,3 +139,14 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Destructured block and method parameters can create unnamed local-variable slots, but ordinary runtime reflection such as parameter and local-variable enumeration filters those slots before symbol conversion. Source-location pseudo values are handled during parsing/code generation and can reach filename-symbol conversion without needing runtime reflection or the CLI verbose dump path.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

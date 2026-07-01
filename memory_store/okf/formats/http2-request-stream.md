@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is a raw HTTP/2 request stream, not HTTP/1 text. A useful carrier begins with the HTTP/2 client preface and a SETTINGS frame, then binary frame headers and HPACK-encoded request pseudoheaders. The request must omit END_STREAM on HEADERS so a body is expected, and DATA frame ordering controls the state-machine reachability.
+
+### Harness Links
+- [[libfuzzer-http2-socket]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

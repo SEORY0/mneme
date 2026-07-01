@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- A VMS IA-64 library is block-oriented. The first block contains a library type, sanity/version fields, index counts, module counts, and index descriptors. Each index descriptor points to an index block. An index block has a used-byte count followed by IA-64 index entries containing an RFA, key length, flags, and key bytes. The parser traverses entries until the used-byte boundary.
+
+### Harness Links
+- [[libfuzzer-bfd-tempfile]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

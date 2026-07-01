@@ -53,3 +53,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary PHP source text, not PHPT sections or a binary container. A PHP opening tag is sufficient to enter parser mode. Top-level function declarations are registered during compilation even when the parser fuzzer does not execute userland code. Source must stay under the parser fuzzer size cap, but it can still contain many compact declarations.
+
+### Harness Links
+- [[libfuzzer-parser]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

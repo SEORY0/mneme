@@ -20,3 +20,14 @@ Wavefront OBJ uses mtllib declarations to name material-library files; the MTL p
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- Wavefront OBJ can be selected by signature tokens in the raw buffer even without a filename extension. OBJ material libraries are loaded from names declared by mtllib, and the MTL parser recognizes material records plus scalar fields such as alpha, shininess, and index of refraction. Those scalar fields assume a current material object already exists unless the parser guards the state.
+
+### Harness Links
+- [[libfuzzer-assimp-fuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

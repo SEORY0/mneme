@@ -65,3 +65,12 @@ train_only: true
 
 ### Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The active harness copies the entire nonempty input to a newly NUL-terminated buffer, opens a fresh mruby state, calls mrb_load_string on that source, closes the state, and frees the copy. There is no selector byte, length prefix, bytecode wrapper, external filename argument, or FuzzedDataProvider split.
+
+## Round 36 Format Links
+- [[mruby-source]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

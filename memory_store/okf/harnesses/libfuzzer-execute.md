@@ -18,3 +18,12 @@ okf_support: 1
 
 ## Round 9 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 36 Input Contract
+- The active wrapper runs the PHP execute fuzzer on the submitted file bytes as a single request buffer. The harness compiles and executes the raw PHP source directly, rejects oversized source inputs, applies an opcode step budget, and does not carve a mode byte or FuzzedDataProvider fields.
+
+## Round 36 Format Links
+- [[php-script]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

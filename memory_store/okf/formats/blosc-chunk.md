@@ -54,3 +54,14 @@ okf_support: 3
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- A raw Blosc chunk starts with a compact header carrying version, flags, element size, uncompressed size, block size, and total compressed size. The fuzzer rejects chunks unless the header compressed size equals the full input size and the uncompressed size is nonzero. Non-memcpy chunks then use a block-start table followed by per-block stream records; split mode uses one stream per type lane and stream records begin with signed compressed-size tokens.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

@@ -65,3 +65,14 @@ specific handshake state before later chunks are interpreted deeply.
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- SCTP listen inputs are a common header followed by typed chunks. COOKIE-ECHO is formed by reusing a state-cookie parameter body as a chunk: a chunk header, a packed state cookie, embedded original INIT and INIT-ACK material, and a digest trailer. Common and chunk headers use network-order wire fields. The packed state cookie stores timeval and lifetime fields in host representation, while its saved ports and verification tag must match the raw common-header representation. A non-stale cookie also needs a coherent address type and AF_CONN address fields so the listener can reconstruct the peer endpoint.
+
+### Harness Links
+- [[afl-style-usrsctp-listen-fuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

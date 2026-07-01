@@ -71,3 +71,20 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The harness format is a stream of length-delimited chunks. APDU response chunks reserve their final status words for success or error, with the preceding bytes treated as response data. The selected-file response can carry FCI/FCP metadata including file type and security-attribute records. In this driver, security attributes are parsed as access-mode records followed by condition records, and the condition record length must account for the condition reference byte as well as any expression body.
+- The PKCS15 reader input is a front-to-back stream of length-prefixed fake-reader chunks. The first chunk is the ATR used by card detection. Later chunks are APDU responses; the final two bytes of each response are status words and the preceding bytes are returned data. File selects that return a file object need an FCI/FCP-style response carrying a file size. ITACNS personal data begins with an ASCII-hex total TLV-region size followed by repeated two-ASCII-hex length fields and value bytes.
+- The input is a virtual OpenSC reader transcript made of little-endian length-prefixed chunks. The first chunk supplies the ATR. Later chunks are APDU responses where response body bytes precede the trailing status word; successful select-file responses may return FCP/FCI templates with file-size, file-type, file-id, and optional security-attribute tags. Italian CNS synthetic binding reads a serial file, adds known data-file objects, then may read the personal-data object whose payload starts with ASCII hex length text followed by field-length/value pairs.
+- The OpenSC reader input is a sequence of little-endian length-prefixed chunks. The first chunk is used as the ATR. Each later chunk is an APDU response where the final two bytes are the status word and the preceding bytes are copied as response data up to the requested response length. TCOS selection expects successful SELECT responses with an FCP template tag, while many non-TCOS corpus responses use FCI templates or status-only failures.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-persistent]]
+- [[libfuzzer]]
+- [[libfuzzer-via-honggfuzz-wrapper]]
+- [[honggfuzz]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

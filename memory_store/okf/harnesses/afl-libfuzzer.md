@@ -62,3 +62,12 @@ okf_support: 2
 
 ### Notes
 - These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The libsndfile fuzzer feeds the whole raw input through virtual file I/O into the normal open path, then allocates a frame buffer based on the reported channel count and repeatedly reads floating-point frames. There is no selector byte or FuzzedDataProvider carving; RIFF chunk sizes and the selected subtype determine whether the ADPCM decoder is reached.
+
+## Round 36 Format Links
+- [[wav-ms-adpcm]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

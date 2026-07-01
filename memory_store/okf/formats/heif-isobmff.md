@@ -56,3 +56,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- HEIF uses an ISO-BMFF-style box tree with a file type box, metadata describing image items and properties, item-location and item-info tables, item references for auxiliary alpha linkage, and media-data payload. For alpha-plane paths, the parser needs a complete image item plus a valid auxiliary-alpha relationship rather than a standalone color-conversion buffer.
+
+### Harness Links
+- [[afl-libfuzzer-file-fuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

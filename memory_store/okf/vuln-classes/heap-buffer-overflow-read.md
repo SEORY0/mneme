@@ -47,9 +47,9 @@ okf_support: 48
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `heap-buffer-overflow-read`
-- observed: 304 traces; solved: 194 (illustrative — not for ranking)
-- top input_formats: json (8), c-blosc2-frame (7), opentype-font (7), bmp (5), hunspell-aff-dic-word-triple (4), rar5 (4), sip-message (4), elf (3)
-- top harnesses: libfuzzer (181), honggfuzz-file (4), libfuzzer-tempfile-bfd (4), afl (3), afl-file (3), afl-libfuzzer (3), honggfuzz-wrapper (3), libfuzzer-fuzzshark-ip-proto-udp (3)
-- observed strategies: construct (224), seed-mutate (87), seed-replay (2), other (1), seed-sweep (1)
+- observed: 318 traces; solved: 204 (illustrative — not for ranking)
+- top input_formats: json (8), c-blosc2-frame (7), opentype-font (7), bmp (5), hunspell-aff-dic-word-triple (4), opensc-pkcs15-reader-chunk-stream (4), rar5 (4), sip-message (4)
+- top harnesses: libfuzzer (190), honggfuzz-file (4), libfuzzer-tempfile-bfd (4), afl (3), afl-file (3), afl-libfuzzer (3), honggfuzz-wrapper (3), libfuzzer-fuzzshark-ip-proto-udp (3)
+- observed strategies: construct (235), seed-mutate (91), seed-replay (3), other (1), seed-sweep (1)
 - collapsed aliases: heap-buffer-overflow-read-via-negative-size-strncpy, integer-overflow-to-heap-buffer-overflow-read, unsigned-integer-underflow-to-heap-buffer-overflow-read
 <!-- END observed-census -->

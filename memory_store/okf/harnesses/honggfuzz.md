@@ -33,3 +33,12 @@ okf_support: 1
 
 ## Round 17 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The fuzzer installs a virtual reader over the raw chunk stream, connects a card from the first ATR, binds PKCS#15, then consumes more chunks for operation inputs and APDU responses. The local binary is honggfuzz-style and direct verify prints usage text, so official submit was used for the scoring result.
+
+## Round 36 Format Links
+- [[opensc-pkcs15-reader-chunk-stream]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

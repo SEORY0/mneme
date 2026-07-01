@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- VMS Alpha objects are record based. The foreign-file form repeats the record length around the record type before the payload, while object content begins with module-header records and can include EGSD records. Program-section EGSD entries contain fixed metadata followed by a counted name field. VMS libraries are block-oriented archives with a header, index descriptors, variable-length text index records, and module-location references into later blocks.
+
+### Harness Links
+- [[libfuzzer-bfd-archive-only]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

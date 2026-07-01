@@ -41,3 +41,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is not raw XML at byte zero. The libxml2 XML fuzzer first consumes a native little-endian parser-options integer, then consumes backslash-newline-terminated URL/content string pairs. The first pair is the main XML entity, and later pairs are external resources resolved by the fuzzer entity loader. XInclude text reachability requires a valid XML document with an XInclude namespace declaration, parse-as-text include elements, and a matching external text entity.
+
+### Harness Links
+- [[honggfuzz-compatible-libxml2-xml-fuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

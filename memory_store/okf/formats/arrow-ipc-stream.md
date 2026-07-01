@@ -50,3 +50,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- Arrow IPC streams are continuation-framed FlatBuffer messages. A stream begins with a schema message, then the number of initial dictionary batch messages implied by the schema dictionary fields, then record batches and any later dictionary deltas. Dictionary batch metadata wraps record-batch metadata: field nodes describe logical lengths and null counts, while buffer descriptors point into the following message body. Nested dictionary integration streams can have outer dictionary fields whose dictionary values are list or struct arrays containing additional dictionary-encoded children; those children have their own dictionary batches.
+
+### Harness Links
+- [[afl-libfuzzer-ipc-stream-reader]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

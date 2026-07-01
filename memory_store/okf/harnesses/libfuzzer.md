@@ -2350,3 +2350,62 @@ Splash font path code is reached.
 
 ### Notes
 - These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The OTS libFuzzer harness feeds the raw file bytes to OTSContext::Process using an expanding memory stream. If the input is a TTC and the first process succeeds, the harness also processes each face index from the same raw byte buffer. There is no leading mode byte or FuzzedDataProvider carving.
+- The active fuzz target is fuzz_dump. The libFuzzer file bytes are passed directly to rnp_input_from_memory and then to rnp_dump_packets_to_output with raw packet dumping enabled. There is no leading mode byte and no FuzzedDataProvider split; armor detection and dearmoring operate directly on the raw byte stream.
+- libFuzzer passes raw file bytes to the libxml2 XML harness. The harness reads a native little-endian options word from the front, masks out only the huge-parse bit, then reads custom escaped URL/entity strings from front to back. It parses the first entity with xmlReadMemory, runs xmlXIncludeProcessFlags only when the XInclude option bit is set, then repeats with push parser and reader paths.
+- Raw libFuzzer bytes are consumed by the libxml2 XML fuzzer. The harness runs pull parsing, push parsing, and then an xmlTextReader loop over the main entity. The reader handles XInclude elements only when the options word includes the XInclude feature; no FuzzedDataProvider front/back layout is used.
+- The harness passes raw file bytes to Poppler's load_from_raw_data, then renders every page with page_renderer. No byte carving or FuzzedDataProvider layout is involved.
+- The Assimp libFuzzer harness passes the raw input bytes directly to Importer::ReadFileFromMemory with no selector byte and no FuzzedDataProvider carving. Format selection is content based, so the payload must be a complete model buffer with a recognized MDL signature.
+- The libFuzzer harness passes the PoC file bytes directly to sf_open_virtual through an in-memory virtual I/O object. There is no mode byte, FuzzedDataProvider split, argv shaping, or stdin wrapper; parser reachability depends entirely on a complete-enough raw file prefix.
+- The libFuzzer target passes the entire raw input buffer through an SF_VIRTUAL_IO object to sf_open_virtual; there is no mode byte, prefix, checksum, or FuzzedDataProvider layout. After open, the harness exits only for zero or excessive reported channels, allocates one float frame of channel width, and repeatedly calls sf_readf_float for one frame.
+- The Assimp libFuzzer harness passes the complete raw input to Importer.ReadFileFromMemory and relies on Assimp importer detection. There is no leading selector byte, no FuzzedDataProvider carving, and no secondary input file.
+- The harness consumes raw libFuzzer/honggfuzz input bytes directly, not FuzzedDataProvider. It installs a fake OpenSC reader, consumes one length-prefixed chunk for card connect/ATR, then consumes one chunk per APDU transmit during driver probing, PKCS15 binding, and emulator operations. Status-word-only failure chunks are useful for steering through non-target probes without making malformed parser data.
+- The libFuzzer harness passes raw input bytes through libsndfile virtual IO. It opens the buffer with sf_open_virtual, skips only zero channels and channel counts above the harness limit after open returns, allocates a float buffer sized to the reported channel count, and repeatedly calls sf_readf_float for one frame. There is no prefix, mode selector, or FuzzedDataProvider layout.
+- The readelf libFuzzer harness writes the raw input bytes to a temporary file and enables header, section, symbol, relocation, dynamic, notes, unwind, and architecture processing before calling process_file. There is no wrapper, mode selector, argv-selected subformat, or FuzzedDataProvider layout.
+- The libFuzzer harness passes the entire raw byte stream to libavif memory I/O, calls decoder parse, and only proceeds to image decode and RGB conversion after parse succeeds. There is no input carving, selector byte, or FuzzedDataProvider back-field layout.
+- libFuzzer feeds raw bytes directly to the OpenSC fuzz reader. The reader consumes chunks strictly front-to-back. The connection consumes the first chunk as ATR; every card transmit consumes one following chunk as the synthetic APDU response. There is no checksum or global envelope beyond per-chunk lengths, but APDU response sequencing matters because PKCS#15 generic discovery runs before synthetic Oberthur binding.
+- Raw libFuzzer bytes drive OpenSC's fuzz reader. The harness connects a virtual card, calls PKCS#15 bind, then, only if binding succeeds, consumes two operation chunks and iterates PKCS#15 objects for decipher, derive, wrap, unwrap, signature, and PIN operations. This harness does not use FuzzedDataProvider; all control comes from front-to-back chunk consumption.
+- The intended target is a raw libFuzzer decompression harness: it reads chunk bytes directly, checks the size fields, allocates an output buffer, and calls Blosc decompression. In this image, local verify can report a wrapper-only path error even for structurally valid chunks, so official submit is the reliable signal.
+- The libFuzzer target rejects short inputs, consumes control fields from the front of the raw byte buffer, creates a Fluent Bit parser from those options, and passes only the remaining bytes and explicit length to flb_parser_do. It does not NUL-terminate the record payload.
+- The libFuzzer target rejects short inputs, then consumes front-loaded option bytes: parser selection, optional time-format fields, time_keep, typecast enablement, and optional decoder setup. Only the remaining suffix is passed to flb_parser_do. Decoder enablement can consume additional bytes before the record, so a minimal control prefix should keep decoders disabled when targeting parser record boundaries.
+- The libFuzzer target rejects very small inputs, initializes a Fluent Bit config, consumes control fields from the front of the raw input with manual pointer movement, and calls flb_parser_create with caller-owned type and decoder structures. If creation fails, the harness explicitly frees any caller-owned type and decoder structures; if creation succeeds, it parses the remaining bytes and then destroys the parser.
+- The libFuzzer target passes the raw input file directly to coap_pdu_parse() as a UDP CoAP packet with no mode byte, protobuf wrapper, checksum, or FuzzedDataProvider splitting. After parsing it also asks for query and URI path strings, prints the PDU, and re-encodes the header, so the initial raw packet must satisfy the UDP header and token-length gates to reach option parsing.
+- The C-Blosc2 decompression libFuzzer harness feeds the entire raw input as one compressed chunk. It rejects inputs smaller than the minimum chunk header, rejects total-size mismatches, rejects zero uncompressed size, validates the compact chunk, allocates the output buffer from the compressed chunk length, and calls blosc2_decompress. There is no mode selector and no FuzzedDataProvider layout.
+- The standalone AFL/libFuzzer-compatible target consumes the whole input as raw bytes. Early bytes select compression level, filter mode, compressor index, and an optional forced small block size, but those bytes remain part of the source buffer. The harness allocates an output buffer just larger than the input while passing the input length as the logical destination size, calls Blosc compression, reads the resulting buffer sizes, and then attempts a decompression round trip. There is no FuzzedDataProvider carving.
+- The libFuzzer target is the wolfSSL RSA harness. It consumes an input blob, output size, hash selector, padding selector, MGF selector, operation selector, booleans for fixed P/Q/E, then RSA integer strings. PSS signing is selected by an operation byte and calls the PSS padding encoder before the RSA exponentiation result is required.
+- The active miniz target is uncompress_fuzzer. The raw libFuzzer bytes are passed directly to uncompress; the first two input bytes are also multiplied by the harness to choose the destination buffer length. There is no mode selector and no FuzzedDataProvider split.
+- The libFuzzer harness passes the file bytes directly to Blosc. It rejects inputs below the minimum chunk-header length, rejects chunks whose header compressed size differs from the input size, rejects zero uncompressed size, and calls Blosc's compressed-buffer validator before allocating an output buffer and invoking blosc2_decompress with the input size and that allocated output capacity.
+- libFuzzer passes the entire byte buffer directly to MuPDF as a PDF memory stream. The harness registers document handlers, opens the stream with the PDF handler, counts pages, and renders each page to an RGB pixmap with the identity matrix. There is no FuzzedDataProvider carving, mode byte, checksum, or external filename contract.
+- Raw libFuzzer bytes shorter than the harness minimum are ignored. For accepted inputs, the harness carves bytes by position rather than by FuzzedDataProvider: the prefix becomes the format and the final tail becomes the buffer before calling Fluent Bit's strptime implementation once.
+
+## Round 36 Format Links
+- [[opentype-font]]
+- [[ascii-armored-openpgp]]
+- [[xml]]
+- [[xml-fuzzer-entity-envelope]]
+- [[pdf]]
+- [[3dgs-mdl5]]
+- [[caf]]
+- [[libsndfile-mat4-aifc-double-audio-container]]
+- [[hmp]]
+- [[opensc-pkcs15-reader-chunk-stream]]
+- [[audio-container]]
+- [[elf32-relocatable-msp430]]
+- [[avif-bmff]]
+- [[opensc-pkcs15-reader-apdu-chunk-stream]]
+- [[opensc-fuzz-reader-chunks]]
+- [[blosc-chunk]]
+- [[fluent-bit-parser-fuzzer-control-plus-record]]
+- [[fluent-bit-parser-fuzzer-carved-byte-stream]]
+- [[coap-udp-pdu]]
+- [[blosc-chunk-with-zlib-deflate-stream]]
+- [[raw-blosc-compress-buffer]]
+- [[fuzzing-datasource-rsa-fields]]
+- [[zlib-deflate]]
+- [[blosc-compressed-chunk]]
+- [[fluent-bit-strptime-format-buffer]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

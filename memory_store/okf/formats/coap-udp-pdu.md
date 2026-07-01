@@ -36,3 +36,14 @@ Round 25 introduced descriptive facts for this carrier.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- A UDP CoAP PDU has a compact fixed header carrying version, type, token length, code, and message id, followed by an optional token and then option records. Each option record encodes option delta and value length in header nibbles; selected nibble values require additional extension bytes before the option value. A payload marker terminates the option stream, and bytes after it are payload rather than options.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

@@ -30,3 +30,14 @@ train_only: true
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The fuzz input is a raw Blosc compressed chunk, not a frame. The compact header carries format version, compressor version, flags, element size, uncompressed size, block size, and compressed size; the harness requires the header compressed size to equal the file size and validates the uncompressed size. For a regular one-block chunk, a block-start table follows the header and points to a stream record containing a signed compressed-stream size and the compressor payload. Lizard is selected from high header flag bits, and the dont-split flag keeps the block to a single compressed stream. A LIZv1 payload begins with a compression-level selector, then per-block stream selectors and the length, short-offset, long-offset, flags, and literal streams. HUF/RLE-coded streams can declare a decoded length while carrying a compact repeated-value representation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

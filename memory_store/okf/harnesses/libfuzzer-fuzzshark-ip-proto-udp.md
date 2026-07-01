@@ -67,3 +67,12 @@ okf_support: 4
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The fuzzshark target calls the Wireshark UDP dissector from the ip.proto table on the raw file bytes. The input is a UDP datagram, not pcap, IP, or Ethernet. The UDP header length gates the payload slice. UDP port-table dispatch is tried before enabled UDP heuristics; RFtap is an enabled UDP heuristic and can hand its payload to pcap packet-data, while Nordic BLE is decode-as-only on UDP and is not selected by arbitrary port bytes.
+
+## Round 36 Format Links
+- [[udp-rftap-btle-rf-l2cap-avdtp]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

@@ -17,3 +17,12 @@ train_only: true
 
 ### Notes
 - These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The active target consumes the raw file bytes as one Arrow IPC stream. It opens a RecordBatchStreamReader over an in-memory buffer, reads the initial dictionaries, then reads later dictionary batches and record batches, and calls full validation on decoded record batches. There is no leading mode byte, checksum gate, or FuzzedDataProvider front/back split.
+
+## Round 36 Format Links
+- [[arrow-ipc-stream]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

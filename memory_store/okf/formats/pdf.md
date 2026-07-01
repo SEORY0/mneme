@@ -389,3 +389,17 @@ the FreeType font wrapper.
 
 ### Notes
 - These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- A minimal PDF can keep its xref table and trailer before a later referenced object; Poppler still fetches the object by xref offset. Rendering a page that uses a font resource can force the FontDescriptor FontFile stream to be read wholesale. Direct ICC OutputIntent stream attempts reached parsing but did not produce the target relation in this build.
+- PDF reachability requires a recognizable header, indirect catalog/pages/page objects, a page content path or renderable page state, xref or repairable object locations, trailer/root linkage, and an EOF marker. Poppler tolerates some malformed xref and stream relations through repair logic, but broad edits to stream boundaries, declared lengths, startxref, or xref object accounting can move the input from target reachability into clean rejection or both-build crashes. Standard encryption dictionaries require coherent revision/version, owner/user strings, permissions, trailer IDs, and key-length relations before encrypted object parsing proceeds.
+- The input is a raw PDF document. A minimal carrier needs a catalog, pages tree, page object, page content stream, and xref/trailer, though MuPDF can repair some xref drift. Page content can exercise clipping, images, transparency groups, soft masks through ExtGState, Form XObjects, annotations with appearance streams, and Type3 font char procedures. PDF page boxes are parsed through rectangle normalization; empty page media boxes are replaced with a default page box before rendering. Annotation Rect values and appearance BBox values are parsed independently and then mapped through annotation transforms.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-poppler-pdf-render]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

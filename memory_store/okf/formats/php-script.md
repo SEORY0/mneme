@@ -109,3 +109,14 @@ okf_support: 16
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is raw PHP source with normal PHP tags. Class declarations and reflection calls execute at runtime; no external file, archive, checksum, or binary envelope is required. The source itself remains small while the crash is produced by the interpreter's reflection error path.
+
+### Harness Links
+- [[libfuzzer-execute]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

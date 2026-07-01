@@ -53,3 +53,15 @@ fields become the record text parsed by Fluent Bit.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The general Fluent Bit parser fuzzer input is a front control block followed by a parser record. The control block selects JSON, regex, LTSV, or logfmt parsing and can enable optional time fields, fixed-key type casts, and decoder rules. Logfmt records are key/value text pairs; typecasting applies only to the harness-installed fixed keys.
+- The useful input is not a standalone log file but a Fluent Bit parser-fuzzer envelope followed by a parser record. For the logfmt branch, records are key/value text using ident-byte runs around an equals sign. The harness' typecast table maps a small fixed key set to integer, float, boolean, string, and hex conversions; the boolean conversion error path is reached by a matching key with a non-boolean value.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

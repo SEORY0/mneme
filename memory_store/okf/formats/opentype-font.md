@@ -218,3 +218,14 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- OpenType sfnt inputs use a table directory with a version tag, table count, search metadata, and per-table tag/checksum/offset/length records. TTC inputs start with a collection header and absolute offsets to each sfnt directory; table data may be shared across faces. Variation-related tables include fvar, avar, cvar, gvar, HVAR, MVAR, STAT, VVAR, and CFF2-related variation state. OTS parses fvar before other variation tables, and a later malformed variation table can mark all variation tables as dropped.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

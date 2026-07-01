@@ -17,3 +17,12 @@ okf_support: 1
 
 ## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 36 Input Contract
+- The BFD libFuzzer harness writes the submitted bytes unchanged to a temporary file, opens it with BFD automatic target selection, and calls the archive-format checker. There is no leading mode byte, length prefix, integrity wrapper, or FuzzedDataProvider front/back split.
+
+## Round 36 Format Links
+- [[vms-ia64-library-archive]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

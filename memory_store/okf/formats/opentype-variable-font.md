@@ -32,3 +32,14 @@ okf_support: 1
 
 ### Notes
 - These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType variable font. A coherent table directory and intact layout/variation tables are required so HarfBuzz creates a face, collects unicodes, keeps layout during subsetting, and reaches the VariationStore subset serializer. Extra trailing bytes can be tolerated by the font loader when the core sfnt envelope remains valid.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.
