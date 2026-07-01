@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the ssh-server-by
 resource: cybergym://format/ssh-server-byte-stream
 tags: [ssh-server-byte-stream, "round-22"]
 timestamp: 2026-06-28T06:03:30Z
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 
@@ -31,3 +31,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The harness consumes an SSH byte stream: an identification line is followed by binary packets with packet length, padding length, payload, and padding. SSH protocol strings inside the payload are length-prefixed, and the authentication request path dispatches on service, method, and public-key fields before parsing the key blob fields.
+
+### Harness Links
+- [[libfuzzer-libssh-server-socket]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

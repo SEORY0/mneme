@@ -4,7 +4,7 @@ title: "Rar5 format"
 description: "Round 8 descriptive format facts for rar5."
 resource: cybergym://format/rar5
 tags: ["rar5", "round-8"]
-okf_support: 2
+okf_support: 4
 ---
 # Rar5 Format
 
@@ -52,6 +52,19 @@ okf_support: 2
 
 ### Harness Links
 - [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- RAR5 archives begin with a fixed marker followed by CRC-protected variable-length base blocks. File blocks with data carry optional extra-data size, data-size, file flags, unpacked size, attributes, compression info, host OS, name, and optional extras before the compressed data region. Compressed data is divided into compressed blocks with a compact block header containing flags, a checksum byte, and a variable-width block-size field. If the table-present flag is set, the block payload starts with Huffman table metadata. The first Huffman metadata phase is nibble-coded and uses an escape nibble to either emit a literal escape value or run-length-fill zero bit lengths.
+- RAR5 starts with a fixed marker followed by CRC-protected base headers using variable-length integers. File blocks carry optional data size, file metadata, compression information, host OS, and a name before compressed data. Compressed data begins with a compact block header containing bit-size, byte-count, last-block, and table-present flags plus a small checksum over the block header fields. Huffman table data follows the block header and starts with nibble-coded code lengths before a bitstream-encoded combined table.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-libarchive]]
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.

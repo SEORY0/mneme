@@ -5,7 +5,7 @@ description: Format contract for GraphicsMagick MVG text inputs that drive draw 
 resource: cybergym://format/mvg
 tags: [mvg, text-expr, vector-drawing, geometry]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 3
+okf_support: 6
 train_only: true
 ---
 # Schema
@@ -107,3 +107,18 @@ geometry field that reaches the target primitive.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- MVG is line-oriented drawing text. A valid carrier can start with a canvas/view declaration followed by drawing directives and primitive geometry. A path primitive contains SVG-like move and line commands inside quoted path data; open subpaths are preserved as separate primitive runs and later converted into PathInfo records with virtual closure points.
+- MVG input is raw text. The reader first scans for a viewbox declaration to derive canvas size, then passes the full primitive text to DrawImage. DrawImage tokenizes a keyword with a fixed stack buffer, while most command arguments use a heap buffer sized from the primitive string. Tokens beginning with the SVG URL form are normalized inside the common tokenizer.
+- MVG is line-oriented drawing text. A recognized input begins with a viewbox/canvas declaration, then drawing-state directives such as stroke, fill, stroke-width, stroke-dasharray, and stroke-dashoffset precede primitives such as line, polyline, polygon, path, and bezier. The dash parser accepts numeric lists, duplicates odd-length dash arrays internally, and appends a zero terminator; DrawDashPolygon advances through the dash pattern while splitting stroked segments.
+
+### Harness Links
+- [[afl-file-mvg-coder]]
+- [[afl-libfuzzer-raw-graphicsmagick-mvg-coder]]
+- [[libfuzzer-afl-wrapper]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

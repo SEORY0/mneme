@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer harness"
 description: "Input contract facts for Libfuzzer."
 tags: ["libfuzzer", "round-6", "round-16"]
-okf_support: 252
+okf_support: 276
 ---
 # Libfuzzer Harness
 
@@ -2108,4 +2108,53 @@ Splash font path code is reached.
 - [[wasm-binary]]
 
 ### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 32 Input Contract
+- The GraphicsMagick TIFF coder fuzzer feeds raw file bytes as an image blob with the TIFF coder selected by the harness. It reads the image and then exercises TIFF write-back when the read succeeds. There is no mode byte or FuzzedDataProvider framing; candidate files must also be readable by the Docker-copied target file user.
+- The GraphicsMagick coder harness is libFuzzer over raw file bytes. There is no FuzzedDataProvider carving; the input blob is handed to the JNX reader selected by the harness, and embedded tile bytes are then passed through GraphicsMagick's normal blob-to-image dispatch.
+- The libFuzzer wrapper treats the submitted file as raw bytes, opens it as an in-memory file, reads an IVF-style header, initializes the AV1 decoder in threaded mode, then repeatedly reads IVF frames and drains decoded images. There is no FuzzedDataProvider split, checksum gate, or separate argv-controlled mode.
+- The GraphicsMagick MNG coder fuzzer feeds the raw libFuzzer input bytes directly as a Magick blob with the MNG coder selected. There is no mode byte, no file carving, and no FuzzedDataProvider split. The harness catches Magick exceptions during read and writes the decoded image back only if reading succeeds.
+- The libFuzzer input bytes are wrapped with fmemopen as a file. The harness reads the IVF header from the front of the raw input, initializes the AV1 decoder, loops through IVF frames with ivf_read_frame, calls aom_codec_decode for each frame, then drains decoded frames. There is no FuzzedDataProvider split and no argv or stdin contract beyond the raw file bytes.
+- The libFuzzer entrypoint passes the whole non-empty input buffer to magic_buffer. There is no leading selector, marker delimiter, checksum, length envelope, or FuzzedDataProvider split.
+- Wireshark fuzzshark is built as a libFuzzer-style target configured for the IP dissector. The PoC file bytes are passed directly as the packet buffer to fuzzshark; there is no file-format wrapper and no FuzzedDataProvider split. The target registers the configured dissector as a postdissector, disables several unrelated dissectors at startup, and feeds the raw buffer through epan dissection with captured length equal to the PoC file size.
+- The libFuzzer harness feeds raw file bytes directly. It consumes the prefix from the front as RawImage and tile metadata, constructs VC5Decompressor on the remaining stream, allocates image data, calls decode, catches only RawSpeed exceptions, and treats sanitizer aborts or C assertions as crashes.
+- The harness is libFuzzer with no FuzzedDataProvider split or mode selector. It passes the entire input buffer to Poppler's raw PDF loader, discards unloadable or locked documents, then renders each page through page_renderer. Parser reachability depends on the raw bytes forming a loadable or repairable PDF document.
+- The libFuzzer target passes the entire input buffer directly to Poppler's raw-data document loader, skips locked or unloadable documents, iterates all pages, and renders each page with the C++ page renderer. There is no mode byte, length suffix, checksum, argv file contract, or FuzzedDataProvider front/back split.
+- The libgit2 harness consumes the libFuzzer input as raw bytes with no FuzzedDataProvider fields or mode byte. The same raw buffer is offered to the supported object parsers, including the tree parser.
+- The libFuzzer target feeds raw input bytes through an in-memory file. It reads an IVF-style header before decoder initialization, derives the decoder thread count from a header-controlled value in threaded builds, then passes each IVF frame payload to the AV1 decoder and drains output frames. There is no FuzzedDataProvider layout, mode-selector byte outside the IVF header, or checksum requirement.
+- The GraphicsMagick MIFF coder fuzzer passes the raw libFuzzer bytes directly as a Magick blob with the MIFF coder forced. There is no leading selector or carved sub-input. Magick exceptions during read are caught; if read returns an image, the harness writes it back to a MIFF blob, so read-side uninitialized pixels can surface during write-back.
+- The libFuzzer harness compiles a fixed YARA rule that imports the dotnet module and checks the module_name field. Each raw input is scanned as an in-memory buffer with SCAN_FLAGS_NO_TRYCATCH. The dotnet module load path finds a PE image in the raw bytes, sets the PE data pointer and size from the memory block, and calls the dotnet CLR metadata parser. There is no carved prefix, no FuzzedDataProvider, and no filename-based parsing.
+- The active target is curl_fuzzer_ftp. The libFuzzer wrapper passes the whole file to the TLV parser from the front with no back-loaded fields. The harness installs mocked socket callbacks, sends response zero immediately on connection, sends later responses after client requests, and can open a second socket manager for the FTP passive data channel.
+- The libFuzzer target treats the input as raw bytes for one NUL-terminated string. It rejects inputs that are too short, do not end in NUL, or contain a newline before the final terminator. The harness then tries the same string through key parsing, wildcard key parsing, and action-list parsing; there is no tar framing or length-prefixed outer envelope.
+- The active binary is HarfBuzz hb-shape-fuzzer. It treats the entire PoC as raw font bytes, creates an hb_blob, hb_face, and hb_font, shapes fixed ASCII text, then uses trailing input bytes as UTF-32 text for a second shaping pass before running miscellaneous face APIs. There is no pcap/archive wrapper and no FuzzedDataProvider split.
+- The libFuzzer harness rejects inputs above its size cap, then calls byte-string conversion APIs on the raw bytes. For word-aligned inputs it additionally calls idn2_to_ascii_4i with the raw bytes cast as 32-bit codepoints, an element count derived from the byte length, a fixed small heap output buffer, and several flag combinations. There is no file wrapper, checksum, or FuzzedDataProvider split.
+- The libFuzzer target passes the entire input buffer directly to Poppler's raw-data document loader, skips locked or unloadable documents, iterates all reported pages, creates each page by index, and renders each page with the C++ page renderer. There is no leading selector byte, argv filename contract, checksum wrapper, or FuzzedDataProvider front/back split.
+- The libarchive fuzzer feeds raw bytes as one archive stream from memory, enables all formats and filters, iterates archive headers, and drains entry data through archive_read_data. There is no prefix byte or FuzzedDataProvider layout; parser reachability depends on preserving the RAR5 marker, base-header CRCs, and compressed member-data gates.
+- The GnuTLS libFuzzer harness passes raw bytes as a DER PKCS#12 blob, uses a fixed password, checks the MAC result but continues into simple parsing, and then deinitializes returned key, certificate-chain, extra-certificate, and CRL outputs according to the parser result.
+- The GraphicsMagick coder fuzzer selects the PTIF coder, which aliases into the TIFF coder. It passes the submitted raw bytes as an image blob, forces the coder name, reads the image through Magick++, and may write the image back if the selected coder has encoder support. There is no FuzzedDataProvider split or external argv-controlled file format beyond the raw TIFF-family bytes.
+- The MuPDF PDF fuzzer consumes the raw libFuzzer bytes as an in-memory PDF, opens the document, counts pages, and renders pages to a pixmap. There is no harness prefix, no byte carving, and no FuzzedDataProvider layout. Parser exceptions are caught, so the input must be structurally renderable enough for the shading/function path to execute.
+- The libFuzzer target initializes the FFmpeg AAC decoder once, allocates an AVCodecContext, optionally derives context fields from the tail of large inputs, opens the decoder, then repeatedly feeds AVPackets split by the fixed tag. Without the tag, the entire remaining front region is one packet. There is no FuzzedDataProvider; integers are not consumed from the back except for the harness-specific large-input context tail.
+
+## Round 32 Format Links
+- [[curl-fuzzer-tlv]]
+- [[ffmpeg-aac-decoder-packet-stream]]
+- [[git-tree-object-body]]
+- [[ivf-av1]]
+- [[jnx]]
+- [[libidn2-raw-domain-or-uint32-codepoints]]
+- [[libmagic-classified-raw-buffer]]
+- [[miff]]
+- [[mng]]
+- [[opentype-aat-mort-font]]
+- [[ovs-odp-action-text]]
+- [[pdf]]
+- [[pe-dotnet]]
+- [[pkcs12-der]]
+- [[rar5]]
+- [[raw-ipv4-ositp-cotp]]
+- [[rawspeed-vc5-fuzzer-envelope]]
+- [[tiff]]
+
+## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.

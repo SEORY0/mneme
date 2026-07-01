@@ -3,7 +3,7 @@ type: format-family
 title: "Openvswitch Expression format"
 description: "Structure and invariants for the openvswitch-expression input format."
 tags: ["openvswitch-expression", "round-20"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 ## Identification
@@ -30,3 +30,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- OVN expression inputs are raw text. Integer tokens may use a hexadecimal prefix. The hexadecimal parser scans digits from the end toward the start and packs nibbles into a fixed-width token value buffer; nonzero high digits trigger an overflow diagnostic, but zero high digits continue through the same packing loop.
+
+### Harness Links
+- [[afl-libfuzzer-compatible-raw-file]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

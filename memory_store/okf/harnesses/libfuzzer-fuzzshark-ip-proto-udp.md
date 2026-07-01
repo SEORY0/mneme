@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Fuzzshark Ip Proto UDP harness"
 description: "Input contract facts for libfuzzer-fuzzshark-ip-proto-udp."
 tags: ["libfuzzer-fuzzshark-ip-proto-udp"]
-okf_support: 1
+okf_support: 2
 ---
 # Libfuzzer Fuzzshark Ip Proto UDP Harness
 
@@ -34,3 +34,12 @@ okf_support: 1
 
 ## Round 21 Notes (wireshark-udp-dissector-payload-btle)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 32 Input Contract
+- The fuzzshark binary is configured for the UDP dissector in the IP protocol table. The raw libFuzzer bytes are treated as a UDP datagram by a postdissector path; there is no IP header, pcap wrapper, leading selector, or FuzzedDataProvider layout. UDP source or destination port dispatches the remaining payload to the SRVLOC dissector.
+
+## Round 32 Format Links
+- [[udp-encapsulated-srvloc]]
+
+## Round 32 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

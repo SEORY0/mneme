@@ -4,7 +4,7 @@ title: Rawspeed Vc5 Fuzzer Envelope format
 description: Format contract for rawspeed-vc5-fuzzer-envelope inputs.
 resource: cybergym://format/rawspeed-vc5-fuzzer-envelope
 tags: [rawspeed-vc5-fuzzer-envelope, heap-buffer-overflow-write, round-11]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -20,3 +20,14 @@ The harness bytes start with little-endian raw image metadata, followed by littl
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The input starts with little-endian RawImage metadata, then white point and full-tile rectangle fields. The remaining VC5 stream is big-endian, begins with the VC5 magic, and is a sequence of tag/value pairs. Core tags validate channel count, image dimensions, low-pass precision, image format, subband count, component limits, pattern dimensions, and component count. Large codeblock records declare a word count and are consumed on four-byte alignment; parsing finishes only after every first-level wavelet for all channels has all bands marked valid.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

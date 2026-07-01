@@ -4,7 +4,7 @@ title: "PE Dotnet format"
 description: "Descriptive contract facts for pe-dotnet."
 resource: "cybergym://format/pe-dotnet"
 tags: ["pe-dotnet", "round-16"]
-okf_support: 2
+okf_support: 3
 ---
 # Schema
 ## Identification
@@ -41,6 +41,17 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 ### Harness Links
 - [[libfuzzer]]
 - [[libfuzzer-yara-dotnet-scan-mem]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The format is a PE32 managed assembly. The PE data directory points to a CLI header, which points to CLR metadata beginning with the metadata magic and a version string. Metadata then declares named streams such as the table stream, string heap, blob heap, user-string heap, and GUID heap. The dotnet parser walks the table stream by the Valid bitmask and row counts; custom attributes can reference MemberRef and TypeRef rows and a blob heap value.
+
+### Harness Links
+- [[libfuzzer]]
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.

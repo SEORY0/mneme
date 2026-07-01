@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Fuzzshark Ip harness"
 description: "Input contract facts for libfuzzer-fuzzshark-ip."
 tags: ["libfuzzer-fuzzshark-ip"]
-okf_support: 0
+okf_support: 1
 ---
 # Libfuzzer Fuzzshark Ip Harness
 
@@ -47,4 +47,13 @@ okf_support: 0
 - [[wireshark-fuzzshark-ip-gsmtap-rlcmac]]
 
 ### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 32 Input Contract
+- The oss-fuzzshark wrapper is configured for the ip dissector and feeds the entire file as one raw frame buffer with unknown outer encapsulation. There is no corpus directory, no FuzzedDataProvider layout, and no capture-file wrapper; secondary dispatch depends on the packet headers and dissector tables reached from the raw IPv4 frame.
+
+## Round 32 Format Links
+- [[raw-ipv4-udp-dof-packet]]
+
+## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.

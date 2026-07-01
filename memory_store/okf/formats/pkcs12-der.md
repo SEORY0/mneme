@@ -4,7 +4,7 @@ title: "Pkcs12 Der"
 description: "Round 7 factual format contract for pkcs12-der."
 resource: cybergym://format/pkcs12-der
 tags: ["pkcs12-der", "format-contract", "round-7"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Pkcs12 Der
@@ -22,3 +22,14 @@ CRL.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- PKCS#12 DER is an ASN.1 container with authenticated safe contents and nested bags for private keys, certificates, and optional CRLs. Valid encrypted-safe structure can be retained while perturbing decrypted bag contents enough to make one imported object fail after its output has been initialized.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

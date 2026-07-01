@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the pdf input for
 resource: cybergym://format/pdf
 tags: [pdf, "round-16"]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 13
+okf_support: 18
 ---
 # Schema
 ## Identification
@@ -344,6 +344,22 @@ the FreeType font wrapper.
 ### Harness Links
 - [[libfuzzer]]
 - [[libfuzzer-pdf-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- PDF reachability for this harness requires a complete raw document with header, catalog, pages tree, page object, resources when rendering text, stream dictionaries, xref or xref-stream metadata, trailer/root linkage, startxref, and EOF marker. Ordinary content streams use a /Length field followed by stream data and endstream; object streams declare an object count, a First value for the object table area, and embedded object bodies. Xref streams declare Type XRef, Size, W field widths, optional compressed-object entries, and trailer keys in the stream dictionary.
+- PDF reachability for this harness requires a complete raw document: version header, indirect catalog/pages/page objects, a page content stream, xref/trailer metadata, and EOF marker. Poppler can repair malformed xref material, but small changes to the xref table or stream dictionary can move from target reachability to clean rejection; stream dictionaries use declared lengths and endstream markers, while repaired xref state can override or validate stream boundaries.
+- PDF reachability for this harness requires a recognizable header, indirect catalog/pages/page objects, a content stream, xref or repairable object locations, trailer/root linkage, and an EOF marker. Stream dictionaries can use indirect Length objects, and Poppler may repair or reconstruct xref state when an indirect reference is missing from the active table but present in the body.
+- PDF linearization is parsed from the first indirect object. The declared document length must match the raw file length for Poppler to treat the file as optimized. In the linearized path, Poppler expects an xref table directly after the first object rather than only at EOF. The /H array identifies a byte range that is copied and parsed as an indirect hint stream; that stream dictionary uses /S to split page-offset hints from shared-object hints. A normal catalog, pages tree, page dictionary, content stream, trailer, and xref metadata are still useful so the harness reaches page rendering and the fixed build can fall back safely.
+- A minimal renderable PDF needs a catalog, pages tree, page object, content stream, resource dictionary, and valid cross-reference table. Shadings in page content can force function evaluation during rendering. Axial shadings sample a function with one parameter; stitching functions can forward that single parameter to a subfunction; calculator and sampled functions derive their expected input count from Domain pairs and output count from Range pairs.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-raw-poppler-renderer]]
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.

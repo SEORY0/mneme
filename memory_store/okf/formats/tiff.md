@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the tiff input fo
 resource: cybergym://format/tiff
 tags: [tiff, image, directory-format, extra-samples]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 15
+okf_support: 18
 ---
 # Schema
 ## Structure
@@ -94,3 +94,17 @@ allocation-size bug; unsupported channel combinations can trigger without large 
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- TIFF parsing is gated by byte order, magic, an IFD, and tag value storage rules. CIE Log selection is controlled by photometric interpretation and SGILog compression tags, while alpha is driven by samples-per-pixel plus extra-samples metadata. Small SHORT arrays may be stored inline in the IFD entry; larger arrays use out-of-line storage, so preserving correct tag storage form matters for parser reachability.
+- Classic TIFF uses an endian header pointing to an image-file-directory. The directory records geometry, photometric interpretation, bits per sample, samples per pixel, planar configuration, strip offsets and byte counts, optional sample format, colormap, and extra-sample alpha metadata. For palette images, preserving the colormap and alpha tags keeps GraphicsMagick in PseudoClass/matte state before method selection; changing sample format can steer from direct palette import to libtiff RGBA fallback without corrupting the carrier.
+- TIFF reachability depends on a valid endian header, image-file-directory table, baseline geometry tags, compression tag, photometric interpretation, strip offset/byte-count metadata, SamplesPerPixel, BitsPerSample, SampleFormat, and ExtraSamples alpha metadata. For this bug family, plain grayscale or palette alpha samples can parse cleanly; the crashing relation is a non-RGB LogLuv transfer path combined with associated alpha metadata.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-graphicsmagick-ptif-coder]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

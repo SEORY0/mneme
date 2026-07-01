@@ -4,7 +4,7 @@ title: "http2-frame-stream format"
 description: "Structure and invariants observed for http2-frame-stream."
 resource: "cybergym://format/http2-frame-stream"
 tags: ["http2-frame-stream", "round-24"]
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 
@@ -18,3 +18,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The input is a raw HTTP/2 client byte stream: connection preface, binary frame headers, SETTINGS, PRIORITY, HEADERS, RST_STREAM, DATA, optional WINDOW_UPDATE frames, HPACK request header blocks, stream identifiers, END_HEADERS, END_STREAM, and PRIORITY flags. Stream dependency and close ordering, not a file header, determine whether the scheduler relocation path is exercised.
+
+### Harness Links
+- [[afl-libfuzzer-http2-socket]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

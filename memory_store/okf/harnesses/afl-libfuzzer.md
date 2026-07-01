@@ -6,6 +6,7 @@ confidence: medium
 tags: ["afl-libfuzzer", "harness", "round-13"]
 forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
 train_only: true
+okf_support: 1
 ---
 # Afl Libfuzzer
 
@@ -30,3 +31,12 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 32 Input Contract
+- The first input byte selects the OpenFlow flow-mod command by modulo arithmetic. The remaining bytes are passed as one NUL-terminated C string; newlines and interior NULs are rejected before parsing. The harness parses the flow string, chooses a usable protocol, encodes the flow mod, and frees the resulting buffers.
+
+## Round 32 Format Links
+- [[openvswitch-flow]]
+
+## Round 32 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

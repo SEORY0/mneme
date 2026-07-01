@@ -5,7 +5,7 @@ description: Format contract for shaping paths involving composite or variable g
 resource: cybergym://format/opentype-font
 tags: [opentype, font, shaping, composite_glyph, "round-16"]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 6
+okf_support: 9
 train_only: true
 ---
 # Schema
@@ -170,3 +170,17 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font with a table directory mapping tags to table bodies. Layout and AAT subtables use relative offsets from table or subtable bases; class-table based kerning formats combine class lookups with a kerning array. AAT kerx has a table header followed by one or more subtables with coverage, format, and format-specific relative offsets.
+- The input is a complete SFNT/OpenType font blob with a table directory and tagged table records. The relevant layout tables are GSUB and GPOS; their top-level headers point to ScriptList, FeatureList, and LookupList subtables. ScriptList contains records with script tags and relative offsets to Script subtables; Script subtables contain an optional default LangSys and a LangSysRecord array. The vulnerable macro candidates in this source family include structures where a trailing array is wider than its count field, so the computed serialized size can undercount the true fixed prefix plus records. A valid outer SFNT directory and coherent layout-table offsets are necessary; isolated GSUB bytes are not sufficient.
+- A usable OpenType input is a whole sfnt font with a valid table directory, table records, and enough cmap/metrics/glyph structure for HarfBuzz to map shaped text to glyph ids. The classic kern table has a version/count header followed by subtable wrappers; format 3 contains glyphCount, kernValueCount, left/right class counts, kern values, left class bytes, right class bytes, and a class-pair index array. In the vulnerable source, the format-3 sanitizer does not validate that the variable arrays physically cover the declared counts.
+
+### Harness Links
+- [[afl-compatible-libfuzzer-harfbuzz-subset]]
+- [[libfuzzer-harfbuzz-shape-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -36,8 +36,8 @@ binary inputs. Highest yield on complex container formats.
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `seed-sweep`
-- observed: 36 traces; solved: 2 (illustrative — not for ranking)
-- top vuln_classes: other (14), out-of-bounds-read (7), use-after-free (4), use-of-uninitialized-value (4), buffer-overflow-write (1), heap-buffer-overflow (1), heap-buffer-overflow-read (1), heap-buffer-overflow-write (1)
-- top input_formats: opentype-font (3), gpsd-raw-packet-stream (2), hevc-elementary-stream (2), opensc-virtual-reader-chunk-stream (2), postscript-pdf (2), rar (2), aac-usac-mps (1), arrow-ipc (1)
-- collapsed aliases: construct-and-seed-sweep, construct-then-seed-sweep, seed-sweep-and-construct, seed-sweep-and-header-stream-mutation, seed-sweep-seed-mutate-construct
+- observed: 38 traces; solved: 3 (illustrative — not for ranking)
+- top vuln_classes: other (15), out-of-bounds-read (7), use-after-free (4), use-of-uninitialized-value (4), heap-buffer-overflow-write (2), buffer-overflow-write (1), heap-buffer-overflow (1), heap-buffer-overflow-read (1)
+- top input_formats: opentype-font (3), gpsd-raw-packet-stream (2), hevc-elementary-stream (2), ivf-av1 (2), opensc-virtual-reader-chunk-stream (2), postscript-pdf (2), rar (2), aac-usac-mps (1)
+- collapsed aliases: construct-and-seed-sweep, construct-then-seed-sweep, seed-sweep-and-construct, seed-sweep-and-header-stream-mutation, seed-sweep-construct, seed-sweep-seed-mutate-construct
 <!-- END observed-census -->

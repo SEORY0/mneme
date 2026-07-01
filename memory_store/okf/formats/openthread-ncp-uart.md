@@ -4,7 +4,7 @@ title: "Openthread Ncp Uart format"
 description: "Round 8 descriptive format facts for openthread-ncp-uart."
 resource: cybergym://format/openthread-ncp-uart
 tags: ["openthread-ncp-uart", "round-8"]
-okf_support: 1
+okf_support: 2
 ---
 # Openthread Ncp Uart Format
 
@@ -26,6 +26,17 @@ okf_support: 1
 
 ### Harness Links
 - [[libfuzzer-afl-wrapper]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- NCP UART input is an HDLC-lite byte stream with flag-delimited frames, escaped control bytes, and a frame check sequence. The decoded payload is a Spinel frame with a header byte, packed command id, packed property id for property commands, and property-specific data. STREAM_NET carries a little-endian length-prefixed IPv6 datagram followed by optional metadata. THREAD_ON_MESH_NETS insertion carries an IPv6 prefix, prefix length, stable flag, and route flags. Mesh-local on-mesh checks use the device mesh-local prefix derived from the extended PAN ID, while local network-data changes may require later registration processing before leader network data reflects them.
+
+### Harness Links
+- [[afl-libfuzzer-ncp-uart-received]]
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
