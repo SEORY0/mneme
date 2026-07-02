@@ -17,3 +17,15 @@ okf_support: 0
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The relevant subtitle carrier is line-oriented text. LRC autodetection is entered by a leading bracketed line and then walks newline-separated entries looking for bracket and colon structure; a blank line before another line becomes a zero-length split entry.
+
+### Harness Links
+- [[libfuzzer-typefind]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

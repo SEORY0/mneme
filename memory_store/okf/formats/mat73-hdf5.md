@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- MAT v7.3 files are HDF5 files with a MATLAB user block followed by the HDF5 signature and normal HDF5 metadata. Matio discovers variables by opening the root group, iterating directory entries and references, then dereferencing HDF5 dataset object headers. Compact datasets store their data inside a layout object-header message; the message contains a layout version/class, a declared inline data length, and the inline payload. Fill-value messages are separate object-header messages and can also contain declared payload sizes, but that broader mutation was not fixed by this task.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

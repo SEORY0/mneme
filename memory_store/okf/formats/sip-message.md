@@ -64,3 +64,25 @@ line. This parser path scans those leading separators before normal message-line
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- SIP messages are ASCII start-line plus CRLF-delimited headers. A Via header carries a protocol/transport prefix followed by a sent-by host and optional port or parameters. Fuzzer inputs can omit the final header terminator, so a final truncated header is still enough to enter header-specific parsing before the buffer boundary is reached.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- A SIP request has a request or status line followed by newline-separated headers. A Via header contains protocol and transport, host and optional port, then semicolon-separated parameters. Recognized Via parameters can require or optionally accept values, and generic message parsing can reach Via header parsing before the full message is otherwise complete.
+
+### Harness Links
+- [[libfuzzer-opensips-message-parser]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

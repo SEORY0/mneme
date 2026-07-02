@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Fuzzshark UDP harness"
 description: "Input contract facts for libfuzzer-fuzzshark-udp."
 tags: ["libfuzzer-fuzzshark-udp", "round-20"]
-okf_support: 1
+okf_support: 10
 ---
 # Libfuzzer Fuzzshark UDP Harness
 
@@ -14,4 +14,15 @@ okf_support: 1
 - [[wireshark-udp-dissector-payload]]
 
 ## Round 20 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 27 Input Contract
+- The fuzzshark target feeds the raw file bytes directly as packet data, not as pcap or pcapng.
+- The configured handle is the UDP dissector from the IP protocol table registered as a postdissector, so the input should be a UDP header followed by UDP payload.
+- There is no mode selector, checksum envelope, or FuzzedDataProvider front/back layout.
+
+## Round 27 Format Links
+- [[udp-sigcomp]]
+
+## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

@@ -4,7 +4,7 @@ title: "php-script format"
 description: "Structure and reachability facts for php-script."
 resource: cybergym://format/php-script
 tags: ["php-script"]
-okf_support: 2
+okf_support: 16
 ---
 # PHP Script Format
 
@@ -70,3 +70,64 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- The input is PHP source text, not a serialized or bytecode container.
+- The nullsafe object operator compiles through a JMP_NULL path.
+- Undefined variable access normally reports a warning and continues, but a script-level error handler can turn that warning into an exception, which is the important control-flow edge for this bug.
+- The input is plain PHP source text.
+- Attributes use hash-bracket syntax before class declarations, and Attribute marker arguments are constant expressions.
+- Class attribute validation happens before the class body has been compiled, so constants and parent linkage are not fully established at that moment.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-php-parser-raw-source]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The input is plain PHP source text. This PHP tree uses the older double-angle attribute syntax before declarations. Attribute arguments are parsed as constant expressions and are stored on class, function, method, property, class-constant, or parameter metadata during compilation. The built-in marker for declaring attribute classes is an internal class named PhpAttribute.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-php-parser-raw-source]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary PHP source text. A PHP opening tag puts the lexer into PHP mode. This source tree uses the older double-angle attribute syntax before declarations, with parenthesized attribute arguments parsed as expression ASTs. Attributes can be attached to declarations such as functions, classes, properties, constants, methods, and parameters; their argument ASTs are converted to zvals during compilation, not during script execution.
+- PHP parser-fuzzer inputs are plain PHP source text. Normal PHP opening tags enter scripting mode; PHP close tags in parser mode act as statement or declaration terminators and return to inline-HTML mode. The shorthand echo open tag re-enters scripting mode and yields an echo token directly. Trait adaptation blocks accept method-reference aliases and can continue parsing another adaptation after a close-tag-supplied terminator.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-php-parser-raw-source]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is raw PHP source with normal PHP tags. Class declarations and reflection calls execute at runtime; no external file, archive, checksum, or binary envelope is required. The source itself remains small while the crash is produced by the interpreter's reflection error path.
+
+### Harness Links
+- [[libfuzzer-execute]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The input is ordinary PHP source with PHP tags. The source itself can remain very small because builtin calls allocate large runtime arrays or strings. Runtime ini changes are honored enough to make allocation-failure boundaries reachable inside Zend operations.
+
+### Harness Links
+- [[libfuzzer-execute]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

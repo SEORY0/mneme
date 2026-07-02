@@ -20,3 +20,15 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- This input is a fixed carved Fluent Bit HTTP-client harness envelope rather than a raw HTTP request.
+- A front selector controls whether a proxy field is present; subsequent fixed-width fields populate URI, method, auth, and size controls before a later fixed-size slice is copied as the response buffer.
+- Chunked decoding requires normal HTTP headers ending in an empty line and a transfer-encoding header value that is accepted by a short prefix-style comparison.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

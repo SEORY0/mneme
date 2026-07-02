@@ -60,3 +60,15 @@ ZIP carriers require consistent local headers and central-directory entries. For
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The accepted envelope is a complete ZIP archive: local member header, central-directory entries, and an end record with coherent member counts, directory size, directory position, compression method, sizes, names, and CRC.
+- Central entries may be made to point at one local member, but that can become over-broad.
+- Validation compares local and central names and checks decompressed CRC; extraction can still be attempted by the fuzzer after validation failures.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

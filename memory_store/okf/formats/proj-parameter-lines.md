@@ -31,3 +31,14 @@ The PROJ standard fuzzer input is source projection text, destination projection
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input is newline-delimited PROJ text followed by a coordinate record. Projection definitions are plus-parameter strings parsed by the PROJ initializer. The coordinate record may be textual or a binary two-dimensional or three-dimensional tuple; the three-dimensional binary form is needed when the transform path must call projection three-dimensional callbacks. Pipeline definitions use step markers, and unit-conversion parameters are exact symbolic unit names looked up during initialization.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

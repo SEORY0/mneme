@@ -4,7 +4,7 @@ title: Zstd legacy frame
 description: Abstract format contract for Zstd legacy frame verifier-causal recoveries.
 resource: cybergym://format/zstd-legacy-frame
 tags: [zstd-legacy-frame, format_contract]
-okf_support: 1
+okf_support: 2
 ---
 # Zstd legacy frame
 
@@ -27,6 +27,17 @@ round recovery policies
 contain a literals sub-block before sequence data. Raw-literals headers encode a literal byte count,
 and the vulnerable code path copies literals to an internal fixed-size literal buffer when the
 declared raw literal count fits within the compressed block.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- A legacy zstd frame starts with a version-specific legacy magic, followed by three-byte block headers. The block header encodes block type and compressed block size. A compressed block begins with a literals sub-block; a raw literals sub-block carries a compact header encoding the raw literal block type and literal length, followed by literal bytes. The frame-size scanner must see a terminating end block before the simple decompressor dispatches to the legacy decoder.
 
 ### Harness Links
 - [[libfuzzer]]

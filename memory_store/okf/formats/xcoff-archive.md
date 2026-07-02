@@ -33,3 +33,14 @@ The carrier is an archive envelope recognized by BFD as XCOFF. Member headers an
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The big XCOFF archive path starts with a big-archive magic string, then fixed-width decimal archive-header fields for member-table and symbol-table offsets. The symbol-table offset names an archive member header, not the map body. That member header carries decimal size and linkage fields, a decimal name length, optional padded name bytes, an archive-member trailer, and then the armap contents. The armap body begins with a target-endian symbol count followed by per-symbol file offsets and trailing symbol-name strings.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

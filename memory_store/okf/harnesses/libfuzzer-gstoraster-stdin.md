@@ -29,3 +29,25 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The gstoraster fuzzer passes raw stdin bytes to Ghostscript with CUPS raster-device arguments. There is no fuzzer-side prefix, sidecar file, archive mode selector, checksum field, or FuzzedDataProvider layout. Ghostscript chooses the document parser from the input syntax; XPS package samples were not accepted by this target, while a renderable PDF drove the PDF font-loading path.
+
+### Format Links
+- [[pdf-opentype-cff-font]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Input Contract
+
+- The gstoraster libFuzzer target feeds the entire PoC as Ghostscript stdin with fixed CUPS raster output arguments. There is no mode byte, archive wrapper, or FuzzedDataProvider layout; the harness continues into exit/delete cleanup after init returns an error.
+
+## Round 29 Format Links
+- [[postscript]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

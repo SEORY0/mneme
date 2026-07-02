@@ -32,3 +32,13 @@ train_only: true
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 28 Input Contract
+
+- The libFuzzer harness wraps the entire file in FuzzedDataProvider. Integral, boolean, table-pick, and floating-point configuration fields are consumed from the back in source order, so the file stores those fields in reverse source order. Remaining front bytes, if any, drive encoder process iterations; the per-frame process selector is also read from the back of that remaining front region, while selected sample bytes can be copied from the front or synthesized from a back-consumed fill byte.
+
+## Round 28 Format Links
+- [[libxaac-encoder-fuzzed-provider]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

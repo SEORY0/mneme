@@ -61,3 +61,9 @@ Use [[libfuzzer-ghostscript-ps2write-device]] for the input-carving contract.
 - Verifier key: `no_crash x document_interpreted_no_cff_sink`.
 - Candidate family: `construct`.
 - Basin summary: A minimal document reached the Ghostscript writer device but did not carry a corrupted CFF font far enough into GhostPDF/Ghostscript CFF number expansion to exercise the undersized output guard.
+
+## Round 27 Reinforcement
+- key: `no_crash x psdcmyk_device_reached_without_sanitizer_signal`
+- The active target accepted raw Ghostscript stdin for the psdcmyk device, and complete PDF carriers rendered cleanly, but broad CTM perturbations either produced ordinary interpreter/device errors in PostScript or were clipped, treated as empty, or handled cleanly in PDF image and transparency paths.
+- Plain transparency groups, soft masks, soft masks forced to use computed bounds, direct PostScript transparency operators, and arithmetic-produced abnormal CTMs did not produce a sanitizer signal.
+- The missing relation is likely a narrower clist playback state where a stored abnormal CTM and a still-nonempty compositor crop or image band disagree during playback.

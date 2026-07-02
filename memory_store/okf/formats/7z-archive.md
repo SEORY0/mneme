@@ -18,3 +18,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- 7z parsing reaches encoded packed-stream decode only after the signature, start header, next-header CRC, PackInfo, Folder coder metadata, CodersUnpackSize, and optional folder CRC records are self-consistent. The encoded header stores metadata separately from the packed stream; PackInfo points back to the packed bytes, and the folder unpack-size vector controls the span later used for CRC verification.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

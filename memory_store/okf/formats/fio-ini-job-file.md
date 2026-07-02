@@ -19,3 +19,16 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- fio job files are line-oriented ini text.
+- Non-comment content must appear under a bracketed section; option lines use key=value syntax.
+- The parser collects option strings for a section, duplicates and substitutes variables in them, then parses them as fio options.
+- The description option is a string-storing option and reaches the keyword substitution path before normal option parsing.
+
+### Harness Links
+- [[afl-style-fio-parseini-buffer-with-trailing-type-byte]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

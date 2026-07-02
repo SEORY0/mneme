@@ -32,3 +32,15 @@ okf_support: 1
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The libFuzzer harness passes the raw input bytes as an mruby source program. It allocates a copy, appends a NUL terminator, opens an mruby state, calls mrb_load_string, then closes the state. There is no leading selector byte, file wrapper, or FuzzedDataProvider layout.
+
+### Format Links
+- [[mruby-script]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

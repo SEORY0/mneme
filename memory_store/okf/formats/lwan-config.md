@@ -20,3 +20,14 @@ The config format uses braces for sections, equals for key-value pairs, comments
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- Lwan config text uses comments, ordinary strings, key-value lines with equals, brace-delimited sections, variable expansions, and triple-quoted multiline strings. Multiline strings are scanned until a matching three-character quote delimiter is found or EOF is reached.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

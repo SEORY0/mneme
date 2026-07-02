@@ -32,3 +32,16 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The input is split at the first separator into an update string and a PHP serialized value.
+- The serialized value must instantiate a HashContext object.
+- HashContext::__unserialize expects a five-field array: algorithm string, options integer, algorithm-specific serialized state, a magic/layout integer, and object members.
+- For xxh64 the algorithm-specific state is a generic spec array of serialized 32-bit words representing 64-bit state words plus 32-bit counters; the internal small-buffer occupancy counter must remain below the xxhash block-buffer capacity.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

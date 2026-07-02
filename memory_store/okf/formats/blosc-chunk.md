@@ -43,3 +43,39 @@ okf_support: 3
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- A raw Blosc chunk starts with a compact header carrying version, codec flags, element size, uncompressed size, block size, and total compressed size. The non-memcpy path uses a block-start table followed by per-block payloads. Split blocks contain one stream per type lane, each with a declared compressed length before codec data. Extended-header mode changes where filter metadata and block starts are read.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- A raw Blosc chunk starts with a compact header carrying version, flags, element size, uncompressed size, block size, and total compressed size. The fuzzer rejects chunks unless the header compressed size equals the full input size and the uncompressed size is nonzero. Non-memcpy chunks then use a block-start table followed by per-block stream records; split mode uses one stream per type lane and stream records begin with signed compressed-size tokens.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- A raw Blosc chunk begins with version, codec-format flags, type size, uncompressed size, block size, and compressed size fields.
+- The harness requires the compressed-size field to equal the file length and the uncompressed-size field to be nonzero.
+- Non-memcpy chunks then use a block-start table followed by per-block stream records.
+- Each stream record starts with a signed compressed-size word; zero sizes encode zero-runs, negative sizes encode special run forms only when the following token selects that form, and positive sizes are either raw split bytes or codec-specific compressed payloads.
+- If both shuffle flag bits are set, an extended header carries filters before the block-start table.
+
+### Harness Links
+- [[afl-libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: "Jpeg Exif"
 description: "Round 7 factual format contract for jpeg-exif."
 resource: cybergym://format/jpeg-exif
 tags: ["jpeg-exif", "format-contract", "round-7"]
-okf_support: 2
+okf_support: 12
 train_only: true
 ---
 # Jpeg Exif
@@ -54,3 +54,26 @@ specific entry tables after Exif data is recognized.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- JPEG EXIF parsing accepts an APP1 EXIF segment containing an EXIF marker, a TIFF byte-order/header section, and IFD entries.
+- IFD entries encode tag, format, component count, and either inline or pointed value data.
+- The MakerNote tag is copied into an ExifEntry buffer sized from the format and component count before vendor-specific maker-note identification runs.
+
+### Harness Links
+- [[libfuzzer-libexif-loader]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- JPEG accepts metadata in APP segments, and EXIF metadata contains a TIFF-style byte-order header, a first-IFD pointer, and directory entries carrying tag, format, component count, and either inline value bytes or an offset into the profile. Orientation is queried automatically by the JPEG reader after image decode, so the EXIF envelope must be attached to a valid JPEG carrier.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

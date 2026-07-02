@@ -4,7 +4,7 @@ title: mruby-source format
 description: Format contract for mruby-source.
 resource: cybergym://format/mruby-source
 tags: [mruby-source, "round-16"]
-okf_support: 6
+okf_support: 7
 train_only: true
 ---
 # Schema
@@ -94,3 +94,70 @@ Inputs follow the `mruby-source` family contract.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is plain mruby source text. Parser reachability depends on valid Ruby syntax; integer literals outside the compact immediate ranges are emitted through wider integer opcodes during code generation. Method bodies and local assignments are useful carriers because they create temporary registers and later local moves that can trigger peephole rewrites.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Destructured block or method parameters can create unnamed local-variable slots in compiled instruction records. The vulnerable conversion is in the symbol-name rendering path used by verbose instruction/local-variable dumps; ordinary source execution and most runtime reflection methods do not dump every local slot.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 31 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Parser reachability depends on valid Ruby syntax; string literals can be evaluated by the VM, and String#to_f or equivalent Float conversion routes numeric string contents through the shared string-length-to-double helper. Numeric text, optional whitespace, underscores between digits, hexadecimal prefixes, and embedded NULs are handled by that helper before native float parsing.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. It must be syntactically valid Ruby that executes under mrb_load_string. Heap-backed strings are needed for shared-string behavior; substring or slice operations over a non-embedded string can create a shared string object that aliases the original backing storage.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is plain mruby source text. Destructured block and method parameters can create unnamed local-variable slots, but ordinary runtime reflection such as parameter and local-variable enumeration filters those slots before symbol conversion. Source-location pseudo values are handled during parsing/code generation and can reach filename-symbol conversion without needing runtime reflection or the CLI verbose dump path.
+
+### Harness Links
+- [[libfuzzer-mruby-load-string]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The input is parsed as mruby source text. Squiggly heredocs are collected by the compiler and then dedented; escaped newline continuations inside the heredoc affect the split positions used during dedent. The syntax gate is the heredoc opener, body, continuation, and matching terminator rather than a binary container gate.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

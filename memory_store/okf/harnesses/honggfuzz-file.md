@@ -56,3 +56,14 @@ okf_support: 5
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The options fuzzer treats the raw file bytes as the contents of one intercepted config file served through an in-memory FILE object. It caps input size, disables writes, suppresses normal config loading, and starts wget2 with a fixed command-line config argument. Filesystem directory enumeration is constrained by the harness, so reaching glob depends on config parsing rather than writing auxiliary files.
+
+### Format Links
+- [[wget-config]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

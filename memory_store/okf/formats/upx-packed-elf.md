@@ -79,3 +79,30 @@ blocks; recovery code may scan around a slid b_info location when metadata is in
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- UPX packed ELF inputs are complete ELF files with normal ELF headers plus UPX loader and overlay metadata. Main executable packed seeds may have no section table and no dynamic section in the packed carrier. Packed shared-object carriers can preserve a clear PT_DYNAMIC segment with DT_HASH, DT_GNU_HASH, DT_STRTAB, and DT_SYMTAB entries while compressed payload blocks contain the original file data. SYSV DT_HASH begins with bucket and chain counts followed by bucket and chain arrays; UPX also derives table extents from dynamic table ordering when section headers are unavailable.
+- UPX-packed Linux ELF inputs keep a normal ELF executable envelope plus UPX loader and overlay metadata. The tail contains a versioned UPX pack header followed by a little-endian overlay-offset word. Header fields include version, format, compression method, level, compressed and uncompressed sizes, original file size, filter metadata, and a header checksum; the checksum covers the pack header but not the following overlay-offset word.
+
+### Harness Links
+- [[libfuzzer-file-command-wrapper]]
+- [[libfuzzer-upx-test-file]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- A useful UPX-packed ELF carrier for this bug is a packed Linux shared object, not a plain executable. The carrier needs normal ELF headers, load segments, a PT_DYNAMIC table, a SHT_DYNSYM section, a dynamic string table, an initializer entry, and the UPX pack metadata/trailer so test mode recognizes it as packed. Android-style shared-library packing forwards section headers into the packed file; an old-style ASLR marker plus a forwarded section-header cut point controls whether the unpacker enters the ASLR shared-library dynsym adjustment path. Absolute dynamic symbols named like common end-of-image symbols are specially adjusted in that path.
+- A useful UPX-packed Linux ELF input is a complete packed shared object with normal ELF and program headers, l_info and p_info records, b_info records carrying per-block uncompressed size, compressed size, method, and filter metadata, compressed payloads, a terminator record, and the final PackHeader plus overlay pointer. Packed shared-object carriers can preserve a PT_DYNAMIC table in the packed file. Initializer-array dynamic entries can drive the hard un_DT_INIT restore path; that path may use a dynamic null entry as a pointer to saved relocation storage and dynsym[0]-sized storage as replacement relocation fields. Dynamic values are virtual addresses that UPX maps through PT_LOAD headers before treating them as file-image pointers.
+
+### Harness Links
+- [[libfuzzer-file-command-wrapper]]
+- [[libfuzzer-upx-test-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

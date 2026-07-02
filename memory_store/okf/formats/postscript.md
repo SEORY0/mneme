@@ -47,3 +47,26 @@ PostScript inputs are programs, not raw stream objects. A useful minimal carrier
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- PostScript inputs are executable programs. Ghostscript's error dictionary records non-VM errors through an internal error handler that sets the error name and command, and when stack recording is enabled stores operand, execution, and dictionary stack snapshots as arrays. Direct VM errors do not preserve those stack snapshots. Job control can create an encapsulated job save and later restore it, and explicit VM reclamation can request garbage collection after the restore. Local VM pressure can be adjusted from PostScript with user parameters for maximum local VM, VM threshold, and VM reclamation behavior.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- Ghostscript stdin inputs are raw PostScript or PDF documents selected by their own syntax. A PostScript program can execute operators that raise interpreter errors while still passing the language-recognition gate. Safe-mode file access failures are sufficient to make initialization return an error without needing an external sidecar file.
+
+### Harness Links
+- [[libfuzzer-gstoraster-stdin]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

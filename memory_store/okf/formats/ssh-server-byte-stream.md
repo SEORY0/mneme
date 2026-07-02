@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the ssh-server-by
 resource: cybergym://format/ssh-server-byte-stream
 tags: [ssh-server-byte-stream, "round-22"]
 timestamp: 2026-06-28T06:03:30Z
-okf_support: 1
+okf_support: 2
 ---
 # Schema
 
@@ -19,3 +19,26 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- SSH server inputs are raw client-side socket byte streams: a text identification line followed by binary SSH transport packets. Each cleartext packet carries a network-order packet length, a padding-length byte, payload bytes beginning with an SSH message type, and padding chosen so the packet aligns to the pre-key block size. KEXINIT payloads contain a cookie, ten SSH name-list strings, a first-packet-follows flag, and a reserved word; many later fields are SSH strings with network-order lengths.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The harness consumes an SSH byte stream: an identification line is followed by binary packets with packet length, padding length, payload, and padding. SSH protocol strings inside the payload are length-prefixed, and the authentication request path dispatches on service, method, and public-key fields before parsing the key blob fields.
+
+### Harness Links
+- [[libfuzzer-libssh-server-socket]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

@@ -48,3 +48,14 @@ buffer.
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- MapServer mapfiles are keyword block files beginning with a top-level map block and closed by matching end tokens. Top-level blocks can include legend and scalebar sections, and those sections contain embedded label objects. Label fields such as font-like string properties allocate label-owned memory during parsing. EOF inside a nested block is treated as a parse failure while already-initialized map members are still cleaned up.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: Ucl Config Text format
 description: Format contract for ucl-config-text.
 resource: cybergym://format/ucl-config-text
 tags: [ucl-config-text]
-okf_support: 0
+okf_support: 10
 train_only: true
 ---
 # Schema
@@ -24,3 +24,15 @@ Round 25 introduced descriptive facts for this carrier.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 27 Factual Contract
+
+- UCL configuration text accepts dot-prefixed built-in macros.
+- Macro arguments are parsed as UCL option objects, and macro bodies can be unquoted atom text, quoted text, or braced text.
+- The include-family macros pass their body bytes and explicit body length to include handling; URL handling is controlled by a boolean macro option.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

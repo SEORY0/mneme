@@ -24,3 +24,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The packaged target exposes an LLVMFuzzerTestOneInput-style entry under a honggfuzz persistent wrapper. The effective input contract is raw file bytes copied into a ByteBuffer and passed directly to Crypto::PK::RSA::parse_rsa_key; there is no leading mode byte, stdin protocol, checksum, or FuzzedDataProvider tail layout.
+
+### Format Links
+- [[asn1-der-rsa-key]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

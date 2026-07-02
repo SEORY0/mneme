@@ -42,3 +42,36 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- DXF is parsed as code/value line pairs. TABLEGEOMETRY uses scalar groups for row count, column count, and cell count, followed by repeated cell groups with a cell-start marker, dimensions, handles, geometry count, and optional geometry subrecords. Duplicate scalar groups can update object fields later in the same object.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- DXF inputs are line-oriented group-code/value pairs. A parser-reaching sample keeps the normal HEADER, CLASSES, OBJECTS, and section terminator structure, with object records introduced by a type group and carrying handle and owner fields plus object-specific flags. Object-context-data records can include optional scale-related fields whose concrete storage type varies by object class.
+
+### Harness Links
+- [[libfuzzer-libredwg-llvmfuzz]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- DXF is a line-oriented group-code/value format. The relevant carrier uses HEADER and TABLES sections, TABLE/ENDTAB delimiters, symbol-table control records, and table-entry records such as LTYPE, LAYER, VIEW, APPID, and BLOCK_RECORD. Group code 70 declares table counts or flags depending on context; group code 5 supplies handles; group code 2 supplies table names or entry names.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

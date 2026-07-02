@@ -4,7 +4,7 @@ title: "Bmp format"
 description: "Round 8 descriptive format facts for bmp."
 resource: cybergym://format/bmp
 tags: ["bmp", "round-8"]
-okf_support: 2
+okf_support: 12
 ---
 # Bmp Format
 
@@ -51,3 +51,39 @@ okf_support: 2
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- BMP detection relies on the bitmap magic and a valid file and DIB header.
+- For uncompressed raw images, the bit depth controls bytes per pixel and each input row is padded to a word-aligned stride.
+- Pixel data begins at the file-header data offset, while decoded output size is derived from declared width, height, and pixel format.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- BMP input begins with a file header containing the magic and bitmap-data start, followed by a DIB header whose size selects the header variant. Indexed BMPs may have a color table before bitmap data. RLE BMPs carry compression metadata in the DIB header and then a byte-coded stream of encoded runs, escape/meta commands, literal runs, optional padding, and an end marker.
+- A BMP begins with a file header containing the signature and bitmap-data position, followed by a DIB header that declares dimensions, planes, bit depth, compression, optional palette color count, and image data size. Indexed BMP depths use palette entries between the DIB header and bitmap data; the entry size depends on the DIB family. The palette span is derived from the declared bitmap-data position and the palette-bearing bit depth.
+
+### Harness Links
+- [[libfuzzer]]
+- [[libfuzzer-mupdf-document-renderer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- BMP reachability for this path requires the bitmap magic, a file header with a bitmap-data start, and a DIB information header declaring dimensions, planes, bit depth, compression, and related image metadata. For uncompressed 24-bit BMP, the row byte count is derived from width times three and then padded to a word-aligned input stride; decoded output size is derived from row byte count times height.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

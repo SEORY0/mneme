@@ -4,7 +4,7 @@ title: "Curl Fuzzer Tlv format"
 description: "Round 8 descriptive format facts for curl-fuzzer-tlv."
 resource: cybergym://format/curl-fuzzer-tlv
 tags: ["curl-fuzzer-tlv", "round-8"]
-okf_support: 1
+okf_support: 2
 ---
 # Curl Fuzzer Tlv Format
 
@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The curl fuzzer stream is a sequence of big-endian tag-length-value records. One record supplies the URL, ordered response records emulate server replies, an FTP secondary-socket response supplies passive data-channel bytes, and option records can toggle behaviors such as wildcard matching. FTP response slots are consumed by protocol phase, not merely by record order in the file.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

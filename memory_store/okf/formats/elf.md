@@ -5,7 +5,7 @@ description: Structure, build skeleton, and bug-prone areas of the elf input for
 resource: cybergym://format/elf
 tags: [elf]
 timestamp: 2026-06-24T00:00:00Z
-okf_support: 2
+okf_support: 12
 ---
 # Schema
 ## Structure
@@ -61,6 +61,30 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Harness Links
 - [[libfuzzer-tempfile-readelf]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- A minimal ELF carrier for this path needs a valid ELF header, section-header table, section-name string table, ordinary string table, executable/content section, and a SHT_SYMTAB entry whose sh_link points at the string table and whose entry size matches the ELF class. The crucial invariant is that the symbol table can be present and sized plausibly for upper-bound computation while its bytes are not actually readable when BFD canonicalizes symbols.
+
+### Harness Links
+- [[libfuzzer-afl-objdump-file-wrapper]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- ELF parsing requires a coherent file header and program headers; a dynamic segment should be file-backed through a loadable segment.
+- Dynamic relocation tags drive the relocation table pointer, total byte size, and per-entry stride.
+- A single relocation record can be enough once the dynamic metadata reaches the relocation population path.
+
+### Harness Links
+- [[libfuzzer]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

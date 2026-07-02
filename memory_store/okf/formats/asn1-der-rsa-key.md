@@ -17,3 +17,14 @@ train_only: true
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- DER objects are tag-length-value records; SEQUENCE is constructed, INTEGER and BIT STRING are primitive. The RSA parser first enters a top-level sequence, then distinguishes PKCS#1 and PKCS#8 forms. PKCS#8 RSA detection expects an algorithm-identifier sequence containing the RSA object identifier. A PKCS#8 public key then reads a BIT STRING and recursively parses a copied buffer as PKCS#1 DER. DER BIT STRING content begins with an unused-bit count octet followed by the actual bit payload; the vulnerable decoder represented the bitmap size using the full content length instead of only the payload length.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-compatible]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

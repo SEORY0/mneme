@@ -24,3 +24,14 @@ Round 25 introduced descriptive facts for this carrier.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is not a standalone object file. It is a raw instruction byte stream consumed by the selected binutils disassembler, followed by a small trailer that supplies disassembler flavour, machine value, and architecture selector. For ns32k, compact instruction encodings can use opcode families with operand templates whose printed argument order is not the same as contiguous argument-buffer initialization order.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

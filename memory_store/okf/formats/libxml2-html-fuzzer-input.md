@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The payload after the harness control word is ordinary HTML text. The relevant parser structures are start tags, end tags, comments, processing instructions, script/style raw-text content, character data, and entity references. In push parsing, lookahead searches for terminating characters or sequences before invoking the real parser for the current state; malformed text can make the lookahead consume more future input than the parser later consumes.
+
+### Harness Links
+- [[libfuzzer-libxml2-html-push-parser]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

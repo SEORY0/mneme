@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Harfbuzz Shape harness"
 description: "Round 23 input contract facts for libfuzzer-harfbuzz-shape."
 tags: ["libfuzzer-harfbuzz-shape", "round-23"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Libfuzzer Harfbuzz Shape Harness
@@ -16,3 +16,12 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 32 Input Contract
+- The HarfBuzz shape fuzzer consumes the entire file as a font blob. It creates an hb_face and hb_font, shapes fixed ASCII text, and for larger inputs also treats the final fixed-size trailer as UTF-32 text for a second shaping pass. There is no leading selector byte, archive wrapper, or FuzzedDataProvider carving.
+
+## Round 32 Format Links
+- [[opentype-aat-kerx-font]]
+
+## Round 32 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

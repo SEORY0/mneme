@@ -40,3 +40,14 @@ okf_support: 2
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- Lua input is raw text source only; binary chunks are rejected by text mode. Valid source can define local functions, closures, tables, varargs, returns, loops, and lexical blocks. Tail calls are produced by return statements that directly return a function call when the language permits tail-call generation.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

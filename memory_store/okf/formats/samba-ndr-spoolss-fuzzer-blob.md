@@ -19,3 +19,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The blob starts with little-endian flags/type and a public-struct selector, then TYPE_STRUCT passes the remaining bytes as a raw NDR stub. Fixed charset(UTF16),to_null arrays are parsed as zero-code-unit-terminated strings, not single-byte strings.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

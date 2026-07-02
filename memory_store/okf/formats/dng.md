@@ -4,7 +4,7 @@ title: DNG/TIFF image
 description: Abstract format contract for DNG/TIFF image verifier-causal recoveries.
 resource: cybergym://format/dng
 tags: [dng, format_contract]
-okf_support: 1
+okf_support: 11
 ---
 # DNG/TIFF image
 
@@ -19,3 +19,37 @@ Build a minimal valid TIFF/DNG carrier and move the failure into a metadata tabl
 
 ## Linked Policies
 [[dng-linearization-table-capacity]]
+
+## Round 27 Factual Contract
+
+- DNG is a TIFF container: byte order and IFD entries must be coherent; a DNG version tag selects the DNG decoder; baseline image tags for dimensions, sample layout, compression, photometric interpretation, strip location, strip byte count, and sample format allow an uncompressed strip to decode.
+- DNG opcode lists are stored as big-endian data blobs even when the surrounding TIFF is little-endian.
+- An opcode list contains an opcode count followed by code, version, flags, payload length, and opcode-specific payload.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- A DNG input is a TIFF-family container with a byte-order marker, an image-file-directory table, typed tag values, and out-of-line storage for larger tag payloads. RawSpeed requires enough baseline image metadata to choose the DNG decoder and locate a raw strip. DNG opcode-list tags contain a counted sequence of records, and each opcode record stores its own big-endian identifier, version, flags, payload length, region fields, pitch fields, and opcode-specific payload.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- DNG is a TIFF container selected by the DNG version tag. A minimal raw image IFD for this path can use uncompressed strip data with coherent width, height, bits per sample, compression, photometric interpretation, samples per pixel, rows per strip, strip offset, strip byte count, planar configuration, sample format, and OpcodeList1. DNG opcode lists are stored big-endian inside the TIFF entry and contain an opcode count followed by per-opcode code, version, flags, payload length, and payload bytes. FixBadPixelsList payloads contain a phase, point count, rectangle count, then point and rectangle coordinates.
+
+### Harness Links
+- [[libfuzzer-afl-driver]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

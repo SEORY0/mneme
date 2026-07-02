@@ -4,7 +4,7 @@ title: "Flac format"
 description: "Round 8 descriptive format facts for flac."
 resource: cybergym://format/flac
 tags: ["flac", "round-8"]
-okf_support: 2
+okf_support: 12
 ---
 # Flac Format
 
@@ -29,3 +29,15 @@ okf_support: 2
 
 ### Notes
 - These are descriptive format and harness observations only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- A native FLAC stream starts with the FLAC marker, then STREAMINFO must appear first and provide valid stream parameters.
+- Metadata block headers carry a last-block flag, a block type, and a body length; responded metadata block types are parsed rather than skipped.
+- For this bug, audio frames are not required: the important invariant is that a parsed metadata block advertises more body than the datasource will provide.
+
+### Harness Links
+- [[libfuzzer-flac-decoder]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

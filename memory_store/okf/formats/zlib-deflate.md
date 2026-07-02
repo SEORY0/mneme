@@ -30,3 +30,14 @@ Factual format observations distilled from verifier traces. These are descriptiv
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The carrier is a zlib wrapper around a deflate block with a valid header and checksum. Fixed-Huffman deflate can encode a length symbol, a distance symbol, and an end-of-block marker without a dynamic table. Reserved high distance symbols are invalid in the format but, in the vulnerable decoder, can map to a zero distance rather than being rejected before the copy loop.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

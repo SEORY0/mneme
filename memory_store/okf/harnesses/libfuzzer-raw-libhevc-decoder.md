@@ -16,3 +16,14 @@ okf_support: 1
 
 ## Round 21 Notes (hevc-annex-b)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The libFuzzer target consumes the whole file as decoder bytes. Two early bytes select output color format and core count, but those bytes remain part of the stream; there is no FuzzedDataProvider split, checksum, file wrapper, or length prefix. The harness first decodes headers, allocates output buffers based on decoded or default dimensions, then repeatedly feeds the remaining raw bytes to frame decode.
+
+### Format Links
+- [[hevc-annex-b-elementary-stream]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

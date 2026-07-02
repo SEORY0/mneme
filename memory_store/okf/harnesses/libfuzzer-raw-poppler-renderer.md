@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Raw Poppler Renderer harness"
 description: "Input contract facts for Libfuzzer Raw Poppler Renderer."
 tags: ["libfuzzer-raw-poppler-renderer", "round-21"]
-okf_support: 1
+okf_support: 2
 ---
 # Libfuzzer Raw Poppler Renderer Harness
 
@@ -16,3 +16,12 @@ okf_support: 1
 
 ## Round 21 Notes (pdf)
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 32 Input Contract
+- The Poppler C++ libFuzzer target passes the raw input bytes to load_from_raw_data, ignores locked or unloadable documents, then creates and renders every page. There is no byte carving, selector, secondary file, or FuzzedDataProvider layout.
+
+## Round 32 Format Links
+- [[pdf]]
+
+## Round 32 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.

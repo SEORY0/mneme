@@ -40,3 +40,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- A PE input needs an MZ header, a PE signature reached through the DOS header pointer, a COFF header, an optional header, and a section table. YARA resolves slash-prefixed section names through the COFF symbol/string-table convention, while section address translation depends on the section virtual address, raw-data offset, and size fields being mutually consistent.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

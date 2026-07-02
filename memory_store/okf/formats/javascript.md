@@ -73,3 +73,36 @@ terminators.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The input is JavaScript source text, not a container format. The lexer handles string literal backslash escapes directly; a braced Unicode codepoint escape consumes hexadecimal codepoint characters until a closing brace or EOF. Invalid non-hex characters inside the braced form report a lexer error while scanning the same string token. There are no magic, length, or checksum gates.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The input is raw JavaScript source text. No magic, length field, checksum, or outer container is required. Syntax must parse successfully before runtime execution; JavaScript exceptions alone are not a scoring signal because this fuzz harness swallows them.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- Inputs are JavaScript source programs parsed as raw text. Syntax errors prevent execution, while valid programs run in the LibJS interpreter. Built-in globals include the ordinary typed arrays and ArrayBuffer/DataView support, but this vulnerable runtime does not make Uint8ClampedArray available as a normal global constructor.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

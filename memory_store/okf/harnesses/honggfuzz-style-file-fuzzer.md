@@ -18,3 +18,14 @@ the parser on the remaining bytes.
 
 ## Round {ROUND} Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The harness rejects short files, then consumes fields front-to-back. Its fixed-width string helper includes the current selector byte as the first byte of the string before advancing. After parser options, the remaining bytes are passed to flb_parser_do. There is no FuzzedDataProvider back-consumption and no leading mode byte beyond the explicit parser selector.
+
+### Format Links
+- [[fluent-bit-parser-fuzzer-control-plus-record]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

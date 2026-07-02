@@ -19,3 +19,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The fuzzer input begins with little-endian RawImage metadata: dimensions, image type, components per pixel, CFA flag, followed by little-endian tile X/Y offsets and a compatibility flag. The remaining bytes are parsed by the LJpeg decompressor after it switches the stream to big-endian. The LJpeg stream must start with SOI and include coherent DHT, SOF3, and SOS marker segments; SOF component descriptors and SOS table selectors must agree so decodeN selects the intended component count.
+
+### Harness Links
+- [[afl-libfuzzer-file]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

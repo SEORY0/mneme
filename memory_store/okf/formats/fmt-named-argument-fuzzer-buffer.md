@@ -21,3 +21,14 @@ format string. The format string must reference the selected named argument to e
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The fmt named-argument fuzzer input starts with one control byte. The low nibble selects the argument type and the high nibble selects the argument-name length. A fixed-width value slot follows, then the argument-name bytes, and the remaining bytes are parsed as the fmt format string. The format string must reference the selected name to exercise formatting. Floating-point format specs can select fixed, general, or exponential presentation and optional precision; invalid format strings and many format errors are caught as clean exits.
+
+### Harness Links
+- [[honggfuzz-raw-bytes]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

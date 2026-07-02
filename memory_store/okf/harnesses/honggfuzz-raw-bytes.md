@@ -18,3 +18,12 @@ crashes.
 
 ## Round {ROUND} Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 36 Input Contract
+- The active wrapper invokes the named-argument fmt fuzzer on the raw submitted bytes. There is no FuzzedDataProvider layout, external length prefix, integrity field, or multi-file container. The fuzzer catches standard formatting exceptions, so a useful PoC must produce an abort or sanitizer finding rather than an ordinary format_error.
+
+## Round 36 Format Links
+- [[fmt-named-argument-fuzzer-buffer]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.

@@ -67,3 +67,37 @@ Not yet curated in detail. Identify the magic/header, keep the prefix valid to r
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The XML parser accepts an internal DTD subset before the document element. Element declarations and attribute-list declarations are processed during parsing, and default attributes are stored as grouped name/type/value metadata before being applied to the element.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The XML input is raw XML text. An internal DTD subset can declare the document element and attribute-list entries. Namespace declarations can be default or prefixed attributes, and DTD attribute types such as ID, IDREF, fixed defaults, and required/implied defaults influence validation-time handling. For this sink, a namespace declaration must be tied to a DTD declaration for the same element/name relation rather than merely present as ordinary XML syntax.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The input is not plain XML bytes. It starts with parser option bits, followed by backslash-newline terminated string pairs. Each pair is a URL and its entity body; the first pair supplies the main XML document. XML content must be well-formed and use the XInclude namespace. Missing href targets can deliberately drive fallback processing because the harness entity loader only serves URLs present in the provided pairs.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

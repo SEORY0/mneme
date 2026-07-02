@@ -22,3 +22,14 @@ okf_support: 1
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The drsblobs NDR fuzzer consumes a leading little-endian selector containing flags and the selected generated struct/function, followed by an NDR stub. The schedule structure contains scalar fields, a schedule count relation, a header array governed by that relation, and a parallel schedule-slot array. Generated pull code builds the in-memory struct and generated push code serializes it back out.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

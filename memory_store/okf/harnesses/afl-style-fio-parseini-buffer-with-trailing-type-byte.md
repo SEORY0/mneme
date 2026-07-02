@@ -15,3 +15,14 @@ okf_support: 1
 
 ## Round 20 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The fuzz harness initializes fio in parse-only mode, copies all input bytes except the final byte into a NUL-terminated in-memory ini buffer, and passes the final byte as the parse_jobs_ini client/type argument.
+- There is no FuzzedDataProvider layout or checksum; the only carving is the trailing type byte.
+
+### Format Links
+- [[fio-ini-job-file]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

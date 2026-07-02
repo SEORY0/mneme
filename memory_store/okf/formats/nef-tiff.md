@@ -4,7 +4,7 @@ title: nef-tiff format
 description: "Round 23 descriptive structure and invariant facts for nef-tiff."
 resource: cybergym://format/nef-tiff
 tags: ["nef-tiff", "round-23"]
-okf_support: 2
+okf_support: 12
 train_only: true
 ---
 # Nef Tiff Format
@@ -30,3 +30,15 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- RawSpeed reaches the NEF decoder through standard TIFF header and IFD parsing.
+- The sNEF path depends on make/model identity, image dimensions, bit depth, compression, CFA-pattern presence, strip offset/count metadata, and white-balance rationals.
+- The strip byte count is used to classify the expected image payload independently of the actual remaining bytes in the file.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

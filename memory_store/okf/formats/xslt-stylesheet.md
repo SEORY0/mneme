@@ -20,3 +20,15 @@ The target input is a standalone XSLT stylesheet document. The XML parser accept
 
 ## Notes
 - These are factual format observations only; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The input is raw XML/XSLT.
+- An internal DTD can declare parsed entities, and without XML entity substitution the stylesheet tree can retain entity-reference nodes.
+- Ordinary entity references in top-level, template, variable, literal-result, or text-only carriers can parse and transform cleanly; the crashing shape requires the entity reference to survive into an executed template context that evaluates message content with nested attribute construction.
+
+### Harness Links
+- [[afl-file-xslt]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.

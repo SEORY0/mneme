@@ -4,7 +4,7 @@ title: "Opensc Pkcs15 Reader Chunk Stream"
 description: "Round 12 factual format contract for opensc pkcs15 reader chunk stream."
 resource: cybergym://format/opensc-pkcs15-reader-chunk-stream
 tags: ["opensc-pkcs15-reader-chunk-stream", "format-contract", "round-12"]
-okf_support: 0
+okf_support: 10
 train_only: true
 ---
 # Opensc Pkcs15 Reader Chunk Stream
@@ -21,3 +21,109 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- The OpenSC reader corpus is a virtual smart-card transcript.
+- Each chunk is preceded by a little-endian two-byte length.
+- The first chunk is treated as the ATR.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- The PKCS#15 reader harness consumes a stream of native little-endian length-prefixed chunks. The first chunk is used as the ATR. Later chunks act as APDU responses; when a response chunk has status bytes at the end, the preceding response body is copied into the APDU response buffer only up to the requested response length. SetCOS file selection expects FCI-like APDU bodies whose security attributes are parsed after a successful select-file response.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- The stream is a virtual smart-card reader transcript. The first chunk supplies the ATR used for card-driver matching; subsequent chunks are APDU responses whose trailing status words are separated from response data. The target validation path requires a card emulator that creates an ASCII-numeric PIN object and then accepts an operation-input chunk containing non-PIN bytes of a valid policy length.
+- The input is a sequence of native little-endian length-prefixed reader chunks. APDU response chunks place the status word at the end, with preceding bytes used as response data. A SetCOS SELECT response can carry an ISO7816 FCI/FCP template containing ordinary file size/type/id tags plus a security-attribute tag; SetCOS 4.4/EID processing parses that security-attribute payload as one or more PTL-coded access-control subfields.
+- The OpenSC reader input is a sequence of native little-endian length-prefixed chunks. The first chunk becomes the ATR used for driver matching. Later chunks emulate APDU responses: response body bytes precede the final status words, and the harness only copies response data according to the APDU response buffer requested by the active driver.
+- The fuzz input is a sequence of records, each with a little-endian two-byte chunk length followed by that many bytes. The first chunk is consumed during reader connection as ATR data, but in this build it does not populate a usable ATR. Later chunks are APDU responses: the last two bytes are status words and any preceding bytes are copied as response data. OpenPGP feature data is BER-TLV encoded; the feature template can contain EC algorithm attributes made of an algorithm selector followed by OID component bytes.
+- OpenSC ATR matching compares the first reader chunk against static and configured ATR tables. Tables may include full ATR strings and optional masks; nonmatching ATRs normally walk entries until a null terminator. Some Gemalto/PIV/IAS-ECC paths also infer card type from historical bytes before falling back to known ATR tables.
+
+### Harness Links
+- [[honggfuzz-llvmfuzzer]]
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- The input is a synthetic smart-card transcript made from little-endian length-prefixed records. The first record supplies ATR data. Later records emulate APDU responses: response body bytes precede trailing status words. PIV discovery, CCC, CHUI, history, and certificate objects are BER-style wrappers returned through GET DATA. The CCC body is a sequence of SimpleTLV records; zero-length records are syntactically accepted and advance past their headers, while malformed declared lengths are rejected cleanly in the tested path.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The harness format is a stream of length-delimited chunks. APDU response chunks reserve their final status words for success or error, with the preceding bytes treated as response data. The selected-file response can carry FCI/FCP metadata including file type and security-attribute records. In this driver, security attributes are parsed as access-mode records followed by condition records, and the condition record length must account for the condition reference byte as well as any expression body.
+- The PKCS15 reader input is a front-to-back stream of length-prefixed fake-reader chunks. The first chunk is the ATR used by card detection. Later chunks are APDU responses; the final two bytes of each response are status words and the preceding bytes are returned data. File selects that return a file object need an FCI/FCP-style response carrying a file size. ITACNS personal data begins with an ASCII-hex total TLV-region size followed by repeated two-ASCII-hex length fields and value bytes.
+- The input is a virtual OpenSC reader transcript made of little-endian length-prefixed chunks. The first chunk supplies the ATR. Later chunks are APDU responses where response body bytes precede the trailing status word; successful select-file responses may return FCP/FCI templates with file-size, file-type, file-id, and optional security-attribute tags. Italian CNS synthetic binding reads a serial file, adds known data-file objects, then may read the personal-data object whose payload starts with ASCII hex length text followed by field-length/value pairs.
+- The OpenSC reader input is a sequence of little-endian length-prefixed chunks. The first chunk is used as the ATR. Each later chunk is an APDU response where the final two bytes are the status word and the preceding bytes are copied as response data up to the requested response length. TCOS selection expects successful SELECT responses with an FCP template tag, while many non-TCOS corpus responses use FCI templates or status-only failures.
+
+### Harness Links
+- [[honggfuzz-libfuzzer-persistent]]
+- [[libfuzzer]]
+- [[libfuzzer-via-honggfuzz-wrapper]]
+- [[honggfuzz]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- The reader input is a sequence of native little-endian length-prefixed chunks.
+- The first chunk is the ATR, and later chunks are APDU response bodies followed by status words.
+- TCOS file selection expects FCP-style metadata, the GDO metadata controls how many binary-read chunks are consumed, and the IDKey path performs application selection plus certificate select/read pairs before key-record reads.
+- The input is a front-to-back stream of small length-prefixed chunks.
+- The first chunk supplies the ATR used for card-driver matching.
+- Later chunks emulate APDU responses: response body bytes come before trailing status bytes, and successful select responses can carry FCI/FCP metadata including a file-size field.
+- The IDPrime index response begins with an object count and fixed-layout object records; a token-info record names a DF and a token-info marker used by the synthetic emulator.
+- The harness input is a sequence of little-endian length-prefixed chunks.
+- The first chunk is the ATR.
+- Each later chunk is one virtual APDU response: the final two response bytes are interpreted as status words and preceding bytes are copied as APDU data when the caller-provided response buffer permits.
+- Oberthur SELECT responses must be FCI/FCP templates accepted by the Oberthur driver: DF entries use the driver type tag for directories; transparent EF entries use the driver transparent type and a size field; variable-record EF entries use the driver variable-record type, a small size attribute, and record length/count attributes.
+- Record reads return only record bytes plus status; a later record-not-found status terminates the synthesized record list.
+- OpenSC reader inputs are little-endian length-prefixed chunks.
+- Later chunks emulate APDU responses, with response data followed by status words.
+- IAS/ECC file-selection responses use FCI/FCP-style TLV data; ACL data can appear either directly as a contact ACL TLV or nested under an ACL container.
+- An empty ACL value is syntactically findable but invalid for the IAS/ECC ACL loop.
+
+### Harness Links
+- [[honggfuzz]]
+- [[libfuzzer]]
+- [[libfuzzer-pkcs15-reader]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The fuzz input is a stream of little-endian length-prefixed reader chunks. The first chunk is the ATR. Each later APDU response chunk ends with status bytes; the preceding body is copied into the APDU response buffer. Oberthur select responses need an accepted FCI template carrying file type, file id, size or directory attributes, and security attributes. The Oberthur emulator reads token info, container metadata, public object list, and private object list in order; public object list records dispatch to data, certificate, and key metadata readers.
+- The fuzz input is a stream of little-endian length-prefixed reader chunks. The first chunk is the ATR. Later chunks are APDU responses whose final status bytes are separated from response data by the harness. Oberthur file selection accepts ISO FCI/FCP wrappers with inner file-type, file-id, size or record metadata, and ACL fields. Oberthur public-object list records are fixed-size entries that dispatch by file-id class; public data objects are described by a separate info blob containing flags, length-prefixed label, length-prefixed application label, and length-prefixed DER OID.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

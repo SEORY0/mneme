@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer Libarchive Reader harness"
 description: "Input contract facts for libfuzzer libarchive reader."
 tags: ["libfuzzer-libarchive-reader", "round-17"]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Libfuzzer Libarchive Reader Harness
@@ -30,4 +30,25 @@ train_only: true
 - [[rar5-archive]]
 
 ## Round 25 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The libarchive fuzzer consumes the whole raw archive byte stream from memory, enables all filters and formats, opens the archive, iterates headers, drains entry data, and frees the archive. There is no mode byte and no FuzzedDataProvider carving; the input must be a complete archive stream.
+
+### Format Links
+- [[rar]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 32 Input Contract
+- The libarchive fuzz target consumes the raw input as a single archive byte stream from memory, enables all filters and formats, then repeatedly reads headers and drains entry data through archive_read_data. There is no leading selector byte, no pcap-style wrapper, and no FuzzedDataProvider front/back carving.
+
+## Round 32 Format Links
+- [[rar-and-rar5-archive]]
+
+## Round 32 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.

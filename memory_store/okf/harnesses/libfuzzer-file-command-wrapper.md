@@ -38,3 +38,25 @@ train_only: true
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The active runner used the decompression fuzzer: it writes raw input bytes to a temporary file and invokes the UPX decompression command path with an output file argument, then deletes both temporary files. The input must be accepted as UPX-packed before the unpacker runs; ordinary ELF files are reported as not packed. There is no FuzzedDataProvider carving or mode selector in the bytes.
+
+### Format Links
+- [[upx-packed-elf]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Input Contract
+
+- The libFuzzer harness writes the raw input bytes verbatim to a temporary file and invokes the UPX decompression command with an output-file argument. There is no mode byte, length prefix, checksum wrapper, or FuzzedDataProvider carving outside the file itself; reachability depends on UPX recognizing a complete packed executable and entering normal unpacking. The harness catches ordinary C++ exceptions, so sanitizer aborts are the useful crash signal.
+
+## Round 28 Format Links
+- [[upx-packed-elf]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

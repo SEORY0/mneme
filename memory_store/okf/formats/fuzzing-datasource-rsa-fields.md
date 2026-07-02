@@ -38,3 +38,14 @@ Inputs follow the `fuzzing-datasource-rsa-fields` family contract.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- The datasource format is a sequence of little-endian length-prefixed fields. Variable byte vectors and strings are length-prefixed. Scalars and booleans are also length-prefixed, with scalar reads clamped to the scalar width. RSA integer fields are parsed from hexadecimal strings unless fixed-key booleans select built-in values.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

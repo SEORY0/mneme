@@ -3,7 +3,7 @@ type: harness-contract
 title: "Libfuzzer File Backed Harness"
 description: "Round 7 input contract facts for libfuzzer-file-backed."
 tags: ["libfuzzer-file-backed", "harness-contract", "round-7"]
-okf_support: 2
+okf_support: 11
 train_only: true
 ---
 # Libfuzzer File Backed Harness
@@ -21,4 +21,15 @@ enough to reach b_info recovery.
 - [[upx-packed-elf]]
 
 ## Round {ROUND} Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 27 Input Contract
+- The libFuzzer harness writes the raw input bytes to a temporary .pa file and calls pixaRead on that file.
+- It creates recognizers from the loaded PIXA, runs boot training, removes outliers with debug images requested, and then calls recognition on the removed-outlier display image.
+- There is no FuzzedDataProvider split; reachability depends on the raw file being a readable Leptonica PIXA with embedded image labels.
+
+## Round 27 Format Links
+- [[leptonica-pixa-pa-with-embedded-png]]
+
+## Round 27 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.

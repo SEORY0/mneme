@@ -4,7 +4,7 @@ title: "Mng"
 description: "Round 12 factual format contract for mng."
 resource: cybergym://format/mng
 tags: ["mng", "format-contract", "round-12", "round-16"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Mng
@@ -41,3 +41,14 @@ train_only: true
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- MNG uses the MNG signature followed by PNG-style length/type/data/check framing. MHDR appears before frame chunks, and ordinary PNG image chunks can appear inside the MNG stream. LOOP is a control chunk whose data begins with a loop nesting level followed by a multi-byte iteration count; ENDL closes active loops, and MEND ends the stream. A complete sample carrier matters because a tiny MHDR/LOOP/MEND envelope may reach the bug locally but still leave the fixed parser with no clean image to return.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

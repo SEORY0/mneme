@@ -15,7 +15,7 @@
 set -uo pipefail
 START="${1:?usage: run_pass.sh START END}"
 END="${2:?usage: run_pass.sh START END}"
-WORKERS=5; BATCH=50
+WORKERS="${WORKERS:-5}"; BATCH="${BATCH:-50}"
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"; cd "$REPO"; mkdir -p logs
 WAIT="${WAIT:-1200}"; TRANSIENT_RETRIES="${TRANSIENT_RETRIES:-3}"; MAX_RATE_WAITS="${MAX_RATE_WAITS:-144}"
 WORKER_TIMEOUT="${WORKER_TIMEOUT:-3600}"

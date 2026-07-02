@@ -20,3 +20,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- GXF is an ASCII grid format with hash-prefixed header sections for point count, row count, optional metadata and transforms, an optional compressed-token width field, and a grid section. In compressed grids, the token-width field controls how many characters are consumed for each encoded numeric token while scanlines are expanded.
+
+### Harness Links
+- [[libfuzzer-filesystem-gdal-raster-fuzzer]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

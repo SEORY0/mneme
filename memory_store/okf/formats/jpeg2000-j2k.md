@@ -19,3 +19,14 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- The useful carrier is a JPEG 2000 codestream with a main header before the first tile-part. The SIZ marker defines component count and per-component sampling, COD carries the MCT selector, and custom MCT needs Part-2 profile signaling plus MCT, MCC, and MCO marker records: MCT records store matrix or offset arrays, MCC binds arrays to the component collection, and MCO activates the transform stage. JP2-wrapped inputs are also accepted when the wrapper advertises a JPEG 2000 codestream.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

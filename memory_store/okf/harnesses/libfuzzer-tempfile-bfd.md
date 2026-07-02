@@ -60,3 +60,25 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 30 Input Contract
+
+### Input Contract
+- The libFuzzer input bytes are written unchanged to a temporary file. The wrapper opens that file with BFD automatic target selection and calls the archive format checker only. There is no FuzzedDataProvider, mode byte, filename-controlled target, or checksum layer; reaching ELF member parsing depends on archive metadata and BFD target recognition side effects.
+
+### Format Links
+- [[ar-archive-elf]]
+
+### Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The libFuzzer callback writes the raw input bytes to a temporary file, opens it with BFD, and checks archive format. There is no FuzzedDataProvider split or leading mode byte. During archive-format recognition, a mapped archive causes BFD to open the first member and check it as an object, which reaches SOM object setup.
+
+### Format Links
+- [[som-library-or-som-object]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

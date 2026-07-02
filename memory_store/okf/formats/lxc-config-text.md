@@ -31,3 +31,15 @@ signal-name parser that recognizes ordinary signal names and realtime signal for
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- LXC config is line-oriented key/value text. Rootfs options are parsed as a comma-separated mount-option string; LXC-specific options such as idmapped mount paths are recognized inside that value before generic mount-option parsing continues.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

@@ -53,3 +53,14 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- Assimp import selection in this harness has no useful extension hint, so formats must be selected by content signatures. OBJ can be selected by recognizable Wavefront syntax and uses material-library directives for secondary file loading. LWS is line-oriented text with a magic scene token, a version line, and object-loading records that reference external object files. LWS resolves those object paths through Exists and then queues external loads. glTF/glb importers in this build require a filename extension and therefore lose selection under the extensionless memory filename; X3D can catch extensionless inputs broadly but behaves as a minimal importer here.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

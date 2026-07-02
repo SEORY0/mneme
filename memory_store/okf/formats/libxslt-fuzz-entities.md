@@ -4,7 +4,7 @@ title: "Libxslt Fuzz Entities"
 description: "Round 12 factual format contract for libxslt-fuzz-entities."
 resource: cybergym://format/libxslt-fuzz-entities
 tags: ["libxslt-fuzz-entities", "format-contract", "round-12"]
-okf_support: 0
+okf_support: 10
 train_only: true
 ---
 # Libxslt Fuzz Entities
@@ -27,6 +27,18 @@ train_only: true
 
 ### Harness Links
 - [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- The XSLT fuzz target input begins with a big-endian allocation-limit word.
+- The rest is a sequence of escaped URL/content string pairs; each string is terminated by the harness escape-newline marker and literal backslashes are doubled.
+- The first pair is the stylesheet, and the second pair is the source XML document.
+
+### Harness Links
+- [[libfuzzer-libxslt-entity-framing-with-malloc-limit]]
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.

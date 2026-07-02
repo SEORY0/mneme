@@ -19,3 +19,14 @@ train_only: true
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- RIFF/WAVE inputs use a RIFF container header, WAVE form marker, a format chunk, optional fact data, and a data chunk. Ordinary MS ADPCM carries channel count, sample rate, byte rate, block alignment, bit width, extension size, samples-per-block, coefficient count, and coefficient pairs. WAVE extensible instead carries valid-bits, channel mask, and a subtype GUID; when that subtype is MS ADPCM, shared union fields feed the MS ADPCM initializer.
+
+### Harness Links
+- [[afl-libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

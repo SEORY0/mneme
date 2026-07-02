@@ -45,3 +45,25 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- HEIF is an ISO BMFF box graph with file type, metadata, item-info, item-location, item-reference, and item-property boxes. Image items get dimensions from image-spatial-extent properties, item-property associations select hvcC/ispe/auxC properties, and auxl references attach auxiliary alpha images to a master image. Derived image item types can use item data as a small descriptor rather than coded HEVC picture data.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- HEIF uses an ISO-BMFF-style box tree with a file type box, metadata describing image items and properties, item-location and item-info tables, item references for auxiliary alpha linkage, and media-data payload. For alpha-plane paths, the parser needs a complete image item plus a valid auxiliary-alpha relationship rather than a standalone color-conversion buffer.
+
+### Harness Links
+- [[afl-libfuzzer-file-fuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

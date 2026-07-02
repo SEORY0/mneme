@@ -6,6 +6,7 @@ confidence: medium
 tags: ["afl-libfuzzer", "harness", "round-13"]
 forbidden_fields: [raw_poc_bytes, task_id, exact_offset, checksum, submit_metadata]
 train_only: true
+okf_support: 2
 ---
 # Afl Libfuzzer
 
@@ -30,3 +31,67 @@ train_only: true
 
 ## Round 23 Notes
 - These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 32 Input Contract
+- The first input byte selects the OpenFlow flow-mod command by modulo arithmetic. The remaining bytes are passed as one NUL-terminated C string; newlines and interior NULs are rejected before parsing. The harness parses the flow string, chooses a usable protocol, encodes the flow mod, and frees the resulting buffers.
+
+## Round 32 Format Links
+- [[openvswitch-flow]]
+
+## Round 32 Notes
+- These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The active fuzz target reads raw bytes, uses the final byte as the datalink type for pcap_open_dead with a fixed snap length, copies all bytes into the filter buffer, terminates the filter at the final byte, and invokes pcap_compile with optimization enabled. There is no pcap file envelope, no packet records, no mode prefix, and no FuzzedDataProvider layout.
+
+### Format Links
+- [[pcap-filter-expression]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The active AFL/libFuzzer-compatible harness reads the raw PoC bytes from a file. It treats the leading little-endian settings word as feature bits for CharReaderBuilder and passes the remaining bytes directly as the JSON document; there is no FuzzedDataProvider layout or checksum.
+
+### Format Links
+- [[json]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The libsndfile fuzzer feeds the whole raw input through virtual file I/O into the normal open path, then allocates a frame buffer based on the reported channel count and repeatedly reads floating-point frames. There is no selector byte or FuzzedDataProvider carving; RIFF chunk sizes and the selected subtype determine whether the ADPCM decoder is reached.
+
+## Round 36 Format Links
+- [[wav-ms-adpcm]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+## Round 37 Input Contract
+
+### Input Contract
+- The task wrapper invokes the Blosc decompress-chunk fuzz target.
+- The fuzzer treats the entire raw input as one Blosc chunk; there is no frame parser, mode selector, or FuzzedDataProvider layout.
+- It rejects inputs shorter than the minimum chunk header, inputs whose compressed-size field differs from the file length, inputs with zero uncompressed size, and inputs that fail shallow chunk validation.
+- It then allocates an output buffer sized by the chunk's compressed size and calls the Blosc decompressor.
+
+### Format Links
+- [[blosc-chunk]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The kimgio HEIF AFL-compatible harness feeds the entire PoC as raw bytes into a QBuffer. There is no FuzzedDataProvider, length prefix, integrity field, or mode byte. The harness calls the handler's canRead method but ignores the returned value, then calls read; the vulnerable read path consumes all remaining QBuffer data and passes the memory buffer to libheif.
+
+### Format Links
+- [[heif-avif-isobmff]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -39,3 +39,28 @@ okf_support: 3
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The target is a honggfuzz-style standalone wrapper that reads one raw file and calls the SVC decoder fuzzer. The same raw bytes are also used for early harness selectors for color format, core count, architecture, and target layer; there is no FuzzedDataProvider carving. The fuzzer first decodes headers, allocates output buffers, then repeatedly calls decode on the same byte stream shape. A clean run still prints the honggfuzz usage banner, so sanitizer output and submit results are the reliable signal.
+
+### Format Links
+- [[h264-annexb-svc]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+## Round 37 Input Contract
+
+### Input Contract
+- The honggfuzz wrapper writes the raw input bytes to a temporary .gml file, opens it as a file stream, installs igraph's ignore error handler, and calls igraph_read_graph_gml.
+- The graph is destroyed only when parsing succeeds.
+- Local one-file replay prints a honggfuzz usage banner even for clean executions, so official submit is the reliable oracle for sanitizer/crash behavior.
+- There is no mode selector and no FuzzedDataProvider layout.
+
+### Format Links
+- [[gml]]
+
+### Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.

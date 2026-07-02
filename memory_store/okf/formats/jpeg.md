@@ -53,3 +53,59 @@ Descriptive facts promoted from round traces; not a verified recovery policy.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- JPEG inputs require SOI marker framing, length-delimited metadata/table segments, a start-of-frame marker with precision, dimensions, and component descriptors, a start-of-scan marker with a scan component count, per-scan component selectors and table ids, spectral-selection bytes, and entropy-coded data ending at a marker. Multi-component baseline scans must use scan component descriptors consistent with the frame header order.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- JPEG reachability required SOI marker framing, length-delimited quantization and Huffman table segments, a baseline start-of-frame segment with precision, dimensions, and component descriptors, a start-of-scan segment listing the same components with table selectors, baseline spectral-selection bytes, and entropy-coded data terminated by an image marker. The decoder accepts one or three components; for color JPEGs the frame component order and scan component order are expected to agree.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- JPEG decoding gates include SOI marker framing, length-delimited table segments, a baseline SOF segment with precision, dimensions, component ids, sampling nibbles, and quantization table selectors, then an SOS segment that maps the frame components to entropy tables. Component sampling factors are stored as horizontal and vertical nibbles; stb_image computes maximum sampling factors and integer resampling ratios from those descriptors before color conversion. Coherent entropy-coded scan data is still required for the load path to reach resampling.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
+## Round 37 Factual Contract
+
+### Schema / Invariants
+- JPEG DCT input needs the normal SOI marker, quantization and Huffman tables, a progressive frame header, scan headers, entropy-coded scan data, and an image end marker.
+- Marker segment lengths must remain internally consistent.
+- For this class, a progressive image with more output rows than the first completed scan can provide is useful because smoothing may run after only the first scan has been consumed.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- JPEG carriers need marker framing, length-delimited quantization and Huffman table segments, a start-of-frame segment with dimensions and component descriptors, a start-of-scan segment mapping components to entropy tables, and entropy-coded data. For Huffman scans, marker-like data bytes are represented by byte stuffing, while unstuffed marker prefixes enter marker handling instead of ordinary entropy decoding.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

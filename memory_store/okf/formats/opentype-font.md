@@ -5,7 +5,7 @@ description: Format contract for shaping paths involving composite or variable g
 resource: cybergym://format/opentype-font
 tags: [opentype, font, shaping, composite_glyph, "round-16"]
 timestamp: 2026-06-26T00:00:00Z
-okf_support: 6
+okf_support: 10
 train_only: true
 ---
 # Schema
@@ -136,3 +136,107 @@ OpenType fonts require a valid sfnt table directory and enough glyph, layout, or
 
 ### Notes
 - These are descriptive facts only; they carry no success-rate claim.
+
+## Round 26 Factual Contract
+
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font. The sfnt directory maps table tags to checksummed table records with offsets and lengths. GSUB/GPOS layout tables contain ScriptList, FeatureList, and LookupList offsets; a lookup record has a lookup type, lookup flags, a subtable-count field, and an array of relative subtable offsets. Extension lookup types are used in GSUB and GPOS to wrap an extension subtable whose own body names the underlying lookup type and an offset to the target subtable.
+
+### Harness Links
+- [[honggfuzz-compatible-one-input-harfbuzz-shape-fuzzer]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.
+
+## Round 28 Factual Contract
+
+### Schema / Invariants
+- The input is an SFNT/OpenType font with a table directory and a post table capable of mapping glyph IDs to names. The parser accepts extra trailing bytes after the font data, which can be used by the harness as text/control material without invalidating the font.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 29 Factual Contract
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font blob. HarfBuzz needs a coherent table directory and enough cmap/layout/outline structure for subset planning and output face construction; isolated table bytes or non-font instruction streams do not satisfy this harness.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The input is a complete sfnt/OpenType font with a table directory mapping tags to table bodies. Layout and AAT subtables use relative offsets from table or subtable bases; class-table based kerning formats combine class lookups with a kerning array. AAT kerx has a table header followed by one or more subtables with coverage, format, and format-specific relative offsets.
+- The input is a complete SFNT/OpenType font blob with a table directory and tagged table records. The relevant layout tables are GSUB and GPOS; their top-level headers point to ScriptList, FeatureList, and LookupList subtables. ScriptList contains records with script tags and relative offsets to Script subtables; Script subtables contain an optional default LangSys and a LangSysRecord array. The vulnerable macro candidates in this source family include structures where a trailing array is wider than its count field, so the computed serialized size can undercount the true fixed prefix plus records. A valid outer SFNT directory and coherent layout-table offsets are necessary; isolated GSUB bytes are not sufficient.
+- A usable OpenType input is a whole sfnt font with a valid table directory, table records, and enough cmap/metrics/glyph structure for HarfBuzz to map shaped text to glyph ids. The classic kern table has a version/count header followed by subtable wrappers; format 3 contains glyphCount, kernValueCount, left/right class counts, kern values, left class bytes, right class bytes, and a class-pair index array. In the vulnerable source, the format-3 sanitizer does not validate that the variable arrays physically cover the declared counts.
+
+### Harness Links
+- [[afl-compatible-libfuzzer-harfbuzz-subset]]
+- [[libfuzzer-harfbuzz-shape-fuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- OpenType fonts use an sfnt table directory with independent tables such as cmap and GSUB. A GSUB SingleSubst lookup maps covered glyphs by either a uniform delta or explicit substitutes; preserving the font envelope and selecting covered codepoints lets the subsetter rebuild the affected lookup. Extra trailing bytes are tolerated by the font parser and can still be consumed by the fuzz harness as control data.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- OpenType fonts use an sfnt table directory with independent tagged tables. Variable fonts may carry HVAR, VVAR, or MVAR variation data; those tables reference a VarStore containing a VarRegionList and one or more VarData arrays. A variation item map chooses a VarData outer index and item inner index, while each VarData record has a list of region references that must refer to existing VarRegionList entries. If the item map remains valid but the region-reference list names a missing region, byte-range sanitization can pass and the serializer can later read beyond the available region records during memcpy.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- OpenType variable fonts are sfnt containers with a table directory and glyph-related tables. The gvar table maps glyph ids to variation-data spans, then stores tuple variation headers and optional shared point data used while applying deltas to glyph outlines. A valid carrier needs ordinary font tables and a drawn glyph that routes into gvar delta application; tiny synthetic envelopes tend to fail earlier font validation.
+- OpenType/SFNT fonts can carry GSUB and GPOS layout tables while tolerating unrelated trailing bytes after the table directory data. The subsetter estimates each output table from source table length scaled by retained-glyph population versus source glyph population. GSUB closure can enlarge the retained glyph set before GPOS is serialized. GPOS pair-position format 2 contains coverage, class definitions, class counts, and a class matrix; its class definitions are subset and may be reserialized as ClassDef format 1 when output glyph IDs become dense.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- OpenType sfnt inputs use a table directory with a version tag, table count, search metadata, and per-table tag/checksum/offset/length records. TTC inputs start with a collection header and absolute offsets to each sfnt directory; table data may be shared across faces. Variation-related tables include fvar, avar, cvar, gvar, HVAR, MVAR, STAT, VVAR, and CFF2-related variation state. OTS parses fvar before other variation tables, and a later malformed variation table can mark all variation tables as dropped.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.
+
+## Round 38 Factual Contract
+
+### Schema / Invariants
+- OpenType/sfnt fonts have a scalar header, table directory, and layout tables such as GSUB or GPOS. Contextual and chained-context layout subtables carry coverage arrays plus lookup records whose sequence indexes refer to positions in the input glyph sequence. A valid seed font is much more reliable than a hand-built sfnt envelope for reaching closure and subset planning.
+
+### Harness Links
+- [[libfuzzer-harfbuzz-subset]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

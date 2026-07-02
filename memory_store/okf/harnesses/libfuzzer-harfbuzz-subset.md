@@ -3,7 +3,7 @@ type: harness-contract
 title: "libfuzzer-harfbuzz-subset harness"
 description: "Input contract facts for libfuzzer-harfbuzz-subset."
 tags: ["libfuzzer-harfbuzz-subset", "round-14", "round-16"]
-okf_support: 3
+okf_support: 4
 ---
 # Libfuzzer Harfbuzz Subset Harness
 
@@ -37,3 +37,45 @@ okf_support: 3
 
 ## Round 20 Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 33 Input Contract
+
+### Input Contract
+- The HarfBuzz subset libFuzzer target treats the input as raw font bytes for the hb_blob. When enough bytes are present, a fixed-size tail trailer is also carved from the same input: a flags byte immediately before a small array of native-endian codepoints. There is no leading mode selector or FuzzedDataProvider split.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These are descriptive harness-carving facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The HarfBuzz subset fuzzer treats the input as raw font bytes, creates an hb_face, collects unicodes, then subsets with a built-in text set and layout tables retained. For larger inputs it also reads an optional fixed-size trailer from the end as subset flags plus a replacement codepoint list; those trailer bytes are still part of the blob, so the font envelope must tolerate trailing data. There is no leading selector byte and no FuzzedDataProvider contract. The packaged local verify wrapper can misreport this task as no_crash because it invokes the fuzzer with a file path where its script expects a corpus directory; direct image execution and official submit are the reliable signals.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Input Contract
+- The HarfBuzz subset libFuzzer target consumes the whole file as raw font bytes and sets the failing allocator state from the total input length. It first subsets a fixed text set with layout retained; for sufficiently large inputs it also treats a fixed-size trailer as flags and native-endian codepoints, with no leading selector or FuzzedDataProvider split.
+
+## Round 36 Format Links
+- [[opentype-variable-font]]
+
+## Round 36 Notes
+- These are descriptive harness-carving facts from round 36; they are not causal recovery claims.
+
+## Round 38 Factual Contract
+
+### Input Contract
+- The subset fuzzer treats the whole input as a font blob with no leading selector and no FuzzedDataProvider split. If the input is large enough, the final bytes are also interpreted as a one-byte subset flag field followed by a fixed array of native-endian codepoints; keeping the drop-layout flag clear is important when targeting GSUB or GPOS closure.
+
+### Format Links
+- [[opentype-font]]
+
+### Notes
+- These are descriptive format and harness observations only; they carry no success-rate claim.

@@ -15,3 +15,14 @@ okf_support: 1
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 35 Input Contract
+
+### Input Contract
+- The AFL-compatible wrapper passes the supplied file bytes to the hoedown fuzzer. The fuzzer copies input into a Markdown input buffer, enables fenced code, footnotes, definition lists, tables, special attributes, and related extensions, then renders through the document parser. There is no selector byte, file envelope, or FuzzedDataProvider carving.
+
+### Format Links
+- [[markdown]]
+
+### Notes
+- These facts are descriptive harness-carving observations from round 35; they carry no success-rate claim.

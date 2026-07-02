@@ -11,9 +11,9 @@ generated: taxonomy-census
 _Descriptive trace census — NOT a causal policy; not used for memory ranking._
 
 - canonical: `invalid-free`
-- observed: 9 traces; solved: 2 (illustrative — not for ranking)
-- top input_formats: alpha-ecoff-object (1), curl-websocket-fuzzer-input (1), cyclonedds-xml-config (1), elf-dwarf (1), elf-dwarf-object (1), elf-shf-compressed-debug-section (1), fbx-ascii (1), sudo-policy-text (1)
-- top harnesses: libfuzzer (7), honggfuzz-wrapper (1), libfuzzer-tempfile-libdwarf-die-cu-attrs (1)
-- observed strategies: construct (7), seed-mutate (1), seed-replay (1), seed-sweep (1)
-- collapsed aliases: invalid-free-after-compress-failure, invalid-free-or-error-cleanup-mismatch
+- observed: 13 traces; solved: 6 (illustrative — not for ranking)
+- top input_formats: alpha-ecoff-object (1), curl-websocket-fuzzer-input (1), cyclonedds-xml-config (1), dxf-text (1), elf-dwarf (1), elf-dwarf-object (1), elf-shf-compressed-debug-section (1), fbx-ascii (1)
+- top harnesses: libfuzzer (10), afl-libfuzzer-wrapper (1), honggfuzz-wrapper (1), libfuzzer-tempfile-libdwarf-die-cu-attrs (1)
+- observed strategies: construct (11), seed-mutate (1), seed-replay (1), seed-sweep (1)
+- collapsed aliases: invalid-free-after-compress-failure, invalid-free-on-decode-failure, invalid-free-or-error-cleanup-mismatch, invalid-free-uninitialized-pointer
 <!-- END observed-census -->

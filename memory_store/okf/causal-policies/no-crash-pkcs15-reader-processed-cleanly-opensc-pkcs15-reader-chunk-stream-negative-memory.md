@@ -55,3 +55,9 @@ The libFuzzer target installs a fuzz reader, connects a card through OpenSC, att
 ## Evidence Shape
 - Support: one diagnosed persistent failure from round 12.
 - Scope: generator repair and basin avoidance only.
+
+## Round 27 Reinforcement
+- key: `no_crash x parser_not_reached`
+- The vulnerable DES/3DES AlgorithmIdentifier parameter decoder was identified, but the available reader seeds did not reach it with the mutations tried.
+- Exact-size certificate SPKI replacement preserved the session but likely stayed outside automatic PKCS#15 parsing or overran too narrowly.
+- Length-adjusted uncompressed certificate mutation and gzip-wrapped certificate mutation kept the APDU stream coherent but still executed cleanly, suggesting the patched objects were not selected by the emulation path or were not decoded through the PKCS#15 certificate/public-key parser during this harness run.

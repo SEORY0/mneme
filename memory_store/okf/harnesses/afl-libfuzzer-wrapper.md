@@ -77,3 +77,36 @@ okf_support: 4
 
 ## Notes
 - These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 28 Input Contract
+
+- The active target is an AFL-wrapped libFuzzer xmlReader-for-file binary. It reads the PoC as raw fuzzer bytes, parses them with libxml2's ByteStream helper, writes the carved file-content string to a temporary file, calls xmlReaderForFile with the carved encoding and options, then repeatedly calls xmlTextReaderRead and simple node accessors. There is no FuzzedDataProvider tail layout.
+
+## Round 28 Format Links
+- [[libxml2-xml-reader-byte-stream]]
+
+## Round 28 Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 29 Input Contract
+
+- The active binary is curl_fuzzer_rtsp under an AFL-compatible single-file wrapper. The whole file is parsed as TLVs from the front; there is no FuzzedDataProvider back-loading and no raw URL or raw RTSP transcript mode. The harness parses all TLVs, then applies standard curl callbacks and a local connect-to redirect before running a curl multi transfer against socketpair-backed synthetic sockets. Because of that redirect, ordinary RTSP URL hostnames do not necessarily exercise normal hostname resolution; proxy, DoH, interface, and Unix-socket options are the plausible alternate routes into hostip resolver code.
+
+## Round 29 Format Links
+- [[curl-fuzzer-tlv-rtsp]]
+
+## Notes
+- These are descriptive harness-carving facts only; they are not causal recovery claims.
+
+## Round 34 Factual Contract
+
+### Input Contract
+- The AFL/libFuzzer wrapper reads the PoC file as raw bytes. The harness reserves trailing selector fields for disassembler flavour, native machine value, and architecture; all earlier bytes become disassemble_info.buffer for one selected print_insn implementation. There is no FuzzedDataProvider split.
+- The AFL-wrapped fuzzshark binary runs the IP dissector over the whole raw input file. There is no pcap envelope, no FuzzedDataProvider layout, and no mode selector. Nested protocol reachability depends on constructing a raw IP packet and then using normal IP subdissector handoff. IPv4 TSO-style total length allows the dissector to use the reported fuzzer buffer length rather than a small packet-length field.
+
+### Format Links
+- [[binutils-disassembler-buffer-with-trailer-selector]]
+- [[ip-carried-wcp]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.

@@ -4,7 +4,7 @@ title: git-tree-object-body format
 description: Format contract for git-tree-object-body.
 resource: cybergym://format/git-tree-object-body
 tags: [git-tree-object-body]
-okf_support: 1
+okf_support: 2
 train_only: true
 ---
 # Schema
@@ -27,3 +27,14 @@ Inputs follow the `git-tree-object-body` family contract.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 32 Factual Contract
+
+### Schema / Invariants
+- The object fuzzer does not require a loose-object wrapper or compressed Git object envelope; it tries Git object parsers directly on the supplied bytes. Tree entries begin with a file-mode token parsed as a bounded integer before the entry name and object identifier fields.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

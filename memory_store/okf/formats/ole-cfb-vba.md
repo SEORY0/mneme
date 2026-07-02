@@ -19,3 +19,13 @@ okf_support: 1
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
 
+## Round 35 Factual Contract
+
+### Schema / Invariants
+- OLE CFB uses a header, FAT sectors, directory entries with UTF-16 stream names, and regular or mini stream storage. ClamAV extracts streams to temporary files and keys them by lowercased stream names. VBA dir streams are compressed and inflate to records shaped as a record kind, a declared size, and payload; module records then contain nested name, stream-name, docstring, offset, cookie, type, and terminator fields.
+
+### Harness Links
+- [[libfuzzer-scanfile]]
+
+### Notes
+- These facts are descriptive observations from round 35; they carry no success-rate claim.

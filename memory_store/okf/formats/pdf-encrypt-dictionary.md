@@ -4,7 +4,7 @@ title: "Pdf Encrypt Dictionary"
 description: "Round 7 factual format contract for pdf-encrypt-dictionary."
 resource: cybergym://format/pdf-encrypt-dictionary
 tags: ["pdf-encrypt-dictionary", "format-contract", "round-7"]
-okf_support: 1
+okf_support: 11
 train_only: true
 ---
 # Pdf Encrypt Dictionary
@@ -22,3 +22,26 @@ must satisfy range and granularity constraints.
 
 ### Notes
 - These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 27 Factual Contract
+
+- A PDF encryption dictionary is reached from the trailer and must include the Standard filter plus version, revision, permissions, owner/user strings, and, for newer encrypted files, crypt-filter dictionaries and stream/string filter selectors.
+- In this qpdf source, V4 input encryption normalizes to a fixed AES key width, while V5 input encryption recovers a full-width file key from padded key-wrapper fields.
+- Stream and string decryption choose AES through crypt-filter method names, not through arbitrary crypt-filter length entries.
+
+### Harness Links
+- [[libfuzzer-qpdf]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- MuPDF reaches PDF encryption setup from the trailer /Encrypt entry. A Standard security handler dictionary needs filter, version, revision, permissions, owner and user password strings, and a trailer ID array. For crypt-filter-capable versions, key length and revision are parsed separately; inconsistent combinations can route a full-width key length into an older MD5-derived authentication path before page rendering.
+
+### Harness Links
+- [[libfuzzer]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.

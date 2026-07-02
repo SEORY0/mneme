@@ -4,7 +4,7 @@ title: "Sctp Packet"
 description: "Round 7 factual format contract for sctp-packet."
 resource: cybergym://format/sctp-packet
 tags: ["sctp-packet", "format-contract", "round-7", "round-16"]
-okf_support: 2
+okf_support: 3
 train_only: true
 ---
 # Sctp Packet
@@ -43,3 +43,36 @@ specific handshake state before later chunks are interpreted deeply.
 
 ### Notes
 - These are factual format and harness observations only; they carry no success-rate claim.
+
+## Round 33 Factual Contract
+
+### Schema / Invariants
+- SCTP packets use a common header followed by one or more typed chunks. Each chunk has a type, flags, a chunk-local length, body fields determined by the chunk type, and alignment padding. Later-stage chunks such as DATA/I-DATA, SACK, FORWARD-TSN, RE-CONFIG, ASCONF, HEARTBEAT, SHUTDOWN, ERROR, and ABORT are interpreted meaningfully only after the association state and verification tag are plausible.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These are descriptive format facts only; they carry no success-rate claim.
+
+## Round 34 Factual Contract
+
+### Schema / Invariants
+- SCTP packets consist of a common header followed by padded typed chunks. In the connect fuzzer, the fuzzed bytes after the selector are chunk records rather than a full SCTP packet because the harness synthesizes the common header and verification tag. Later chunk families such as DATA/I-DATA, SACK, FORWARD-TSN, STREAM-RESET, ASCONF, ASCONF-ACK, and packet-dropped reports require compatible association state and negotiated feature support before their nested fields are interpreted deeply.
+
+### Harness Links
+- [[afl-libfuzzer-compatible]]
+
+### Notes
+- These facts are descriptive observations only; they carry no success-rate claim.
+
+## Round 36 Factual Contract
+
+### Schema / Invariants
+- SCTP listen inputs are a common header followed by typed chunks. COOKIE-ECHO is formed by reusing a state-cookie parameter body as a chunk: a chunk header, a packed state cookie, embedded original INIT and INIT-ACK material, and a digest trailer. Common and chunk headers use network-order wire fields. The packed state cookie stores timeval and lifetime fields in host representation, while its saved ports and verification tag must match the raw common-header representation. A non-stale cookie also needs a coherent address type and AF_CONN address fields so the listener can reconstruct the peer endpoint.
+
+### Harness Links
+- [[afl-style-usrsctp-listen-fuzzer]]
+
+### Notes
+- These facts are descriptive observations from round 36; they carry no success-rate claim.

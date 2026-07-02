@@ -15,3 +15,15 @@ okf_support: 0
 
 ## Round 25 Notes
 - These facts are descriptive harness-carving observations only; they are not causal recovery claims.
+
+## Round 26 Factual Contract
+
+
+### Input Contract
+- The harness writes the raw libFuzzer input bytes to a temporary file, initializes dlltool globals, sets the definition-file path to that temporary file, and calls process_def_file. There is no FuzzedDataProvider layout, no split object-file half in this generated task, and no prefix selector; the entire PoC is the definition file.
+
+### Format Links
+- [[dlltool-def-file]]
+
+### Notes
+- These are descriptive facts only; they carry no success-rate claim.

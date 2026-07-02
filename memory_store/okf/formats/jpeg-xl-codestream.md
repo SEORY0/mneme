@@ -25,3 +25,14 @@ okf_support: 0
 
 ### Notes
 - These facts are descriptive observations only; they are not causal recovery claims.
+
+## Round 30 Factual Contract
+
+### Schema / Invariants
+- JPEG XL decoder inputs may be raw codestreams or containers. Compact codestream seeds begin with the JPEG XL codestream signature and contain entropy-coded image data protected by ANS final-state checks. Mutating arbitrary headers usually prevents decoding; useful corruption keeps the image envelope intact and perturbs only the compressed payload relation.
+
+### Harness Links
+- [[libfuzzer-djxl]]
+
+### Notes
+- These facts are descriptive format observations only; they are not causal recovery claims.
