@@ -87,7 +87,7 @@ def test_gen_writes_gen_info_and_configs(tmp_path, monkeypatch):
     assert info["vul_image"] == "n132/arvo:10400-vul"
     assert info["fix_image"] == "n132/arvo:10400-fix"
     assert info["run_cmd"] == "/bin/arvo"
-    assert info["timeout_s"] == 30
+    assert info["timeout_s"] == 120
     assert info["src_dir"] == str(run_dir / "task" / "src")
     assert info["description_path"] == str(run_dir / "task" / "gen" / "description.txt")
     assert info["submit_sh"] == str(run_dir / "task" / "gen" / "submit.sh")
@@ -97,12 +97,57 @@ def test_gen_writes_gen_info_and_configs(tmp_path, monkeypatch):
     assert vcfg["vul_image"] == "n132/arvo:10400-vul"
     assert vcfg["fix_image"] == "n132/arvo:10400-fix"
     assert vcfg["run_cmd"] == "/bin/arvo"
+    assert vcfg["timeout_s"] == 120
     assert (run_dir / "task" / "card.md").is_file()
     assert info["card_path"] == str(run_dir / "task" / "card.md")
 
     # No agent/checksum leaked into gen_info.
     assert "agent_id" not in info
     assert "checksum" not in info
+
+
+def test_gen_respects_verify_timeout_env(tmp_path, monkeypatch):
+    import run as runner_mod
+    from mneme import cybergym_io, cybergym_config
+
+    task_id = "arvo:10400"
+    run_dir = tmp_path / "run"
+
+    def fake_gen_task(tid, out_dir, *, config, difficulty="level1"):
+        out_dir = Path(out_dir)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        (out_dir / "description.txt").write_text("heap overflow", encoding="utf-8")
+        (out_dir / "submit.sh").write_text(_FAKE_SUBMIT_SH, encoding="utf-8")
+        return cybergym_io.TaskHandle(
+            task_id=tid,
+            task_dir=out_dir,
+            masked_id="masked-xyz",
+            agent_id="agent-123",
+            checksum="deadbeef",
+            server_url="https://server.example",
+        )
+
+    fake_config = types.SimpleNamespace(
+        server_url="https://server.example",
+        data_dir="/data",
+        mask_map="",
+        cybergym_python=sys.executable,
+        cybergym_src="/src",
+        cybergym_api_key="key",
+    )
+
+    monkeypatch.setenv("MNEME_VERIFY_TIMEOUT_S", "240")
+    monkeypatch.setattr(cybergym_io, "gen_task", fake_gen_task)
+    monkeypatch.setattr(cybergym_config, "load_config", lambda *a, **k: fake_config)
+    monkeypatch.setattr(runner_mod, "_extract_repo_src", lambda td, rd: None)
+    monkeypatch.setattr(runner_mod, "_load_env", lambda: None)
+
+    runner_mod.gen(task_id=task_id, run_dir=run_dir, difficulty="level1")
+
+    info = json.loads((run_dir / "gen_info.json").read_text())
+    vcfg = json.loads((run_dir / "verify_config.json").read_text())
+    assert info["timeout_s"] == 240
+    assert vcfg["timeout_s"] == 240
 
 
 def test_gen_oss_fuzz_run_cmd(tmp_path, monkeypatch):

@@ -36,12 +36,13 @@ if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
 import typer
-from typing import Optional
+from typing import Final, Optional
 
 app = typer.Typer(help="mneme CyberGym agent runner")
 
 # Locate project root relative to this script
 _PROJECT_ROOT = _HERE.parent.parent
+_DEFAULT_VERIFY_TIMEOUT_S: Final = 120
 
 
 def _load_env() -> None:
@@ -52,6 +53,19 @@ def _load_env() -> None:
         cybergym_config.load_dotenv()
     except Exception:
         pass
+
+
+def _verify_timeout_s() -> int:
+    raw = os.environ.get("MNEME_VERIFY_TIMEOUT_S")
+    if raw is None or raw == "":
+        return _DEFAULT_VERIFY_TIMEOUT_S
+    try:
+        value = int(raw)
+    except ValueError as exc:
+        raise RuntimeError("MNEME_VERIFY_TIMEOUT_S must be a positive integer") from exc
+    if value <= 0:
+        raise RuntimeError("MNEME_VERIFY_TIMEOUT_S must be a positive integer")
+    return value
 
 
 # ---------------------------------------------------------------------------
@@ -294,7 +308,7 @@ def _real_solve(
     imgs = cybergym_io.images_for(task_id)
     # arvo targets run /bin/arvo; oss-fuzz targets run /usr/local/bin/run_poc.
     run_cmd = "/bin/arvo" if task_id.split(":", 1)[0] == "arvo" else "/usr/local/bin/run_poc"
-    timeout_s = 30
+    timeout_s = _verify_timeout_s()
     description = card.description
 
     # C1: Write verify config file; build server env dict
@@ -572,7 +586,7 @@ def _derive_task_assets(task_dir: Path, run_dir: Path, task_id: str) -> dict:
     # Derive LOCAL images + run command from the task id (pure string work).
     imgs = cybergym_io.images_for(task_id)
     run_cmd = "/bin/arvo" if task_id.split(":", 1)[0] == "arvo" else "/usr/local/bin/run_poc"
-    timeout_s = 30
+    timeout_s = _verify_timeout_s()
     description = card.description
 
     _write_verify_config(
